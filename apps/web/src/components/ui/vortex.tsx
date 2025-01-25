@@ -20,7 +20,7 @@ interface VortexProps {
   backgroundColor?: string
 }
 
-export const Vortex = (props: VortexProps) => {
+export default function (props: VortexProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef(null)
   const particleCount = props.particleCount || 700
@@ -242,13 +242,15 @@ export const Vortex = (props: VortexProps) => {
     // eslint-disable-next-line
   }, []);
 
-  if (typeof window === 'undefined') return null
-
   /**
    * Firefox has some issues with this component and becomes very laggy
    * so we are disabling it for Firefox for now
    * */
-  if (window.navigator.userAgent.includes('Firefox')) return null
+  if (
+    typeof window !== 'undefined' &&
+    window.navigator.userAgent.includes('Firefox')
+  )
+    return null
 
   return (
     <div className={cn('relative h-full w-full', props.containerClassName)}>
