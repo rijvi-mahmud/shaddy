@@ -8,7 +8,8 @@
     "buttons": {
       "get_started": "Get Started",
       "toggle_menu": "Toggle Menu",
-      "toggle_language": "Toggle Language"
+      "toggle_language": "Toggle Language",
+      "deploy_vercel": "Deploy to Vercel"
     },
 
     "words": {
