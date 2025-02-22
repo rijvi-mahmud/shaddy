@@ -2,6 +2,7 @@ import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
 import dynamic from 'next/dynamic'
 
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect'
+import { InstallationBox } from '@/components/installation-box'
 import { FeaturedCard } from '@/components/featured-card'
 import { Announcement } from '@/components/announcement'
 import { buttonVariants } from '@/components/ui/button'
@@ -67,6 +68,11 @@ export default async function IndexPage({
             {siteConfig.links.github.label}
           </Link>
         </PageActions>
+
+        <InstallationBox
+          className="w-full relative max-w-[35rem] flex flex-wrap items-center pl-4 pr-12"
+          __rawString__="npx degit daltonmenezes/opendocs project_name"
+        />
 
         <div className="fixed left-0 -top-40 size-full -z-10 overflow-hidden">
           <Vortex
