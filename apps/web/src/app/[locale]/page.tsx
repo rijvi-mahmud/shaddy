@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server'
 import dynamic from 'next/dynamic'
 
