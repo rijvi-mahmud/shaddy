@@ -34,6 +34,17 @@
   </a>
 </p>
 
+### 🐑 Installation
+
+```bash
+npx degit daltonmenezes/opendocs project_name
+```
+```bash
+cd project_name
+pnpm install
+pnpm dev
+```
+
 ## 🎉 Features
 
 - 🕸️ Site
