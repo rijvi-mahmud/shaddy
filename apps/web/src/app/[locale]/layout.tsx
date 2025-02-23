@@ -1,4 +1,4 @@
-import { unstable_setRequestLocale } from 'next-intl/server'
+import { setRequestLocale } from 'next-intl/server'
 
 import type { LocaleOptions } from '@/lib/opendocs/types/i18n'
 import type { Metadata, Viewport } from 'next'
@@ -13,6 +13,7 @@ import { defaultLocale } from '@/config/i18n'
 import { siteConfig } from '@/config/site'
 import { fontSans } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
+import { NextIntlClientProvider } from 'next-intl'
 
 interface AppLayoutProps {
   children: React.ReactNode
@@ -26,7 +27,7 @@ export async function generateMetadata({
 }: {
   params: { locale: LocaleOptions }
 }): Promise<Metadata> {
-  unstable_setRequestLocale(params.locale || defaultLocale)
+  setRequestLocale(params.locale || defaultLocale)
 
   return {
     title: {
@@ -113,7 +114,7 @@ export const viewport: Viewport = {
 }
 
 export default function RootLayout({ children, params }: AppLayoutProps) {
-  unstable_setRequestLocale(params.locale)
+  setRequestLocale(params.locale)
 
   return (
     <html lang={params.locale || defaultLocale} suppressHydrationWarning>
@@ -127,24 +128,29 @@ export default function RootLayout({ children, params }: AppLayoutProps) {
           fontSans.variable
         )}
       >
-        <ThemeProvider
-          enableSystem
-          attribute="class"
-          defaultTheme="dark"
-          disableTransitionOnChange
+        <NextIntlClientProvider
+          locale={params.locale || defaultLocale}
+          messages={{}}
         >
-          <div>
-            <div className="relative z-10 flex min-h-screen flex-col">
-              <SiteHeader />
+          <ThemeProvider
+            enableSystem
+            attribute="class"
+            defaultTheme="dark"
+            disableTransitionOnChange
+          >
+            <div>
+              <div className="relative z-10 flex min-h-screen flex-col">
+                <SiteHeader />
 
-              <main className="flex-1">{children}</main>
+                <main className="flex-1">{children}</main>
 
-              <SiteFooter />
+                <SiteFooter />
+              </div>
+
+              <div className="fixed left-0 top-0 size-full bg-gradient-to-b from-[#a277ff] via-transparent to-transparent opacity-10" />
             </div>
-
-            <div className="fixed left-0 top-0 size-full bg-gradient-to-b from-[#a277ff] via-transparent to-transparent opacity-10" />
-          </div>
-        </ThemeProvider>
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   )
