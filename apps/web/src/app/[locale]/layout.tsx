@@ -147,7 +147,7 @@ export default function RootLayout({ children, params }: AppLayoutProps) {
                 <SiteFooter />
               </div>
 
-              <div className="fixed left-0 top-0 size-full bg-gradient-to-b from-[#a277ff] via-transparent to-transparent opacity-10" />
+              <div className="fixed left-0 top-0 size-full " />
             </div>
           </ThemeProvider>
         </NextIntlClientProvider>

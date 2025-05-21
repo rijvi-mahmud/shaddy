@@ -42,11 +42,11 @@ export default async function IndexPage({
         <Announcement title={t('site.announcement')} href="/docs" />
 
         <PageHeaderHeading>
-          <FlipWords
+          {/* <FlipWords
             words={['site', 'blog', 'docs']}
             className="text-9xl -z-10"
-          />
-
+          /> */}
+          <TextGenerateEffect words={t('site.title')} />
           <TextGenerateEffect words={t('site.heading')} />
         </PageHeaderHeading>
 
@@ -68,7 +68,7 @@ export default async function IndexPage({
             {siteConfig.links.github.label}
           </Link>
 
-          <Link
+          {/* <Link
             target="_blank"
             className={cn(
               buttonVariants({ variant: 'outline' }),
@@ -80,24 +80,13 @@ export default async function IndexPage({
               ▲
             </span>
             {t('site.buttons.deploy_vercel')}
-          </Link>
+          </Link> */}
         </PageActions>
 
-        <InstallationBox
+        {/* <InstallationBox
           className="w-full relative max-w-[35rem] flex flex-wrap items-center pl-4 pr-12"
           __rawString__="npx degit daltonmenezes/opendocs project_name"
-        />
-
-        <div className="fixed left-0 -top-40 size-full -z-10 overflow-hidden">
-          <Vortex
-            backgroundColor="transparent"
-            className="flex size-full"
-            rangeY={300}
-            baseRadius={2}
-            particleCount={20}
-            rangeSpeed={1.5}
-          />
-        </div>
+        /> */}
       </PageHeader>
 
       <section className="flex flex-col gap-4">

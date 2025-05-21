@@ -1,14 +1,17 @@
 import { getTranslations } from 'next-intl/server'
 import { ExternalLinkIcon } from 'lucide-react'
 
-import type { Doc } from 'contentlayer/generated'
-
 import { badgeVariants } from '../ui/badge'
 import { Link } from '@/navigation'
 import { cn } from '@/lib/utils'
+import { LinksProperties } from 'contentlayer/generated'
 
-export async function DocLinks({ doc }: { doc: Doc }) {
-  if (!doc?.links) {
+export async function DocLinks({
+  links,
+}: {
+  links: LinksProperties | undefined
+}) {
+  if (!links) {
     return null
   }
 
@@ -16,9 +19,9 @@ export async function DocLinks({ doc }: { doc: Doc }) {
 
   return (
     <div className="flex items-center space-x-2 pt-4">
-      {doc.links?.source && (
+      {links.source && (
         <Link
-          href={doc.links.source}
+          href={links.source}
           target="_blank"
           rel="noreferrer"
           className={cn(badgeVariants({ variant: 'secondary' }), 'gap-1')}
@@ -29,9 +32,9 @@ export async function DocLinks({ doc }: { doc: Doc }) {
         </Link>
       )}
 
-      {doc.links?.doc && (
+      {links.doc && (
         <Link
-          href={doc.links.doc}
+          href={links.doc}
           target="_blank"
           rel="noreferrer"
           className={cn(badgeVariants({ variant: 'secondary' }), 'gap-1')}
@@ -42,9 +45,9 @@ export async function DocLinks({ doc }: { doc: Doc }) {
         </Link>
       )}
 
-      {doc.links?.api && (
+      {links.api && (
         <Link
-          href={doc.links.api}
+          href={links.api}
           target="_blank"
           rel="noreferrer"
           className={cn(badgeVariants({ variant: 'secondary' }), 'gap-1')}
@@ -55,9 +58,9 @@ export async function DocLinks({ doc }: { doc: Doc }) {
         </Link>
       )}
 
-      {doc.links?.blog && (
+      {links.blog && (
         <Link
-          href={doc.links.blog}
+          href={links.blog}
           target="_blank"
           rel="noreferrer"
           className={cn(badgeVariants({ variant: 'secondary' }), 'gap-1')}

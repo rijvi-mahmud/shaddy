@@ -27,6 +27,7 @@ export async function SiteHeader() {
           messages={{
             docs: t('words.docs'),
             blog: t('words.blog'),
+            typed_hooks: t('words.typed_hooks'),
           }}
         />
 
@@ -60,17 +61,17 @@ export async function SiteHeader() {
           </div>
 
           <nav className="flex items-center">
-            <VersionDropdown
+            {/* <VersionDropdown
               messages={{
                 changelog: t('changelog'),
               }}
-            />
+            /> */}
 
-            <I18nToggle
+            {/* <I18nToggle
               messages={{
                 toggleLanguage: t('buttons.toggle_language'),
               }}
-            />
+            /> */}
 
             <ThemeModeToggle
               messages={{

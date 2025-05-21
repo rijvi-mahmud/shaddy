@@ -31,9 +31,9 @@ import {
 } from './ui/command'
 
 import { useDocsConfig } from '@/lib/opendocs/hooks/use-docs-config'
-import { useBlogConfig } from '@/lib/opendocs/hooks/use-blog-config'
+// import { useBlogConfig } from '@/lib/opendocs/hooks/use-blog-config'
 import { getObjectValueByLocale } from '@/lib/opendocs/utils/locale'
-import { allBlogs } from 'contentlayer/generated'
+// import { allBlogs } from 'contentlayer/generated'
 
 function DocsCommandMenu({
   runCommand,
@@ -112,52 +112,53 @@ function DocsCommandMenu({
   )
 }
 
-function BlogCommandMenu({
-  runCommand,
-  messages,
-}: {
-  runCommand: (command: () => unknown) => void
-  messages: {
-    blog: string
-  }
-}) {
-  const router = useRouter()
-  const locale = useLocale()
+// function BlogCommandMenu({
+//   runCommand,
+//   messages,
+// }: {
+//   runCommand: (command: () => unknown) => void
+//   messages: {
+//     blog: string
+//   }
+// }) {
+//   const router = useRouter()
+//   const locale = useLocale()
 
-  const posts = useMemo(() => {
-    return allBlogs.filter((post) => {
-      const [postLocale] = post.slugAsParams.split('/')
+//   // const posts = useMemo(() => {
+//   //   return allBlogs.filter((post) => {
+//   //     const [postLocale] = post.slugAsParams.split('/')
 
-      return postLocale === locale
-    })
-  }, [locale])
+//   //     return postLocale === locale
+//   //   })
+//   // }, [locale])
+//   const posts = useMemo(() => [{}], [])
 
-  return (
-    <CommandGroup heading={messages.blog}>
-      {posts.map((post) => (
-        <CommandItem
-          key={post._id}
-          value={`${post.title} ${post.excerpt} ${post.tags.join(' ')}`}
-          onSelect={() => {
-            const [, ...slugs] = post.slugAsParams.split('/')
-            const slug = slugs.join('/')
+//   return (
+//     <CommandGroup heading={messages.blog}>
+//       {posts.map((post) => (
+//         <CommandItem
+//           key={post._id}
+//           value={`${post.title} ${post.excerpt} ${post.tags.join(' ')}`}
+//           onSelect={() => {
+//             const [, ...slugs] = post.slugAsParams.split('/')
+//             const slug = slugs.join('/')
 
-            runCommand(() => router.push(`/blog/${slug}`))
-          }}
-        >
-          <div className="mx-1 flex size-4 items-center justify-center">
-            <FileTextIcon className="size-4" />
-          </div>
+//             runCommand(() => router.push(`/blog/${slug}`))
+//           }}
+//         >
+//           <div className="mx-1 flex size-4 items-center justify-center">
+//             <FileTextIcon className="size-4" />
+//           </div>
 
-          <div className="flex flex-col gap-1 p-2 w-full">
-            <h1 className="text-lg">{post.title}</h1>
-            <p className="truncate">{post.excerpt}</p>
-          </div>
-        </CommandItem>
-      ))}
-    </CommandGroup>
-  )
-}
+//           <div className="flex flex-col gap-1 p-2 w-full">
+//             <h1 className="text-lg">{post.title}</h1>
+//             <p className="truncate">{post.excerpt}</p>
+//           </div>
+//         </CommandItem>
+//       ))}
+//     </CommandGroup>
+//   )
+// }
 
 interface CommandMenuProps extends AlertDialogProps {
   messages: {
@@ -181,7 +182,7 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
   const router = useRouter()
   const { setTheme } = useTheme()
   const docsConfig = useDocsConfig()
-  const blogConfig = useBlogConfig()
+  // const blogConfig = useBlogConfig()
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -211,11 +212,12 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
     command()
   }, [])
 
-  const mainNavs = useMemo(
-    () => [...docsConfig.docs.mainNav, ...blogConfig.blog.mainNav],
-    [docsConfig, blogConfig]
-  )
+  // const mainNavs = useMemo(
+  //   () => [...docsConfig.docs.mainNav, ...blogConfig.blog.mainNav],
+  //   [docsConfig, blogConfig]
+  // )
 
+  const mainNavs = useMemo(() => docsConfig.docs.mainNav, [docsConfig])
   return (
     <>
       <Button
@@ -276,12 +278,12 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
 
           <CommandSeparator className="my-1" />
 
-          <BlogCommandMenu
+          {/* <BlogCommandMenu
             runCommand={runCommand}
             messages={{
               blog: messages.blog,
             }}
-          />
+          /> */}
 
           <CommandSeparator className="my-1" />
 

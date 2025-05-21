@@ -1,5 +1,5 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { allDocs } from 'contentlayer/generated'
+import { allTypedHooks, type Doc } from 'contentlayer/generated'
 
 import type { LocaleOptions } from '@/lib/opendocs/types/i18n'
 import type { Metadata } from 'next'
@@ -10,7 +10,7 @@ import { DashboardTableOfContents } from '@/components/docs/toc'
 import { DocumentNotFound } from '@/components/docs/not-found'
 import { getTableOfContents } from '@/lib/opendocs/utils/toc'
 import { DocBreadcrumb } from '@/components/docs/breadcrumb'
-import { getDocFromParams } from '@/lib/opendocs/utils/doc'
+import { getDocFromParams } from '@/lib/opendocs/utils/hooks'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { DocPageProps } from '@/lib/opendocs/types/docs'
 import { DocHeading } from '@/components/docs/heading'
@@ -71,7 +71,7 @@ export async function generateMetadata({
 export async function generateStaticParams(): Promise<
   DocPageProps['params'][]
 > {
-  const docs = allDocs.map((doc) => {
+  const docs = allTypedHooks.map((doc) => {
     const [locale, ...slugs] = doc.slugAsParams.split('/')
 
     return {
@@ -105,26 +105,27 @@ export default async function DocPage({ params }: DocPageProps) {
   return (
     <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
       <div className="mx-auto w-full min-w-0">
-        <DocBreadcrumb
+        {/* <DocBreadcrumb
           doc={doc}
           messages={{
             docs: t('docs'),
           }}
-        />
+        /> */}
 
         <DocHeading
+          title={doc.title}
           description={doc.description}
           notAvailable={doc.notAvailable}
-          title={doc.title}
           locale={params.locale}
         />
+
         <DocLinks links={doc.links} />
 
         <div className="pb-12 pt-8">
           <Mdx code={doc.body.code} />
         </div>
 
-        <DocsPager doc={doc} locale={params.locale} />
+        {/* <DocsPager doc={doc} locale={params.locale} /> */}
       </div>
 
       {doc.toc && (

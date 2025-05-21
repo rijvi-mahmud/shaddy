@@ -1,8 +1,9 @@
 {
   "site": {
-    "heading": "for your projects easily",
+    "title": "One Stop",
+    "heading": "Frontend Resources",
     "description": "Beautifully designed template that you can use for your projects for free. Accessible. Customizable. Open Source.",
-    "announcement": "Introducing Opendocs",
+    "announcement": "Introducing shaddy",
     "changelog": "Changelog",
 
     "buttons": {
@@ -15,7 +16,8 @@
     "words": {
       "menu": "Menu",
       "docs": "Docs",
-      "blog": "Blog"
+      "blog": "Blog",
+      "typed_hooks": "Typed Hooks"
     },
 
     "featured_cards": {
@@ -42,7 +44,7 @@
     },
 
     "footer": {
-      "created_by": "Created by"
+      "created_by": "Made with ❤️ by"
     },
 
     "search": {

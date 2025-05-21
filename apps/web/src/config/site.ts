@@ -3,7 +3,7 @@ import en from '@/i18n/locales/en.json'
 import pt from '@/i18n/locales/pt.json'
 
 export const siteConfig = {
-  name: 'opendocs',
+  name: 'shaddy',
 
   description: {
     en: en.site.description,
@@ -26,8 +26,8 @@ export const siteConfig = {
   },
 
   author: {
-    name: 'Dalton Menezes',
-    site: 'https://daltonmenezes.com',
+    name: 'Rijvi Mahmud',
+    site: 'https://rijvi-mahmud-portfolio.vercel.app/',
   },
 
   links: {
