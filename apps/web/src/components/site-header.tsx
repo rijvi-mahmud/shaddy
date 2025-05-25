@@ -45,6 +45,7 @@ export async function SiteHeader() {
               messages={{
                 docs: t('words.docs'),
                 blog: t('words.blog'),
+                hooks: t('words.typed_hooks'),
                 search: t('search.search'),
                 noResultsFound: t('search.no_results_found'),
                 typeCommandOrSearch: t('search.type_command_or_search'),

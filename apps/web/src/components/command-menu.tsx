@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, Fragment, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useTheme } from 'next-themes'
 import { useLocale } from 'next-intl'
 
@@ -31,144 +31,20 @@ import {
 } from './ui/command'
 
 import { useDocsConfig } from '@/lib/opendocs/hooks/use-docs-config'
-// import { useBlogConfig } from '@/lib/opendocs/hooks/use-blog-config'
+import { useBlogConfig } from '@/lib/opendocs/hooks/use-blog-config'
+import { useTypedHooksConfig } from '@/lib/opendocs/hooks/use-typed-hooks-config'
 import { getObjectValueByLocale } from '@/lib/opendocs/utils/locale'
-// import { allBlogs } from 'contentlayer/generated'
-
-function DocsCommandMenu({
-  runCommand,
-  messages,
-}: {
-  runCommand: (command: () => unknown) => void
-  messages: {
-    docs: string
-  }
-}) {
-  const router = useRouter()
-  const docsConfig = useDocsConfig()
-
-  function renderItems(items: NavItemWithChildren[]) {
-    return items.map((navItem) => {
-      if (!navItem.href) {
-        return (
-          <Fragment
-            key={getObjectValueByLocale(
-              navItem.title,
-              docsConfig.currentLocale
-            )}
-          >
-            <CommandGroup
-              heading={getObjectValueByLocale(
-                navItem.title,
-                docsConfig.currentLocale
-              )}
-            >
-              {renderItems(navItem.items)}
-            </CommandGroup>
-          </Fragment>
-        )
-      }
-
-      return (
-        <Fragment key={navItem.href}>
-          <CommandItem
-            value={getObjectValueByLocale(
-              navItem.title,
-              docsConfig.currentLocale
-            )}
-            onSelect={() => {
-              runCommand(() => router.push(navItem.href as string))
-            }}
-          >
-            <div className="mr-2 flex size-4 items-center justify-center">
-              <CircleIcon className="size-3" />
-            </div>
-
-            {getObjectValueByLocale(navItem.title, docsConfig.currentLocale)}
-          </CommandItem>
-
-          {navItem?.items?.length > 0 && (
-            <CommandGroup>{renderItems(navItem.items)}</CommandGroup>
-          )}
-        </Fragment>
-      )
-    })
-  }
-
-  return (
-    <CommandGroup heading={messages.docs}>
-      {docsConfig.docs.sidebarNav.map((group) => (
-        <CommandGroup
-          key={getObjectValueByLocale(group.title, docsConfig.currentLocale)}
-          heading={getObjectValueByLocale(
-            group.title,
-            docsConfig.currentLocale
-          )}
-        >
-          {renderItems(group.items)}
-        </CommandGroup>
-      ))}
-    </CommandGroup>
-  )
-}
-
-// function BlogCommandMenu({
-//   runCommand,
-//   messages,
-// }: {
-//   runCommand: (command: () => unknown) => void
-//   messages: {
-//     blog: string
-//   }
-// }) {
-//   const router = useRouter()
-//   const locale = useLocale()
-
-//   // const posts = useMemo(() => {
-//   //   return allBlogs.filter((post) => {
-//   //     const [postLocale] = post.slugAsParams.split('/')
-
-//   //     return postLocale === locale
-//   //   })
-//   // }, [locale])
-//   const posts = useMemo(() => [{}], [])
-
-//   return (
-//     <CommandGroup heading={messages.blog}>
-//       {posts.map((post) => (
-//         <CommandItem
-//           key={post._id}
-//           value={`${post.title} ${post.excerpt} ${post.tags.join(' ')}`}
-//           onSelect={() => {
-//             const [, ...slugs] = post.slugAsParams.split('/')
-//             const slug = slugs.join('/')
-
-//             runCommand(() => router.push(`/blog/${slug}`))
-//           }}
-//         >
-//           <div className="mx-1 flex size-4 items-center justify-center">
-//             <FileTextIcon className="size-4" />
-//           </div>
-
-//           <div className="flex flex-col gap-1 p-2 w-full">
-//             <h1 className="text-lg">{post.title}</h1>
-//             <p className="truncate">{post.excerpt}</p>
-//           </div>
-//         </CommandItem>
-//       ))}
-//     </CommandGroup>
-//   )
-// }
+import { allBlogs } from 'contentlayer/generated'
 
 interface CommandMenuProps extends AlertDialogProps {
   messages: {
     docs: string
     blog: string
+    hooks: string
     search: string
     noResultsFound: string
     searchDocumentation: string
     typeCommandOrSearch: string
-
     themes: {
       theme: string
       dark: string
@@ -181,8 +57,10 @@ interface CommandMenuProps extends AlertDialogProps {
 export function CommandMenu({ messages, ...props }: CommandMenuProps) {
   const router = useRouter()
   const { setTheme } = useTheme()
+  const locale = useLocale()
   const docsConfig = useDocsConfig()
-  // const blogConfig = useBlogConfig()
+  const blogConfig = useBlogConfig()
+  const hooksConfig = useTypedHooksConfig()
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -196,14 +74,12 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
         ) {
           return
         }
-
         e.preventDefault()
         setOpen((open) => !open)
       }
     }
 
     document.addEventListener('keydown', down)
-
     return () => document.removeEventListener('keydown', down)
   }, [])
 
@@ -212,12 +88,76 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
     command()
   }, [])
 
-  // const mainNavs = useMemo(
-  //   () => [...docsConfig.docs.mainNav, ...blogConfig.blog.mainNav],
-  //   [docsConfig, blogConfig]
-  // )
+  // Flatten navigation items for search with group context
+  const flattenNavItems = (
+    items: NavItemWithChildren[],
+    locale: string,
+    group: string
+  ) => {
+    let result: { title: string; href?: string; group: string }[] = []
+    items.forEach((item) => {
+      if (item.href) {
+        result.push({
+          title: getObjectValueByLocale(item.title, locale as 'en' | 'pt'),
+          href: item.href,
+          group,
+        })
+      }
+      if (item.items?.length) {
+        result = result.concat(
+          flattenNavItems(item.items, locale as 'en' | 'pt', group)
+        )
+      }
+    })
+    return result
+  }
 
-  const mainNavs = useMemo(() => docsConfig.docs.mainNav, [docsConfig])
+  // Collect all searchable items with group context
+  const allSearchableItems = useMemo(() => {
+    const mainNavItems = [
+      ...docsConfig.docs.mainNav,
+      ...blogConfig.blog.mainNav,
+      ...hooksConfig.hooks.mainNav,
+    ]
+      .filter((navItem) => !navItem.external && navItem.href)
+      .map((item) => ({
+        title: getObjectValueByLocale(item.title, docsConfig.currentLocale),
+        href: item.href,
+        group: 'Links',
+      }))
+
+    const docsItems = docsConfig.docs.sidebarNav.flatMap((group) =>
+      flattenNavItems(group.items, docsConfig.currentLocale, messages.docs)
+    )
+
+    const hooksItems = hooksConfig.hooks.sidebarNav.flatMap((group) =>
+      flattenNavItems(group.items, hooksConfig.currentLocale, messages.hooks)
+    )
+
+    const blogItems = allBlogs
+      .filter((post) => {
+        const [postLocale] = post.slugAsParams.split('/')
+        return postLocale === locale
+      })
+      .map((post) => {
+        const [, ...slugs] = post.slugAsParams.split('/')
+        const slug = slugs.join('/')
+        return {
+          title: post.title,
+          href: `/blog/${slug}`,
+          group: messages.blog,
+          searchValue: `${post.title} ${post.excerpt} ${post.tags.join(' ')}`,
+        }
+      })
+
+    return {
+      mainNav: mainNavItems,
+      docs: docsItems,
+      hooks: hooksItems,
+      blog: blogItems,
+    }
+  }, [docsConfig, blogConfig, hooksConfig, locale, messages])
+
   return (
     <>
       <Button
@@ -231,9 +171,7 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
         <span className="hidden lg:inline-flex">
           {messages.searchDocumentation}...
         </span>
-
         <span className="inline-flex lg:hidden">{messages.search}...</span>
-
         <kbd className="bg-muted pointer-events-none absolute right-[0.3rem] top-[0.3rem] hidden h-5 select-none items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
           <span className="text-xs">⌘</span>K
         </kbd>
@@ -241,63 +179,86 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
 
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder={`${messages.typeCommandOrSearch}...`} />
-
         <CommandList>
           <CommandEmpty>{messages.noResultsFound}.</CommandEmpty>
 
           <CommandGroup heading="Links">
-            {mainNavs
-              .filter((navitem) => !navitem.external)
-              .map((navItem) => (
-                <CommandItem
-                  key={navItem.href}
-                  value={getObjectValueByLocale(
-                    navItem.title,
-                    docsConfig.currentLocale
-                  )}
-                  onSelect={() =>
-                    runCommand(() => router.push(navItem.href as string))
-                  }
-                >
-                  <FileIcon className="mr-2 size-4" />
-
-                  {getObjectValueByLocale(
-                    navItem.title,
-                    docsConfig.currentLocale
-                  )}
-                </CommandItem>
-              ))}
+            {allSearchableItems.mainNav.map((item) => (
+              <CommandItem
+                key={item.href}
+                value={`${item.title} (${item.group})`}
+                onSelect={() => runCommand(() => router.push(item.href!))}
+              >
+                <FileIcon className="mr-2 size-4" />
+                {item.title}
+              </CommandItem>
+            ))}
           </CommandGroup>
 
-          <DocsCommandMenu
-            runCommand={runCommand}
-            messages={{
-              docs: messages.docs,
-            }}
-          />
+          <CommandSeparator className="my-1" />
+
+          <CommandGroup heading={messages.docs}>
+            {allSearchableItems.docs.map((item) => (
+              <CommandItem
+                key={item.href}
+                value={`${item.title} (${item.group})`}
+                onSelect={() => runCommand(() => router.push(item.href!))}
+              >
+                <div className="mr-2 flex size-4 items-center justify-center">
+                  <CircleIcon className="size-3" />
+                </div>
+                {item.title}
+              </CommandItem>
+            ))}
+          </CommandGroup>
 
           <CommandSeparator className="my-1" />
 
-          {/* <BlogCommandMenu
-            runCommand={runCommand}
-            messages={{
-              blog: messages.blog,
-            }}
-          /> */}
+          <CommandGroup heading={messages.hooks}>
+            {allSearchableItems.hooks.map((item) => (
+              <CommandItem
+                key={item.href}
+                value={`${item.title} (${item.group})`}
+                onSelect={() => runCommand(() => router.push(item.href!))}
+              >
+                <div className="mr-2 flex size-4 items-center justify-center">
+                  <CircleIcon className="size-3" />
+                </div>
+                {item.title}
+              </CommandItem>
+            ))}
+          </CommandGroup>
 
           <CommandSeparator className="my-1" />
+          {/* 
+          <CommandGroup heading={messages.blog}>
+            {allSearchableItems.blog.map((item) => (
+              <CommandItem
+                key={item.href}
+                value={item.searchValue || `${item.title} (${item.group})`}
+                onSelect={() => runCommand(() => router.push(item.href!))}
+              >
+                <div className="mx-1 flex size-4 items-center justify-center">
+                  <FileTextIcon className="size-4" />
+                </div>
+                <div className="flex flex-col gap-1 p-2 w-full">
+                  <h1 className="text-lg">{item.title}</h1>
+                </div>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+
+          <CommandSeparator className="my-1" /> */}
 
           <CommandGroup heading={messages.themes.theme}>
             <CommandItem onSelect={() => runCommand(() => setTheme('light'))}>
               <SunIcon className="mr-2 size-4" />
               {messages.themes.light}
             </CommandItem>
-
             <CommandItem onSelect={() => runCommand(() => setTheme('dark'))}>
               <MoonIcon className="mr-2 size-4" />
               {messages.themes.dark}
             </CommandItem>
-
             <CommandItem onSelect={() => runCommand(() => setTheme('system'))}>
               <LaptopIcon className="mr-2 size-4" />
               {messages.themes.system}

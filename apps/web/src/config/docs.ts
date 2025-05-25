@@ -15,7 +15,7 @@ export const docsConfig: DocsConfig = {
       href: '/docs',
 
       title: {
-        en: 'Documentation',
+        en: 'Docs',
         pt: 'Documentação',
       },
     },

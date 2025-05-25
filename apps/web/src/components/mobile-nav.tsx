@@ -19,6 +19,7 @@ import { MobileLink } from './mobile-link'
 import { blogConfig } from '@/config/blog'
 import { usePathname } from '@/navigation'
 import { Button } from './ui/button'
+import { useTypedHooksConfig } from '@/lib/opendocs/hooks/use-typed-hooks-config'
 
 interface MobileNavProps {
   menuLinks: JSX.Element
@@ -29,12 +30,20 @@ interface MobileNavProps {
   }
 }
 
+const displayContentSidebar = (pathname: string) => {
+  const routes = ['/docs', '/typed-hooks']
+  return routes.some((route) => pathname.startsWith(route))
+}
+
 export function MobileNav({ messages, menuLinks }: MobileNavProps) {
   const pathname = usePathname()
   const docsConfig = useDocsConfig()
+  const hooksConfig = useTypedHooksConfig()
   const [open, setOpen] = useState(false)
 
-  const shouldDisplayDocsSidebarContent = pathname.startsWith('/docs')
+  const config = [docsConfig, hooksConfig]
+
+  const shouldDisplayDocsSidebarContent = displayContentSidebar(pathname)
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -56,7 +65,7 @@ export function MobileNav({ messages, menuLinks }: MobileNavProps) {
           className="flex items-center"
           onOpenChange={setOpen}
         >
-          <Icons.logo className="mr-2 size-4" />
+          <Icons.logo className="mr-2 size-4 -rotate-45" />
           <span className="font-bold">{siteConfig.name}</span>
         </MobileLink>
 
@@ -68,12 +77,13 @@ export function MobileNav({ messages, menuLinks }: MobileNavProps) {
 
         <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
           <div className="flex flex-col space-y-3">
-            {blogConfig.mainNav?.map((item) => (
+            {/* {blogConfig.mainNav?.map((item) => (
               <MobileLink key={item.href} href="/blog" onOpenChange={setOpen}>
                 {getObjectValueByLocale(item.title, docsConfig.currentLocale)}
               </MobileLink>
-            ))}
+            ))} */}
 
+            {/* Show docs mainNav */}
             {docsConfig.docs.mainNav?.map(
               (item) =>
                 item.href && (
@@ -89,14 +99,40 @@ export function MobileNav({ messages, menuLinks }: MobileNavProps) {
                   </MobileLink>
                 )
             )}
-          </div>
 
-          <div className="flex flex-col space-y-2">
-            {shouldDisplayDocsSidebarContent && (
+            {/* Show docs sidebar only on /docs */}
+            {pathname.startsWith('/docs') && (
               <DocsSidebarNav
                 isMobile
                 locale={docsConfig.currentLocale}
                 items={docsConfig.docs.sidebarNav}
+                handleMobileSidebar={setOpen}
+              />
+            )}
+
+            {/* Show hooks mainNav */}
+            {hooksConfig.hooks.mainNav?.map(
+              (item) =>
+                item.href && (
+                  <MobileLink
+                    key={item.href}
+                    href={item.href}
+                    onOpenChange={setOpen}
+                  >
+                    {getObjectValueByLocale(
+                      item.title,
+                      hooksConfig.currentLocale
+                    )}
+                  </MobileLink>
+                )
+            )}
+
+            {/* Show hooks sidebar only on /typed-hooks */}
+            {pathname.startsWith('/typed-hooks') && (
+              <DocsSidebarNav
+                isMobile
+                locale={hooksConfig.currentLocale}
+                items={hooksConfig.hooks.sidebarNav}
                 handleMobileSidebar={setOpen}
               />
             )}

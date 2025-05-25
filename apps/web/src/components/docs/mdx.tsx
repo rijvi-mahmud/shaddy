@@ -40,6 +40,7 @@ import { a } from '../mdx-components/a'
 import { p } from '../mdx-components/p'
 
 import type { ComponentProps } from 'react'
+import { ComponentPreview } from '../component-preview'
 
 const components = {
   Image,
@@ -73,7 +74,6 @@ const components = {
   code,
   table,
   blockquote,
-
   CodeBlockWrapper: ({ ...props }) => (
     <CodeBlockWrapper className="rounded-md border" {...props} />
   ),

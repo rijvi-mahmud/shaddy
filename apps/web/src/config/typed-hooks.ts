@@ -15,7 +15,7 @@ export const typedHooksConfig: DocsConfig = {
       href: '/typed-hooks',
 
       title: {
-        en: 'Documentation',
+        en: 'Typed Hooks',
         pt: 'Documentação',
       },
     },

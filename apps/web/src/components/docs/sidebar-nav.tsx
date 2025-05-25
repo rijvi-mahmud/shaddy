@@ -36,7 +36,7 @@ export function DocsSidebarNav({
     <div
       className={cn(
         !isMobile && 'w-full',
-        isMobile && 'flex flex-col space-y-3 pt-6 pr-3'
+        isMobile && 'flex flex-col space-y-3 pt-2 pr-3'
       )}
     >
       {items.map((item, index) => (
