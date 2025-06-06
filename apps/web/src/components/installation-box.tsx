@@ -1,7 +1,4 @@
-import {
-  CopyButton,
-  CopyNpmCommandButton,
-} from './mdx-components/copy-button'
+import { CopyButton, CopyNpmCommandButton } from './mdx-components/copy-button'
 
 import { highlightServerCode } from '@/lib/opendocs/utils/code-theme'
 import { cn } from '@/lib/utils'

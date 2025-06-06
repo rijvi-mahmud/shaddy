@@ -78,6 +78,12 @@ const components = {
     <CodeBlockWrapper className="rounded-md border" {...props} />
   ),
 
+  ComponentPreview: ({
+    className,
+    ...props
+  }: ComponentProps<typeof ComponentPreview>) => (
+    <ComponentPreview className={className} {...props} />
+  ),
   Step: ({ className, ...props }: ComponentProps<'h3'>) => (
     <h3
       className={cn(

@@ -8,6 +8,26 @@ The idea is that you can use this template to document your projects in a simple
 
 Initially built from the site and components of [shadcn/ui](https://ui.shadcn.com/), I made a series of improvements and additions to make it a more complete documentation template for my projects.
 
+<ComponentPreview 
+  name="Installation"
+  component={
+    <div className="flex flex-col items-center space-y-2">
+      <pre className="p-4 rounded-md bg-slate-100 dark:bg-slate-800">
+        <code>npx degit daltonmenezes/opendocs project_name</code>
+      </pre>
+      <p className="text-sm text-muted-foreground">Use degit to clone the repository</p>
+    </div>
+  }
+  code={`<div className="flex flex-col items-center space-y-2">
+      <pre className="p-4 rounded-md bg-slate-100 dark:bg-slate-800">
+        <code>npx degit daltonmenezes/opendocs project_name</code>
+      </pre>
+      <p className="text-sm text-muted-foreground">Use degit to clone the repository</p>
+    </div>`}
+/>
+
+
+
 ## Features
 
 - **Beautiful and responsive design**: The template is responsive and adapts to any screen size.
