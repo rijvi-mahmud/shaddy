@@ -78,12 +78,23 @@ export function ComponentPreview({
             </div>
           </div>
           <div
-            className={`preview flex min-h-[350px] w-full justify-center p-10 `}
+            className={`preview flex min-h-[350px] w-full justify-center p-10 overflow-auto`}
           >
-            <div className={`flex items-center justify-center`}>
+            <div className={`flex items-center justify-center w-full`}>
               {component}
             </div>
           </div>
+          {/* Render CodeBlock here (hidden) to precompute code highlighting */}
+          {code && (
+            <div style={{ display: 'none' }}>
+              <CodeBlock
+                code={code}
+                language="tsx"
+                theme="github-dark"
+                component={component}
+              />
+            </div>
+          )}
         </TabsContent>
         <TabsContent value="code">
           <div className="flex flex-col space-y-4">
@@ -95,7 +106,12 @@ export function ComponentPreview({
             </div>
             {code && (
               <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:max-h-[350px] [&_pre]:overflow-auto">
-                <CodeBlock code={code} language="tsx" theme="github-dark" />
+                <CodeBlock
+                  code={code}
+                  language="tsx"
+                  theme="github-dark"
+                  component={component}
+                />
               </div>
             )}
           </div>
@@ -109,9 +125,10 @@ interface CodeBlockProps {
   code: string
   language: string
   theme: string
+  component?: React.ReactNode
 }
 
-function CodeBlock({ code, language, theme }: CodeBlockProps) {
+function CodeBlock({ code, language, theme, component }: CodeBlockProps) {
   const [html, setHtml] = React.useState<string>('')
   const [loading, setLoading] = React.useState(false)
 
@@ -132,7 +149,7 @@ function CodeBlock({ code, language, theme }: CodeBlockProps) {
         })
         .finally(() => setLoading(false))
     })
-  }, [code, language, theme])
+  }, [code, language, theme, component])
 
   if (!code) return null
 
