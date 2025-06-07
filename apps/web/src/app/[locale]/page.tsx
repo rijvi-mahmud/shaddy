@@ -11,6 +11,7 @@ import { Icons } from '@/components/icons'
 import { siteConfig } from '@/config/site'
 import { Link } from '@/navigation'
 import { cn } from '@/lib/utils'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 import {
   PageHeader,
@@ -123,6 +124,7 @@ export default async function IndexPage({
           description={t('site.featured_cards.more.description')}
         />
       </section>
+      <GoogleAnalytics gaId="G-FMY1H5W652" />
     </div>
   )
 }
