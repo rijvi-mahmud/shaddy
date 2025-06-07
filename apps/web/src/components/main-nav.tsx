@@ -19,7 +19,7 @@ export function MainNav({ messages }: MainNavProps) {
   return (
     <div className="mr-4 hidden md:flex">
       <Link href="/" className="mr-6 flex items-center space-x-2">
-        <Icons.logo className="size-6 -rotate-45" />
+        <Icons.logo className="size-6" />
 
         <span className="hidden font-bold sm:inline-block">
           {siteConfig.name}

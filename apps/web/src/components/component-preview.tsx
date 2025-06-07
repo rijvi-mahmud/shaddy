@@ -4,19 +4,37 @@ import * as React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ThemeModeToggle } from './theme-mode-toggle'
 import { CopyButton } from './copy-button'
+import { Button } from '@/components/ui/button' // Import your components here
 
 interface ComponentPreviewProps {
-  name?: string
-  component: React.ReactNode
-  code: string
+  name: string
   className?: string
 }
 
-export function ComponentPreview({
-  component,
-  code,
-  className,
-}: ComponentPreviewProps) {
+// Example mapping
+const EXAMPLES: Record<string, { component: React.ReactNode; code: string }> = {
+  button: {
+    component: (
+      <div className="flex flex-wrap items-center gap-2 md:flex-row">
+        <Button>Button</Button>
+      </div>
+    ),
+    code: `<div className="flex flex-wrap items-center gap-2 md:flex-row">
+  <Button>Button</Button>
+</div>`,
+  },
+  // Add more mappings as needed
+}
+
+export function ComponentPreview({ name, className }: ComponentPreviewProps) {
+  const example = EXAMPLES[name]
+
+  if (!example) {
+    return <div>Example not found for "{name}"</div>
+  }
+
+  const { component, code } = example
+
   return (
     <div className={`relative ${className}`}>
       <Tabs defaultValue="preview" className="relative mr-auto w-full">
@@ -41,38 +59,11 @@ export function ComponentPreview({
         <TabsContent value="preview" className="relative rounded-md border">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center space-x-2">
-              {/* <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    {size === 'desktop' && <Monitor className="h-3.5 w-3.5" />}
-                    {size === 'tablet' && <Tablet className="h-3.5 w-3.5" />}
-                    {size === 'mobile' && (
-                      <Smartphone className="h-3.5 w-3.5" />
-                    )}
-                    <span className="sr-only">Toggle size</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start">
-                  <DropdownMenuItem onClick={() => setSize('desktop')}>
-                    <Monitor className="mr-2 h-4 w-4" />
-                    Desktop
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setSize('tablet')}>
-                    <Tablet className="mr-2 h-4 w-4" />
-                    Tablet
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setSize('mobile')}>
-                    <Smartphone className="mr-2 h-4 w-4" />
-                    Mobile
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu> */}
-              {/* <Separator orientation="vertical" className="mx-2 h-4" /> */}
               <ThemeModeToggle
                 messages={{
-                  dark: 'dark',
-                  light: 'light',
-                  system: 'system',
+                  dark: 'Dark',
+                  light: 'Light',
+                  system: 'System',
                 }}
               />
             </div>
@@ -97,21 +88,21 @@ export function ComponentPreview({
           )}
         </TabsContent>
         <TabsContent value="code">
-          <div className="flex flex-col space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <span className="text-sm font-medium">Code</span>
-              </div>
-              <CopyButton value={code} className="h-7 w-7 p-0" />
-            </div>
+          <div className="relative">
             {code && (
-              <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:max-h-[350px] [&_pre]:overflow-auto">
-                <CodeBlock
-                  code={code}
-                  language="tsx"
-                  theme="github-dark"
-                  component={component}
+              <div className="relative rounded-lg border bg-card">
+                <CopyButton
+                  value={code}
+                  className="absolute right-4 top-4 z-10 h-8 w-8 p-0 hover:bg-background"
                 />
+                <div className="overflow-hidden rounded-lg">
+                  <CodeBlock
+                    code={code}
+                    language="tsx"
+                    theme="github-dark"
+                    component={component}
+                  />
+                </div>
               </div>
             )}
           </div>
@@ -145,7 +136,7 @@ function CodeBlock({ code, language, theme, component }: CodeBlockProps) {
         .then((highlighted: string) => setHtml(highlighted))
         .catch((error: any) => {
           console.error('Error highlighting code:', error)
-          setHtml(`<pre>${code}</pre>`)
+          setHtml(`<pre><code>${code}</code></pre>`)
         })
         .finally(() => setLoading(false))
     })
@@ -154,12 +145,20 @@ function CodeBlock({ code, language, theme, component }: CodeBlockProps) {
   if (!code) return null
 
   return (
-    <pre className={`${theme} text-sm`}>
+    <div className="relative">
       {loading ? (
-        <div className="animate-pulse text-muted-foreground">Loading...</div>
+        <div className="flex items-center justify-center p-8">
+          <div className="flex items-center space-x-2 text-muted-foreground">
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"></div>
+            <span className="text-sm">Highlighting code...</span>
+          </div>
+        </div>
       ) : (
-        <div dangerouslySetInnerHTML={{ __html: html }} />
+        <div
+          className="code-block overflow-auto text-sm [&_pre]:m-0 [&_pre]:max-h-[400px] [&_pre]:overflow-auto [&_pre]:bg-transparent [&_pre]:p-4 [&_pre]:font-mono [&_code]:break-words"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
       )}
-    </pre>
+    </div>
   )
 }

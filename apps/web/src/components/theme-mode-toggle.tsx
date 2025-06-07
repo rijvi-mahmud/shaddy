@@ -1,8 +1,7 @@
 'use client'
 
 import { type PointerEvent, useState, useMemo } from 'react'
-import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
-import { ChevronDown } from 'lucide-react'
+import { MoonIcon, SunIcon, ChevronDown } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 import { useIsMobile } from '@/lib/opendocs/hooks/use-is-mobile'

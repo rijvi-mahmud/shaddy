@@ -14,6 +14,7 @@ export const Icons = {
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
+      transform="rotate(-45)"
       {...props}
     >
       <path d="m6 17 5-5-5-5" />
