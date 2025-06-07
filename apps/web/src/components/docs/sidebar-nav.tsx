@@ -123,7 +123,7 @@ export function DocsSidebarNavItems({
                       {getObjectValueByLocale(item.title, locale)}
 
                       {item.label && (
-                        <span className="h-fit rounded-md bg-primary-active px-1.5 py-0.5 text-xs leading-none text-[#000000] no-underline group-hover:no-underline">
+                        <span className="inline-flex items-center rounded-full bg-accent px-2 py-0.5 text-xs font-medium text-accent-foreground ring-1 ring-inset ring-border transition-colors group-hover:bg-accent/80">
                           {getObjectValueByLocale(item.label, locale)}
                         </span>
                       )}
@@ -171,7 +171,7 @@ export function DocsSidebarNavItems({
               {getObjectValueByLocale(item.title, locale)}
 
               {item.label && (
-                <span className="rounded-md bg-primary-active px-1.5 py-0.5 text-xs leading-none text-[#000000] no-underline group-hover:no-underline">
+                <span className="inline-flex items-center rounded-full bg-accent px-2 py-0.5 text-xs font-medium text-accent-foreground ring-1 ring-inset ring-border transition-colors group-hover:bg-accent/80">
                   {getObjectValueByLocale(item.label, locale)}
                 </span>
               )}
