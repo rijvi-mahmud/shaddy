@@ -15,6 +15,8 @@ import { fontSans } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 import { NextIntlClientProvider } from 'next-intl'
 
+import { Analytics } from '@vercel/analytics/next'
+
 interface AppLayoutProps {
   children: React.ReactNode
   params: {
@@ -151,6 +153,7 @@ export default function RootLayout({ children, params }: AppLayoutProps) {
             </div>
           </ThemeProvider>
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   )
