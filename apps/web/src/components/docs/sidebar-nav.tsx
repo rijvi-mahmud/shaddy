@@ -2,8 +2,8 @@
 
 import { Fragment } from 'react'
 
-import type { LocaleOptions } from '@/lib/opendocs/types/i18n'
-import type { SidebarNavItem } from '@/lib/opendocs/types/nav'
+import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
+import type { SidebarNavItem } from '@/lib/shaddy/types/nav'
 
 import {
   Accordion,
@@ -12,7 +12,7 @@ import {
   AccordionContent,
 } from '@/components/ui/accordion'
 
-import { getObjectValueByLocale } from '@/lib/opendocs/utils/locale'
+import { getObjectValueByLocale } from '@/lib/shaddy/utils/locale'
 import { usePathname, Link as DesktopLink } from '@/navigation'
 import { MobileLink } from '../mobile-link'
 import { cn } from '@/lib/utils'

@@ -4,9 +4,9 @@ import { ChevronDown, LanguagesIcon } from 'lucide-react'
 import { type PointerEvent, useState } from 'react'
 import { useLocale } from 'next-intl'
 
-import type { LocaleOptions } from '@/lib/opendocs/types/i18n'
+import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
 
-import { useIsMobile } from '@/lib/opendocs/hooks/use-is-mobile'
+import { useIsMobile } from '@/lib/shaddy/hooks/use-is-mobile'
 import { useRouter, usePathname } from '@/navigation'
 import { Button } from '@/components/ui/button'
 import { labels } from '@/config/i18n'

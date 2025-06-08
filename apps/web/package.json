@@ -1,5 +1,5 @@
 {
-  "name": "opendocs-web",
+  "name": "shaddy-web",
   "version": "3.0.8",
   "private": true,
   "scripts": {
@@ -53,8 +53,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.24.9",
-    "@opendocs/eslint-config": "workspace:*",
-    "@opendocs/typescript-config": "workspace:*",
+    "@shaddy/eslint-config": "workspace:*",
+    "@shaddy/typescript-config": "workspace:*",
     "@types/node": "^20",
     "@types/normalize-path": "^3.0.2",
     "@types/react": "^18",

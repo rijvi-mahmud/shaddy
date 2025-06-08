@@ -3,8 +3,8 @@ import { setRequestLocale } from 'next-intl/server'
 import { DocsSidebarNav } from '@/components/docs/sidebar-nav'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-import type { LocaleOptions } from '@/lib/opendocs/types/i18n'
-import { getServerTypedHooksConfig } from '@/lib/opendocs/utils/get-server-typed-hooks-config'
+import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
+import { getServerTypedHooksConfig } from '@/lib/shaddy/utils/get-server-typed-hooks-config'
 
 interface DocsLayoutProps {
   children: React.ReactNode

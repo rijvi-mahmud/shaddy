@@ -5,13 +5,13 @@ import Balancer from 'react-wrap-balancer'
 import { compareDesc } from 'date-fns'
 import { useMemo } from 'react'
 
-import type { LocaleOptions } from '@/lib/opendocs/types/i18n'
+import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
 import type { Blog } from 'contentlayer/generated'
 
 import {
   getSlugWithoutLocale,
   getObjectValueByLocale,
-} from '@/lib/opendocs/utils/locale'
+} from '@/lib/shaddy/utils/locale'
 
 import { cn, formatDate, truncateText } from '@/lib/utils'
 import { BlogPostItemTags } from './post-item-tags'

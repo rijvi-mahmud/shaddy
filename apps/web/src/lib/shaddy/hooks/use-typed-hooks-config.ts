@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocale } from 'next-intl'
 
-import type { DocsConfig } from '@/lib/opendocs/types/docs'
+import type { DocsConfig } from '@/lib/shaddy/types/docs'
 import type { LocaleOptions } from '../types/i18n'
 
 import { defaultLocale } from '@/config/i18n'

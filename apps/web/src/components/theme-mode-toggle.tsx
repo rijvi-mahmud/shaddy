@@ -4,7 +4,7 @@ import { type PointerEvent, useState, useMemo } from 'react'
 import { MoonIcon, SunIcon, ChevronDown } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
-import { useIsMobile } from '@/lib/opendocs/hooks/use-is-mobile'
+import { useIsMobile } from '@/lib/shaddy/hooks/use-is-mobile'
 import { Button } from '@/components/ui/button'
 
 import {

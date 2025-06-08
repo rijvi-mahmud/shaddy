@@ -4,7 +4,7 @@ import { DropdownMenuTriggerProps } from '@radix-ui/react-dropdown-menu'
 import { CheckIcon, CopyIcon } from '@radix-ui/react-icons'
 import { useCallback, useEffect, useState } from 'react'
 
-import type { NpmCommands } from '@/lib/opendocs/types/unist'
+import type { NpmCommands } from '@/lib/shaddy/types/unist'
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'

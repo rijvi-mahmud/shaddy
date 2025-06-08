@@ -5,7 +5,7 @@ import { useTheme } from 'next-themes'
 import { useLocale } from 'next-intl'
 
 import type { AlertDialogProps } from '@radix-ui/react-alert-dialog'
-import type { NavItemWithChildren } from '@/lib/opendocs/types/nav'
+import type { NavItemWithChildren } from '@/lib/shaddy/types/nav'
 
 import {
   SunIcon,
@@ -30,10 +30,10 @@ import {
   CommandSeparator,
 } from './ui/command'
 
-import { useDocsConfig } from '@/lib/opendocs/hooks/use-docs-config'
-import { useBlogConfig } from '@/lib/opendocs/hooks/use-blog-config'
-import { useTypedHooksConfig } from '@/lib/opendocs/hooks/use-typed-hooks-config'
-import { getObjectValueByLocale } from '@/lib/opendocs/utils/locale'
+import { useDocsConfig } from '@/lib/shaddy/hooks/use-docs-config'
+import { useBlogConfig } from '@/lib/shaddy/hooks/use-blog-config'
+import { useTypedHooksConfig } from '@/lib/shaddy/hooks/use-typed-hooks-config'
+import { getObjectValueByLocale } from '@/lib/shaddy/utils/locale'
 import { allBlogs } from 'contentlayer/generated'
 
 interface CommandMenuProps extends AlertDialogProps {

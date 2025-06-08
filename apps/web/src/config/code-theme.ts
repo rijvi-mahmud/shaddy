@@ -1,4 +1,4 @@
-import type { CodeThemeConfig } from '@/lib/opendocs/types/code-theme'
+import type { CodeThemeConfig } from '@/lib/shaddy/types/code-theme'
 
 export const localCodeThemes = ['Github Dark', 'Aura Theme'] as const
 

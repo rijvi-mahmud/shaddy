@@ -1,9 +1,9 @@
 import { CopyButton, CopyNpmCommandButton } from './mdx-components/copy-button'
 
-import { highlightServerCode } from '@/lib/opendocs/utils/code-theme'
+import { highlightServerCode } from '@/lib/shaddy/utils/code-theme'
 import { cn } from '@/lib/utils'
 
-import type { NpmCommands } from '@/lib/opendocs/types/unist'
+import type { NpmCommands } from '@/lib/shaddy/types/unist'
 
 export const InstallationBox = async ({
   theme,

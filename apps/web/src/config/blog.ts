@@ -1,4 +1,4 @@
-import type { BlogConfig } from '../lib/opendocs/types/blog'
+import type { BlogConfig } from '../lib/shaddy/types/blog'
 
 export const blogConfig: BlogConfig = {
   mainNav: [

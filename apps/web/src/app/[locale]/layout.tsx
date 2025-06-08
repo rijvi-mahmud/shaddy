@@ -1,11 +1,11 @@
 import { setRequestLocale } from 'next-intl/server'
 
-import type { LocaleOptions } from '@/lib/opendocs/types/i18n'
+import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
 import type { Metadata, Viewport } from 'next'
 
 import '@/styles/globals.css'
 
-import { getObjectValueByLocale } from '@/lib/opendocs/utils/locale'
+import { getObjectValueByLocale } from '@/lib/shaddy/utils/locale'
 import { ThemeProvider } from '@/components/theme-provider'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'

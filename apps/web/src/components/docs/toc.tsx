@@ -3,8 +3,8 @@
 import { useMemo, useEffect, useState } from 'react'
 import { ExternalLink } from 'lucide-react'
 
-import { useMounted } from '@/lib/opendocs/hooks/use-mounted'
-import { TableOfContents } from '@/lib/opendocs/utils/toc'
+import { useMounted } from '@/lib/shaddy/hooks/use-mounted'
+import { TableOfContents } from '@/lib/shaddy/utils/toc'
 import { Separator } from '@/components/ui/separator'
 import { siteConfig } from '@/config/site'
 import { cn } from '@/lib/utils'

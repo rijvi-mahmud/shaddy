@@ -1,7 +1,7 @@
 import { CopyButton, CopyNpmCommandButton } from './copy-button'
 import { cn } from '@/lib/utils'
 
-import type { NpmCommands } from '@/lib/opendocs/types/unist'
+import type { NpmCommands } from '@/lib/shaddy/types/unist'
 
 export const pre = ({
   className,

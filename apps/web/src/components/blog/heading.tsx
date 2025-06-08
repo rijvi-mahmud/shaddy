@@ -1,10 +1,10 @@
 import Balancer from 'react-wrap-balancer'
 
-import type { LocaleOptions } from '@/lib/opendocs/types/i18n'
+import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
 import type { Blog } from 'contentlayer/generated'
 
 import { DocNotAvailableInThisLanguage } from '../docs/not-available'
-import { getObjectValueByLocale } from '@/lib/opendocs/utils/locale'
+import { getObjectValueByLocale } from '@/lib/shaddy/utils/locale'
 import { cn, formatDate } from '@/lib/utils'
 import { dateLocales } from '@/config/i18n'
 import { ReadTime } from './read-time'

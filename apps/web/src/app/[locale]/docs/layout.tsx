@@ -1,10 +1,10 @@
 import { setRequestLocale } from 'next-intl/server'
 
-import { getServerDocsConfig } from '@/lib/opendocs/utils/get-server-docs-config'
+import { getServerDocsConfig } from '@/lib/shaddy/utils/get-server-docs-config'
 import { DocsSidebarNav } from '@/components/docs/sidebar-nav'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-import type { LocaleOptions } from '@/lib/opendocs/types/i18n'
+import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
 
 interface DocsLayoutProps {
   children: React.ReactNode

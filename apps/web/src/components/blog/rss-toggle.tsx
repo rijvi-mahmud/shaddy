@@ -5,7 +5,7 @@ import { useLocale } from 'next-intl'
 import ExternalLink from 'next/link'
 import { Rss } from 'lucide-react'
 
-import { useIsMobile } from '@/lib/opendocs/hooks/use-is-mobile'
+import { useIsMobile } from '@/lib/shaddy/hooks/use-is-mobile'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { blogConfig } from '@/config/blog'
 import { cn } from '@/lib/utils'

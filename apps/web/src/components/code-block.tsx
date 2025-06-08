@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react'
 
-import { highlightServerCode } from '@/lib/opendocs/utils/code-theme'
+import { highlightServerCode } from '@/lib/shaddy/utils/code-theme'
 import { cn } from '@/lib/utils'
 
 type CodeBlockProps = ComponentProps<'div'> & {

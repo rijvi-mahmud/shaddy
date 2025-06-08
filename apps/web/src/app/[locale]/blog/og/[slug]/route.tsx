@@ -2,7 +2,7 @@
 
 import { ImageResponse } from 'next/og'
 
-import type { LocaleOptions } from '@/lib/opendocs/types/i18n'
+import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
 import type { NextRequest } from 'next/server'
 
 import { allBlogs, type Blog } from 'contentlayer/generated'

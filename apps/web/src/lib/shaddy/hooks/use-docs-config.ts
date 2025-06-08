@@ -1,36 +1,35 @@
 import { useEffect, useState } from 'react'
 import { useLocale } from 'next-intl'
 
-import type { BlogConfig } from '@/lib/opendocs/types/blog'
+import type { DocsConfig } from '@/lib/shaddy/types/docs'
 import type { LocaleOptions } from '../types/i18n'
 
 import { defaultLocale } from '@/config/i18n'
 
-export function useBlogConfig() {
+export function useDocsConfig() {
   const locale = useLocale() as LocaleOptions
   const currentLocale = locale || defaultLocale
 
-  const [blogConfig, setBlogConfig] = useState<{
+  const [docsConfig, setDocsConfig] = useState<{
     currentLocale: LocaleOptions
-    blog: BlogConfig
+    docs: DocsConfig
   }>({
     currentLocale,
 
-    blog: {
+    docs: {
       mainNav: [],
-      authors: [],
-      rss: [],
+      sidebarNav: [],
     },
   })
 
   useEffect(() => {
-    import(`@/config/blog`).then(({ blogConfig }) => {
-      setBlogConfig({
+    import(`@/config/docs`).then(({ docsConfig }) => {
+      setDocsConfig({
         currentLocale,
-        blog: blogConfig,
+        docs: docsConfig,
       })
     })
   }, [currentLocale])
 
-  return blogConfig
+  return docsConfig
 }

@@ -1,4 +1,4 @@
-export { default } from '@/lib/opendocs/middleware'
+export { default } from '@/lib/shaddy/middleware'
 
 export const config = {
   matcher: [

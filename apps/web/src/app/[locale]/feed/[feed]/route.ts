@@ -2,10 +2,10 @@ import { NextResponse } from 'next/server'
 import { Feed, type Item } from 'feed'
 import { cache } from 'react'
 
-import type { LocaleOptions } from '@/lib/opendocs/types/i18n'
-import type { RSSFeed } from '@/lib/opendocs/types/blog'
+import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
+import type { RSSFeed } from '@/lib/shaddy/types/blog'
 
-import { getObjectValueByLocale } from '@/lib/opendocs/utils/locale'
+import { getObjectValueByLocale } from '@/lib/shaddy/utils/locale'
 import { allBlogs, type Blog } from 'contentlayer/generated'
 import { defaultLocale, locales } from '@/config/i18n'
 import { siteConfig } from '@/config/site'

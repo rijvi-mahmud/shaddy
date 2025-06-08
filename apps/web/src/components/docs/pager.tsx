@@ -1,15 +1,15 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 
-import type { NavItem, NavItemWithChildren } from '@/lib/opendocs/types/nav'
-import type { LocaleOptions } from '@/lib/opendocs/types/i18n'
+import type { NavItem, NavItemWithChildren } from '@/lib/shaddy/types/nav'
+import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
 import type { Doc } from 'contentlayer/generated'
 
 import {
   getSlugWithoutLocale,
   getObjectValueByLocale,
-} from '@/lib/opendocs/utils/locale'
+} from '@/lib/shaddy/utils/locale'
 
-import { getServerDocsConfig } from '@/lib/opendocs/utils/get-server-docs-config'
+import { getServerDocsConfig } from '@/lib/shaddy/utils/get-server-docs-config'
 import { buttonVariants } from '../ui/button'
 import { Link } from '@/navigation'
 import { cn } from '@/lib/utils'

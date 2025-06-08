@@ -151,10 +151,10 @@ importers:
       '@babel/core':
         specifier: ^7.24.9
         version: 7.25.2
-      '@opendocs/eslint-config':
+      '@shaddy/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
-      '@opendocs/typescript-config':
+      '@shaddy/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
       '@types/node':

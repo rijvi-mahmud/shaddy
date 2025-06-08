@@ -7,7 +7,7 @@
  * - src/lib/opendocs/components/docs/pager.tsx
  */
 
-import type { DocsConfig } from '@/lib/opendocs/types/docs'
+import type { DocsConfig } from '@/lib/shaddy/types/docs'
 
 export const typedHooksConfig: DocsConfig = {
   mainNav: [

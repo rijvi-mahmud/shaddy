@@ -1,18 +1,18 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { allDocs } from 'contentlayer/generated'
 
-import type { LocaleOptions } from '@/lib/opendocs/types/i18n'
+import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
 import type { Metadata } from 'next'
 
 import '@/styles/mdx.css'
 
 import { DashboardTableOfContents } from '@/components/docs/toc'
 import { DocumentNotFound } from '@/components/docs/not-found'
-import { getTableOfContents } from '@/lib/opendocs/utils/toc'
+import { getTableOfContents } from '@/lib/shaddy/utils/toc'
 import { DocBreadcrumb } from '@/components/docs/breadcrumb'
-import { getDocFromParams } from '@/lib/opendocs/utils/doc'
+import { getDocFromParams } from '@/lib/shaddy/utils/doc'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { DocPageProps } from '@/lib/opendocs/types/docs'
+import { DocPageProps } from '@/lib/shaddy/types/docs'
 import { DocHeading } from '@/components/docs/heading'
 import { DocsPager } from '@/components/docs/pager'
 import { DocLinks } from '@/components/docs/links'

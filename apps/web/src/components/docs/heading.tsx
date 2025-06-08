@@ -1,6 +1,6 @@
 import Balancer from 'react-wrap-balancer'
 
-import type { LocaleOptions } from '@/lib/opendocs/types/i18n'
+import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
 
 import { DocNotAvailableInThisLanguage } from './not-available'
 

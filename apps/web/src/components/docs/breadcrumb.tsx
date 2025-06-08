@@ -1,11 +1,11 @@
 import { ChevronRightIcon } from 'lucide-react'
 import { Fragment } from 'react'
 
-import type { LocaleOptions } from '@/lib/opendocs/types/i18n'
+import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
 import type { Doc } from 'contentlayer/generated'
 
-import { getObjectValueByLocale } from '@/lib/opendocs/utils/locale'
-import { getBreadcrumb } from '@/lib/opendocs/utils/doc'
+import { getObjectValueByLocale } from '@/lib/shaddy/utils/locale'
+import { getBreadcrumb } from '@/lib/shaddy/utils/doc'
 import { defaultLocale } from '@/config/i18n'
 import { Link } from '@/navigation'
 

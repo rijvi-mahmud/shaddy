@@ -1,4 +1,4 @@
-import type { Locales, LocalizedRecord } from '@/lib/opendocs/types/i18n'
+import type { Locales, LocalizedRecord } from '@/lib/shaddy/types/i18n'
 
 export const defaultLocale = 'en' as const
 

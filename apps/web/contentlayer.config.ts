@@ -5,7 +5,7 @@ import { visit } from 'unist-util-visit'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 
-import type { BlogConfig } from './src/lib/opendocs/types/blog'
+import type { BlogConfig } from './src/lib/shaddy/types/blog'
 
 import {
   makeSource,
@@ -14,8 +14,8 @@ import {
   type ComputedFields,
 } from 'contentlayer2/source-files'
 
-import { rehypeNpmCommand } from './src/lib/opendocs/utils/rehype-npm-command'
-import { getContentLayerCodeTheme } from './src/lib/opendocs/utils/code-theme'
+import { rehypeNpmCommand } from './src/lib/shaddy/utils/rehype-npm-command'
+import { getContentLayerCodeTheme } from './src/lib/shaddy/utils/code-theme'
 import { blogConfig } from './src/config/blog'
 
 const docComputedFields: ComputedFields = {

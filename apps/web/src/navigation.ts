@@ -1,1 +1,1 @@
-export * from '@/lib/opendocs/navigation'
+export * from '@/lib/shaddy/navigation'

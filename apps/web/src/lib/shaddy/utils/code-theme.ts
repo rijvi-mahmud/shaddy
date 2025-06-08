@@ -8,7 +8,7 @@ import { toKebabCase } from './to-kebab-case'
 import type {
   CodeTheme,
   CodeThemeLanguage,
-} from '@/lib/opendocs/types/code-theme'
+} from '@/lib/shaddy/types/code-theme'
 
 const localThemes = codeThemeConfig.localThemes
 

@@ -1,5 +1,5 @@
 {
-  "extends": "@opendocs/typescript-config/nextjs.json",
+  "extends": "@shaddy/typescript-config/nextjs.json",
   "compilerOptions": {
     "plugins": [
       {

@@ -9,8 +9,8 @@ import {
   SheetContent,
 } from '@/components/ui/sheet'
 
-import { getObjectValueByLocale } from '@/lib/opendocs/utils/locale'
-import { useDocsConfig } from '@/lib/opendocs/hooks/use-docs-config'
+import { getObjectValueByLocale } from '@/lib/shaddy/utils/locale'
+import { useDocsConfig } from '@/lib/shaddy/hooks/use-docs-config'
 import { DocsSidebarNav } from './docs/sidebar-nav'
 import { ScrollArea } from './ui/scroll-area'
 import { siteConfig } from '@/config/site'
@@ -19,7 +19,7 @@ import { MobileLink } from './mobile-link'
 import { blogConfig } from '@/config/blog'
 import { usePathname } from '@/navigation'
 import { Button } from './ui/button'
-import { useTypedHooksConfig } from '@/lib/opendocs/hooks/use-typed-hooks-config'
+import { useTypedHooksConfig } from '@/lib/shaddy/hooks/use-typed-hooks-config'
 
 interface MobileNavProps {
   menuLinks: JSX.Element

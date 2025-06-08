@@ -1,5 +1,5 @@
 {
-  "name": "opendocs",
+  "name": "shaddy",
   "private": true,
   "scripts": {
     "build": "turbo build",
