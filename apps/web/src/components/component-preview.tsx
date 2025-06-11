@@ -4,36 +4,22 @@ import * as React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ThemeModeToggle } from './theme-mode-toggle'
 import { CopyButton } from './copy-button'
-import { Button } from '@/components/ui/button' // Import your components here
+import { registry } from '@shaddy/registry'
 
 interface ComponentPreviewProps {
   name: string
   className?: string
 }
 
-// Example mapping
-const EXAMPLES: Record<string, { component: React.ReactNode; code: string }> = {
-  button: {
-    component: (
-      <div className="flex flex-wrap items-center gap-2 md:flex-row">
-        <Button>Button</Button>
-      </div>
-    ),
-    code: `<div className="flex flex-wrap items-center gap-2 md:flex-row">
-  <Button>Button</Button>
-</div>`,
-  },
-  // Add more mappings as needed
-}
-
 export function ComponentPreview({ name, className }: ComponentPreviewProps) {
-  const example = EXAMPLES[name]
+  const example = registry[name]
 
   if (!example) {
     return <div>Example not found for "{name}"</div>
   }
 
-  const { component, code } = example
+  const Component = example.component
+  const code = example.sourceCode
 
   return (
     <div className={`relative ${className}`}>
@@ -72,18 +58,13 @@ export function ComponentPreview({ name, className }: ComponentPreviewProps) {
             className={`preview flex min-h-[350px] w-full justify-center p-10 overflow-auto`}
           >
             <div className={`flex items-center justify-center w-full`}>
-              {component}
+              <Component />
             </div>
           </div>
           {/* Render CodeBlock here (hidden) to precompute code highlighting */}
           {code && (
             <div style={{ display: 'none' }}>
-              <CodeBlock
-                code={code}
-                language="tsx"
-                theme="github-dark"
-                component={component}
-              />
+              <CodeBlock code={code} language="tsx" theme="github-dark" />
             </div>
           )}
         </TabsContent>
@@ -96,12 +77,7 @@ export function ComponentPreview({ name, className }: ComponentPreviewProps) {
                   className="absolute right-4 top-4 z-10 h-8 w-8 p-0 hover:bg-background"
                 />
                 <div className="overflow-hidden rounded-lg">
-                  <CodeBlock
-                    code={code}
-                    language="tsx"
-                    theme="github-dark"
-                    component={component}
-                  />
+                  <CodeBlock code={code} language="tsx" theme="github-dark" />
                 </div>
               </div>
             )}
@@ -116,10 +92,9 @@ interface CodeBlockProps {
   code: string
   language: string
   theme: string
-  component?: React.ReactNode
 }
 
-function CodeBlock({ code, language, theme, component }: CodeBlockProps) {
+function CodeBlock({ code, language, theme }: CodeBlockProps) {
   const [html, setHtml] = React.useState<string>('')
   const [loading, setLoading] = React.useState(false)
 
@@ -140,7 +115,7 @@ function CodeBlock({ code, language, theme, component }: CodeBlockProps) {
         })
         .finally(() => setLoading(false))
     })
-  }, [code, language, theme, component])
+  }, [code, language, theme])
 
   if (!code) return null
 
