@@ -1,4 +1,5 @@
-import { useBoolean } from "@shaddy/use-typed-hooks/src/hooks"
+"use client"
+import { useBoolean } from "@shaddy/use-typed-hooks/hooks"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
