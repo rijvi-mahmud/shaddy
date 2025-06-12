@@ -1,5 +1,5 @@
 'use client'
-import { useBoolean } from '@shaddy/use-typed-hooks/hooks'
+import { useBoolean } from '../../hooks/use-boolean'
 import {
   Card,
   CardContent,
