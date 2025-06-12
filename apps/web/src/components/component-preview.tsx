@@ -22,7 +22,7 @@ export function ComponentPreview({ name, className }: ComponentPreviewProps) {
   const code = example.sourceCode
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative ${className} py-2 pt-4`}>
       <Tabs defaultValue="preview" className="relative mr-auto w-full">
         <div className="flex items-center justify-between pb-3">
           <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0">

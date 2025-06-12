@@ -39,100 +39,108 @@ export const typedHooksConfig: DocsConfig = {
 
           items: [],
         },
-
         {
-          href: '/typed-hooks/adding-new-hooks',
-
+          href: '/typed-hooks/use-boolean',
           title: {
-            en: 'Adding new hooks',
-            pt: 'Adicionando novos hooks',
+            en: 'useBoolean',
+            pt: 'useBoolean',
           },
-
           items: [],
         },
 
-        {
-          href: '/typed-hooks/customizing',
+        // {
+        //   href: '/typed-hooks/adding-new-hooks',
 
-          title: {
-            en: 'Customizing',
-            pt: 'Personalizando',
-          },
+        //   title: {
+        //     en: 'Adding new hooks',
+        //     pt: 'Adicionando novos hooks',
+        //   },
 
-          items: [],
-        },
+        //   items: [],
+        // },
 
-        {
-          title: {
-            en: 'MDX',
-          },
+        // {
+        //   href: '/typed-hooks/customizing',
 
-          label: {
-            en: 'New',
-            pt: 'Novo',
-          },
+        //   title: {
+        //     en: 'Customizing',
+        //     pt: 'Personalizando',
+        //   },
 
-          items: [
-            {
-              href: '/typed-hooks/mdx/frontmatter',
+        //   items: [],
+        // },
 
-              title: {
-                en: 'Frontmatter',
-                pt: 'Cabeçalho de metadados',
-              },
+        // {
+        //   title: {
+        //     en: 'MDX',
+        //   },
 
-              label: {
-                en: 'New',
-                pt: 'Novo',
-              },
+        //   label: {
+        //     en: 'New',
+        //     pt: 'Novo',
+        //   },
 
-              items: [],
-            },
+        //   items: [
+        //     {
+        //       href: '/typed-hooks/mdx/frontmatter',
 
-            {
-              href: '/typed-hooks/mdx/code',
+        //       title: {
+        //         en: 'Frontmatter',
+        //         pt: 'Cabeçalho de metadados',
+        //       },
 
-              title: {
-                en: 'Code',
-                pt: 'Código',
-              },
+        //       label: {
+        //         en: 'New',
+        //         pt: 'Novo',
+        //       },
 
-              label: {
-                en: 'New',
-                pt: 'Novo',
-              },
+        //       items: [],
+        //     },
 
-              items: [],
-            },
+        //     {
+        //       href: '/typed-hooks/mdx/code',
 
-            {
-              href: '/typed-hooks/mdx/components',
+        //       title: {
+        //         en: 'Code',
+        //         pt: 'Código',
+        //       },
 
-              title: {
-                en: 'Components',
-                pt: 'Componentes',
-              },
+        //       label: {
+        //         en: 'New',
+        //         pt: 'Novo',
+        //       },
 
-              label: {
-                en: 'New',
-                pt: 'Novo',
-              },
+        //       items: [],
+        //     },
 
-              items: [],
-            },
-          ],
-        },
+        //     {
+        //       href: '/typed-hooks/mdx/components',
 
-        {
-          href: '/typed-hooks/changelog',
+        //       title: {
+        //         en: 'Components',
+        //         pt: 'Componentes',
+        //       },
 
-          title: {
-            en: 'Changelog',
-            pt: 'Histórico de alterações',
-          },
+        //       label: {
+        //         en: 'New',
+        //         pt: 'Novo',
+        //       },
 
-          items: [],
-        },
+        //       items: [],
+        //     },
+        //   ],
+        // },
+
+        // {
+        //   href: '/typed-hooks/changelog',
+
+        //   title: {
+        //     en: 'Changelog',
+        //     pt: 'Histórico de alterações',
+        //   },
+
+        //   items: [],
+        // },
       ],
     },
   ],

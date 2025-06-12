@@ -1,4 +1,4 @@
-import { UseBooleanExample } from './components/hooks-example/useBooleanExample'
+import { UseBooleanExample } from './examples/hooks-example/useBooleanExample'
 import { ComponentType } from 'react'
 
 type RegistryItem = {
