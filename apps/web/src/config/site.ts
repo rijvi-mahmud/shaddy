@@ -39,7 +39,7 @@ export const siteConfig = {
 
     github: {
       label: 'GitHub',
-      url: 'https://github.com/rijvi-mahmud/opendocs',
+      url: 'https://github.com/rijvi-mahmud/shaddy',
     },
   },
 } as const
