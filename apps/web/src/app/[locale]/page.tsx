@@ -42,7 +42,7 @@ export default async function IndexPage({
         <PageHeaderDescription>{t('site.description')}</PageHeaderDescription>
 
         <PageActions className="flex-wrap gap-3 sm:gap-0">
-          <Link href="/docs" className={cn(buttonVariants())}>
+          <Link href="/typed-hooks" className={cn(buttonVariants())}>
             {t('site.buttons.get_started')}
           </Link>
 
