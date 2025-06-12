@@ -33,13 +33,13 @@ export const siteConfig = {
   links: {
     twitter: {
       label: 'Twitter',
-      username: '@daltonmenezes',
-      url: 'https://twitter.com/daltonmenezes',
+      username: '@rijvi-mahmud',
+      url: 'https://twitter.com/rijvi-mahmud',
     },
 
     github: {
       label: 'GitHub',
-      url: 'https://github.com/daltonmenezes/opendocs',
+      url: 'https://github.com/rijvi-mahmud/opendocs',
     },
   },
 } as const
