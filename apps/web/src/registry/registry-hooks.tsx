@@ -1,18 +1,17 @@
-import { UseBooleanExample } from "./components/hooks-example/useBooleanExample";
-import { ComponentType } from "react";
-
+import { UseBooleanExample } from './components/hooks-example/useBooleanExample'
+import { ComponentType } from 'react'
 
 type RegistryItem = {
-  component: ComponentType;
-  sourceCode?: string;
-  description?: string;
-};
+  component: ComponentType
+  sourceCode?: string
+  description?: string
+}
 
 // Registry object mapping hook names to their example components
 export const registryHooks: Record<string, RegistryItem> = {
-  "use-boolean": {
+  'use-boolean': {
     component: UseBooleanExample,
-    description: "A hook for managing boolean state with utility functions",
+    description: 'A hook for managing boolean state with utility functions',
     sourceCode: `import { useBoolean } from "@/hooks/use-boolean";
 
 export const UseBooleanExample = () => {
@@ -71,6 +70,6 @@ export const UseBooleanExample = () => {
       </div>
     </div>
   )
-}`
+}`,
   },
-};
+}

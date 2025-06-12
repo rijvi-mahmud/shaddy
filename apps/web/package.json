@@ -29,7 +29,7 @@
     "@radix-ui/react-tooltip": "^1.1.2",
     "@vercel/analytics": "^1.5.0",
     "class-variance-authority": "^0.7.0",
-    "@shaddy/registry": "workspace:*",
+    "@shaddy/use-typed-hooks": "workspace:*",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "contentlayer2": "^0.5.4",

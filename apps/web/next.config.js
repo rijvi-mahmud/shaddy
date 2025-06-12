@@ -4,6 +4,7 @@ const { createContentlayerPlugin } = require('next-contentlayer2')
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  transpilePackages: ['@shaddy/use-typed-hooks'],
 }
 
 const withContentlayer = createContentlayerPlugin({})
