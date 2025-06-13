@@ -43,7 +43,7 @@ export function ComponentPreview({ name, className }: ComponentPreviewProps) {
           </TabsList>
         </div>
         <TabsContent value="preview" className="relative rounded-md border">
-          <div className="flex items-center justify-between p-4">
+          <div className="flex items-center justify-between pt-4 pl-4">
             <div className="flex items-center space-x-2">
               <ThemeModeToggle
                 messages={{

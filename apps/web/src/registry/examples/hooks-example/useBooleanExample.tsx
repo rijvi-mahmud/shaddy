@@ -1,94 +1,90 @@
 'use client'
 import { useBoolean } from '../../hooks/use-boolean'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import {
+  CheckCircle2,
+  XCircle,
+  RotateCcw,
+  RefreshCw,
+  ToggleLeft,
+} from 'lucide-react'
 
 export const UseBooleanExample = () => {
   const [value, { setValue, toggle, setTrue, setFalse, reset, getValue }] =
     useBoolean(false)
 
   return (
-    <Card className="mx-auto p-0! m-0!">
-      <CardHeader className="pb-3 space-y-1">
-        <CardTitle className="text-xl font-semibold tracking-tight">
-          useBoolean Hook
+    <Card className="mx-auto border shadow-sm transition-all duration-200">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-center flex flex-col items-center gap-3">
+          <h6 className="text-sm uppercase tracking-wide text-muted-foreground font-medium">
+            Current value
+          </h6>
+          <div key={value.toString()}>
+            <Badge
+              variant={value ? 'default' : 'destructive'}
+              className="px-4 py-1 text-sm font-medium"
+            >
+              {value ? 'true' : 'false'}
+            </Badge>
+          </div>
         </CardTitle>
       </CardHeader>
-
-      <CardContent className="space-y-6 pt-1">
-        <div className="flex items-center gap-3">
-          <span className="text-sm font-medium text-muted-foreground">
-            Current value:
-          </span>
-          <Badge
-            variant={value ? 'outline' : 'destructive'}
-            className="font-mono text-xs px-3 py-0.5"
-          >
-            {value ? 'true' : 'false'}
-          </Badge>
-        </div>
-
-        <div className="flex flex-wrap gap-3">
+      <CardContent className="pt-6">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           <Button
             variant="outline"
             size="sm"
             onClick={setTrue}
-            className="h-8 px-4 font-medium"
+            className="h-9 font-medium transition-colors hover:bg-primary/10 hover:text-primary hover:border-primary/20 flex items-center justify-center gap-2"
           >
-            Set True
+            <CheckCircle2 className="h-4 w-4" /> Set True
           </Button>
 
           <Button
             variant="outline"
             size="sm"
             onClick={setFalse}
-            className="h-8 px-4 font-medium"
+            className="h-9 font-medium transition-colors hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20 flex items-center justify-center gap-2"
           >
-            Set False
+            <XCircle className="h-4 w-4" /> Set False
           </Button>
 
           <Button
             variant="secondary"
             size="sm"
             onClick={toggle}
-            className="h-8 px-4 font-medium"
+            className="h-9 font-medium transition-colors flex items-center justify-center gap-2"
           >
-            Toggle
+            <ToggleLeft className="h-4 w-4" /> Toggle
           </Button>
 
           <Button
             variant="ghost"
             size="sm"
             onClick={reset}
-            className="h-8 px-4 font-medium"
+            className="h-9 font-medium transition-colors flex items-center justify-center gap-2"
           >
-            Reset
+            <RotateCcw className="h-4 w-4" /> Reset
           </Button>
 
           <Button
             variant="default"
             size="sm"
             onClick={() => setValue(!getValue())}
-            className="h-8 px-4 font-medium"
+            className="h-9 font-medium transition-colors col-span-1 sm:col-span-2 flex items-center justify-center gap-2"
+            title="Same as toggle but using setValue and getValue methods"
           >
-            Set Opposite
+            <RefreshCw className="h-4 w-4" /> Set Opposite (Alternative)
           </Button>
         </div>
+        <div className="mt-3 text-xs text-muted-foreground">
+          Note: "Toggle" and "Set Opposite" perform the same action but use
+          different hook methods.
+        </div>
       </CardContent>
-
-      <CardFooter className="pt-2 border-t">
-        <CardDescription className="text-xs leading-relaxed pt-2">
-          This example demonstrates all methods provided by the useBoolean hook.
-        </CardDescription>
-      </CardFooter>
     </Card>
   )
 }

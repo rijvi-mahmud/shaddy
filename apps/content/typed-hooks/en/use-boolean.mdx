@@ -1,41 +1,89 @@
 ---
-title: useBoolean Hook
+title: useBoolean
 description: A custom React hook for managing boolean state values in a convenient way.
 ---
 
+# useBoolean
+
+Welcome to the documentation for `useBoolean`, a helpful custom React hook designed to make managing boolean state values more convenient than the standard `useState`.
+
+This hook provides an elegant way to toggle, set, and reset boolean values, making it particularly useful for UI components that require simple on/off states, such as toggles, switches, modals, and collapsible sections.
 
 
-`useBoolean` is a custom React hook that provides utilities for managing boolean state values in a more convenient way than the standard `useState`.
-
-It allows you to easily toggle, set, and reset boolean values, making it particularly useful for UI components that require simple on/off states, such as toggles, switches, and modals.
-
-### useBoolean
 <ComponentPreview name="use-boolean"/>
 
-### Installation
+## Implementation
 
-The hook is included with the template. You can import it directly in your components:
+If you'd like to use this hook in your project, please copy the following code:
+
+```tsx
+import { useCallback, useState } from 'react'
+
+type BooleanHookReturnProps = {
+  setValue: (value: boolean) => void
+  toggle: () => void
+  setTrue: () => void
+  setFalse: () => void
+  reset: () => void
+  getValue: () => boolean
+}
+
+/**
+ * A custom hook that manages a boolean state.
+ * @param initialValue - The initial value of the boolean state.
+ * @returns An object containing:
+ * - `value`: The current boolean state.
+ * - `setValue`: A function to set the state to a specific value.
+ * - `toggle`: A function to toggle the state between true and false.
+ * - `setTrue`: A function to set the state to true.
+ * - `setFalse`: A function to set the state to false.
+ * - `reset`: A function to reset the state to its initial value.
+ * - `getValue`: A function to retrieve the current state value.
+ */
+
+type useBooleanReturnType = [boolean, BooleanHookReturnProps]
+type UseBoolean = (initialValue: boolean) => useBooleanReturnType
+
+export const useBoolean: UseBoolean = (initialValue) => {
+  const [value, setValue] = useState(initialValue)
+
+  const toggle = () => setValue((prev) => !prev)
+  const setTrue = () => setValue(true)
+  const setFalse = () => setValue(false)
+  const getValue = useCallback(() => value, [value])
+
+  const reset = () => setValue(initialValue)
+
+  return [value, { toggle, setTrue, setFalse, reset, getValue, setValue }]
+}
+```
+
+## Importing the Hook
+
+After copying the code to your project, you can import it like this:
 
 ```tsx
 import { useBoolean } from "@/hooks/use-boolean";
+// or
+import { useBoolean } from "src/hooks/use-boolean";
 ```
 
-### Usage
+## Basic Usage
 
 ```tsx
 const [value, { toggle, setTrue, setFalse, reset, setValue, getValue }] = useBoolean(false);
 ```
 
-### Parameters
+## Parameters
 
-- `initialValue` (boolean): The initial state value.
+- `initialValue` (boolean): The initial state value you'd like to start with.
 
-### Return Value
+## Return Value
 
 The hook returns an array with two elements:
 
 1. `value` (boolean): The current state value.
-2. An object containing the following methods:
+2. An object containing the following convenient methods:
    - `setValue(value: boolean)`: Sets the state to a specific boolean value.
    - `toggle()`: Toggles the state between true and false.
    - `setTrue()`: Sets the state to true.
@@ -43,9 +91,9 @@ The hook returns an array with two elements:
    - `reset()`: Resets the state to its initial value.
    - `getValue()`: Returns the current state value.
 
-### Examples
+## Examples
 
-#### Basic Usage
+### Basic Toggle Example
 
 ```tsx
 import { useBoolean } from "@/hooks/use-boolean";
@@ -65,7 +113,7 @@ function ToggleComponent() {
 }
 ```
 
-#### Using Multiple Control Functions
+### Using Multiple Control Functions
 
 ```tsx
 import { useBoolean } from "@/hooks/use-boolean";
@@ -89,7 +137,7 @@ function ExpandableSection() {
 }
 ```
 
-#### Form Submission Example
+### Form Submission Example
 
 ```tsx
 import { useBoolean } from "@/hooks/use-boolean";
