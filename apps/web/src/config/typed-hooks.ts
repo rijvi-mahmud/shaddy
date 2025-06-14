@@ -45,6 +45,22 @@ export const typedHooksConfig: DocsConfig = {
             en: 'useBoolean',
             pt: 'useBoolean',
           },
+          label: {
+            en: 'New',
+            pt: 'Novo',
+          },
+          items: [],
+        },
+        {
+          href: '/typed-hooks/use-default',
+          title: {
+            en: 'useDefault',
+            pt: 'useDefault',
+          },
+          label: {
+            en: 'New',
+            pt: 'Novo',
+          },
           items: [],
         },
 
