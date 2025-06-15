@@ -2,7 +2,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 
 import type { NavItem, NavItemWithChildren } from '@/lib/shaddy/types/nav'
 import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
-import type { Doc } from 'contentlayer/generated'
 
 import {
   getSlugWithoutLocale,
@@ -13,16 +12,22 @@ import { getServerDocsConfig } from '@/lib/shaddy/utils/get-server-docs-config'
 import { buttonVariants } from '../ui/button'
 import { Link } from '@/navigation'
 import { cn } from '@/lib/utils'
+import { DocsConfig } from '@/lib/shaddy/types/docs'
 
 interface DocsPagerProps {
-  doc: Doc
+  doc: {
+    slugAsParams: string
+    slug: string
+  }
   locale: LocaleOptions
+  config: DocsConfig
 }
 
-export async function DocsPager({ doc, locale }: DocsPagerProps) {
+export async function DocsPager({ doc, locale, config }: DocsPagerProps) {
   const pager = await getPagerForCurrentDoc({
     doc,
     locale,
+    config,
   })
 
   if (!pager) {
@@ -59,11 +64,16 @@ export async function DocsPager({ doc, locale }: DocsPagerProps) {
 export async function getPagerForCurrentDoc({
   doc,
   locale,
+  config,
 }: {
-  doc: Doc
+  doc: {
+    slugAsParams: string
+    slug: string
+  }
   locale: LocaleOptions
+  config: DocsConfig
 }) {
-  const docsConfig = await getServerDocsConfig({ locale })
+  const docsConfig = await getServerDocsConfig({ locale, config })
   const flattenedLinks = [null, ...flatten(docsConfig.docs.sidebarNav), null]
 
   const slugWithoutLocaleFolder = getSlugWithoutLocale(doc.slug, 'docs')

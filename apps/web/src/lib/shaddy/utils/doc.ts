@@ -1,11 +1,8 @@
-import { type Doc, allDocs } from 'contentlayer/generated'
-
 import type { NavItem, SidebarNavItem } from '../types/nav'
-import type { DocPageProps } from '../types/docs'
+import type { DocPageProps, DocsConfig } from '../types/docs'
 
 import { getSlugWithoutLocale } from './locale'
 import { defaultLocale } from '@/config/i18n'
-import { docsConfig } from '@/config/docs'
 
 export function makeLocalizedSlug({ locale, slug }: DocPageProps['params']) {
   const _slug = slug?.join('/')
@@ -16,11 +13,14 @@ export function makeLocalizedSlug({ locale, slug }: DocPageProps['params']) {
   return localizedSlug
 }
 
-export async function getDocFromParams({
+export async function getDocFromParams<T extends { slugAsParams: string }>({
   params,
-}: DocPageProps): Promise<(Doc & { notAvailable: boolean }) | null> {
+  data,
+}: DocPageProps & {
+  data: T[]
+}): Promise<(T & { notAvailable: boolean }) | null> {
   let localizedSlug = makeLocalizedSlug(params)
-  let doc = allDocs.find((doc) => doc.slugAsParams === localizedSlug)
+  let doc = data.find((doc) => doc.slugAsParams === localizedSlug)
 
   if (!doc) {
     localizedSlug = makeLocalizedSlug({
@@ -28,7 +28,7 @@ export async function getDocFromParams({
       locale: defaultLocale,
     })
 
-    doc = allDocs.find((doc) => doc.slugAsParams === localizedSlug)
+    doc = data.find((doc) => doc.slugAsParams === localizedSlug)
 
     return doc ? { ...doc, notAvailable: true } : null
   }
@@ -36,8 +36,12 @@ export async function getDocFromParams({
   return { ...doc, notAvailable: false }
 }
 
-export function getBreadcrumb(docSlug: string) {
-  const slug = getSlugWithoutLocale(docSlug, 'docs')
+export function getBreadcrumb(
+  docSlug: string,
+  docsConfig: DocsConfig,
+  rootPath: string
+) {
+  const slug = getSlugWithoutLocale(docSlug, rootPath)
 
   const findBreadcrumbPath = (
     items: SidebarNavItem[],
@@ -65,7 +69,7 @@ export function getBreadcrumb(docSlug: string) {
 
   const makeBreadcrumb = (
     slug: string,
-    config: typeof docsConfig
+    config: DocsConfig
   ): NavItem[] | null => {
     for (const nav of config.sidebarNav) {
       const path = findBreadcrumbPath([nav], slug)

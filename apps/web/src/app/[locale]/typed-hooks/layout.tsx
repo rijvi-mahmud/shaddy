@@ -4,7 +4,8 @@ import { DocsSidebarNav } from '@/components/docs/sidebar-nav'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
 import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
-import { getServerTypedHooksConfig } from '@/lib/shaddy/utils/get-server-typed-hooks-config'
+import { getServerDocsConfig } from '@/lib/shaddy/utils/get-server-docs-config'
+import { typedHooksConfig as config } from '@/config/typed-hooks'
 
 interface DocsLayoutProps {
   children: React.ReactNode
@@ -21,8 +22,9 @@ export default async function DocsLayout({
 }: DocsLayoutProps) {
   setRequestLocale(params.locale)
 
-  const typedHooksConfig = await getServerTypedHooksConfig({
+  const typedHooksConfig = await getServerDocsConfig({
     locale: params.locale,
+    config,
   })
 
   return (
@@ -31,7 +33,7 @@ export default async function DocsLayout({
         <aside className="h-max-[calc(100vh-3.5rem)] fixed top-14 z-30 -ml-2 hidden w-full shrink-0 md:sticky md:block">
           <ScrollArea className="h-max-[calc(100vh-3.5rem)] h-full min-h-fit py-6 pr-6 lg:py-8">
             <DocsSidebarNav
-              items={typedHooksConfig.hooks.sidebarNav}
+              items={typedHooksConfig.docs.sidebarNav}
               locale={typedHooksConfig.currentLocale}
             />
           </ScrollArea>

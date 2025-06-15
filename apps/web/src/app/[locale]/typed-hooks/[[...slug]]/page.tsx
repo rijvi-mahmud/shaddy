@@ -1,5 +1,5 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { allTypedHooks, type Doc } from 'contentlayer/generated'
+import { allTypedHooks } from 'contentlayer/generated'
 
 import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
 import type { Metadata } from 'next'
@@ -10,7 +10,6 @@ import { DashboardTableOfContents } from '@/components/docs/toc'
 import { DocumentNotFound } from '@/components/docs/not-found'
 import { getTableOfContents } from '@/lib/shaddy/utils/toc'
 import { DocBreadcrumb } from '@/components/docs/breadcrumb'
-import { getDocFromParams } from '@/lib/shaddy/utils/hooks'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { DocPageProps } from '@/lib/shaddy/types/docs'
 import { DocHeading } from '@/components/docs/heading'
@@ -20,6 +19,8 @@ import { defaultLocale } from '@/config/i18n'
 import { Mdx } from '@/components/docs/mdx'
 import { siteConfig } from '@/config/site'
 import { absoluteUrl } from '@/lib/utils'
+import { typedHooksConfig } from '@/config/typed-hooks'
+import { getDocFromParams } from '@/lib/shaddy/utils/doc'
 
 export const dynamicParams = true
 
@@ -30,7 +31,7 @@ export async function generateMetadata({
 
   setRequestLocale(locale || defaultLocale)
 
-  const doc = await getDocFromParams({ params })
+  const doc = await getDocFromParams({ params, data: allTypedHooks })
 
   if (!doc) {
     return {}
@@ -86,8 +87,8 @@ export async function generateStaticParams(): Promise<
 export default async function DocPage({ params }: DocPageProps) {
   setRequestLocale(params.locale || defaultLocale)
 
-  const doc = await getDocFromParams({ params })
-  const t = await getTranslations('docs')
+  const doc = await getDocFromParams({ params, data: allTypedHooks })
+  const t = await getTranslations('typed-hooks')
 
   if (!doc) {
     return (
@@ -105,12 +106,14 @@ export default async function DocPage({ params }: DocPageProps) {
   return (
     <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px] min-h-svh">
       <div className="mx-auto w-full min-w-0">
-        {/* <DocBreadcrumb
+        <DocBreadcrumb
+          docsConfig={typedHooksConfig}
+          rootPath="typed-hooks"
           doc={doc}
           messages={{
             docs: t('docs'),
           }}
-        /> */}
+        />
 
         <DocHeading
           title={doc.title}
@@ -125,7 +128,7 @@ export default async function DocPage({ params }: DocPageProps) {
           <Mdx code={doc.body.code} />
         </div>
 
-        {/* <DocsPager doc={doc} locale={params.locale} /> */}
+        <DocsPager doc={doc} locale={params.locale} config={typedHooksConfig} />
       </div>
 
       {doc.toc && (

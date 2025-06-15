@@ -20,6 +20,7 @@ import { defaultLocale } from '@/config/i18n'
 import { Mdx } from '@/components/docs/mdx'
 import { siteConfig } from '@/config/site'
 import { absoluteUrl } from '@/lib/utils'
+import { docsConfig } from '@/config/docs'
 
 export const dynamicParams = true
 
@@ -30,7 +31,7 @@ export async function generateMetadata({
 
   setRequestLocale(locale || defaultLocale)
 
-  const doc = await getDocFromParams({ params })
+  const doc = await getDocFromParams({ params, data: allDocs })
 
   if (!doc) {
     return {}
@@ -86,7 +87,7 @@ export async function generateStaticParams(): Promise<
 export default async function DocPage({ params }: DocPageProps) {
   setRequestLocale(params.locale || defaultLocale)
 
-  const doc = await getDocFromParams({ params })
+  const doc = await getDocFromParams({ params, data: allDocs })
   const t = await getTranslations('docs')
 
   if (!doc) {
@@ -106,6 +107,8 @@ export default async function DocPage({ params }: DocPageProps) {
     <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
       <div className="mx-auto w-full min-w-0">
         <DocBreadcrumb
+          rootPath="docs"
+          docsConfig={docsConfig}
           doc={doc}
           messages={{
             docs: t('docs'),
@@ -124,7 +127,7 @@ export default async function DocPage({ params }: DocPageProps) {
           <Mdx code={doc.body.code} />
         </div>
 
-        <DocsPager doc={doc} locale={params.locale} />
+        <DocsPager doc={doc} locale={params.locale} config={docsConfig} />
       </div>
 
       {doc.toc && (

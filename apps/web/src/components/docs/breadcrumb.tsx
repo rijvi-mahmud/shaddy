@@ -2,28 +2,37 @@ import { ChevronRightIcon } from 'lucide-react'
 import { Fragment } from 'react'
 
 import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
-import type { Doc } from 'contentlayer/generated'
 
 import { getObjectValueByLocale } from '@/lib/shaddy/utils/locale'
 import { getBreadcrumb } from '@/lib/shaddy/utils/doc'
 import { defaultLocale } from '@/config/i18n'
 import { Link } from '@/navigation'
+import { DocsConfig } from '@/lib/shaddy/types/docs'
 
 interface DocBreadcrumbProps {
-  doc: Doc
+  doc: {
+    slugAsParams: string
+    slug: string
+  }
 
   messages: {
     docs: string
   }
+  docsConfig: DocsConfig
+  rootPath: string
 }
 
-export function DocBreadcrumb({ doc, messages }: DocBreadcrumbProps) {
+export function DocBreadcrumb({
+  doc,
+  messages,
+  docsConfig,
+  rootPath,
+}: DocBreadcrumbProps) {
   const [locale] = (doc.slugAsParams.split('/') || defaultLocale) as [
     LocaleOptions,
   ]
 
-  const breadcrumbItems = getBreadcrumb(doc.slug)
-
+  const breadcrumbItems = getBreadcrumb(doc.slug, docsConfig, rootPath)
   return (
     <div className="text-muted-foreground mb-4 flex items-center space-x-1 text-sm">
       <Link href="/docs" className="text-foreground hover:underline">

@@ -5,6 +5,7 @@ import { DocsSidebarNav } from '@/components/docs/sidebar-nav'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
 import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
+import { docsConfig as siteDocsConfig } from '@/config/docs'
 
 interface DocsLayoutProps {
   children: React.ReactNode
@@ -21,7 +22,10 @@ export default async function DocsLayout({
 }: DocsLayoutProps) {
   setRequestLocale(params.locale)
 
-  const docsConfig = await getServerDocsConfig({ locale: params.locale })
+  const docsConfig = await getServerDocsConfig({
+    locale: params.locale,
+    config: siteDocsConfig,
+  })
 
   return (
     <div className="border-b">

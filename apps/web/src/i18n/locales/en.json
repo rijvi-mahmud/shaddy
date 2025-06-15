@@ -75,6 +75,19 @@
       "title": "Document not found"
     }
   },
+    "typed-hooks": {
+    "on_this_page": "On this page",
+    "edit_page_on_github": "Edit this page on GitHub",
+    "start_discussion_on_github": "Start a discussion on GitHub",
+    "api_reference": "API Reference",
+    "docs": "Typed Hooks",
+    "source": "Source",
+
+    "not_found": {
+      "description": "The document you are looking for does not exist.",
+      "title": "Document not found"
+    }
+  },
 
   "blog": {
     "words": {
