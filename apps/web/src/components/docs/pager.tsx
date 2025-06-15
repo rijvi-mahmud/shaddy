@@ -21,13 +21,20 @@ interface DocsPagerProps {
   }
   locale: LocaleOptions
   config: DocsConfig
+  slugFor: string
 }
 
-export async function DocsPager({ doc, locale, config }: DocsPagerProps) {
+export async function DocsPager({
+  doc,
+  locale,
+  config,
+  slugFor,
+}: DocsPagerProps) {
   const pager = await getPagerForCurrentDoc({
     doc,
     locale,
     config,
+    slugFor,
   })
 
   if (!pager) {
@@ -65,6 +72,7 @@ export async function getPagerForCurrentDoc({
   doc,
   locale,
   config,
+  slugFor,
 }: {
   doc: {
     slugAsParams: string
@@ -72,11 +80,12 @@ export async function getPagerForCurrentDoc({
   }
   locale: LocaleOptions
   config: DocsConfig
+  slugFor: string
 }) {
   const docsConfig = await getServerDocsConfig({ locale, config })
   const flattenedLinks = [null, ...flatten(docsConfig.docs.sidebarNav), null]
 
-  const slugWithoutLocaleFolder = getSlugWithoutLocale(doc.slug, 'docs')
+  const slugWithoutLocaleFolder = getSlugWithoutLocale(doc.slug, slugFor)
 
   const activeIndex = flattenedLinks.findIndex(
     (link) => slugWithoutLocaleFolder === link?.href

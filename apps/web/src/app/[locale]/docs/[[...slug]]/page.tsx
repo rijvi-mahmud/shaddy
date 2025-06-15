@@ -127,7 +127,12 @@ export default async function DocPage({ params }: DocPageProps) {
           <Mdx code={doc.body.code} />
         </div>
 
-        <DocsPager doc={doc} locale={params.locale} config={docsConfig} />
+        <DocsPager
+          doc={doc}
+          locale={params.locale}
+          config={docsConfig}
+          slugFor="docs"
+        />
       </div>
 
       {doc.toc && (

@@ -128,7 +128,12 @@ export default async function DocPage({ params }: DocPageProps) {
           <Mdx code={doc.body.code} />
         </div>
 
-        <DocsPager doc={doc} locale={params.locale} config={typedHooksConfig} />
+        <DocsPager
+          doc={doc}
+          locale={params.locale}
+          config={typedHooksConfig}
+          slugFor="typed-hooks"
+        />
       </div>
 
       {doc.toc && (
