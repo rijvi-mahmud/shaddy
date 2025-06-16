@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
 
 import { ThemeModeToggle } from '@/components/theme-mode-toggle'
 import { Separator } from '@/components/ui/separator'
@@ -16,6 +17,43 @@ import { cn } from '@/lib/utils'
 const CommandMenu = dynamic(() =>
   import('@/components/command-menu').then((mod) => mod.CommandMenu)
 )
+
+const githubStars = async () => {
+  try {
+    const repoPath = siteConfig.links.github.url.replace(
+      'https://github.com/',
+      ''
+    )
+
+    const response = await fetch(`https://api.github.com/repos/${repoPath}`, {
+      headers: {
+        Accept: 'application/vnd.github.v3+json',
+      },
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    })
+
+    if (!response.ok) {
+      throw new Error(`GitHub API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data.stargazers_count
+  } catch (error) {
+    console.error('Error fetching GitHub stars:', error)
+    return null
+  }
+}
+
+// GitHub Stars component with loading state
+const GitHubStars = async () => {
+  const stars = await githubStars()
+
+  if (stars === null) {
+    return null
+  }
+
+  return <span className="font-medium">{stars.toLocaleString()}</span>
+}
 
 export async function SiteHeader() {
   const t = await getTranslations('site')
@@ -95,20 +133,22 @@ export async function SiteHeader() {
 
 export function SiteHeaderMenuLinks() {
   return (
-    <>
-      <Link href={siteConfig.links.github.url} target="_blank" rel="noreferrer">
-        <div
-          className={cn(
-            buttonVariants({
-              variant: 'ghost',
-            }),
-            'w-9 px-0'
-          )}
-        >
-          <Icons.gitHub className="size-4" />
-          <span className="sr-only">GitHub</span>
-        </div>
-      </Link>
-    </>
+    <Link href={siteConfig.links.github.url} target="_blank" rel="noreferrer">
+      <div
+        className={cn(
+          buttonVariants({
+            variant: 'ghost',
+          }),
+          'w-auto px-2',
+          'flex items-center justify-center'
+        )}
+      >
+        <Icons.gitHub className="size-4 mr-1.5" />
+        <Suspense fallback={null}>
+          <GitHubStars />
+        </Suspense>
+        <span className="sr-only">GitHub</span>
+      </div>
+    </Link>
   )
 }

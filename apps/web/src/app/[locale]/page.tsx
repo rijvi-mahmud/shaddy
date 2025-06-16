@@ -32,7 +32,7 @@ export default async function IndexPage({
   return (
     <div className="container relative">
       <PageHeader>
-        <Announcement title={t('site.announcement')} href="/docs" />
+        <Announcement title={t('site.announcement')} href="/" />
 
         <PageHeaderHeading>
           <TextGenerateEffect words={t('site.title')} />

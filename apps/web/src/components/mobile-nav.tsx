@@ -84,7 +84,7 @@ export function MobileNav({ messages, menuLinks }: MobileNavProps) {
             ))} */}
 
             {/* Show docs mainNav */}
-            {docsConfig.docs.mainNav?.map(
+            {/* {docsConfig.docs.mainNav?.map(
               (item) =>
                 item.href && (
                   <MobileLink
@@ -98,17 +98,17 @@ export function MobileNav({ messages, menuLinks }: MobileNavProps) {
                     )}
                   </MobileLink>
                 )
-            )}
+            )} */}
 
             {/* Show docs sidebar only on /docs */}
-            {pathname.startsWith('/docs') && (
+            {/* {pathname.startsWith('/docs') && (
               <DocsSidebarNav
                 isMobile
                 locale={docsConfig.currentLocale}
                 items={docsConfig.docs.sidebarNav}
                 handleMobileSidebar={setOpen}
               />
-            )}
+            )} */}
 
             {/* Show hooks mainNav */}
             {hooksConfig.hooks.mainNav?.map(
