@@ -35,7 +35,7 @@ export function DocBreadcrumb({
   const breadcrumbItems = getBreadcrumb(doc.slug, docsConfig, rootPath)
   return (
     <div className="text-muted-foreground mb-4 flex items-center space-x-1 text-sm">
-      <Link href="/docs" className="text-foreground hover:underline">
+      <Link href={`/${rootPath}`} className="text-foreground hover:underline">
         {messages.docs}
       </Link>
 
