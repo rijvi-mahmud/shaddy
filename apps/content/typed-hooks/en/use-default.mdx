@@ -9,9 +9,20 @@ This hook is particularly useful when you need to maintain state values that mig
 
 <ComponentPreview name="use-default"/>
 
-## Implementation
+## API
+▸ **useDefault**(initialValue, defaultValue): `[T, (newValue: Nullable<T>) => void]`
 
-If you'd like to use this hook in your project, please copy the following code:
+| Name         | Type | Required | Description                              |
+| ------------ | ---- | -------- | ---------------------------------------- |
+| initialValue | T    | Yes      | The initial value of the state.          |
+| defaultValue | T    | Yes      | The fallback value when state is null or undefined. |
+
+Returns `[value, setValue]`:
+
+- `value` (`T`): The current state value.
+- `setValue` (`function`): A function that updates the state value. If called with `null` or `undefined`, it will use the default value instead.
+
+## Hook
 
 ```tsx
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -46,109 +57,3 @@ export const useDefault = <T = any>(
   return [value, setValueWithDefault] as [T, (newValue: Nullable<T>) => void]
 }
 ```
-
-## Importing the Hook
-
-After copying the code to your project, you can import it like this:
-
-```tsx
-import { useDefault } from "@/hooks/use-default";
-// or
-import { useDefault } from "src/hooks/use-default";
-```
-
-## Basic Usage
-
-```tsx
-const [value, setValue] = useDefault("Initial Value", "Default Value");
-```
-
-## Parameters
-
-- `initialValue` (T): The initial state value you'd like to start with.
-- `defaultValue` (T): The fallback value to use when the state is set to `null` or `undefined`.
-
-## Return Value
-
-The hook returns an array with two elements:
-
-1. `value` (T): The current state value.
-2. `setValue` (function): A function that updates the state value. If called with `null` or `undefined`, it will use the default value instead.
-
-## Examples
-
-### String Example
-
-```tsx
-import { useDefault } from "@/hooks/use-default";
-
-function UserGreeting() {
-  const [username, setUsername] = useDefault("Guest", "Anonymous");
-  
-  return (
-    <div>
-      <p>Hello, {username}!</p>
-      <button onClick={() => setUsername("John")}>
-        Set to John
-      </button>
-      <button onClick={() => setUsername(null)}>
-        Reset to Default
-      </button>
-    </div>
-  );
-}
-```
-
-### Number Example
-
-```tsx
-import { useDefault } from "@/hooks/use-default";
-
-function Counter() {
-  const [count, setCount] = useDefault(10, 0);
-  
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={() => setCount(count + 1)}>
-        Increment
-      </button>
-      <button onClick={() => setCount(count - 1)}>
-        Decrement
-      </button>
-      <button onClick={() => setCount(null)}>
-        Reset to Default
-      </button>
-    </div>
-  );
-}
-```
-
-### Object Example
-
-```tsx
-import { useDefault } from "@/hooks/use-default";
-
-function UserProfile() {
-  const [user, setUser] = useDefault(
-    { name: "John", role: "User" }, 
-    { name: "Guest", role: "Visitor" }
-  );
-  
-  return (
-    <div>
-      <p>Name: {user.name}</p>
-      <p>Role: {user.role}</p>
-      
-      <button onClick={() => setUser({ name: "Admin", role: "Administrator" })}>
-        Set as Admin
-      </button>
-      <button onClick={() => setUser(null)}>
-        Reset to Default
-      </button>
-    </div>
-  );
-}
-```
-
-

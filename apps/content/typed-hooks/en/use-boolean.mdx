@@ -1,17 +1,34 @@
 ---
 title: useBoolean
-description: A custom React hook for managing boolean state values in a convenient way.
+description: Custom hook that handles boolean state with useful utility functions.
 ---
 
-`useBoolean` is a helpful custom React hook designed to make managing boolean state values more convenient than the standard `useState`.
+`useBoolean` is a simple but powerful custom React hook that provides convenient utilities for managing boolean state values. It encapsulates common boolean operations like toggling, setting to true/false, and resetting to the initial value.
 
-This hook provides an elegant way to toggle, set, and reset boolean values, making it particularly useful for UI components that require simple on/off states, such as toggles, switches, modals, and collapsible sections.
+This hook is particularly useful for managing UI states such as modals, accordions, toggles, and other interactive elements that need boolean control with clean, semantic function names.
 
 <ComponentPreview name="use-boolean"/>
 
-## Implementation
+## API
 
-If you'd like to use this hook in your project, please copy the following code:
+▸ **useBoolean**(initialValue): `[boolean, Controls]`
+
+| Name         | Type    | Required | Description                              |
+| ------------ | ------- | -------- | ---------------------------------------- |
+| initialValue | boolean | Yes      | The initial value for the boolean state. |
+
+Returns `[value, controls]`:
+
+- `value` (`boolean`): The current boolean state value.
+- `controls` (`object`):
+  - `setValue(value: boolean)`: Set the state directly.
+  - `toggle()`: Toggle the state.
+  - `setTrue()`: Set state to `true`.
+  - `setFalse()`: Set state to `false`.
+  - `reset()`: Reset to initial value.
+  - `getValue()`: Get the current value.
+
+## Hook
 
 ```tsx
 import { useCallback, useState } from 'react'
@@ -36,6 +53,16 @@ type BooleanHookReturnProps = {
  * - `setFalse`: A function to set the state to false.
  * - `reset`: A function to reset the state to its initial value.
  * - `getValue`: A function to retrieve the current state value.
+ *
+ * @example
+ * const [value, { toggle, setTrue, setFalse, reset, getValue }] = useBoolean(false);
+ *
+ * // Usage examples:
+ * toggle(); // Toggles the state
+ * setTrue(); // Sets the state to true
+ * setFalse(); // Sets the state to false
+ * reset(); // Resets the state to the initial value
+ * const currentValue = getValue(); // Retrieves the current state value
  */
 
 type useBooleanReturnType = [boolean, BooleanHookReturnProps]
@@ -52,119 +79,4 @@ export const useBoolean: UseBoolean = (initialValue) => {
   const reset = () => setValue(initialValue)
 
   return [value, { toggle, setTrue, setFalse, reset, getValue, setValue }]
-}
 ```
-
-## Importing the Hook
-
-After copying the code to your project, you can import it like this:
-
-```tsx
-import { useBoolean } from "@/hooks/use-boolean";
-// or
-import { useBoolean } from "src/hooks/use-boolean";
-```
-
-## Basic Usage
-
-```tsx
-const [value, { toggle, setTrue, setFalse, reset, setValue, getValue }] = useBoolean(false);
-```
-
-## Parameters
-
-- `initialValue` (boolean): The initial state value you'd like to start with.
-
-## Return Value
-
-The hook returns an array with two elements:
-
-1. `value` (boolean): The current state value.
-2. An object containing the following convenient methods:
-   - `setValue(value: boolean)`: Sets the state to a specific boolean value.
-   - `toggle()`: Toggles the state between true and false.
-   - `setTrue()`: Sets the state to true.
-   - `setFalse()`: Sets the state to false.
-   - `reset()`: Resets the state to its initial value.
-   - `getValue()`: Returns the current state value.
-
-## Examples
-
-### Basic Toggle Example
-
-```tsx
-import { useBoolean } from "@/hooks/use-boolean";
-
-function ToggleComponent() {
-  const [isVisible, { toggle }] = useBoolean(false);
-  
-  return (
-    <div>
-      <button onClick={toggle}>
-        {isVisible ? 'Hide Content' : 'Show Content'}
-      </button>
-      
-      {isVisible && <div>This content can be toggled</div>}
-    </div>
-  );
-}
-```
-
-### Using Multiple Control Functions
-
-```tsx
-import { useBoolean } from "@/hooks/use-boolean";
-
-function ExpandableSection() {
-  const [isExpanded, { setTrue, setFalse }] = useBoolean(false);
-  
-  return (
-    <div>
-      <div onMouseEnter={setTrue} onMouseLeave={setFalse}>
-        Hover over me
-      </div>
-      
-      {isExpanded && (
-        <div>
-          Additional information that appears on hover
-        </div>
-      )}
-    </div>
-  );
-}
-```
-
-### Form Submission Example
-
-```tsx
-import { useBoolean } from "@/hooks/use-boolean";
-
-function SubmitForm() {
-  const [isSubmitting, { setTrue, setFalse }] = useBoolean(false);
-  
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setTrue(); // Set loading state to true
-    
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log('Form submitted successfully!');
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    } finally {
-      setFalse(); // Set loading state back to false
-    }
-  };
-  
-  return (
-    <form onSubmit={handleSubmit}>
-      {/* Form fields */}
-      <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Submitting...' : 'Submit'}
-      </button>
-    </form>
-  );
-}
-```
-
