@@ -82,22 +82,14 @@ const blogComputedFields: ComputedFields = {
 
 const LinksProperties = defineNestedType(() => ({
   name: 'LinksProperties',
-
   fields: {
-    doc: {
-      type: 'string',
-    },
-
-    blog: {
-      type: 'string',
-    },
-
-    api: {
-      type: 'string',
-    },
-
-    source: {
-      type: 'string',
+    /**
+     * Dynamic links record where the key is the link type
+     * and the value is the URL
+     */
+    links: {
+      type: 'json',
+      description: 'Dynamic links with custom keys',
     },
   },
 }))

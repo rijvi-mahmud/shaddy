@@ -15,61 +15,24 @@ export async function DocLinks({
     return null
   }
 
-  const t = await getTranslations()
+  const linksArray: [string, string][] = Object.entries(links.links)
+    .filter(([, value]) => typeof value === 'string' && value)
+    .map(([key, value]) => [key, value as string])
 
   return (
     <div className="flex items-center space-x-2 pt-4">
-      {links.source && (
+      {linksArray.map(([key, value]) => (
         <Link
-          href={links.source}
+          key={key}
+          href={value}
           target="_blank"
           rel="noreferrer"
           className={cn(badgeVariants({ variant: 'secondary' }), 'gap-1')}
         >
-          {t('docs.source')}
-
+          {key}
           <ExternalLinkIcon className="size-3" />
         </Link>
-      )}
-
-      {links.doc && (
-        <Link
-          href={links.doc}
-          target="_blank"
-          rel="noreferrer"
-          className={cn(badgeVariants({ variant: 'secondary' }), 'gap-1')}
-        >
-          {t('docs.docs')}
-
-          <ExternalLinkIcon className="size-3" />
-        </Link>
-      )}
-
-      {links.api && (
-        <Link
-          href={links.api}
-          target="_blank"
-          rel="noreferrer"
-          className={cn(badgeVariants({ variant: 'secondary' }), 'gap-1')}
-        >
-          {t('docs.api_reference')}
-
-          <ExternalLinkIcon className="size-3" />
-        </Link>
-      )}
-
-      {links.blog && (
-        <Link
-          href={links.blog}
-          target="_blank"
-          rel="noreferrer"
-          className={cn(badgeVariants({ variant: 'secondary' }), 'gap-1')}
-        >
-          {t('site.words.blog')}
-
-          <ExternalLinkIcon className="size-3" />
-        </Link>
-      )}
+      ))}
     </div>
   )
 }

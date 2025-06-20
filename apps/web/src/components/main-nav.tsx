@@ -10,6 +10,7 @@ interface MainNavProps {
     docs: string
     blog: string
     typed_hooks: string
+    form: string
   }
 }
 
@@ -49,6 +50,18 @@ export function MainNav({ messages }: MainNavProps) {
           )}
         >
           {messages.typed_hooks}
+        </Link>
+
+        <Link
+          href="/form"
+          className={cn(
+            'hover:text-foreground/80 transition-colors',
+            pathname.includes('/form')
+              ? 'dark:text-primary-active'
+              : 'text-foreground/60'
+          )}
+        >
+          {messages.form}
         </Link>
       </nav>
     </div>
