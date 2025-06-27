@@ -45,10 +45,6 @@ export const typedHooksConfig: DocsConfig = {
             en: 'useBoolean',
             pt: 'useBoolean',
           },
-          label: {
-            en: 'New',
-            pt: 'Novo',
-          },
           items: [],
         },
         {
@@ -56,6 +52,14 @@ export const typedHooksConfig: DocsConfig = {
           title: {
             en: 'useDefault',
             pt: 'useDefault',
+          },
+          items: [],
+        },
+        {
+          href: '/typed-hooks/use-clipboard-copy',
+          title: {
+            en: 'useClipboardCopy',
+            pt: 'useClipboardCopy',
           },
           label: {
             en: 'New',

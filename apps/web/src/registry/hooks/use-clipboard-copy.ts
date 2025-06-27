@@ -2,23 +2,18 @@ import { useCallback, useState } from 'react'
 
 type CopiedValue = string | null
 type CopyFunc = (text: string) => Promise<boolean>
+type CopyStatus = 'idle' | 'success' | 'error'
+type UseClipboardCopyReturn = [CopiedValue, CopyFunc, CopyStatus]
 
 /**
- * A custom hook that provides a function to copy text to the clipboard.
- * @returns An array containing the copied value and the `copy` function.
+ * Custom hook to copy text to clipboard.
  *
- * @example
- * const [copiedText, copy] = useCopyToClipboard();
- * copy("Hello, World!").then(success => {
- *   if (success) {
- *     console.log("Copied successfully!");
- *   } else {
- *     console.log("Copy failed.");
- *   }
- * });
+ * @returns An array containing the copied text, a function to copy text, and the current copy status.
  */
-export function useClipboardCopy(): [CopiedValue, CopyFunc] {
+
+export function useClipboardCopy(): UseClipboardCopyReturn {
   const [copiedText, setCopiedText] = useState<CopiedValue>(null)
+  const [copyStatus, setCopyStatus] = useState<CopyStatus>('idle')
 
   const copy: CopyFunc = useCallback(async (text) => {
     const stringText = typeof text === 'string' ? text : String(text)
@@ -35,17 +30,27 @@ export function useClipboardCopy(): [CopiedValue, CopyFunc] {
       setCopiedText(null)
       return false
     }
+    setCopyStatus('idle')
 
     try {
       await clipboard.writeText(stringText)
       setCopiedText(stringText)
+      setCopyStatus('success')
       return true
     } catch (error) {
       console.warn('Copy failed', error)
       setCopiedText(null)
+      setCopyStatus('error')
       return false
     }
   }, [])
 
-  return [copiedText, copy]
+  /** Reset copy status after a delay */
+  setTimeout(() => {
+    if (copyStatus === 'success' || copyStatus === 'error') {
+      setCopyStatus('idle')
+    }
+  }, 2000)
+
+  return [copiedText, copy, copyStatus]
 }

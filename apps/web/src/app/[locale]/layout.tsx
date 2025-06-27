@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils'
 import { NextIntlClientProvider } from 'next-intl'
 
 import { Analytics } from '@vercel/analytics/next'
+import { Toaster } from '@/components/ui/toaster'
 
 interface AppLayoutProps {
   children: React.ReactNode
@@ -154,6 +155,7 @@ export default function RootLayout({ children, params }: AppLayoutProps) {
           </ThemeProvider>
         </NextIntlClientProvider>
         <Analytics />
+        <Toaster />
       </body>
     </html>
   )
