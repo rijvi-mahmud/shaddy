@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
  *
  * @example
  * const debouncedValue = useDebounce(value, 500);
- * // This will delay the update of `debouncedValue` by 500ms after `value` changes.
+ * This will delay the update of `debouncedValue` by 500ms after `value` changes.
  */
 
 export const useDebounce = <T = any>(value: T, delay: number): T => {

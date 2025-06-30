@@ -67,6 +67,18 @@ export const typedHooksConfig: DocsConfig = {
           },
           items: [],
         },
+        {
+          href: '/typed-hooks/use-debounce',
+          title: {
+            en: 'useDebounce',
+            pt: 'useDebounce',
+          },
+          label: {
+            en: 'New',
+            pt: 'Novo',
+          },
+          items: [],
+        },
       ],
     },
   ],

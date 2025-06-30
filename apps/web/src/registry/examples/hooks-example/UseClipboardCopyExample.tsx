@@ -17,12 +17,12 @@ export const UseClipboardCopyExample = () => {
   const handleCopy = async () => {
     const success = await copy(inputText)
 
-    if (success && copiedText) {
+    if (success) {
       toast({
         title: 'Text copied!',
         description:
-          copiedText.length > 50
-            ? `${copiedText.substring(0, 50)}...`
+          copiedText && copiedText?.length > 50
+            ? `${copiedText?.substring(0, 50)}...`
             : copiedText,
         variant: 'default',
         duration: 1000,
