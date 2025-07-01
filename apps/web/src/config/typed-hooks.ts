@@ -61,10 +61,6 @@ export const typedHooksConfig: DocsConfig = {
             en: 'useClipboardCopy',
             pt: 'useClipboardCopy',
           },
-          label: {
-            en: 'New',
-            pt: 'Novo',
-          },
           items: [],
         },
         {
@@ -72,6 +68,18 @@ export const typedHooksConfig: DocsConfig = {
           title: {
             en: 'useDebounce',
             pt: 'useDebounce',
+          },
+          label: {
+            en: 'New',
+            pt: 'Novo',
+          },
+          items: [],
+        },
+        {
+          href: '/typed-hooks/use-interval',
+          title: {
+            en: 'useInterval',
+            pt: 'useInterval',
           },
           label: {
             en: 'New',

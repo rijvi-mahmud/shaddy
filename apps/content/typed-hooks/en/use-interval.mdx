@@ -1,3 +1,41 @@
+---
+title: useInterval
+description: A custom hook for managing intervals in React projects.
+links:
+  links: {
+    "setInterval": "https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval"
+  }
+
+---
+
+`useInterval` is a powerful custom React hook that provides a declarative way to use intervals in React applications. Unlike the native [setInterval](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval), this hook properly handles component lifecycle, cleanup, and provides manual control over the interval execution.
+
+This hook is particularly useful for scenarios like periodic data fetching, animations, timers, counters, or any situation where you need to execute a function repeatedly at specified intervals with proper React lifecycle management.
+
+<ComponentPreview name="use-interval"/>
+
+## API
+▸ **useInterval** `(`callback`: Callback, `delay`: Delay, `options?`: { autoStart?: boolean }): { `stop`: () => void, `start`: () => void, `reset`: () => void, `isRunning`: boolean }
+
+### Parameters
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `callback` | `Callback` | The function to be executed at each interval. |
+| `delay` | `Delay` | The delay in milliseconds for the interval. If `null`, the interval is paused and cleared. |
+| `options` | `Object` (optional) | Configuration options with properties:<br />- `autoStart` (boolean, default: `true`): Whether the interval should start automatically. |
+
+### Returns
+
+- Returns (Object): An object containing:
+  - `stop` (() => void): Function to manually stop the interval.
+  - `start` (() => void): Function to manually start the interval.
+  - `reset` (() => void): Function to reset the interval (stop and potentially restart).
+  - `isRunning` (boolean): Boolean indicating if the interval is currently running.
+
+## Hook
+
+```tsx
 import { useEffect, useRef, useState, useCallback } from 'react'
 
 /**
@@ -81,7 +119,7 @@ export const useInterval: UseInterval = (callback, delay, options = {}) => {
     }
 
     return clearCurrentInterval
-  }, [delay, autoStart])
+  }, [delay, autoStart, clearCurrentInterval, startInterval])
 
   /** Function to stop the interval manually. */
   const stop = clearCurrentInterval
