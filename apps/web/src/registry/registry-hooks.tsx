@@ -4,6 +4,7 @@ import { UseDefaultExample } from './examples/hooks-example/UseDefaultExample'
 import { UseClipboardCopyExample } from './examples/hooks-example/UseClipboardCopyExample'
 import { UseDebounceExample } from './examples/hooks-example/UseDebounceExample'
 import { UseIntervalExample } from './examples/hooks-example/UseIntervalExample'
+import { UsePreviousExample } from './examples/hooks-example/UsePreviousExample'
 
 type RegistryItem = {
   component: ComponentType
@@ -688,6 +689,62 @@ export function UseIntervalExample() {
               {formatDelay(preset)}
             </Button>
           ))}
+        </div>
+      </CardContent>
+    </Card>
+  )
+}`,
+  },
+  'use-previous': {
+    component: UsePreviousExample,
+    description: 'A hook to get the previous value of a state or prop',
+    sourceCode: `'use client'
+import { useState } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { usePrevious } from '@/hooks/use-previous'
+import { PlusIcon, MinusIcon } from 'lucide-react'
+
+export const UsePreviousExample = () => {
+  const [count, setCount] = useState(0)
+  const prevCount = usePrevious(count)
+
+  return (
+    <Card className="w-full max-w-md border">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg">Use Previous Example</CardTitle>
+      </CardHeader>
+
+      <CardContent className="space-y-4">
+        {/* Counter Display */}
+        <div className="bg-muted/30 rounded-md p-4 shadow-sm transition-all duration-200">
+          <div className="flex justify-center py-3">
+            <div className="text-6xl font-bold tabular-nums text-center text-primary transition-all duration-200">
+              {count}
+            </div>
+          </div>
+          <div className="text-center text-sm mt-2 py-1 bg-muted/50 rounded-md text-muted-foreground">
+            Previous: <span className="font-medium">{prevCount !== undefined ? prevCount : 'N/A'}</span>
+          </div>
+        </div>
+
+        {/* Control Buttons */}
+        <div className="grid grid-cols-2 gap-3">
+          <Button 
+            onClick={() => setCount((c) => c - 1)} 
+            size="sm"
+            variant="outline"
+            className="flex items-center justify-center hover:bg-destructive/10"
+          >
+            <MinusIcon className="h-4 w-4 mr-1" /> Decrement
+          </Button>
+          <Button 
+            onClick={() => setCount((c) => c + 1)} 
+            size="sm"
+            className="flex items-center justify-center"
+          >
+            <PlusIcon className="h-4 w-4 mr-1" /> Increment
+          </Button>
         </div>
       </CardContent>
     </Card>

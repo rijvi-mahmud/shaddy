@@ -69,10 +69,6 @@ export const typedHooksConfig: DocsConfig = {
             en: 'useDebounce',
             pt: 'useDebounce',
           },
-          label: {
-            en: 'New',
-            pt: 'Novo',
-          },
           items: [],
         },
         {
@@ -80,6 +76,18 @@ export const typedHooksConfig: DocsConfig = {
           title: {
             en: 'useInterval',
             pt: 'useInterval',
+          },
+          label: {
+            en: 'New',
+            pt: 'Novo',
+          },
+          items: [],
+        },
+        {
+          href: '/typed-hooks/use-previous',
+          title: {
+            en: 'usePrevious',
+            pt: 'usePrevious',
           },
           label: {
             en: 'New',

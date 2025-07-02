@@ -36,11 +36,7 @@ export function UseIntervalExample() {
 
   return (
     <Card className="w-full max-w-md border">
-      <CardHeader className="pb-3">
-        <CardTitle className="text-lg">Interval Counter</CardTitle>
-      </CardHeader>
-
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 pt-6">
         {/* Counter Display */}
         <div className="bg-muted/30 rounded-md p-4">
           <div className="flex items-center justify-between mb-3">
