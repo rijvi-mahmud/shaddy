@@ -72,10 +72,10 @@ export const typedHooksConfig: DocsConfig = {
           items: [],
         },
         {
-          href: '/typed-hooks/use-interval',
+          href: '/typed-hooks/use-debounced-callback',
           title: {
-            en: 'useInterval',
-            pt: 'useInterval',
+            en: 'useDebouncedCallback',
+            pt: 'useDebouncedCallback',
           },
           label: {
             en: 'New',
@@ -84,10 +84,30 @@ export const typedHooksConfig: DocsConfig = {
           items: [],
         },
         {
+          href: '/typed-hooks/use-interval',
+          title: {
+            en: 'useInterval',
+            pt: 'useInterval',
+          },
+          items: [],
+        },
+        {
           href: '/typed-hooks/use-previous',
           title: {
             en: 'usePrevious',
             pt: 'usePrevious',
+          },
+          label: {
+            en: 'New',
+            pt: 'Novo',
+          },
+          items: [],
+        },
+        {
+          href: '/typed-hooks/use-window-resize',
+          title: {
+            en: 'useWindowResize',
+            pt: 'useWindowResize',
           },
           label: {
             en: 'New',

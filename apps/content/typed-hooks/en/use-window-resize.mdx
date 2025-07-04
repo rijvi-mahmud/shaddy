@@ -1,3 +1,29 @@
+---
+title: useWindowResize
+description: A custom hook for managing window resize events in React.
+---
+
+`useWindowResize` is a custom React hook that provides an easy way to track window dimensions in your functional components. It automatically updates when the browser window is resized, making it perfect for building responsive interfaces or implementing size-dependent features.
+
+The hook includes built-in debouncing using shaddy's built-in custom [useDebouncedCallback](https://shaddy-omega.vercel.app/typed-hooks/use-debounced-callback) hook to prevent excessive re-renders during resize events, optimizing performance while keeping your UI responsive to size changes. It also handles server-side rendering gracefully by checking if the window object is available.
+
+<ComponentPreview name="use-window-resize" />
+
+## API
+▸ **useWindowResize**(): WindowSize
+
+### Returns
+
+- Returns an object with the following properties:
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `width` | `number \| undefined` | Current window width in pixels. `undefined` during server-side rendering. |
+| `height` | `number \| undefined` | Current window height in pixels. `undefined` during server-side rendering. |
+
+## Hook
+
+```tsx
 import { useState, useEffect } from 'react'
 import { useDebouncedCallback } from './use-debounced-callback'
 
@@ -54,12 +80,13 @@ export const useWindowResize: UseWindowResize = () => {
 
     window.addEventListener('resize', handleResize)
 
-    // Initial call to set the size
+    /** Initial call to set the size */
     handleResize()
 
-    // Cleanup listener on unmount
+    /** Cleanup listener on unmount */
     return () => window.removeEventListener('resize', handleResize)
   }, [debouncedSetWindowSize, isServer])
 
   return windowSize
 }
+```
