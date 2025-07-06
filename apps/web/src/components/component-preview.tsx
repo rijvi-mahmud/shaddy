@@ -1,10 +1,11 @@
 'use client'
 
-import * as React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ThemeModeToggle } from './theme-mode-toggle'
 import { CopyButton } from './copy-button'
 import { registry } from '@/registry'
+import { useEffect, useState } from 'react'
+import { readComponentCode } from '@/lib/shaddy/utils/registry'
 
 interface ComponentPreviewProps {
   name: string
@@ -14,12 +15,24 @@ interface ComponentPreviewProps {
 export function ComponentPreview({ name, className }: ComponentPreviewProps) {
   const example = registry[name]
 
+  const [codePrev, setCodePrev] = useState('')
+
   if (!example) {
     return <div>Example not found for "{name}"</div>
   }
 
+  useEffect(() => {
+    readComponentCode(example?.path as string, 'hook')
+      .then((code) => {
+        setCodePrev(code)
+      })
+      .catch((error) => {
+        console.error('Error reading component code:', error)
+        setCodePrev('')
+      })
+  }, [])
+
   const Component = example.component
-  const code = example.sourceCode
 
   return (
     <div className={`relative ${className} py-2 pt-4`}>
@@ -32,14 +45,13 @@ export function ComponentPreview({ name, className }: ComponentPreviewProps) {
             >
               Preview
             </TabsTrigger>
-            {code && (
-              <TabsTrigger
-                value="code"
-                className="relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
-              >
-                Code
-              </TabsTrigger>
-            )}
+
+            <TabsTrigger
+              value="code"
+              className="relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+            >
+              Code
+            </TabsTrigger>
           </TabsList>
         </div>
         <TabsContent value="preview" className="relative rounded-md border">
@@ -62,22 +74,26 @@ export function ComponentPreview({ name, className }: ComponentPreviewProps) {
             </div>
           </div>
           {/* Render CodeBlock here (hidden) to precompute code highlighting */}
-          {code && (
+          {codePrev && (
             <div style={{ display: 'none' }}>
-              <CodeBlock code={code} language="tsx" theme="github-dark" />
+              <CodeBlock code={codePrev} language="tsx" theme="github-dark" />
             </div>
           )}
         </TabsContent>
         <TabsContent value="code">
           <div className="relative">
-            {code && (
+            {codePrev && (
               <div className="relative rounded-lg border bg-card">
                 <CopyButton
-                  value={code}
+                  value={codePrev}
                   className="absolute right-4 top-4 z-10 h-8 w-8 p-0 hover:bg-background"
                 />
                 <div className="overflow-hidden rounded-lg">
-                  <CodeBlock code={code} language="tsx" theme="github-dark" />
+                  <CodeBlock
+                    code={codePrev}
+                    language="tsx"
+                    theme="github-dark"
+                  />
                 </div>
               </div>
             )}
@@ -95,10 +111,10 @@ interface CodeBlockProps {
 }
 
 function CodeBlock({ code, language, theme }: CodeBlockProps) {
-  const [html, setHtml] = React.useState<string>('')
-  const [loading, setLoading] = React.useState(false)
+  const [html, setHtml] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!code) {
       setHtml('')
       setLoading(false)

@@ -1,5 +1,22 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useDebouncedCallback } from './use-debounced-callback'
+import { useEventListener } from './use-event-listener'
+
+/**
+ * ⚠️ IMPORTANT DEPENDENCY NOTICE ⚠️
+ * --------------------------------------
+ * If you encounter import errors with useDebouncedCallback or useEventListener:
+ *
+ * 1️⃣ useDebouncedCallback: https://shaddy-omega.vercel.app/typed-hooks/use-debounced-callback
+ * 2️⃣ useEventListener: https://shaddy-omega.vercel.app/typed-hooks/use-event-listener
+ *
+ * We HIGHLY RECOMMEND using these specific implementations as they are:
+ *  - Performance optimized
+ *  - Well tested
+ *  - Properly typed
+ * --------------------------------------
+ * REMOVE THIS NOTICE ONCE YOU HAVE THE DEPENDENCIES INSTALLED
+ */
 
 /**
  * Custom React hook to get the current window size.
@@ -38,28 +55,23 @@ export const useWindowResize: UseWindowResize = () => {
     setWindowSize(newSize)
   }, 200)
 
+  const handleResize = useCallback(() => {
+    const newSize = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    }
+    debouncedSetWindowSize(newSize)
+  }, [debouncedSetWindowSize])
+
+  /** Set initial size */
   useEffect(() => {
-    /** Exit early if running on the server */
-    if (isServer) {
-      return
+    if (!isServer) {
+      handleResize()
     }
+  }, [handleResize, isServer])
 
-    const handleResize = () => {
-      const newSize = {
-        width: window.innerWidth,
-        height: window.innerHeight,
-      }
-      debouncedSetWindowSize(newSize)
-    }
-
-    window.addEventListener('resize', handleResize)
-
-    // Initial call to set the size
-    handleResize()
-
-    // Cleanup listener on unmount
-    return () => window.removeEventListener('resize', handleResize)
-  }, [debouncedSetWindowSize, isServer])
+  /** Use the event listener hook to handle resize events */
+  useEventListener('resize', handleResize)
 
   return windowSize
 }

@@ -97,10 +97,6 @@ export const typedHooksConfig: DocsConfig = {
             en: 'usePrevious',
             pt: 'usePrevious',
           },
-          label: {
-            en: 'New',
-            pt: 'Novo',
-          },
           items: [],
         },
         {
@@ -108,6 +104,18 @@ export const typedHooksConfig: DocsConfig = {
           title: {
             en: 'useWindowResize',
             pt: 'useWindowResize',
+          },
+          label: {
+            en: 'New',
+            pt: 'Novo',
+          },
+          items: [],
+        },
+        {
+          href: '/typed-hooks/use-event-listener',
+          title: {
+            en: 'useEventListener',
+            pt: 'useEventListener',
           },
           label: {
             en: 'New',

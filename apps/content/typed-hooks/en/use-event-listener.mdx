@@ -1,3 +1,46 @@
+---
+title: useEventListener
+description: A type-safe custom hook for managing DOM event listeners in React with support for event delegation.
+---
+
+`useEventListener` is a powerful and type-safe React hook that simplifies adding event listeners to DOM elements. It provides full TypeScript support with proper event typing based on the target element, supports event delegation through CSS selectors, and automatically handles cleanup to prevent memory leaks.
+
+The hook works with various DOM elements including `Window`, `Document`, `HTMLElement`, and `SVGElement`, ensuring type safety by constraining event names to valid events for each element type. It also supports all standard `addEventListener` options and includes event delegation for handling events on dynamically created child elements.
+
+<ComponentPreview name="use-event-listener" />
+
+## API
+
+▸ **useEventListener**`<T, K>`(eventName, handler, element?, options?): void
+
+### Parameters
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `eventName` | `K extends EventNameType<T>` | The name of the event to listen for (e.g., 'click', 'resize', 'keydown') |
+| `handler` | `(event: EventType<T, K>, delegateTarget?: Element) => void` | The callback function that handles the event with proper typing |
+| `element` | `T \| null \| undefined` | The target element to attach the listener to. Defaults to `window` if not provided |
+| `options` | `UseEventListenerOptions \| boolean \| undefined` | Optional addEventListener options or useCapture boolean. Includes `selector` for event delegation |
+
+### Options
+
+The `options` parameter extends standard `AddEventListenerOptions` with:
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `selector` | `string \| undefined` | CSS selector for event delegation. When provided, handler only fires when event target matches this selector |
+| `capture` | `boolean \| undefined` | Standard addEventListener capture option |
+| `once` | `boolean \| undefined` | Standard addEventListener once option |
+| `passive` | `boolean \| undefined` | Standard addEventListener passive option |
+| `signal` | `AbortSignal \| undefined` | Standard addEventListener signal option |
+
+### Returns
+
+- `void` - This hook doesn't return anything, it manages the event listener lifecycle internally.
+
+## Hook
+
+```tsx
 import { useCallback, useEffect, useRef } from 'react'
 
 /**
@@ -99,7 +142,6 @@ type UseEventListenerOptions = AddEventListenerOptions & {
  * @param element - The target element to attach the listener to (defaults to window)
  * @param options - Optional addEventListener options or useCapture boolean
  */
-
 export const useEventListener = <
   T extends ElementType,
   K extends EventNameType<T>,
@@ -162,3 +204,4 @@ export const useEventListener = <
     }
   }, [eventName, element, eventListener, options])
 }
+```
