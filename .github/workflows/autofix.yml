@@ -6,13 +6,16 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
 
 jobs:
   autofix:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: npm i -g --force corepack && corepack enable
       - uses: actions/setup-node@v4
         with:
@@ -21,6 +24,12 @@ jobs:
       - run: pnpm install
       - name: Fix lint issues
         run: pnpm run lint:fix
-      - uses: autofix-ci/action@551dded8c6cc8a1054039c8bc0b8b48c51dfc6ef
-        with:
-          commit-message: 'style: apply lint fixes'
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          if ! git diff --cached --quiet; then
+            git commit -m "style: apply lint fixes"
+            git push
+          fi
