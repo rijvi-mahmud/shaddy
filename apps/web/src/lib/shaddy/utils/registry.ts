@@ -8,6 +8,9 @@ export async function readComponentCode(
 ): Promise<string> {
   const fullPath = path.join(process.cwd(), 'src', filePath)
   const code = await fs.readFile(fullPath, 'utf-8')
+
+  console.log({ fullPath, code })
+
   if (type === 'hook') {
     return replaceImportPathForHook(code)
   }
