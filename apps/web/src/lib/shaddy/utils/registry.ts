@@ -6,7 +6,7 @@ export async function readComponentCode(
   filePath: string,
   type?: string
 ): Promise<string> {
-  const fullPath = path.join(process.cwd(), 'src', filePath)
+  const fullPath = path.join('src', filePath)
   const code = await fs.readFile(fullPath, 'utf-8')
 
   console.log({ fullPath, code })
