@@ -5,7 +5,6 @@ import { ThemeModeToggle } from './theme-mode-toggle'
 import { CopyButton } from './copy-button'
 import { registry } from '@/registry'
 import { useEffect, useState } from 'react'
-import { readComponentCode } from '@/lib/shaddy/utils/registry'
 
 interface ComponentPreviewProps {
   name: string
@@ -15,24 +14,14 @@ interface ComponentPreviewProps {
 export function ComponentPreview({ name, className }: ComponentPreviewProps) {
   const example = registry[name]
 
-  const [codePrev, setCodePrev] = useState('')
-
   if (!example) {
     return <div>Example not found for "{name}"</div>
   }
 
-  useEffect(() => {
-    readComponentCode(example?.path as string, 'hook')
-      .then((code) => {
-        setCodePrev(code)
-      })
-      .catch((error) => {
-        console.error('Error reading component code:', error)
-        setCodePrev('')
-      })
-  }, [])
-
   const Component = example.component
+
+  //TODO: need a robust solution for showing sourceCode in component in future
+  const codePrev = example.sourceCode
 
   return (
     <div className={`relative ${className} py-2 pt-4`}>

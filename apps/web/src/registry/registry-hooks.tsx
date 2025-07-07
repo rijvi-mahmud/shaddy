@@ -12,7 +12,7 @@ import { UseEventListenerExample } from './examples/hooks-example/UseEventListen
 type RegistryItem = {
   component: ComponentType
   description?: string
-  path?: string
+  sourceCode?: string
 }
 
 // Registry object mapping hook names to their example components
@@ -20,47 +20,47 @@ export const registryHooks: Record<string, RegistryItem> = {
   'use-boolean': {
     component: UseBooleanExample,
     description: 'A hook for managing boolean state with utility functions',
-    path: 'registry/examples/hooks-example/UseBooleanExample.tsx',
+    sourceCode: UseBooleanExample.componentInString,
   },
   'use-default': {
     component: UseDefaultExample,
     description: 'A hook for managing state with a default fallback value',
-    path: 'registry/examples/hooks-example/UseDefaultExample.tsx',
+    sourceCode: UseDefaultExample.componentInString,
   },
   'use-clipboard-copy': {
     component: UseClipboardCopyExample,
     description:
       'A hook for copying text to the clipboard with status feedback',
-    path: 'registry/examples/hooks-example/UseClipboardCopyExample.tsx',
+    sourceCode: UseClipboardCopyExample.componentInString,
   },
   'use-debounce': {
     component: UseDebounceExample,
     description: 'A hook for debouncing input changes with a delay',
-    path: 'registry/examples/hooks-example/UseDebounceExample.tsx',
+    sourceCode: UseDebounceExample.componentInString,
   },
   'use-interval': {
     component: UseIntervalExample,
     description: 'A hook for running a callback at specified intervals',
-    path: 'registry/examples/hooks-example/UseIntervalExample.tsx',
+    sourceCode: UseIntervalExample.componentInString,
   },
   'use-previous': {
     component: UsePreviousExample,
     description: 'A hook to get the previous value of a state or prop',
-    path: 'registry/examples/hooks-example/UsePreviousExample.tsx',
+    sourceCode: UsePreviousExample.componentInString,
   },
   'use-window-resize': {
     component: UseWindowResizeExample,
     description: 'A hook for tracking window resize events with debouncing',
-    path: 'registry/examples/hooks-example/UseWindowResizeExample.tsx',
+    sourceCode: UseWindowResizeExample.componentInString,
   },
   'use-debounced-callback': {
     component: UseDebouncedCallbackExample,
     description: 'A hook for creating debounced functions that delay execution',
-    path: 'registry/examples/hooks-example/UseDebouncedCallbackExample.tsx',
+    sourceCode: UseDebouncedCallbackExample.componentInString,
   },
   'use-event-listener': {
     component: UseEventListenerExample,
     description: 'A hook for adding event listeners with cleanup',
-    path: 'registry/examples/hooks-example/UseEventListenerExample.tsx',
+    sourceCode: UseEventListenerExample.componentInString,
   },
 }
