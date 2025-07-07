@@ -1,10 +1,4 @@
 {
-  "framework": "nextjs",
-  "builds": [
-    {
-      "src": "apps/web/next.config.js",
-      "use": "@vercel/next"
-    }
-  ],
-  "include": ["apps/web/src/registry/**/*"]
+    "framework": "nextjs"
 }
+
