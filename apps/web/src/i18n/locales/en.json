@@ -29,6 +29,7 @@
 
       "shadcn": {
         "description": "Built on top of Shadcn (site/components)."
+        
       },
 
       "tailwind": {
@@ -46,7 +47,11 @@
     },
 
     "footer": {
-      "created_by": "Made with ❤️ by"
+      "created_by": "Made with ❤️ by",
+      "links":{
+          "contributors": "contributors",
+          "vision": "vision"
+        }
     },
 
     "search": {

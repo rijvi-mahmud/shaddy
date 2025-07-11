@@ -124,7 +124,6 @@ import {
   Minus,
   RefreshCw,
 } from 'lucide-react'
-import { replaceImportPathForHook } from '@/lib/shaddy/utils/common'
 
 export const UseDefaultExample = () => {
   const initialValue = 10
