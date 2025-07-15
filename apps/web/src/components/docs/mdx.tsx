@@ -71,9 +71,24 @@ const components = {
   td,
   img,
   pre,
-  code,
   table,
   blockquote,
+  code: ({ className, ...props }: ComponentProps<'code'>) => {
+    // Check if this code element is inside a pre element (code block)
+    const isInlineCode = !className?.includes('language-')
+
+    return (
+      <code
+        className={cn(
+          'font-mono text-sm',
+          isInlineCode
+            ? 'relative rounded-md bg-[#18181B] px-2 py-1 text-foreground'
+            : 'text-foreground'
+        )}
+        {...props}
+      />
+    )
+  },
   CodeBlockWrapper: ({ ...props }) => (
     <CodeBlockWrapper className="rounded-md border" {...props} />
   ),

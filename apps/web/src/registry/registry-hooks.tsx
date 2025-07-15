@@ -8,6 +8,13 @@ import { UsePreviousExample } from './examples/hooks-example/UsePreviousExample'
 import { UseWindowResizeExample } from './examples/hooks-example/UseWindowResizeExample'
 import { UseDebouncedCallbackExample } from './examples/hooks-example/UseDebouncedCallbackExample'
 import { UseEventListenerExample } from './examples/hooks-example/UseEventListenerExample'
+import {
+  UseLocalStorageAdvancedExample,
+  UseLocalStorageBasicExample,
+  UseLocalStorageExample,
+  UseLocalStorageFormExample,
+  UseLocalStorageSettingsExample,
+} from './examples/hooks-example/UseLocalStorageExample'
 
 type RegistryItem = {
   component: ComponentType
@@ -62,5 +69,28 @@ export const registryHooks: Record<string, RegistryItem> = {
     component: UseEventListenerExample,
     description: 'A hook for adding event listeners with cleanup',
     sourceCode: UseEventListenerExample.componentInString,
+  },
+  'use-local-storage-1': {
+    component: UseLocalStorageBasicExample,
+    description: 'A hook for managing local storage in React.',
+    sourceCode: UseLocalStorageBasicExample.componentInString,
+  },
+  'use-local-storage-2': {
+    component: UseLocalStorageSettingsExample,
+    description:
+      'A hook for managing local storage with type safety and event listeners.',
+    sourceCode: UseLocalStorageSettingsExample.componentInString,
+  },
+  'use-local-storage-3': {
+    component: UseLocalStorageFormExample,
+    description:
+      'A hook for managing local storage with type safety and event listeners.',
+    sourceCode: UseLocalStorageFormExample.componentInString,
+  },
+  'use-local-storage-4': {
+    component: UseLocalStorageAdvancedExample,
+    description:
+      'A hook for managing local storage with type safety and event listeners.',
+    sourceCode: UseLocalStorageAdvancedExample.componentInString,
   },
 }

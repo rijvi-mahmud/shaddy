@@ -77,10 +77,6 @@ export const typedHooksConfig: DocsConfig = {
             en: 'useDebouncedCallback',
             pt: 'useDebouncedCallback',
           },
-          label: {
-            en: 'New',
-            pt: 'Novo',
-          },
           items: [],
         },
         {
@@ -105,10 +101,6 @@ export const typedHooksConfig: DocsConfig = {
             en: 'useWindowResize',
             pt: 'useWindowResize',
           },
-          label: {
-            en: 'New',
-            pt: 'Novo',
-          },
           items: [],
         },
         {
@@ -117,6 +109,15 @@ export const typedHooksConfig: DocsConfig = {
             en: 'useEventListener',
             pt: 'useEventListener',
           },
+          items: [],
+        },
+        {
+          href: '/typed-hooks/use-local-storage',
+          title: {
+            en: 'useLocalStorage',
+            pt: 'useLocalStorage',
+          },
+
           label: {
             en: 'New',
             pt: 'Novo',
