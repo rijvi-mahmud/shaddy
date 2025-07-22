@@ -13,39 +13,6 @@ import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { replaceImportPathForHook } from '@/lib/shaddy/utils/common'
 
-export const UseLocalStorageExample = () => {
-  return (
-    <Card className="w-full border">
-      <CardContent className="pt-6">
-        <Tabs defaultValue="basic">
-          <TabsList className="grid grid-cols-4 mb-4">
-            <TabsTrigger value="basic">Basic Usage</TabsTrigger>
-            <TabsTrigger value="settings">User Settings</TabsTrigger>
-            <TabsTrigger value="form">Form Data</TabsTrigger>
-            <TabsTrigger value="advanced">Advanced</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="basic" className="space-y-4">
-            <BasicExample />
-          </TabsContent>
-
-          <TabsContent value="settings" className="space-y-4">
-            <SettingsExample />
-          </TabsContent>
-
-          <TabsContent value="form" className="space-y-4">
-            <FormExample />
-          </TabsContent>
-
-          <TabsContent value="advanced" className="space-y-4">
-            <AdvancedExample />
-          </TabsContent>
-        </Tabs>
-      </CardContent>
-    </Card>
-  )
-}
-
 // Example 1: Basic counter with localStorage persistence
 const BasicExample = () => {
   const [count, setCount, removeCount] = useLocalStorage('counter', 0)

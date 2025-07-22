@@ -11,10 +11,15 @@ import { UseEventListenerExample } from './examples/hooks-example/UseEventListen
 import {
   UseLocalStorageAdvancedExample,
   UseLocalStorageBasicExample,
-  UseLocalStorageExample,
   UseLocalStorageFormExample,
   UseLocalStorageSettingsExample,
 } from './examples/hooks-example/UseLocalStorageExample'
+import {
+  UseSessionStorageAdvancedExample,
+  UseSessionStorageBasicExample,
+  UseSessionStorageFormExample,
+  UseSessionStorageSettingsExample,
+} from './examples/hooks-example/UseSessionStorageExample'
 
 type RegistryItem = {
   component: ComponentType
@@ -92,5 +97,26 @@ export const registryHooks: Record<string, RegistryItem> = {
     description:
       'A hook for managing local storage with type safety and event listeners.',
     sourceCode: UseLocalStorageAdvancedExample.componentInString,
+  },
+  'use-session-storage-1': {
+    component: UseSessionStorageBasicExample,
+    description:
+      'A hook for managing session storage with type safety and event listeners.',
+    sourceCode: UseSessionStorageBasicExample.componentInString,
+  },
+  'use-session-storage-2': {
+    component: UseSessionStorageSettingsExample,
+    description: 'A hook for managing session storage with type safety.',
+    sourceCode: UseSessionStorageSettingsExample.componentInString,
+  },
+  'use-session-storage-3': {
+    component: UseSessionStorageFormExample,
+    description: 'A hook for managing session storage with type safety.',
+    sourceCode: UseSessionStorageFormExample.componentInString,
+  },
+  'use-session-storage-4': {
+    component: UseSessionStorageAdvancedExample,
+    description: 'A hook for managing session storage with type safety.',
+    sourceCode: UseSessionStorageAdvancedExample.componentInString,
   },
 }
