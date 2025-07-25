@@ -36,7 +36,13 @@ async function buildRegistry() {
 
   await fs.writeFile(
     path.join(__dirname, '../registry/index.tsx'),
-    `export const registry = ${finalRegistryString};`
+    `
+    /**
+     * Hook Registry
+     * This file is auto-generated. Do not edit manually.
+     */
+    export const registry = ${finalRegistryString};
+    `
   )
   console.log('Registry built successfully!')
 }

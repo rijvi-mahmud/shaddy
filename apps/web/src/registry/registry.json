@@ -154,6 +154,53 @@
     ],
     "dependencies": [],
     "devDependencies": []
+  },
+  {
+    "name": "use-session-storage-1",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UseSessionStorageExamples/BasicExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
+  },
+  {
+    "name": "use-session-storage-2",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UseSessionStorageExamples/SettingsExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
+  },
+  {
+    "name": "use-session-storage-3",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UseSessionStorageExamples/FormExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
+  },
+  {
+    "name": "use-session-storage-4",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UseSessionStorageExamples/AdvancedExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
   }
-
 ]
