@@ -23,7 +23,8 @@
     "tailwind.config.ts",
     ".next/types/**/*.ts",
     "contentlayer.config.ts",
-    ".contentlayer/generated"
+    ".contentlayer/generated",
+    "src/scripts/build-registry.js"
   ],
   "exclude": ["node_modules"]
 }

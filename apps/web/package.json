@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "run-s contentlayer:build next:build",
+    "build": "run-s contentlayer:build build:registry next:build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "eslint --fix .",
     "next:build": "next build",
-    "contentlayer:build": "contentlayer2 build"
+    "contentlayer:build": "contentlayer2 build",
+    "build:registry": "node src/scripts/build-registry.js"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.3.0",

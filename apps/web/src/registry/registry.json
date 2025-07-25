@@ -1,0 +1,159 @@
+[
+  {
+    "name": "use-boolean",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UseBooleanExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
+  },
+  {
+    "name": "use-default",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UseDefaultExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
+  },
+  {
+    "name": "use-clipboard-copy",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UseClipboardCopyExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
+  },
+  {
+    "name": "use-debounce",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UseDebounceExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
+  },
+  {
+    "name": "use-interval",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UseIntervalExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
+  },
+  {
+    "name": "use-previous",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UsePreviousExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
+  },
+  {
+    "name": "use-window-resize",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UseWindowResizeExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
+  },
+  {
+    "name": "use-debounced-callback",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UseDebouncedCallbackExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
+  },
+  {
+    "name": "use-event-listener",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UseEventListenerExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
+  },
+  {
+    "name": "use-local-storage-1",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UseLocalStorageExamples/BasicExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
+  },
+  {
+    "name": "use-local-storage-2",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UseLocalStorageExamples/SettingsExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
+  },
+  {
+    "name": "use-local-storage-3",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UseLocalStorageExamples/FormExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
+  },
+  {
+    "name": "use-local-storage-4",
+    "type": "hooks:example",
+    "files": [
+      {
+        "path": "registry/examples/hooks-example/UseLocalStorageExamples/AdvancedExample.tsx",
+        "type": "registry:hook"
+      }
+    ],
+    "dependencies": [],
+    "devDependencies": []
+  }
+
+]

@@ -3,25 +3,41 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ThemeModeToggle } from './theme-mode-toggle'
 import { CopyButton } from './copy-button'
-import { registry } from '@/registry'
 import { useEffect, useState } from 'react'
+import { registry } from '@/registry'
 
 interface ComponentPreviewProps {
-  name: string
+  name: keyof typeof registry
   className?: string
 }
 
 export function ComponentPreview({ name, className }: ComponentPreviewProps) {
   const example = registry[name]
+  const [LoadedComponent, setLoadedComponent] =
+    useState<React.ComponentType | null>(null)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    let isMounted = true
+    if (example) {
+      setLoading(true)
+      example.component().then((Comp: any) => {
+        if (isMounted) {
+          setLoadedComponent(() => Comp)
+          setLoading(false)
+        }
+      })
+    }
+    return () => {
+      isMounted = false
+    }
+  }, [example])
 
   if (!example) {
     return <div>Example not found for "{name}"</div>
   }
 
-  const Component = example.component
-
-  //TODO: need a robust solution for showing sourceCode in component in future
-  const codePrev = example.sourceCode
+  const codePrev = example.source
 
   return (
     <div className={`relative ${className} py-2 pt-4`}>
@@ -59,7 +75,8 @@ export function ComponentPreview({ name, className }: ComponentPreviewProps) {
             className={`preview flex min-h-[350px] w-full justify-center p-10 overflow-auto`}
           >
             <div className={`flex items-center justify-center w-full`}>
-              <Component />
+              {loading && <span>Loading preview...</span>}
+              {LoadedComponent && <LoadedComponent />}
             </div>
           </div>
           {/* Render CodeBlock here (hidden) to precompute code highlighting */}

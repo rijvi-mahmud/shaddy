@@ -1,0 +1,66 @@
+---
+title: useDebounce
+description: A custom React hook that delays updating a value until after a specified delay.
+links:
+  links: {
+    "debouncing": "https://www.geeksforgeeks.org/javascript/debouncing-in-javascript/"
+  }
+---
+
+`useDebounce` is a useful custom React hook that implements debouncing functionality in React applications. Debouncing is a programming practice that limits the rate at which a function can execute, ensuring that time-intensive operations don't trigger too frequently.
+
+This hook is particularly useful for scenarios like search inputs, where you want to delay API calls until the user has stopped typing, or for any situation where you need to delay processing a rapidly changing value.
+
+<ComponentPreview name="use-debounce"/>
+
+## API
+▸ **useDebounce**`<T>(`value`: T, `delay`: number): T`
+
+### Parameters
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `value` | `T` | The input value to debounce. |
+| `delay` | `number` | The delay in milliseconds before updating the debounced value. |
+
+### Returns
+
+- Returns (T): The debounced value that updates only after the specified delay has passed without new changes.
+
+## Hook
+
+```tsx
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from 'react'
+
+/**
+ * Custom hook to debounce a value. This is useful for delaying updates to a value until after a specified delay.
+ *
+ * @template T - The type of the value to debounce.
+ * @param {T} value - The value to debounce.
+ * @param {number} delay - The delay in milliseconds before updating the debounced value.
+ * @returns {T} - The debounced value.
+ *
+ * @example
+ * const debouncedValue = useDebounce(value, 500);
+ * // This will delay the update of `debouncedValue` by 500ms after `value` changes.
+ */
+export const useDebounce = <T = any>(value: T, delay: number): T => {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value)
+
+  useEffect(() => {
+    const t = setTimeout(
+      () => {
+        setDebouncedValue(value)
+      },
+      Math.max(0, delay)
+    )
+
+    return () => {
+      clearTimeout(t)
+    }
+  }, [value, delay])
+
+  return debouncedValue
+}
+```

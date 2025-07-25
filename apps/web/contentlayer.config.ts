@@ -212,6 +212,37 @@ export const TypedHooks = defineDocumentType(() => ({
   computedFields: docComputedFields,
 }))
 
+export const Form = defineDocumentType(() => ({
+  name: 'Form',
+  contentType: 'mdx',
+  filePathPattern: `form/**/*.mdx`,
+
+  fields: {
+    title: {
+      type: 'string',
+      required: true,
+    },
+
+    description: {
+      type: 'string',
+      required: true,
+    },
+
+    links: {
+      type: 'nested',
+      of: LinksProperties,
+    },
+
+    toc: {
+      type: 'boolean',
+      default: true,
+      required: false,
+    },
+  },
+
+  computedFields: docComputedFields,
+}))
+
 export const Utils = defineDocumentType(() => ({
   name: 'Utils',
   contentType: 'mdx',
@@ -296,9 +327,9 @@ export const Blog = defineDocumentType(() => ({
 }))
 
 export default makeSource({
-  documentTypes: [Doc, Blog, TypedHooks, Utils],
+  documentTypes: [Doc, Blog, TypedHooks, Utils, Form],
   contentDirPath: '../content',
-  contentDirInclude: ['docs', 'blog', 'typed-hooks', 'utils'],
+  contentDirInclude: ['docs', 'blog', 'typed-hooks', 'utils', 'form'],
 
   mdx: {
     remarkPlugins: [remarkGfm, codeImport],

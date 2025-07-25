@@ -9,13 +9,13 @@
 
 import type { DocsConfig } from '@/lib/shaddy/types/docs'
 
-export const typedHooksConfig: DocsConfig = {
+export const formConfig: DocsConfig = {
   mainNav: [
     {
-      href: '/typed-hooks',
+      href: '/form',
 
       title: {
-        en: 'Typed Hooks',
+        en: 'Form',
         pt: 'Documentação',
       },
     },
@@ -30,7 +30,7 @@ export const typedHooksConfig: DocsConfig = {
 
       items: [
         {
-          href: '/typed-hooks',
+          href: '/form',
 
           title: {
             en: 'Introduction',
@@ -40,7 +40,7 @@ export const typedHooksConfig: DocsConfig = {
           items: [],
         },
         {
-          href: '/typed-hooks/use-boolean',
+          href: '/form/use-boolean',
           title: {
             en: 'useBoolean',
             pt: 'useBoolean',
@@ -48,7 +48,7 @@ export const typedHooksConfig: DocsConfig = {
           items: [],
         },
         {
-          href: '/typed-hooks/use-default',
+          href: '/form/use-default',
           title: {
             en: 'useDefault',
             pt: 'useDefault',
@@ -56,7 +56,7 @@ export const typedHooksConfig: DocsConfig = {
           items: [],
         },
         {
-          href: '/typed-hooks/use-clipboard-copy',
+          href: '/form/use-clipboard-copy',
           title: {
             en: 'useClipboardCopy',
             pt: 'useClipboardCopy',
@@ -64,7 +64,7 @@ export const typedHooksConfig: DocsConfig = {
           items: [],
         },
         {
-          href: '/typed-hooks/use-debounce',
+          href: '/form/use-debounce',
           title: {
             en: 'useDebounce',
             pt: 'useDebounce',
@@ -72,7 +72,7 @@ export const typedHooksConfig: DocsConfig = {
           items: [],
         },
         {
-          href: '/typed-hooks/use-debounced-callback',
+          href: '/form/use-debounced-callback',
           title: {
             en: 'useDebouncedCallback',
             pt: 'useDebouncedCallback',
@@ -80,7 +80,7 @@ export const typedHooksConfig: DocsConfig = {
           items: [],
         },
         {
-          href: '/typed-hooks/use-interval',
+          href: '/form/use-interval',
           title: {
             en: 'useInterval',
             pt: 'useInterval',
@@ -88,7 +88,7 @@ export const typedHooksConfig: DocsConfig = {
           items: [],
         },
         {
-          href: '/typed-hooks/use-previous',
+          href: '/form/use-previous',
           title: {
             en: 'usePrevious',
             pt: 'usePrevious',
@@ -96,7 +96,7 @@ export const typedHooksConfig: DocsConfig = {
           items: [],
         },
         {
-          href: '/typed-hooks/use-window-resize',
+          href: '/form/use-window-resize',
           title: {
             en: 'useWindowResize',
             pt: 'useWindowResize',
@@ -104,7 +104,7 @@ export const typedHooksConfig: DocsConfig = {
           items: [],
         },
         {
-          href: '/typed-hooks/use-event-listener',
+          href: '/form/use-event-listener',
           title: {
             en: 'useEventListener',
             pt: 'useEventListener',
@@ -112,7 +112,7 @@ export const typedHooksConfig: DocsConfig = {
           items: [],
         },
         {
-          href: '/typed-hooks/use-local-storage',
+          href: '/form/use-local-storage',
           title: {
             en: 'useLocalStorage',
             pt: 'useLocalStorage',
@@ -124,19 +124,19 @@ export const typedHooksConfig: DocsConfig = {
           },
           items: [],
         },
-        // {
-        //   href: '/typed-hooks/use-session-storage',
-        //   title: {
-        //     en: 'useSessionStorage',
-        //     pt: 'useSessionStorage',
-        //   },
+        {
+          href: '/form/use-session-storage',
+          title: {
+            en: 'useSessionStorage',
+            pt: 'useSessionStorage',
+          },
 
-        //   label: {
-        //     en: 'New',
-        //     pt: 'Novo',
-        //   },
-        //   items: [],
-        // },
+          label: {
+            en: 'New',
+            pt: 'Novo',
+          },
+          items: [],
+        },
       ],
     },
   ],
