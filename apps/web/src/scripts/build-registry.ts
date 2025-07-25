@@ -7,7 +7,7 @@ import {
   registryItemTypeSchema,
   registrySchema,
 } from '../registry/schema'
-import { Project, ScriptKind } from 'ts-morph'
+// import { Project, ScriptKind } from 'ts-morph'
 import { z } from 'zod'
 
 import { registry } from '../registry'
