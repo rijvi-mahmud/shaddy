@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ThemeModeToggle } from './theme-mode-toggle'
 import { CopyButton } from './copy-button'
 import { useEffect, useState } from 'react'
-import { registry } from '@/registry'
+import { registry } from '@/registry/component-registry-with-source-code'
 
 interface ComponentPreviewProps {
   name: keyof typeof registry

@@ -1,7 +1,7 @@
 [
   {
     "name": "use-boolean",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UseBooleanExample.tsx",
@@ -13,7 +13,7 @@
   },
   {
     "name": "use-default",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UseDefaultExample.tsx",
@@ -25,7 +25,7 @@
   },
   {
     "name": "use-clipboard-copy",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UseClipboardCopyExample.tsx",
@@ -37,7 +37,7 @@
   },
   {
     "name": "use-debounce",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UseDebounceExample.tsx",
@@ -49,7 +49,7 @@
   },
   {
     "name": "use-interval",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UseIntervalExample.tsx",
@@ -61,7 +61,7 @@
   },
   {
     "name": "use-previous",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UsePreviousExample.tsx",
@@ -73,7 +73,7 @@
   },
   {
     "name": "use-window-resize",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UseWindowResizeExample.tsx",
@@ -85,7 +85,7 @@
   },
   {
     "name": "use-debounced-callback",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UseDebouncedCallbackExample.tsx",
@@ -97,7 +97,7 @@
   },
   {
     "name": "use-event-listener",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UseEventListenerExample.tsx",
@@ -109,7 +109,7 @@
   },
   {
     "name": "use-local-storage-1",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UseLocalStorageExamples/BasicExample.tsx",
@@ -121,7 +121,7 @@
   },
   {
     "name": "use-local-storage-2",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UseLocalStorageExamples/SettingsExample.tsx",
@@ -133,7 +133,7 @@
   },
   {
     "name": "use-local-storage-3",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UseLocalStorageExamples/FormExample.tsx",
@@ -145,7 +145,7 @@
   },
   {
     "name": "use-local-storage-4",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UseLocalStorageExamples/AdvancedExample.tsx",
@@ -157,7 +157,7 @@
   },
   {
     "name": "use-session-storage-1",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UseSessionStorageExamples/BasicExample.tsx",
@@ -169,7 +169,7 @@
   },
   {
     "name": "use-session-storage-2",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UseSessionStorageExamples/SettingsExample.tsx",
@@ -181,7 +181,7 @@
   },
   {
     "name": "use-session-storage-3",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UseSessionStorageExamples/FormExample.tsx",
@@ -193,7 +193,7 @@
   },
   {
     "name": "use-session-storage-4",
-    "type": "hooks:example",
+    "type": "registry:hook",
     "files": [
       {
         "path": "registry/examples/hooks-example/UseSessionStorageExamples/AdvancedExample.tsx",
