@@ -124,19 +124,19 @@ export const typedHooksConfig: DocsConfig = {
           },
           items: [],
         },
-        // {
-        //   href: '/typed-hooks/use-session-storage',
-        //   title: {
-        //     en: 'useSessionStorage',
-        //     pt: 'useSessionStorage',
-        //   },
+        {
+          href: '/typed-hooks/use-session-storage',
+          title: {
+            en: 'useSessionStorage',
+            pt: 'useSessionStorage',
+          },
 
-        //   label: {
-        //     en: 'New',
-        //     pt: 'Novo',
-        //   },
-        //   items: [],
-        // },
+          label: {
+            en: 'New',
+            pt: 'Novo',
+          },
+          items: [],
+        },
       ],
     },
   ],
