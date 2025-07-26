@@ -37,3 +37,6 @@ next-env.d.ts
 
 # content layer
 .contentlayer/
+
+# public registry
+public/r/*

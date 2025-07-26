@@ -1,14 +1,6 @@
 import path from 'path'
 import { existsSync, promises as fs } from 'fs'
-import { tmpdir } from 'os'
-import {
-  Registry,
-  registryItemSchema,
-  registryItemTypeSchema,
-  registrySchema,
-} from '../registry/schema'
-// import { Project, ScriptKind } from 'ts-morph'
-import { z } from 'zod'
+import { Registry } from '../registry/schema'
 
 import { registry } from '../registry'
 
@@ -22,8 +14,6 @@ interface RegistryItem {
   dependencies?: string[]
   type?: string
 }
-
-type ComponentRegistry = RegistryItem[]
 
 interface OutputEntry {
   component: string
@@ -57,7 +47,7 @@ async function buildComponentRegistryWithSourceCode(): Promise<void> {
         item.files && item.files[0]
           ? `() => import('../${item.files[0].path.replace('.tsx', '')}').then(mod => mod.${item.files[0].path.split('/').pop()!.replace('.tsx', '')})`
           : 'undefined',
-      source: files[0]?.content ?? '',
+      source: replaceImportPathForHook(files[0]?.content ?? ''),
       dependencies: item.dependencies,
     }
   }
@@ -89,6 +79,14 @@ function replaceImportPathForHook(code: string): string {
 }
 
 const REGISTRY_PATH = path.join(process.cwd(), 'public/r')
+if (!existsSync(REGISTRY_PATH)) {
+  fs.mkdir(REGISTRY_PATH, { recursive: true }).catch(console.error)
+}
+
+const PUBLIC_REGISTRY_URL =
+  process.env.NODE_ENV === 'production'
+    ? 'https://shaddy-docs.vercel.app/r'
+    : 'http://localhost:3000/r'
 
 // ----------------------------------------------------------------------------
 // Build __registry__/index.tsx.
@@ -152,6 +150,78 @@ async function syncRegistry() {
   // Copy files from www to v4
   //   await fs.cp(wwwPublicR, v4PublicR, { recursive: true })
 }
+
+async function buildHookJsonFiles(registry: Registry) {
+  const hookDir = path.join(REGISTRY_PATH, 'hook')
+  if (!existsSync(hookDir)) {
+    await fs.mkdir(hookDir, { recursive: true })
+  }
+
+  const processedFiles = new Set<string>()
+  const hookItems = registry.items.filter(
+    (item) => item.type === 'registry:hook'
+  )
+
+  for (const item of hookItems) {
+    // Find the second file (the hook implementation)
+    const hookFile = item.files?.[1]
+    if (hookFile) {
+      const filePath = typeof hookFile === 'string' ? hookFile : hookFile.path
+      if (processedFiles.has(filePath)) continue // Skip if already processed
+      processedFiles.add(filePath)
+
+      const absPath = path.join(__dirname, `../${filePath}`)
+      const content = await fs.readFile(absPath, 'utf8')
+      const fileName = path.basename(filePath)
+
+      // Find all registry items that use this hook file
+      const relatedItems = hookItems.filter(
+        (i) =>
+          i.files?.[1] &&
+          (typeof i.files[1] === 'string' ? i.files[1] : i.files[1].path) ===
+            filePath
+      )
+
+      // Collect registryDependencies from all related items
+      const registryDependencies = Array.from(
+        new Set(
+          relatedItems
+            .flatMap((i) => i.registryDependencies ?? [])
+            .map((dep) => `${PUBLIC_REGISTRY_URL}/hook/${dep}.json`)
+        )
+      )
+
+      const json = {
+        name: fileName.replace(/\.[^/.]+$/, ''), // use filename without extension
+        type: 'registry:hook',
+        ...(registryDependencies.length > 0 ? { registryDependencies } : {}),
+        files: [
+          {
+            path: filePath,
+            type: 'registry:hook',
+            target: `hook/${fileName}`,
+            content,
+          },
+        ],
+        dependencies: relatedItems[0]?.dependencies,
+        devDependencies: relatedItems[0]?.devDependencies,
+      }
+      const outFile = path.join(
+        hookDir,
+        `${fileName.replace(/\.[^/.]+$/, '')}.json`
+      )
+      await fs.writeFile(outFile, JSON.stringify(json, null, 2), 'utf8')
+    }
+  }
+}
+
+// Call this after buildRegistry
+buildRegistry(registry)
+  .then(() => buildHookJsonFiles(registry))
+  .catch((error) => {
+    console.error('Error building registry:', error)
+    process.exit(1)
+  })
 
 // try {
 //   console.log('💽 Building registry...')
