@@ -35,12 +35,17 @@ export function CodeBlockCommand({
 
   const copyCommand = React.useCallback(() => {
     const command = tabs[packageManager]
-
     if (!command) {
       return
     }
 
-    setHasCopied(true)
+    navigator.clipboard
+      .writeText(command)
+      .then(() => setHasCopied(true))
+      .catch(() => {
+        // Handle the case where the copy failed, e.g., show an error toast
+        console.error('Failed to copy command to clipboard')
+      })
   }, [packageManager, tabs])
 
   return (
