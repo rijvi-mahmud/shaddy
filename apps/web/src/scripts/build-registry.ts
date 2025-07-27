@@ -152,7 +152,7 @@ async function syncRegistry() {
 }
 
 async function buildHookJsonFiles(registry: Registry) {
-  const hookDir = path.join(REGISTRY_PATH, 'hook')
+  const hookDir = path.join(REGISTRY_PATH, 'hooks')
   if (!existsSync(hookDir)) {
     await fs.mkdir(hookDir, { recursive: true })
   }
@@ -187,7 +187,7 @@ async function buildHookJsonFiles(registry: Registry) {
         new Set(
           relatedItems
             .flatMap((i) => i.registryDependencies ?? [])
-            .map((dep) => `${PUBLIC_REGISTRY_URL}/hook/${dep}.json`)
+            .map((dep) => `${PUBLIC_REGISTRY_URL}/hooks/${dep}.json`)
         )
       )
 
@@ -199,7 +199,7 @@ async function buildHookJsonFiles(registry: Registry) {
           {
             path: filePath,
             type: 'registry:hook',
-            target: `hook/${fileName}`,
+            target: `hooks/${fileName}`,
             content,
           },
         ],

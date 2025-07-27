@@ -2,6 +2,7 @@ import { CopyButton, CopyNpmCommandButton } from './copy-button'
 import { cn } from '@/lib/utils'
 
 import type { NpmCommands } from '@/lib/shaddy/types/unist'
+import { CodeBlockCommand } from '../code-block-command'
 
 export const pre = ({
   className,
@@ -20,6 +21,19 @@ export const pre = ({
   __withMeta__?: boolean
   __style__?: 'default' | 'new-york'
 } & NpmCommands) => {
+  const showCommands =
+    __npmCommand__ && __yarnCommand__ && __pnpmCommand__ && __bunCommand__
+
+  if (showCommands) {
+    return (
+      <CodeBlockCommand
+        __npmCommand__={__npmCommand__}
+        __pnpmCommand__={__pnpmCommand__}
+        __yarnCommand__={__yarnCommand__}
+        __bunCommand__={__bunCommand__}
+      />
+    )
+  }
   return (
     <div className="relative">
       <pre
@@ -37,20 +51,6 @@ export const pre = ({
           className={cn('absolute right-4 top-4', __withMeta__ && 'top-16')}
         />
       )}
-      {__npmCommand__ &&
-        __yarnCommand__ &&
-        __pnpmCommand__ &&
-        __bunCommand__ && (
-          <CopyNpmCommandButton
-            commands={{
-              __bunCommand__,
-              __npmCommand__,
-              __yarnCommand__,
-              __pnpmCommand__,
-            }}
-            className={cn('absolute right-4 top-4', __withMeta__ && 'top-16')}
-          />
-        )}
     </div>
   )
 }

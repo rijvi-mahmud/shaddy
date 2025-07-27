@@ -3,22 +3,6 @@ import { useDebouncedCallback } from './use-debounced-callback'
 import { useEventListener } from './use-event-listener'
 
 /**
- * ⚠️ IMPORTANT DEPENDENCY NOTICE ⚠️
- * --------------------------------------
- * If you encounter import errors with useDebouncedCallback or useEventListener:
- *
- * 1️⃣ useDebouncedCallback: https://shaddy-omega.vercel.app/typed-hooks/use-debounced-callback
- * 2️⃣ useEventListener: https://shaddy-omega.vercel.app/typed-hooks/use-event-listener
- *
- * We HIGHLY RECOMMEND using these specific implementations as they are:
- *  - Performance optimized
- *  - Well tested
- *  - Properly typed
- * --------------------------------------
- * REMOVE THIS NOTICE ONCE YOU HAVE THE DEPENDENCIES INSTALLED
- */
-
-/**
  * Custom React hook to get the current window size.
  *
  * @example

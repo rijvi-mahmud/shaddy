@@ -76,8 +76,8 @@ export const useDebouncedCallback = <T extends (...args: any[]) => any>(
   options?: DebounceOptions
 ): DebouncedFunction<T> => {
   const callbackRef = useRef(callback)
-  const timeoutRef = useRef<NodeJS.Timeout>()
-  const lastArgsRef = useRef<Parameters<T>>()
+  const timeoutRef = useRef<NodeJS.Timeout>(undefined)
+  const lastArgsRef = useRef<Parameters<T>>(undefined)
   const lastCallTimeRef = useRef<number>(0)
 
   /** Update callback ref when callback changes */

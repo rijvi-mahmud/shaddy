@@ -374,7 +374,6 @@ export default makeSource({
           },
         } as Options,
       ],
-
       () => (tree) => {
         visit(tree, (node) => {
           if (node?.type === 'element' && !!node?.tagName) {
@@ -412,6 +411,27 @@ export default makeSource({
           },
         },
       ],
+      () => (tree) => {
+        visit(tree, (node) => {
+          if (
+            node?.type === 'element' &&
+            node?.tagName === 'pre' &&
+            node.children?.[0]?.tagName === 'code'
+          ) {
+            const codeEl = node.children[0]
+            const rawValue = codeEl.children?.[0]?.value
+
+            // Detect ___NPM___ marker in code block
+            if (rawValue && rawValue.includes('___NPM___')) {
+              node.properties.isNpmScript = true
+              // Optionally, remove the marker from the code
+              codeEl.children[0].value = rawValue
+                .replace('___NPM___', '')
+                .trim()
+            }
+          }
+        })
+      },
     ],
   },
 })

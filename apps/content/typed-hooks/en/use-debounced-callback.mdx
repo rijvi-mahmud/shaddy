@@ -13,6 +13,12 @@ Unlike traditional debounce utilities, this hook is specifically designed for Re
 
 <ComponentPreview name="use-debounced-callback" />
 
+### Installation
+
+```bash
+npx shadcn@latest https://shaddy-docs.vercel.app/r/hooks/use-debounced-callback.json
+```
+
 ## API
 
 ▸ **useDebouncedCallback**\<T\>(`callback`: T, `delay`: number, `options?`: DebounceOptions): DebouncedFunction\<T\>
@@ -128,8 +134,8 @@ export const useDebouncedCallback = <T extends (...args: any[]) => any>(
   options?: DebounceOptions
 ): DebouncedFunction<T> => {
   const callbackRef = useRef(callback)
-  const timeoutRef = useRef<NodeJS.Timeout>()
-  const lastArgsRef = useRef<Parameters<T>>()
+  const timeoutRef = useRef<NodeJS.Timeout>(undefined)
+  const lastArgsRef = useRef<Parameters<T>>(undefined)
   const lastCallTimeRef = useRef<number>(0)
 
   /** Update callback ref when callback changes */

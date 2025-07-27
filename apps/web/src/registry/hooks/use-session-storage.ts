@@ -1,34 +1,3 @@
-/**
- * ⚠️ IMPORTANT DEPENDENCY NOTICE ⚠️
- * --------------------------------------
- * If you encounter import errors with useEventListener:
- *
- * 1️⃣ useEventListener: https://shaddy-omega.vercel.app/typed-hooks/use-event-listener
- *
- * We HIGHLY RECOMMEND using this specific implementation as it is:
- *  - Performance optimized
- *  - Well tested
- *  - Properly typed
- *
- * Alternative: If you prefer not to use the useEventListener hook,
- * you can replace the useEventListener usage with:
- *
- * useEffect(() => {
- *   if (typeof window === 'undefined') return
- *
- *   const handleStorageChange = (event: StorageEvent) => {
- *     if (event.key === key) {
- *       setStoredValue(readValueFromStorage())
- *     }
- *   }
- *
- *   window.addEventListener('storage', handleStorageChange)
- *   return () => window.removeEventListener('storage', handleStorageChange)
- * }, [key, readValueFromStorage])
- * --------------------------------------
- * REMOVE THIS NOTICE ONCE YOU HAVE THE DEPENDENCY INSTALLED
- */
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   useCallback,
