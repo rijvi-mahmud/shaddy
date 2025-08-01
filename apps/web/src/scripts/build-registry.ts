@@ -138,18 +138,18 @@ buildRegistry(registry).catch((error) => {
   process.exit(1)
 })
 
-async function syncRegistry() {
-  // Copy the public/r directory to v4/public/r without triggering v4's build
-  //   const wwwPublicR = path.resolve(process.cwd(), 'public/r')
-  //   const v4PublicR = path.resolve(process.cwd(), '../v4/public/r')
-  // Ensure the source directory exists
-  //   if (!existsSync(wwwPublicR)) {
-  //     await fs.mkdir(wwwPublicR, { recursive: true })
-  //   }
-  //   await fs.mkdir(v4PublicR, { recursive: true })
-  // Copy files from www to v4
-  //   await fs.cp(wwwPublicR, v4PublicR, { recursive: true })
-}
+// async function syncRegistry() {
+//   // Copy the public/r directory to v4/public/r without triggering v4's build
+//   //   const wwwPublicR = path.resolve(process.cwd(), 'public/r')
+//   //   const v4PublicR = path.resolve(process.cwd(), '../v4/public/r')
+//   // Ensure the source directory exists
+//   //   if (!existsSync(wwwPublicR)) {
+//   //     await fs.mkdir(wwwPublicR, { recursive: true })
+//   //   }
+//   //   await fs.mkdir(v4PublicR, { recursive: true })
+//   // Copy files from www to v4
+//   //   await fs.cp(wwwPublicR, v4PublicR, { recursive: true })
+// }
 
 async function buildHookJsonFiles(registry: Registry) {
   const hookDir = path.join(REGISTRY_PATH, 'hooks')
@@ -215,9 +215,82 @@ async function buildHookJsonFiles(registry: Registry) {
   }
 }
 
+async function buildFormJsonFiles(registry: Registry) {
+  const formDir = path.join(REGISTRY_PATH, 'shaddyForm')
+  if (!existsSync(formDir)) {
+    await fs.mkdir(formDir, { recursive: true })
+  }
+
+  const processedFiles = new Set<string>()
+  const formItems = registry.items.filter(
+    (item) => item.type === 'registry:component'
+  )
+
+  for (const item of formItems) {
+    // Find the second file (the form implementation)
+    const formFile = item.files?.[1]
+    if (formFile) {
+      const filePath = typeof formFile === 'string' ? formFile : formFile.path
+      if (processedFiles.has(filePath)) continue // Skip if already processed
+      processedFiles.add(filePath)
+
+      const absPath = path.join(__dirname, `../${filePath}`)
+      const content = await fs.readFile(absPath, 'utf8')
+      const fileName = path.basename(filePath)
+
+      // Find all registry items that use this form file
+      const relatedItems = formItems.filter(
+        (i) =>
+          i.files?.[1] &&
+          (typeof i.files[1] === 'string' ? i.files[1] : i.files[1].path) ===
+            filePath
+      )
+
+      // Collect registryDependencies from all related items
+      const registryDependencies = Array.from(
+        new Set(
+          relatedItems
+            .flatMap((i) => i.registryDependencies ?? [])
+            .map((dep) => {
+              if (dep.endsWith(':local')) {
+                const depName = dep.replace(':local', '')
+                return `${PUBLIC_REGISTRY_URL}/shaddyForm/${depName}.json`
+              }
+              return dep
+            })
+        )
+      )
+
+      const json = {
+        name: fileName.replace(/\.[^/.]+$/, ''), // use filename without extension
+        type: 'registry:component',
+        ...(registryDependencies.length > 0 ? { registryDependencies } : {}),
+        files: [
+          {
+            path: filePath,
+            type: 'registry:component',
+            target: `components/shaddy-form/${fileName}`,
+            content,
+          },
+        ],
+        dependencies: relatedItems[0]?.dependencies,
+        devDependencies: relatedItems[0]?.devDependencies,
+      }
+      const outFile = path.join(
+        formDir,
+        `${fileName.replace(/\.[^/.]+$/, '')}.json`
+      )
+      await fs.writeFile(outFile, JSON.stringify(json, null, 2), 'utf8')
+    }
+  }
+}
+
 // Call this after buildRegistry
 buildRegistry(registry)
-  .then(() => buildHookJsonFiles(registry))
+  .then(() => {
+    buildHookJsonFiles(registry)
+    buildFormJsonFiles(registry)
+  })
   .catch((error) => {
     console.error('Error building registry:', error)
     process.exit(1)

@@ -20,120 +20,42 @@ export const formConfig: DocsConfig = {
       },
     },
   ],
-
   sidebarNav: [
     {
       title: {
         en: 'Getting Started',
         pt: 'Começando',
       },
-
       items: [
         {
           href: '/form',
-
           title: {
             en: 'Introduction',
             pt: 'Introdução',
           },
-
           items: [],
         },
+      ],
+    },
+    {
+      title: {
+        en: 'Components',
+        pt: 'Componentes',
+      },
+      items: [
         {
-          href: '/form/use-boolean',
+          href: '/form/form-context',
           title: {
-            en: 'useBoolean',
-            pt: 'useBoolean',
-          },
-          items: [],
-        },
-        {
-          href: '/form/use-default',
-          title: {
-            en: 'useDefault',
-            pt: 'useDefault',
-          },
-          items: [],
-        },
-        {
-          href: '/form/use-clipboard-copy',
-          title: {
-            en: 'useClipboardCopy',
-            pt: 'useClipboardCopy',
+            en: 'Form Context',
+            pt: 'Form Context',
           },
           items: [],
         },
         {
-          href: '/form/use-debounce',
+          href: '/form/shaddy-form',
           title: {
-            en: 'useDebounce',
-            pt: 'useDebounce',
-          },
-          items: [],
-        },
-        {
-          href: '/form/use-debounced-callback',
-          title: {
-            en: 'useDebouncedCallback',
-            pt: 'useDebouncedCallback',
-          },
-          items: [],
-        },
-        {
-          href: '/form/use-interval',
-          title: {
-            en: 'useInterval',
-            pt: 'useInterval',
-          },
-          items: [],
-        },
-        {
-          href: '/form/use-previous',
-          title: {
-            en: 'usePrevious',
-            pt: 'usePrevious',
-          },
-          items: [],
-        },
-        {
-          href: '/form/use-window-resize',
-          title: {
-            en: 'useWindowResize',
-            pt: 'useWindowResize',
-          },
-          items: [],
-        },
-        {
-          href: '/form/use-event-listener',
-          title: {
-            en: 'useEventListener',
-            pt: 'useEventListener',
-          },
-          items: [],
-        },
-        {
-          href: '/form/use-local-storage',
-          title: {
-            en: 'useLocalStorage',
-            pt: 'useLocalStorage',
-          },
-
-          label: {
-            en: 'New',
-            pt: 'Novo',
-          },
-          items: [],
-        },
-        {
-          href: '/form/use-session-storage',
-          title: {
-            en: 'useSessionStorage',
-            pt: 'useSessionStorage',
-          },
-
-          label: {
-            en: 'New',
-            pt: 'Novo',
+            en: 'Form',
+            pt: 'Form',
           },
           items: [],
         },

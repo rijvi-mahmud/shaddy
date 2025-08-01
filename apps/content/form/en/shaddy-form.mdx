@@ -1,0 +1,83 @@
+---
+title: Shaddy Form
+description: A generic, schema-driven React form component for scalable and maintainable form management.
+---
+
+`ShaddyForm` is a reusable React component that simplifies form creation and management. It leverages `react-hook-form` for state and validation, and uses Zod schemas for type-safe validation. By providing a schema, initial values, and a submit handler, you can quickly generate forms without repetitive boilerplate.
+
+To create a form, simply provide a schema and a submit handler. ShaddyForm will generate the form for you, eliminating the need for boilerplate code. You can also customize the layout to fit your requirements.
+
+If you need access to the form instance outside the form context, use the `ref` prop to retrieve it.
+
+### Key Features
+
+- **Schema-based validation:** Uses Zod for robust, type-safe validation.
+- **Reusable and extensible:** Easily integrate with any UI and extend with custom fields.
+- **Imperative handle:** Exposes the form instance via a ref for advanced use cases.
+- **Flexible validation modes:** Supports `onChange`, `onBlur`, `onSubmit`, and `all`.
+
+ShaddyForm acts as a wrapper component for creating forms efficiently.
+
+### Installation
+
+```bash
+npx shadcn@latest add https://shaddy-docs.vercel.app/r/shaddyForm/shaddy-form.json
+```
+
+### Snippet
+
+```tsx
+export type ShaddyFormRef<T extends FieldValues> = {
+  form: UseFormReturn<T>
+}
+
+export type ShaddyFormProps<TSchema extends ZodType> = {
+  schema: TSchema
+  initialValues: Partial<z.infer<TSchema>>
+  onSubmit: SubmitHandler<z.infer<TSchema>>
+  children: ReactNode
+  //   @ts-ignore
+  ref: Ref<ShaddyFormRef<z.infer<TSchema>>>
+  mode?: 'onChange' | 'onBlur' | 'onSubmit' | 'all'
+} & React.ComponentPropsWithoutRef<'form'>
+
+/**
+ * A generic form component.
+ * @param schema The schema of the form.
+ * @param initialValues The initial values of the form.
+ * @param onSubmit The submit handler of the form.
+ * @param children The children of the form.
+ * @param ref The reference of the form.
+ *
+ * @returns The generic form component.
+ */
+export const ShaddyForm = <TSchema extends ZodType>({
+  ref,
+  initialValues,
+  schema,
+  onSubmit,
+  children,
+  mode = 'onChange',
+}: ShaddyFormProps<TSchema>) => {
+  // @ts-ignore
+  const form = useForm<z.infer<TSchema>>({
+    defaultValues: initialValues as DefaultValues<z.infer<TSchema>>,
+    // @ts-ignore
+    resolver: zodResolver(schema),
+    mode,
+  })
+
+  useImperativeHandle(ref, () => ({
+    // @ts-ignore
+    form,
+  }))
+
+  return (
+    // @ts-ignore
+    <Form {...form}>
+      {/* @ts-ignore */}
+      <form onSubmit={form.handleSubmit(onSubmit)}>{children}</form>
+    </Form>
+  )
+}
+```
