@@ -36,7 +36,7 @@ async function buildComponentRegistryWithSourceCode(): Promise<void> {
             )
             // If the item is a hook, replace import paths
             if (item.type && item.type.startsWith('hooks')) {
-              content = replaceImportPathForHook(content)
+              content = replaceImportPath(content)
             }
             return { path: file.path, content }
           })
@@ -47,7 +47,7 @@ async function buildComponentRegistryWithSourceCode(): Promise<void> {
         item.files && item.files[0]
           ? `() => import('../${item.files[0].path.replace('.tsx', '')}').then(mod => mod.${item.files[0].path.split('/').pop()!.replace('.tsx', '')})`
           : 'undefined',
-      source: replaceImportPathForHook(files[0]?.content ?? ''),
+      source: replaceImportPath(files[0]?.content ?? ''),
       dependencies: item.dependencies,
     }
   }
@@ -74,8 +74,10 @@ async function buildComponentRegistryWithSourceCode(): Promise<void> {
 
 buildComponentRegistryWithSourceCode().catch(console.error)
 
-function replaceImportPathForHook(code: string): string {
-  return code.replace(/@\/registry\/hooks/g, '@/hooks')
+function replaceImportPath(code: string): string {
+  return code
+    .replace(/@\/registry\/shaddyForm/g, '@/components/shaddy-form')
+    .replace(/@\/registry\/hooks/g, '@/hooks')
 }
 
 const REGISTRY_PATH = path.join(process.cwd(), 'public/r')
@@ -151,55 +153,67 @@ buildRegistry(registry).catch((error) => {
 //   //   await fs.cp(wwwPublicR, v4PublicR, { recursive: true })
 // }
 
-async function buildHookJsonFiles(registry: Registry) {
-  const hookDir = path.join(REGISTRY_PATH, 'hooks')
-  if (!existsSync(hookDir)) {
-    await fs.mkdir(hookDir, { recursive: true })
+type BuildJsonFilesOptions = {
+  dirName: string
+  itemType: string
+  fileType: string
+  targetPrefix: string
+  registryDepUrl: (dep: string) => string
+}
+
+async function buildRegistryJsonFiles(
+  registry: Registry,
+  options: BuildJsonFilesOptions
+) {
+  const dir = path.join(REGISTRY_PATH, options.dirName)
+  if (!existsSync(dir)) {
+    await fs.mkdir(dir, { recursive: true })
   }
 
   const processedFiles = new Set<string>()
-  const hookItems = registry.items.filter(
-    (item) => item.type === 'registry:hook'
-  )
+  const items = registry.items.filter((item) => item.type === options.itemType)
 
-  for (const item of hookItems) {
-    // Find the second file (the hook implementation)
-    const hookFile = item.files?.[1]
-    if (hookFile) {
-      const filePath = typeof hookFile === 'string' ? hookFile : hookFile.path
-      if (processedFiles.has(filePath)) continue // Skip if already processed
+  for (const item of items) {
+    const file = item.files?.[1]
+    if (file) {
+      // Support both string and object file definitions
+      const fileObj = typeof file === 'string' ? { path: file } : file
+      const filePath = fileObj.path
+      if (processedFiles.has(filePath)) continue
       processedFiles.add(filePath)
 
       const absPath = path.join(__dirname, `../${filePath}`)
       const content = await fs.readFile(absPath, 'utf8')
       const fileName = path.basename(filePath)
 
-      // Find all registry items that use this hook file
-      const relatedItems = hookItems.filter(
+      const relatedItems = items.filter(
         (i) =>
           i.files?.[1] &&
           (typeof i.files[1] === 'string' ? i.files[1] : i.files[1].path) ===
             filePath
       )
 
-      // Collect registryDependencies from all related items
       const registryDependencies = Array.from(
         new Set(
           relatedItems
             .flatMap((i) => i.registryDependencies ?? [])
-            .map((dep) => `${PUBLIC_REGISTRY_URL}/hooks/${dep}.json`)
+            .map(options.registryDepUrl)
         )
       )
 
       const json = {
-        name: fileName.replace(/\.[^/.]+$/, ''), // use filename without extension
-        type: 'registry:hook',
+        name: fileName.replace(/\.[^/.]+$/, ''),
+        type: options.itemType,
         ...(registryDependencies.length > 0 ? { registryDependencies } : {}),
         files: [
           {
             path: filePath,
-            type: 'registry:hook',
-            target: `hooks/${fileName}`,
+            type: options.fileType,
+            // Use the target from fileObj if present, otherwise fallback
+            target:
+              'target' in fileObj && typeof fileObj.target === 'string'
+                ? fileObj.target
+                : `${options.targetPrefix}${fileName}`,
             content,
           },
         ],
@@ -207,7 +221,7 @@ async function buildHookJsonFiles(registry: Registry) {
         devDependencies: relatedItems[0]?.devDependencies,
       }
       const outFile = path.join(
-        hookDir,
+        dir,
         `${fileName.replace(/\.[^/.]+$/, '')}.json`
       )
       await fs.writeFile(outFile, JSON.stringify(json, null, 2), 'utf8')
@@ -215,81 +229,40 @@ async function buildHookJsonFiles(registry: Registry) {
   }
 }
 
-async function buildFormJsonFiles(registry: Registry) {
-  const formDir = path.join(REGISTRY_PATH, 'shaddyForm')
-  if (!existsSync(formDir)) {
-    await fs.mkdir(formDir, { recursive: true })
-  }
-
-  const processedFiles = new Set<string>()
-  const formItems = registry.items.filter(
-    (item) => item.type === 'registry:component'
-  )
-
-  for (const item of formItems) {
-    // Find the second file (the form implementation)
-    const formFile = item.files?.[1]
-    if (formFile) {
-      const filePath = typeof formFile === 'string' ? formFile : formFile.path
-      if (processedFiles.has(filePath)) continue // Skip if already processed
-      processedFiles.add(filePath)
-
-      const absPath = path.join(__dirname, `../${filePath}`)
-      const content = await fs.readFile(absPath, 'utf8')
-      const fileName = path.basename(filePath)
-
-      // Find all registry items that use this form file
-      const relatedItems = formItems.filter(
-        (i) =>
-          i.files?.[1] &&
-          (typeof i.files[1] === 'string' ? i.files[1] : i.files[1].path) ===
-            filePath
-      )
-
-      // Collect registryDependencies from all related items
-      const registryDependencies = Array.from(
-        new Set(
-          relatedItems
-            .flatMap((i) => i.registryDependencies ?? [])
-            .map((dep) => {
-              if (dep.endsWith(':local')) {
-                const depName = dep.replace(':local', '')
-                return `${PUBLIC_REGISTRY_URL}/shaddyForm/${depName}.json`
-              }
-              return dep
-            })
-        )
-      )
-
-      const json = {
-        name: fileName.replace(/\.[^/.]+$/, ''), // use filename without extension
-        type: 'registry:component',
-        ...(registryDependencies.length > 0 ? { registryDependencies } : {}),
-        files: [
-          {
-            path: filePath,
-            type: 'registry:component',
-            target: `components/shaddy-form/${fileName}`,
-            content,
-          },
-        ],
-        dependencies: relatedItems[0]?.dependencies,
-        devDependencies: relatedItems[0]?.devDependencies,
-      }
-      const outFile = path.join(
-        formDir,
-        `${fileName.replace(/\.[^/.]+$/, '')}.json`
-      )
-      await fs.writeFile(outFile, JSON.stringify(json, null, 2), 'utf8')
-    }
-  }
-}
-
-// Call this after buildRegistry
+// Replace the old functions with these calls:
 buildRegistry(registry)
   .then(() => {
-    buildHookJsonFiles(registry)
-    buildFormJsonFiles(registry)
+    buildRegistryJsonFiles(registry, {
+      dirName: 'hooks',
+      itemType: 'registry:hook',
+      fileType: 'registry:hook',
+      targetPrefix: 'hooks/',
+      registryDepUrl: (dep) => `${PUBLIC_REGISTRY_URL}/hooks/${dep}.json`,
+    })
+    buildRegistryJsonFiles(registry, {
+      dirName: 'shaddyForm',
+      itemType: 'registry:component',
+      fileType: 'registry:component',
+      targetPrefix: 'components/shaddy-form/',
+      registryDepUrl: (dep) =>
+        dep.endsWith(':ui')
+          ? `${PUBLIC_REGISTRY_URL}/components/${dep.replace(':ui', '')}.json`
+          : dep.endsWith(':local')
+            ? `${PUBLIC_REGISTRY_URL}/shaddyForm/${dep.replace(':local', '')}.json`
+            : dep,
+    })
+    buildRegistryJsonFiles(registry, {
+      dirName: 'components',
+      itemType: 'registry:ui',
+      fileType: 'registry:ui',
+      targetPrefix: 'components/ui/',
+      registryDepUrl: (dep) =>
+        dep.endsWith(':ui')
+          ? `${PUBLIC_REGISTRY_URL}/components/${dep.replace(':ui', '')}.json`
+          : dep.endsWith(':local')
+            ? `${PUBLIC_REGISTRY_URL}/components/${dep.replace(':local', '')}.json`
+            : dep,
+    })
   })
   .catch((error) => {
     console.error('Error building registry:', error)

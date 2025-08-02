@@ -1,0 +1,22 @@
+import { Registry } from './schema'
+
+export const ui: Registry['items'] = [
+  {
+    name: 'loading-spinner',
+    type: 'registry:ui',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'registry/examples/hooks-example/UseSessionStorageExamples/BasicExample.tsx',
+        type: 'registry:component',
+      },
+      {
+        path: 'registry/components/ui/loading-spinner.tsx',
+        type: 'registry:ui',
+        target: 'components/ui/loading-spinner.tsx',
+      },
+    ],
+    dependencies: ['lucide-react'],
+    devDependencies: [],
+  },
+]

@@ -35,6 +35,14 @@ export const formConfig: DocsConfig = {
           },
           items: [],
         },
+        {
+          href: '/form/what-are-fields',
+          title: {
+            en: 'What are Fields?',
+            pt: 'O que são Campos?',
+          },
+          items: [],
+        },
       ],
     },
     {
@@ -56,6 +64,22 @@ export const formConfig: DocsConfig = {
           title: {
             en: 'Form',
             pt: 'Form',
+          },
+          items: [],
+        },
+        {
+          href: '/form/text-field',
+          title: {
+            en: 'Text Field',
+            pt: 'Campo de Texto',
+          },
+          items: [],
+        },
+        {
+          href: '/form/unique-text-field',
+          title: {
+            en: 'Unique Text Field',
+            pt: 'Campo de Texto Único',
           },
           items: [],
         },

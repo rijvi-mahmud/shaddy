@@ -20,7 +20,7 @@ export type ShaddyFormProps<TSchema extends ZodType> = {
   onSubmit: SubmitHandler<z.infer<TSchema>>
   children: ReactNode
   //   @ts-ignore
-  ref: Ref<ShaddyFormRef<z.infer<TSchema>>>
+  ref?: Ref<ShaddyFormRef<z.infer<TSchema>>>
   mode?: 'onChange' | 'onBlur' | 'onSubmit' | 'all'
 } & React.ComponentPropsWithoutRef<'form'>
 
