@@ -10,7 +10,7 @@ interface MainNavProps {
     docs: string
     blog: string
     typed_hooks: string
-    utility: string
+    table: string
     form: string
   }
 }
@@ -65,15 +65,15 @@ export function MainNav({ messages }: MainNavProps) {
           {messages.form}
         </Link>
         <Link
-          href="/utils"
+          href="/table"
           className={cn(
             'hover:text-foreground/80 transition-colors',
-            pathname.includes('/utility')
+            pathname.includes('/table')
               ? 'dark:text-primary-active'
               : 'text-foreground/60'
           )}
         >
-          {messages.utility}
+          {messages.table}
         </Link>
       </nav>
     </div>

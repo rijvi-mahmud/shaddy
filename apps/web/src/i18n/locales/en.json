@@ -17,9 +17,9 @@
       "menu": "menu",
       "docs": "docs",
       "blog": "blog",
-      "typed_hooks": "typed hooks",
+      "typed_hooks": "hooks",
       "form": "form",
-      "utility": "utils"
+      "table": "table"
     },
 
     "featured_cards": {

@@ -10,13 +10,11 @@ import {
 } from '@/components/ui/sheet'
 
 import { getObjectValueByLocale } from '@/lib/shaddy/utils/locale'
-import { useDocsConfig } from '@/lib/shaddy/hooks/use-docs-config'
 import { DocsSidebarNav } from './docs/sidebar-nav'
 import { ScrollArea } from './ui/scroll-area'
 import { siteConfig } from '@/config/site'
 import { Icons } from '@/components/icons'
 import { MobileLink } from './mobile-link'
-import { blogConfig } from '@/config/blog'
 import { usePathname } from '@/navigation'
 import { Button } from './ui/button'
 import { useTypedHooksConfig } from '@/lib/shaddy/hooks/use-typed-hooks-config'
@@ -31,21 +29,54 @@ interface MobileNavProps {
   }
 }
 
-const displayContentSidebar = (pathname: string) => {
-  const routes = ['/docs', '/typed-hooks', '/form']
-  return routes.some((route) => pathname.startsWith(route))
+function RenderNavLinks({
+  nav,
+  locale,
+  setOpen,
+}: {
+  nav?: { href?: string; title: any }[]
+  locale: 'en' | 'pt'
+  setOpen: (open: boolean) => void
+}) {
+  if (!nav) return null
+  return (
+    <>
+      {nav.map(
+        (item) =>
+          item.href && (
+            <MobileLink key={item.href} href={item.href} onOpenChange={setOpen}>
+              {getObjectValueByLocale(item.title, locale)}
+            </MobileLink>
+          )
+      )}
+    </>
+  )
 }
 
 export function MobileNav({ messages, menuLinks }: MobileNavProps) {
   const pathname = usePathname()
-  const docsConfig = useDocsConfig()
   const hooksConfig = useTypedHooksConfig()
   const formConfig = useFormConfig()
+  // Add more configs as needed
+
   const [open, setOpen] = useState(false)
 
-  const config = [docsConfig, hooksConfig, formConfig]
-
-  const shouldDisplayDocsSidebarContent = displayContentSidebar(pathname)
+  // Define your sections in an array
+  const sections = [
+    {
+      mainNav: hooksConfig.hooks.mainNav,
+      sidebarNav: hooksConfig.hooks.sidebarNav,
+      locale: hooksConfig.currentLocale,
+      showSidebar: pathname.startsWith('/typed-hooks'),
+    },
+    {
+      mainNav: formConfig.form.mainNav,
+      sidebarNav: formConfig.form.sidebarNav,
+      locale: formConfig.currentLocale,
+      showSidebar: pathname.startsWith('/form'),
+    },
+    // Add more sections here if needed
+  ]
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -79,92 +110,23 @@ export function MobileNav({ messages, menuLinks }: MobileNavProps) {
 
         <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
           <div className="flex flex-col space-y-3">
-            {/* {blogConfig.mainNav?.map((item) => (
-              <MobileLink key={item.href} href="/blog" onOpenChange={setOpen}>
-                {getObjectValueByLocale(item.title, docsConfig.currentLocale)}
-              </MobileLink>
-            ))} */}
-
-            {/* Show docs mainNav */}
-            {/* {docsConfig.docs.mainNav?.map(
-              (item) =>
-                item.href && (
-                  <MobileLink
-                    key={item.href}
-                    href={item.href}
-                    onOpenChange={setOpen}
-                  >
-                    {getObjectValueByLocale(
-                      item.title,
-                      docsConfig.currentLocale
-                    )}
-                  </MobileLink>
-                )
-            )} */}
-
-            {/* Show docs sidebar only on /docs */}
-            {/* {pathname.startsWith('/docs') && (
-              <DocsSidebarNav
-                isMobile
-                locale={docsConfig.currentLocale}
-                items={docsConfig.docs.sidebarNav}
-                handleMobileSidebar={setOpen}
-              />
-            )} */}
-
-            {/* Show hooks mainNav */}
-            {hooksConfig.hooks.mainNav?.map(
-              (item) =>
-                item.href && (
-                  <MobileLink
-                    key={item.href}
-                    href={item.href}
-                    onOpenChange={setOpen}
-                  >
-                    {getObjectValueByLocale(
-                      item.title,
-                      hooksConfig.currentLocale
-                    )}
-                  </MobileLink>
-                )
-            )}
-
-            {/* Show hooks sidebar only on /typed-hooks */}
-            {pathname.startsWith('/typed-hooks') && (
-              <DocsSidebarNav
-                isMobile
-                locale={hooksConfig.currentLocale}
-                items={hooksConfig.hooks.sidebarNav}
-                handleMobileSidebar={setOpen}
-              />
-            )}
-
-            {/* Show form mainNav */}
-            {formConfig.form.mainNav?.map(
-              (item) =>
-                item.href && (
-                  <MobileLink
-                    key={item.href}
-                    href={item.href}
-                    onOpenChange={setOpen}
-                  >
-                    {getObjectValueByLocale(
-                      item.title,
-                      formConfig.currentLocale
-                    )}
-                  </MobileLink>
-                )
-            )}
-
-            {/* Show form sidebar only on /form */}
-            {pathname.startsWith('/form') && (
-              <DocsSidebarNav
-                isMobile
-                locale={formConfig.currentLocale}
-                items={formConfig.form.sidebarNav}
-                handleMobileSidebar={setOpen}
-              />
-            )}
+            {sections.map((section, idx) => (
+              <div key={idx}>
+                <RenderNavLinks
+                  nav={section.mainNav}
+                  locale={section.locale}
+                  setOpen={setOpen}
+                />
+                {section.showSidebar && (
+                  <DocsSidebarNav
+                    isMobile
+                    locale={section.locale}
+                    items={section.sidebarNav}
+                    handleMobileSidebar={setOpen}
+                  />
+                )}
+              </div>
+            ))}
           </div>
         </ScrollArea>
       </SheetContent>

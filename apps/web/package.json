@@ -3,14 +3,15 @@
   "version": "3.0.8",
   "private": true,
   "scripts": {
-    "dev": "pnpm build:registry && next dev",
+    "dev": "pnpm build:registry:watch & next dev",
     "build": "run-s contentlayer:build build:registry next:build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "eslint --fix .",
     "next:build": "next build",
     "contentlayer:build": "contentlayer2 build",
-    "build:registry": "tsx --no-cache src/scripts/build-registry.ts"
+    "build:registry": "tsx --no-cache src/scripts/build-registry.ts",
+    "build:registry:watch": "tsx watch --no-cache src/scripts/build-registry.ts"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.3.0",

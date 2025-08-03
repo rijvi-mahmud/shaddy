@@ -1,8 +1,10 @@
 import { getTranslations } from 'next-intl/server'
+import Script from 'next/script'
 
 import { siteConfig } from '@/config/site'
 import { Link } from '@/navigation'
 import { cn } from '@/lib/utils'
+import Image from 'next/image'
 
 export async function SiteFooter() {
   const t = await getTranslations('site.footer')
@@ -37,6 +39,16 @@ export async function SiteFooter() {
             )}
           >
             {t('links.contributors')}
+          </Link>
+          <Link
+            href="https://www.buymeacoffee.com/rijvi.mahmud"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(
+              'hover:text-yellow-400 transition-colors text-foreground/60'
+            )}
+          >
+            ☕ coffee
           </Link>
         </div>
       </div>
