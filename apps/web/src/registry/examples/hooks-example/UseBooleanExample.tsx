@@ -11,7 +11,7 @@ import {
   ToggleLeft,
 } from 'lucide-react'
 
-export const UseBooleanExample = () => {
+const UseBooleanExample = () => {
   const [value, { setValue, toggle, setTrue, setFalse, reset, getValue }] =
     useBoolean(false)
 
@@ -88,3 +88,5 @@ export const UseBooleanExample = () => {
     </Card>
   )
 }
+
+export default UseBooleanExample

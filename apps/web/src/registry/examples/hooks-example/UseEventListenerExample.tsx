@@ -7,7 +7,7 @@ import { useState, useRef } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import Link from 'next/link'
 
-export const UseEventListenerExample = () => {
+const UseEventListenerExample = () => {
   return (
     <Card className="w-full border">
       <CardContent className="pt-6">
@@ -34,6 +34,8 @@ export const UseEventListenerExample = () => {
     </Card>
   )
 }
+
+export default UseEventListenerExample
 
 // Example 1: Basic click events (similar to original)
 const ClickExample = () => {

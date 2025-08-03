@@ -8,7 +8,7 @@ import { useSessionStorage } from '@/registry/hooks/use-session-storage'
 import { Save, Settings, Trash2 } from 'lucide-react'
 
 // Example 2: Session-based UI preferences
-export const SettingsExample = () => {
+const SettingsExample = () => {
   const [uiSettings, setUiSettings, removeUiSettings] = useSessionStorage(
     'session-ui-settings',
     {
@@ -95,3 +95,5 @@ export const SettingsExample = () => {
     </div>
   )
 }
+
+export default SettingsExample

@@ -13,7 +13,6 @@ import {
   MoonIcon,
   LaptopIcon,
   CircleIcon,
-  FileTextIcon,
 } from '@radix-ui/react-icons'
 
 import { Button } from '@/components/ui/button'
@@ -35,12 +34,14 @@ import { useBlogConfig } from '@/lib/shaddy/hooks/use-blog-config'
 import { useTypedHooksConfig } from '@/lib/shaddy/hooks/use-typed-hooks-config'
 import { getObjectValueByLocale } from '@/lib/shaddy/utils/locale'
 import { allBlogs } from 'contentlayer/generated'
+import { useFormConfig } from '@/lib/shaddy/hooks/use-form-config'
 
 interface CommandMenuProps extends AlertDialogProps {
   messages: {
     docs: string
     blog: string
     hooks: string
+    form: string
     search: string
     noResultsFound: string
     searchDocumentation: string
@@ -58,9 +59,10 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
   const router = useRouter()
   const { setTheme } = useTheme()
   const locale = useLocale()
-  const docsConfig = useDocsConfig()
-  const blogConfig = useBlogConfig()
+  // const docsConfig = useDocsConfig()
+  // const blogConfig = useBlogConfig()
   const hooksConfig = useTypedHooksConfig()
+  const formConfig = useFormConfig()
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -115,48 +117,54 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
   // Collect all searchable items with group context
   const allSearchableItems = useMemo(() => {
     const mainNavItems = [
-      ...docsConfig.docs.mainNav,
-      ...blogConfig.blog.mainNav,
+      // ...docsConfig.docs.mainNav,
+      // ...blogConfig.blog.mainNav,
       ...hooksConfig.hooks.mainNav,
+      ...formConfig.form.mainNav,
     ]
       .filter((navItem) => !navItem.external && navItem.href)
       .map((item) => ({
-        title: getObjectValueByLocale(item.title, docsConfig.currentLocale),
+        title: getObjectValueByLocale(item.title, hooksConfig.currentLocale),
         href: item.href,
         group: 'Links',
       }))
 
-    const docsItems = docsConfig.docs.sidebarNav.flatMap((group) =>
-      flattenNavItems(group.items, docsConfig.currentLocale, messages.docs)
-    )
+    // const docsItems = docsConfig.docs.sidebarNav.flatMap((group) =>
+    //   flattenNavItems(group.items, docsConfig.currentLocale, messages.docs)
+    // )
 
     const hooksItems = hooksConfig.hooks.sidebarNav.flatMap((group) =>
       flattenNavItems(group.items, hooksConfig.currentLocale, messages.hooks)
     )
 
-    const blogItems = allBlogs
-      .filter((post) => {
-        const [postLocale] = post.slugAsParams.split('/')
-        return postLocale === locale
-      })
-      .map((post) => {
-        const [, ...slugs] = post.slugAsParams.split('/')
-        const slug = slugs.join('/')
-        return {
-          title: post.title,
-          href: `/blog/${slug}`,
-          group: messages.blog,
-          searchValue: `${post.title} ${post.excerpt} ${post.tags.join(' ')}`,
-        }
-      })
+    const formItems = formConfig.form.sidebarNav.flatMap((group) =>
+      flattenNavItems(group.items, formConfig.currentLocale, messages.form)
+    )
+
+    // const blogItems = allBlogs
+    //   .filter((post) => {
+    //     const [postLocale] = post.slugAsParams.split('/')
+    //     return postLocale === locale
+    //   })
+    //   .map((post) => {
+    //     const [, ...slugs] = post.slugAsParams.split('/')
+    //     const slug = slugs.join('/')
+    //     return {
+    //       title: post.title,
+    //       href: `/blog/${slug}`,
+    //       group: messages.blog,
+    //       searchValue: `${post.title} ${post.excerpt} ${post.tags.join(' ')}`,
+    //     }
+    //   })
 
     return {
       mainNav: mainNavItems,
-      docs: docsItems,
+      // docs: docsItems,
       hooks: hooksItems,
-      blog: blogItems,
+      // blog: blogItems,
+      form: formItems,
     }
-  }, [docsConfig, blogConfig, hooksConfig, locale, messages])
+  }, [hooksConfig, locale, messages])
 
   return (
     <>
@@ -197,7 +205,7 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
 
           <CommandSeparator className="my-1" />
 
-          <CommandGroup heading={messages.docs}>
+          {/* <CommandGroup heading={messages.docs}>
             {allSearchableItems.docs.map((item) => (
               <CommandItem
                 key={item.href}
@@ -210,7 +218,7 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
                 {item.title}
               </CommandItem>
             ))}
-          </CommandGroup>
+          </CommandGroup> */}
 
           <CommandSeparator className="my-1" />
 
@@ -249,6 +257,23 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
           </CommandGroup>
 
           <CommandSeparator className="my-1" /> */}
+
+          <CommandGroup heading={messages.form}>
+            {allSearchableItems.form.map((item) => (
+              <CommandItem
+                key={item.href}
+                value={`${item.title} (${item.group})`}
+                onSelect={() => runCommand(() => router.push(item.href!))}
+              >
+                <div className="mr-2 flex size-4 items-center justify-center">
+                  <CircleIcon className="size-3" />
+                </div>
+                {item.title}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+
+          <CommandSeparator className="my-1" />
 
           <CommandGroup heading={messages.themes.theme}>
             <CommandItem onSelect={() => runCommand(() => setTheme('light'))}>

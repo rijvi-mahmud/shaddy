@@ -8,7 +8,7 @@ import { Clock, Search, Loader2, Minus, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useDebounce } from '@/registry/hooks/use-debounce'
 
-export const UseDebounceExample = () => {
+const UseDebounceExample = () => {
   const [inputValue, setInputValue] = useState('')
   const [results, setResults] = useState<string[]>([])
   const [isSearching, setIsSearching] = useState(false)
@@ -200,3 +200,5 @@ export const UseDebounceExample = () => {
     </Card>
   )
 }
+
+export default UseDebounceExample

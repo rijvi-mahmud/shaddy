@@ -10,7 +10,7 @@ import { Save, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 
 // Example 3: Temporary note draft
-export const FormExample = () => {
+const FormExample = () => {
   type NoteDraft = {
     title: string
     content: string
@@ -141,3 +141,5 @@ export const FormExample = () => {
     </div>
   )
 }
+
+export default FormExample

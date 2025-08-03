@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { usePrevious } from '@/registry/hooks/use-previous'
 import { PlusIcon, MinusIcon } from 'lucide-react'
 
-export const UsePreviousExample = () => {
+const UsePreviousExample = () => {
   const [count, setCount] = useState(0)
   const prevCount = usePrevious(count)
   return (
@@ -48,3 +48,5 @@ export const UsePreviousExample = () => {
     </Card>
   )
 }
+
+export default UsePreviousExample

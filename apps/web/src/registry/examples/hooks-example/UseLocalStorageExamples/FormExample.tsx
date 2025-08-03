@@ -9,7 +9,7 @@ import { Save, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 
 // Example 3: Form data persistence
-export const FormExample = () => {
+const FormExample = () => {
   type DraftForm = {
     title: string
     content: string
@@ -144,3 +144,5 @@ export const FormExample = () => {
     </div>
   )
 }
+
+export default FormExample

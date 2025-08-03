@@ -7,7 +7,7 @@ import { useLocalStorage } from '@/registry/hooks/use-local-storage'
 import { Trash2 } from 'lucide-react'
 
 // Example 1: Basic counter with localStorage persistence
-export const BasicExample = () => {
+const BasicExample = () => {
   const [count, setCount, removeCount] = useLocalStorage('counter', 0)
   const [name, setName, removeName] = useLocalStorage('user-name', '')
 
@@ -73,3 +73,5 @@ export const BasicExample = () => {
     </div>
   )
 }
+
+export default BasicExample

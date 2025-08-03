@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { Play, Pause, RotateCcw, Minus, Plus, Clock } from 'lucide-react'
 import { useInterval } from '@/registry/hooks/use-interval'
 
-export function UseIntervalExample() {
+function UseIntervalExample() {
   const [count, setCount] = useState(0)
   const [delay, setDelay] = useState(1000)
 
@@ -142,3 +142,5 @@ export function UseIntervalExample() {
     </Card>
   )
 }
+
+export default UseIntervalExample

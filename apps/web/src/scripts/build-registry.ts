@@ -45,7 +45,7 @@ async function buildComponentRegistryWithSourceCode(): Promise<void> {
     output[item.name] = {
       component:
         item.files && item.files[0]
-          ? `() => import('../${item.files[0].path.replace('.tsx', '')}').then(mod => mod.${item.files[0].path.split('/').pop()!.replace('.tsx', '')})`
+          ? `React.lazy(() => import('@/${item.files[0].path.replace(/\.tsx?$/, '')}'))`
           : 'undefined',
       source: replaceImportPath(files[0]?.content ?? ''),
       dependencies: item.dependencies,
@@ -66,6 +66,9 @@ async function buildComponentRegistryWithSourceCode(): Promise<void> {
      * Hook Registry
      * This file is auto-generated. Do not edit manually.
      */
+
+    import * as React from 'react';
+
     export const registry = ${finalRegistryString};
     `
   )

@@ -172,7 +172,7 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-export const UseDebouncedCallbackExample = () => {
+const UseDebouncedCallbackExample = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const { input, config, status, ui } = state
 

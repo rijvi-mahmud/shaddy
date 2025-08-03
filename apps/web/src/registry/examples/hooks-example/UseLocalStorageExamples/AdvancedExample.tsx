@@ -4,7 +4,7 @@ import { useLocalStorage } from '@/registry/hooks/use-local-storage'
 import { RefreshCw } from 'lucide-react'
 
 // Example 4: Advanced usage with custom serialization
-export const AdvancedExample = () => {
+const AdvancedExample = () => {
   // Custom serialization for Date objects
   const [lastVisit, setLastVisit, removeLastVisit] = useLocalStorage(
     'last-visit',
@@ -114,3 +114,5 @@ export const AdvancedExample = () => {
     </div>
   )
 }
+
+export default AdvancedExample

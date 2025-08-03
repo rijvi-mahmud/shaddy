@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { useSessionStorage } from '@/registry/hooks/use-session-storage'
 
 // Example 4: Session-based analytics tracking
-export const AdvancedExample = () => {
+const AdvancedExample = () => {
   type AnalyticsEvent = {
     id: number
     type: string
@@ -97,3 +97,5 @@ export const AdvancedExample = () => {
     </div>
   )
 }
+
+export default AdvancedExample

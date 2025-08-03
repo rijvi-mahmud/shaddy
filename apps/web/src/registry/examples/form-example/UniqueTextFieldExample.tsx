@@ -15,7 +15,7 @@ const initialValues: User = {
   email: '',
 }
 
-export const UniqueTextFieldExample = () => {
+const UniqueTextFieldExample = () => {
   return (
     <ShaddyForm
       schema={user}
@@ -44,6 +44,8 @@ export const UniqueTextFieldExample = () => {
     </ShaddyForm>
   )
 }
+
+export default UniqueTextFieldExample
 
 /**
  * Mock api call unique value function

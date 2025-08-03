@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Clipboard, CheckCircle2, RefreshCw, ClipboardX } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 
-export const UseClipboardCopyExample = () => {
+const UseClipboardCopyExample = () => {
   const [inputText, setInputText] = useState('Copy this text to clipboard!')
   const { toast } = useToast()
   const [copiedText, copy, copyStatus] = useClipboardCopy()
@@ -111,3 +111,5 @@ export const UseClipboardCopyExample = () => {
     </Card>
   )
 }
+
+export default UseClipboardCopyExample

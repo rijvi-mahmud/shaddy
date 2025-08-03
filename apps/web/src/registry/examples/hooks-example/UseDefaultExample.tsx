@@ -13,7 +13,7 @@ import {
   RefreshCw,
 } from 'lucide-react'
 
-export const UseDefaultExample = () => {
+const UseDefaultExample = () => {
   const initialValue = 10
   const defaultValue = 0
   const [value, setValue] = useDefault(initialValue, defaultValue)
@@ -108,3 +108,5 @@ export const UseDefaultExample = () => {
     </Card>
   )
 }
+
+export default UseDefaultExample

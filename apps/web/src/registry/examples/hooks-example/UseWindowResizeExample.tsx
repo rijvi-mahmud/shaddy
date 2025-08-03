@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { useWindowResize } from '@/registry/hooks/use-window-resize'
 import { ArrowsUpFromLine } from 'lucide-react'
 
-export const UseWindowResizeExample = () => {
+const UseWindowResizeExample = () => {
   const { width = 0, height = 0 } = useWindowResize()
 
   return (
@@ -49,3 +49,5 @@ export const UseWindowResizeExample = () => {
     </Card>
   )
 }
+
+export default UseWindowResizeExample

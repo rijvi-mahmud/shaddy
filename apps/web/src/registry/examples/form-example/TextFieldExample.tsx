@@ -16,7 +16,7 @@ const initialValues: User = {
   email: '',
 }
 
-export const TextFieldExample = () => {
+const TextFieldExample = () => {
   return (
     <ShaddyForm
       schema={user}
@@ -43,3 +43,5 @@ export const TextFieldExample = () => {
     </ShaddyForm>
   )
 }
+
+export default TextFieldExample

@@ -20,6 +20,7 @@ import { blogConfig } from '@/config/blog'
 import { usePathname } from '@/navigation'
 import { Button } from './ui/button'
 import { useTypedHooksConfig } from '@/lib/shaddy/hooks/use-typed-hooks-config'
+import { useFormConfig } from '@/lib/shaddy/hooks/use-form-config'
 
 interface MobileNavProps {
   menuLinks: JSX.Element
@@ -31,7 +32,7 @@ interface MobileNavProps {
 }
 
 const displayContentSidebar = (pathname: string) => {
-  const routes = ['/docs', '/typed-hooks']
+  const routes = ['/docs', '/typed-hooks', '/form']
   return routes.some((route) => pathname.startsWith(route))
 }
 
@@ -39,9 +40,10 @@ export function MobileNav({ messages, menuLinks }: MobileNavProps) {
   const pathname = usePathname()
   const docsConfig = useDocsConfig()
   const hooksConfig = useTypedHooksConfig()
+  const formConfig = useFormConfig()
   const [open, setOpen] = useState(false)
 
-  const config = [docsConfig, hooksConfig]
+  const config = [docsConfig, hooksConfig, formConfig]
 
   const shouldDisplayDocsSidebarContent = displayContentSidebar(pathname)
 
@@ -133,6 +135,33 @@ export function MobileNav({ messages, menuLinks }: MobileNavProps) {
                 isMobile
                 locale={hooksConfig.currentLocale}
                 items={hooksConfig.hooks.sidebarNav}
+                handleMobileSidebar={setOpen}
+              />
+            )}
+
+            {/* Show form mainNav */}
+            {formConfig.form.mainNav?.map(
+              (item) =>
+                item.href && (
+                  <MobileLink
+                    key={item.href}
+                    href={item.href}
+                    onOpenChange={setOpen}
+                  >
+                    {getObjectValueByLocale(
+                      item.title,
+                      formConfig.currentLocale
+                    )}
+                  </MobileLink>
+                )
+            )}
+
+            {/* Show form sidebar only on /form */}
+            {pathname.startsWith('/form') && (
+              <DocsSidebarNav
+                isMobile
+                locale={formConfig.currentLocale}
+                items={formConfig.form.sidebarNav}
                 handleMobileSidebar={setOpen}
               />
             )}

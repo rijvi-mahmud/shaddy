@@ -7,7 +7,7 @@ import { useSessionStorage } from '@/registry/hooks/use-session-storage'
 import { Trash2 } from 'lucide-react'
 
 // Example 1: Session-based interaction counter
-export const BasicExample = () => {
+const BasicExample = () => {
   const [clickCount, setClickCount, removeClickCount] = useSessionStorage(
     'session-clicks',
     0
@@ -79,3 +79,5 @@ export const BasicExample = () => {
     </div>
   )
 }
+
+export default BasicExample

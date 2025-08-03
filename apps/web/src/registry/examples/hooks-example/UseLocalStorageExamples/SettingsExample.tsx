@@ -9,7 +9,7 @@ import { useLocalStorage } from '@/registry/hooks/use-local-storage'
 import { Database, Settings, Trash2 } from 'lucide-react'
 
 // Example 2: User settings with complex object
-export const SettingsExample = () => {
+const SettingsExample = () => {
   const [settings, setSettings, removeSettings] = useLocalStorage(
     'user-settings',
     {
@@ -139,3 +139,5 @@ export const SettingsExample = () => {
     </div>
   )
 }
+
+export default SettingsExample

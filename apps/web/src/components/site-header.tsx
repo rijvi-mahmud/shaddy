@@ -83,6 +83,7 @@ export async function SiteHeader() {
           <div className="w-full flex-1 md:w-auto md:flex-none">
             <CommandMenu
               messages={{
+                form: t('words.form'),
                 docs: t('words.docs'),
                 blog: t('words.blog'),
                 hooks: t('words.typed_hooks'),
