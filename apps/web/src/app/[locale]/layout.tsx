@@ -17,6 +17,7 @@ import { NextIntlClientProvider } from 'next-intl'
 
 import { Analytics } from '@vercel/analytics/next'
 import { Toaster } from '@/components/ui/toaster'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 interface AppLayoutProps {
   children: React.ReactNode
@@ -141,20 +142,18 @@ export default function RootLayout({ children, params }: AppLayoutProps) {
             defaultTheme="dark"
             disableTransitionOnChange
           >
-            <div>
-              <div className="relative z-10 flex min-h-screen flex-col">
-                <SiteHeader />
+            <div className="relative z-10 flex min-h-screen flex-col">
+              <SiteHeader />
 
-                <main className="flex-1">{children}</main>
+              <main className="flex-1">{children}</main>
 
-                <SiteFooter />
-              </div>
-
-              <div className="fixed left-0 top-0 size-full " />
+              <SiteFooter />
             </div>
           </ThemeProvider>
         </NextIntlClientProvider>
         <Analytics />
+        <GoogleAnalytics gaId="G-FMY1H5W652" />
+
         <Toaster />
       </body>
     </html>

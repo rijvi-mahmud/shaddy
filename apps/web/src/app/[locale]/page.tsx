@@ -7,7 +7,6 @@ import { Icons } from '@/components/icons'
 import { siteConfig } from '@/config/site'
 import { Link } from '@/navigation'
 import { cn } from '@/lib/utils'
-import { GoogleAnalytics } from '@next/third-parties/google'
 
 import {
   PageHeader,
@@ -30,8 +29,32 @@ export default async function IndexPage({
   const t = await getTranslations()
 
   return (
-    <div className="container relative">
-      <PageHeader>
+    <div className="container">
+      <PageHeader className="h-dvh relative isolate flex items-center justify-center">
+        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+          <svg
+            className="absolute inset-0 w-full h-full opacity-10"
+            width="100%"
+            height="100%"
+          >
+            <defs>
+              <pattern
+                id="grid"
+                width="40"
+                height="40"
+                patternUnits="userSpaceOnUse"
+              >
+                <path
+                  d="M 40 0 L 0 0 0 40"
+                  fill="none"
+                  stroke="#fff"
+                  strokeWidth="0.5"
+                />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+          </svg>
+        </div>
         <Announcement title={t('site.announcement')} href="/" />
 
         <PageHeaderHeading>
@@ -58,8 +81,6 @@ export default async function IndexPage({
           </Link>
         </PageActions>
       </PageHeader>
-
-      <GoogleAnalytics gaId="G-FMY1H5W652" />
     </div>
   )
 }
