@@ -30,7 +30,7 @@ export default async function IndexPage({
 
   return (
     <div className="container">
-      <PageHeader className="h-dvh relative isolate flex items-center justify-center">
+      <PageHeader className="h-lvh relative isolate flex items-center justify-center">
         <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
           <svg
             className="absolute inset-0 w-full h-full opacity-10"
