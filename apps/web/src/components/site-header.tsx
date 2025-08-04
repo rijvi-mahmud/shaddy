@@ -13,6 +13,7 @@ import { siteConfig } from '@/config/site'
 import { I18nToggle } from './i18n-toggle'
 import { Link } from '@/navigation'
 import { cn } from '@/lib/utils'
+import { SiteHeaderClientWrapper } from './site-header-client-wrapper'
 
 const CommandMenu = dynamic(() =>
   import('@/components/command-menu').then((mod) => mod.CommandMenu)
@@ -59,7 +60,7 @@ export async function SiteHeader() {
   const t = await getTranslations('site')
 
   return (
-    <header className={'fixed top-0 z-50 w-full backdrop-blur'}>
+    <SiteHeaderClientWrapper>
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <MainNav
           messages={{
@@ -130,7 +131,7 @@ export async function SiteHeader() {
           </nav>
         </div>
       </div>
-    </header>
+    </SiteHeaderClientWrapper>
   )
 }
 
