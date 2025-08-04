@@ -71,4 +71,22 @@ export const form: Registry['items'] = [
     devDependencies: [],
     registryDependencies: ['form', 'shaddy-form:local'],
   },
+  {
+    name: 'password-field',
+    type: 'registry:component',
+    files: [
+      {
+        path: 'registry/examples/form-example/PasswordFieldExample.tsx',
+        type: 'registry:component',
+      },
+      {
+        path: 'registry/shaddyForm/fields/password-field.tsx',
+        type: 'registry:component',
+        target: 'components/shaddy-form/fields/password-field.tsx',
+      },
+    ],
+    dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
+    devDependencies: [],
+    registryDependencies: ['form', 'shaddy-form:local'],
+  },
 ]

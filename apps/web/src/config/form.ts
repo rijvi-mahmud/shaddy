@@ -83,6 +83,14 @@ export const formConfig: DocsConfig = {
           },
           items: [],
         },
+        {
+          href: '/form/password-field',
+          title: {
+            en: 'Password Field',
+            pt: 'Campo de Senha',
+          },
+          items: [],
+        },
       ],
     },
   ],
