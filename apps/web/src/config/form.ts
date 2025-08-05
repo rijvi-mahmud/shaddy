@@ -68,6 +68,14 @@ export const formConfig: DocsConfig = {
           items: [],
         },
         {
+          href: '/form/submit-button',
+          title: {
+            en: 'Submit Button',
+            pt: 'Botão de Enviar',
+          },
+          items: [],
+        },
+        {
           href: '/form/text-field',
           title: {
             en: 'Text Field',

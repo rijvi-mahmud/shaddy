@@ -33,7 +33,24 @@ export const form: Registry['items'] = [
     ],
     dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
     devDependencies: [],
-    registryDependencies: ['form', 'text-field:local'],
+    registryDependencies: ['form', 'text-field:local', 'submit-button:local'],
+  },
+  {
+    name: 'submit-button',
+    type: 'registry:component',
+    files: [
+      {
+        path: 'registry/examples/hooks-example/UseSessionStorageExamples/BasicExample.tsx',
+        type: 'registry:component',
+      },
+      {
+        path: 'registry/shaddyForm/fields/submit-button.tsx',
+        type: 'registry:component',
+      },
+    ],
+    dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
+    devDependencies: [],
+    registryDependencies: ['form'],
   },
   {
     name: 'text-field',

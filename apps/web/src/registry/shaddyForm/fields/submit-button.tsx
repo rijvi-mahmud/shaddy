@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 import { Button, ButtonProps } from '@/components/ui/button'
 
 type SubmitButtonProps = ButtonProps & {
@@ -7,21 +7,29 @@ type SubmitButtonProps = ButtonProps & {
   disabled?: boolean
   label?: string
   loadingLabel?: string
-  width?: 'full' | 'auto'
-  loadingIconClass?: string
+  icon?: ReactNode
+  loadingIcon?: ReactNode
+  className?: string
 }
 
 /**
- * SubmitButton component
+ * Props for the SubmitButton component.
  *
- * @param {boolean} isLoading - Whether the button is loading
- * @param {boolean} disabled - Whether the button is disabled
- * @param {string} label - The label of the button
- * @param {string} loadingLabel - The loading label of the button
- * @param {'full' | 'auto'} width - The width of the button
- * @param {string} loadingIconClass - The loading icon class of the button
+ * @typedef {Object} SubmitButtonProps
+ * @property {boolean} [isLoading] - If true, shows loading state and disables the button.
+ * @property {boolean} [disabled] - If true, disables the button.
+ * @property {string} [label] - The label to display on the button.
+ * @property {string} [loadingLabel] - The label to display when loading.
+ * @property {ReactNode} [icon] - Icon to display before the label.
+ * @property {ReactNode} [loadingIcon] - Icon to display when loading.
+ * @property {string} [className] - Additional CSS classes for the button.
+ */
+
+/**
+ * SubmitButton component for forms, supporting loading and disabled states.
  *
- * @returns {ReactElement} - The submit button component
+ * @param {SubmitButtonProps} props - The props for the SubmitButton.
+ * @returns {JSX.Element} The rendered submit button.
  */
 
 export const SubmitButton: FC<SubmitButtonProps> = ({
@@ -29,17 +37,34 @@ export const SubmitButton: FC<SubmitButtonProps> = ({
   disabled = false,
   label = 'Save Changes',
   loadingLabel = 'Saving...',
-  width = 'full',
+  icon,
+  loadingIcon,
+  className,
   ...props
 }) => {
+  if (isLoading) {
+    return (
+      <Button
+        className={cn('w-full gap-2', className)}
+        type="submit"
+        disabled
+        {...props}
+      >
+        <span className="animate-spin">{loadingIcon}</span>
+        {loadingLabel}
+      </Button>
+    )
+  }
+
   return (
     <Button
-      className={cn('w-full', width === 'auto' && 'w-auto')}
+      className={cn('w-full gap-2', className)}
       type="submit"
-      disabled={isLoading || disabled}
+      disabled={disabled}
       {...props}
     >
-      {isLoading ? <>{loadingLabel}</> : <>{label}</>}
+      {icon}
+      {label}
     </Button>
   )
 }

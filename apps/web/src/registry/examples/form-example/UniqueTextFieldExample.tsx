@@ -1,6 +1,5 @@
 'use client'
 import { SubmitButton } from '@/registry/shaddyForm/fields/submit-button'
-import { TextField } from '@/registry/shaddyForm/fields/text-field'
 import { UniqueTextField } from '@/registry/shaddyForm/fields/unique-text-field'
 import { ShaddyForm } from '@/registry/shaddyForm/shaddy-form'
 import z from 'zod'
