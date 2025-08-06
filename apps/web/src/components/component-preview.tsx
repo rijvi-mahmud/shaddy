@@ -1,141 +1,165 @@
 'use client'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ThemeModeToggle } from './theme-mode-toggle'
+import * as React from "react"
+import Image from "next/image"
+import { Index } from "@/__registry__"
+import { cn } from "@/lib/utils"
 import { CopyButton } from './copy-button'
-import React, { useEffect, useState } from 'react'
-import { registry } from '@/registry/component-registry-with-source-code'
+import { styles } from "@/registry/registry-styles"
+import { Icons } from './icons'
 
-interface ComponentPreviewProps {
-  name: keyof typeof registry
-  className?: string
+interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
+  name: string
+  extractClassname?: boolean
+  extractedClassNames?: string
+  align?: "center" | "start" | "end"
+  description?: string
+  hideCode?: boolean
+  type?: "block" | "component" | "example"
 }
 
-export function ComponentPreview({ name, className }: ComponentPreviewProps) {
-  const example = registry[name]
+export function ComponentPreview({
+  name,
+  type,
+  children,
+  className,
+  extractClassname,
+  extractedClassNames,
+  align = "center",
+  description,
+  hideCode = false,
+  ...props
+}: ComponentPreviewProps) {
+  const index = styles.findIndex((style) => style.name === 'default')
 
-  if (!example) {
-    return <div>Example not found for "{name}"</div>
+  const Codes = React.Children.toArray(children) as React.ReactElement[]
+  const Code = Codes[index]
+
+  const Preview = React.useMemo(() => {
+    const Component = Index['default'][name]?.component
+
+    console.log({Component})
+
+    if (!Component) {
+      return (
+        <p className="text-sm text-muted-foreground">
+          Component{" "}
+          <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
+            {name}
+          </code>{" "}
+          not found in registry.
+        </p>
+      )
+    }
+
+    return <Component />
+  }, [name])
+
+  const codeString = React.useMemo(() => {
+    if (
+      typeof Code?.props["data-rehype-pretty-code-fragment"] !== "undefined"
+    ) {
+      const [Button] = React.Children.toArray(
+        Code.props.children
+      ) as React.ReactElement[]
+      return Button?.props?.value || Button?.props?.__rawString__ || null
+    }
+  }, [Code])
+
+  console.log({codeString})
+
+  if (type === "block") {
+    return (
+      <div className="relative aspect-[4/2.5] w-full overflow-hidden rounded-md border">
+        <Image
+          src={`/r/styles/default/${name}-light.png`}
+          alt={name}
+          width={1440}
+          height={900}
+          className="absolute left-0 top-0 z-20 w-[970px] max-w-none bg-background dark:hidden sm:w-[1280px] md:hidden md:dark:hidden"
+        />
+        <Image
+          src={`/r/styles/default/${name}-dark.png`}
+          alt={name}
+          width={1440}
+          height={900}
+          className="absolute left-0 top-0 z-20 hidden w-[970px] max-w-none bg-background dark:block sm:w-[1280px] md:hidden md:dark:hidden"
+        />
+        <div className="absolute inset-0 hidden w-[1600px] bg-background md:block">
+          <iframe
+            src={`/view/styles/default/${name}`}
+            className="size-full"
+          />
+        </div>
+      </div>
+    )
   }
 
-  const LoadedComponent = example.component
-  const codePrev = example.source
-
   return (
-    <div className={`relative ${className} py-2 pt-4`}>
+    <div
+      className={cn("group relative my-4 flex flex-col space-y-2", className)}
+      {...props}
+    >
       <Tabs defaultValue="preview" className="relative mr-auto w-full">
         <div className="flex items-center justify-between pb-3">
-          <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0">
-            <TabsTrigger
-              value="preview"
-              className="relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
-            >
-              Preview
-            </TabsTrigger>
-            <TabsTrigger
-              value="code"
-              className="relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
-            >
-              Code
-            </TabsTrigger>
-          </TabsList>
+          {!hideCode && (
+            <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0">
+              <TabsTrigger
+                value="preview"
+                className="relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+              >
+                Preview
+              </TabsTrigger>
+              <TabsTrigger
+                value="code"
+                className="relative h-9 rounded-none border-b-2 border-b-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-b-primary data-[state=active]:text-foreground data-[state=active]:shadow-none"
+              >
+                Code
+              </TabsTrigger>
+            </TabsList>
+          )}
         </div>
         <TabsContent value="preview" className="relative rounded-md border">
-          <div className="flex items-center justify-between pt-4 pl-4">
-            <div className="flex items-center space-x-2">
-              <ThemeModeToggle
-                messages={{
-                  dark: 'Dark',
-                  light: 'Light',
-                  system: 'System',
-                }}
+          <div className="flex items-center justify-between p-4">
+            <div className="flex items-center gap-2">
+              <CopyButton
+                value={codeString}
+                className="h-7 w-7 text-foreground opacity-100 hover:bg-muted hover:text-foreground [&_svg]:h-3.5 [&_svg]:w-3.5"
               />
             </div>
           </div>
-          <div
-            className={`preview flex min-h-[350px] w-full justify-center p-10 overflow-auto`}
-          >
-            <div className={`flex items-center justify-center w-full`}>
-              <LoadedComponent />
+            <div
+              className={cn(
+                "preview flex min-h-[350px] w-full justify-center p-10",
+                {
+                  "items-center": align === "center",
+                  "items-start": align === "start",
+                  "items-end": align === "end",
+                }
+              )}
+            >
+              <React.Suspense
+                fallback={
+                  <div className="flex w-full items-center justify-center text-sm text-muted-foreground">
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                    Loading...
+                  </div>
+                }
+              >
+                {Preview}
+              </React.Suspense>
             </div>
-          </div>
-          {/* Render CodeBlock here (hidden) to precompute code highlighting */}
-          {codePrev && (
-            <div style={{ display: 'none' }}>
-              <CodeBlock code={codePrev} language="tsx" theme="github-dark" />
-            </div>
-          )}
+
         </TabsContent>
         <TabsContent value="code">
-          <div className="relative">
-            {codePrev && (
-              <div className="relative rounded-lg border bg-card">
-                <CopyButton
-                  value={codePrev}
-                  className="absolute right-4 top-4 z-10 h-8 w-8 p-0 hover:bg-background"
-                />
-                <div className="overflow-hidden rounded-lg">
-                  <CodeBlock
-                    code={codePrev}
-                    language="tsx"
-                    theme="github-dark"
-                  />
-                </div>
-              </div>
-            )}
+          <div className="flex flex-col space-y-4">
+            <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:max-h-[350px] [&_pre]:overflow-auto">
+              {Code}
+            </div>
           </div>
         </TabsContent>
       </Tabs>
-    </div>
-  )
-}
-
-interface CodeBlockProps {
-  code: string
-  language: string
-  theme: string
-}
-
-function CodeBlock({ code, language, theme }: CodeBlockProps) {
-  const [html, setHtml] = useState('')
-  const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    if (!code) {
-      setHtml('')
-      setLoading(false)
-      return
-    }
-    setLoading(true)
-    // Dynamically import shiki only on client
-    import('shiki').then(({ codeToHtml }) => {
-      codeToHtml(code, { lang: language, theme: theme })
-        .then((highlighted: string) => setHtml(highlighted))
-        .catch((error: any) => {
-          console.error('Error highlighting code:', error)
-          setHtml(`<pre><code>${code}</code></pre>`)
-        })
-        .finally(() => setLoading(false))
-    })
-  }, [code, language, theme])
-
-  if (!code) return null
-
-  return (
-    <div className="relative">
-      {loading ? (
-        <div className="flex items-center justify-center p-8">
-          <div className="flex items-center space-x-2 text-muted-foreground">
-            <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"></div>
-            <span className="text-sm">Highlighting code...</span>
-          </div>
-        </div>
-      ) : (
-        <div
-          className="code-block overflow-auto text-sm [&_pre]:m-0 [&_pre]:max-h-[400px] [&_pre]:overflow-auto [&_pre]:bg-transparent [&_pre]:p-4 [&_pre]:font-mono [&_code]:break-words"
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
-      )}
     </div>
   )
 }

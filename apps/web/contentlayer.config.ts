@@ -17,6 +17,7 @@ import {
 import { rehypeNpmCommand } from './src/lib/shaddy/utils/rehype-npm-command'
 import { getContentLayerCodeTheme } from './src/lib/shaddy/utils/code-theme'
 import { blogConfig } from './src/config/blog'
+import { rehypeComponent } from '@/lib/shaddy/utils/rehype-component'
 
 const docComputedFields: ComputedFields = {
   slug: {
@@ -330,12 +331,11 @@ export default makeSource({
   documentTypes: [Doc, Blog, TypedHooks, Utils, Form],
   contentDirPath: '../content',
   contentDirInclude: ['docs', 'blog', 'typed-hooks', 'utils', 'form'],
-
   mdx: {
     remarkPlugins: [remarkGfm, codeImport],
-
     rehypePlugins: [
       rehypeSlug,
+      rehypeComponent,
       () => (tree) => {
         visit(tree, (node) => {
           if (node?.type === 'element' && node?.tagName === 'pre') {
@@ -344,13 +344,22 @@ export default makeSource({
               return
             }
 
+            if (codeEl.data?.meta) {
+              // Extract event from meta and pass it down the tree.
+              const regex = /event="([^"]*)"/
+              const match = codeEl.data?.meta.match(regex)
+              if (match) {
+                node.__event__ = match ? match[1] : null
+                codeEl.data.meta = codeEl.data.meta.replace(regex, '')
+              }
+            }
+
             node.__rawString__ = codeEl.children?.[0].value
             node.__src__ = node.properties?.__src__
             node.__style__ = node.properties?.__style__
           }
         })
       },
-
       [
         rehypePrettyCode,
         {
@@ -376,62 +385,44 @@ export default makeSource({
       ],
       () => (tree) => {
         visit(tree, (node) => {
-          if (node?.type === 'element' && !!node?.tagName) {
-            const preElement = node?.children?.at(-1)
+          if (node?.type === 'element' && node?.tagName === 'div') {
+            if (!('data-rehype-pretty-code-fragment' in node.properties)) {
+              return
+            }
 
-            if (preElement?.tagName !== 'pre') {
+            const preElement = node.children.at(-1)
+            if (preElement.tagName !== 'pre') {
               return
             }
 
             preElement.properties['__withMeta__'] =
-              node?.children?.at(0)?.tagName === 'div'
+              node.children.at(0).tagName === 'div'
+            preElement.properties['__rawString__'] = node.__rawString__
 
-            preElement.properties['__rawString__'] = node?.__rawString__
-
-            if (node?.__src__) {
+            if (node.__src__) {
               preElement.properties['__src__'] = node.__src__
             }
 
-            if (node?.__style__) {
+            if (node.__event__) {
+              preElement.properties['__event__'] = node.__event__
+            }
+
+            if (node.__style__) {
               preElement.properties['__style__'] = node.__style__
             }
           }
         })
       },
-
       rehypeNpmCommand,
-
       [
         rehypeAutolinkHeadings,
-
         {
           properties: {
-            ariaLabel: 'Link to section',
             className: ['subheading-anchor'],
+            ariaLabel: 'Link to section',
           },
         },
       ],
-      () => (tree) => {
-        visit(tree, (node) => {
-          if (
-            node?.type === 'element' &&
-            node?.tagName === 'pre' &&
-            node.children?.[0]?.tagName === 'code'
-          ) {
-            const codeEl = node.children[0]
-            const rawValue = codeEl.children?.[0]?.value
-
-            // Detect ___NPM___ marker in code block
-            if (rawValue && rawValue.includes('___NPM___')) {
-              node.properties.isNpmScript = true
-              // Optionally, remove the marker from the code
-              codeEl.children[0].value = rawValue
-                .replace('___NPM___', '')
-                .trim()
-            }
-          }
-        })
-      },
     ],
   },
 })

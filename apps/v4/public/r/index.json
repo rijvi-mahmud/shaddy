@@ -1,0 +1,15 @@
+[
+  {
+    "name": "use-boolean",
+    "type": "registry:hook",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "hooks/use-boolean.ts",
+        "type": "registry:hook"
+      }
+    ]
+  }
+]

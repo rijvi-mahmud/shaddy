@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-boolean",
+  "type": "registry:hook",
+  "author": "shadcn (https://ui.shadcn.com)",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "hooks/use-boolean.ts",
+      "content": "import { useCallback, useState } from 'react'\n\ntype BooleanHookReturnProps = {\n  setValue: (value: boolean) => void\n  toggle: () => void\n  setTrue: () => void\n  setFalse: () => void\n  reset: () => void\n  getValue: () => boolean\n}\n\n/**\n * A custom hook that manages a boolean state.\n * @param initialValue - The initial value of the boolean state.\n * @returns An object containing:\n * - `value`: The current boolean state.\n * - `setValue`: A function to set the state to a specific value.\n * - `toggle`: A function to toggle the state between true and false.\n * - `setTrue`: A function to set the state to true.\n * - `setFalse`: A function to set the state to false.\n * - `reset`: A function to reset the state to its initial value.\n * - `getValue`: A function to retrieve the current state value.\n *\n * @example\n * const [value, { toggle, setTrue, setFalse, reset, getValue }] = useBoolean(false);\n *\n * // Usage examples:\n * toggle(); // Toggles the state\n * setTrue(); // Sets the state to true\n * setFalse(); // Sets the state to false\n * reset(); // Resets the state to the initial value\n * const currentValue = getValue(); // Retrieves the current state value\n */\n\ntype useBooleanReturnType = [boolean, BooleanHookReturnProps]\ntype UseBoolean = (initialValue: boolean) => useBooleanReturnType\n\nexport const useBoolean: UseBoolean = (initialValue) => {\n  const [value, setValue] = useState(initialValue)\n\n  const toggle = () => setValue((prev) => !prev)\n  const setTrue = () => setValue(true)\n  const setFalse = () => setValue(false)\n  const getValue = useCallback(() => value, [value])\n\n  const reset = () => setValue(initialValue)\n\n  return [value, { toggle, setTrue, setFalse, reset, getValue, setValue }]\n}\n",
+      "type": "registry:hook",
+      "target": ""
+    }
+  ]
+}

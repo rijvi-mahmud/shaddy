@@ -11,6 +11,7 @@
     "next:build": "next build",
     "contentlayer:build": "contentlayer2 build",
     "build:registry": "tsx --no-cache src/scripts/build-registry.ts",
+    "registry:build": "tsx src/scripts/build-registry.ts && prettier --loglevel silent --write \"registry/**/*.{ts,tsx,mdx}\" --cache",
     "build:registry:watch": "tsx watch --no-cache src/scripts/build-registry.ts"
   },
   "dependencies": {
@@ -58,6 +59,7 @@
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.61.1",
     "react-wrap-balancer": "^1.1.1",
+    "rimraf": "^6.0.1",
     "simplex-noise": "^4.0.2",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
@@ -91,6 +93,7 @@
     "remark-gfm": "^4.0.0",
     "shiki": "^1.11.0",
     "tailwindcss": "^3.4.6",
+    "ts-morph": "^26.0.0",
     "typescript": "^5",
     "unist-builder": "^4.0.0",
     "unist-util-visit": "^5.0.0"
