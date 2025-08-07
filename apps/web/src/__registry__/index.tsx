@@ -125,6 +125,36 @@ export const Index: Record<string, any> = {
       source: "",
       meta: undefined,
     },
+    "use-session-storage": {
+      name: "use-session-storage",
+      description: "",
+      type: "registry:hook",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/hooks/use-session-storage.ts",
+        type: "registry:hook",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/hooks/use-session-storage.ts")),
+      source: "",
+      meta: undefined,
+    },
+    "use-local-storage": {
+      name: "use-local-storage",
+      description: "",
+      type: "registry:hook",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/hooks/use-local-storage.ts",
+        type: "registry:hook",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/hooks/use-local-storage.ts")),
+      source: "",
+      meta: undefined,
+    },
     "form-context": {
       name: "form-context",
       description: "",

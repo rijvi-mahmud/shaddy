@@ -105,4 +105,30 @@ export const hook: Registry['items'] = [
     dependencies: [],
     devDependencies: [],
   },
+  {
+    name: 'use-session-storage',
+    type: 'registry:hook',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'hooks/use-session-storage.ts',
+        type: 'registry:hook',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
+  {
+    name: 'use-local-storage',
+    type: 'registry:hook',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'hooks/use-local-storage.ts',
+        type: 'registry:hook',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
 ]
