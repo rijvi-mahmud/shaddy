@@ -3,7 +3,8 @@
   "version": "3.0.8",
   "private": true,
   "scripts": {
-    "dev": "pnpm build:registry:watch & next dev",
+    "dev": "run-s build:registry dev:parallel",
+    "dev:parallel": "concurrently \"pnpm build:registry:watch\" \"next dev\"",
     "build": "run-s contentlayer:build build:registry next:build",
     "start": "next start",
     "lint": "next lint",

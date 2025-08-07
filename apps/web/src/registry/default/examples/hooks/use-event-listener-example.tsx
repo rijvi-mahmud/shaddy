@@ -5,7 +5,8 @@ import { useEventListener } from '@/registry/default/hooks/use-event-listener'
 import { MousePointer, EyeIcon, EyeOffIcon, Keyboard } from 'lucide-react'
 import { useState, useRef } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import Link from 'next/link'
+import { Link } from '@/navigation'
+
 
 const UseEventListenerExample = () => {
   return (
@@ -275,6 +276,7 @@ const DelegationExample = () => {
           <span className={'text-xs text-muted-foreground'}>
             Note: we can effectively handle table with{' '}
             <Link
+              target='_blank'
               className="text-primary hover:underline"
               href={'https://tanstack.com/table/latest'}
             >

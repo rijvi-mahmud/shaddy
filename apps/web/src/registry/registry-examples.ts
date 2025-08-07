@@ -70,6 +70,19 @@ export const examples: Registry['items'] = [
     devDependencies: [],
   },
   {
+    name: 'use-event-listener-example',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'examples/hooks/use-event-listener-example.tsx',
+        type: 'registry:example',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
+  {
     name: 'use-interval-example',
     type: 'registry:example',
     registryDependencies: [],

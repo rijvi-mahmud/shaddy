@@ -19,17 +19,36 @@ export function rehypeComponent() {
           type?: string
         }) || {}
 
-      if (node.name === 'ComponentPreview') {
+      if (node.name === 'ComponentSource') {
         const name = getNodeAttributeByName(node, 'name')?.value as string
+        const fileName = getNodeAttributeByName(node, 'fileName')?.value as
+          | string
+          | undefined
 
-        if (!name) {
+        if (!name && !srcPath) {
           return null
         }
 
         try {
           for (const style of styles) {
-            const component = Index[style.name][name]
-            const src = component.files[0]?.path
+            let src: string
+
+            if (srcPath) {
+              src = path.join(process.cwd(), srcPath)
+            } else {
+              const component = Index[style.name][name]
+              src = fileName
+                ? component.files.find((file: unknown) => {
+                    if (typeof file === 'string') {
+                      return (
+                        file.endsWith(`${fileName}.tsx`) ||
+                        file.endsWith(`${fileName}.ts`)
+                      )
+                    }
+                    return false
+                  }) || component.files[0]?.path
+                : component.files[0]?.path
+            }
 
             // Read the source file.
             const filePath = src
@@ -38,24 +57,11 @@ export function rehypeComponent() {
             // Replace imports.
             // TODO: Use @swc/core and a visitor to replace this.
             // For now a simple regex should do.
-            const replacements = [
-              {
-                from: new RegExp(`@/registry/${style.name}/hooks/`, 'g'),
-                to: '@/hooks/',
-              },
-              {
-                from: new RegExp(`@/registry/${style.name}/`, 'g'),
-                to: '@/components/',
-              },
-              {
-                from: /export default/g,
-                to: 'export',
-              },
-            ]
-
-            source = replacements.reduce((acc, { from, to }) => {
-              return acc.replace(from, to)
-            }, source)
+            source = source.replaceAll(
+              `@/registry/${style.name}/`,
+              '@/components/'
+            )
+            source = source.replaceAll('export default', 'export')
 
             // Add code as children so that rehype can take over at build time.
             node.children?.push(
@@ -63,7 +69,15 @@ export function rehypeComponent() {
                 tagName: 'pre',
                 properties: {
                   __src__: src,
+                  __style__: style.name,
                 },
+                attributes: [
+                  {
+                    name: 'styleName',
+                    type: 'mdxJsxAttribute',
+                    value: style.name,
+                  },
+                ],
                 children: [
                   u('element', {
                     tagName: 'code',

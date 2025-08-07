@@ -305,6 +305,21 @@ export const Index: Record<string, any> = {
       source: "",
       meta: undefined,
     },
+    "use-event-listener-example": {
+      name: "use-event-listener-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/hooks/use-event-listener-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/hooks/use-event-listener-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
     "use-interval-example": {
       name: "use-interval-example",
       description: "",
