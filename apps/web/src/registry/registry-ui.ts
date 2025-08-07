@@ -7,11 +7,7 @@ export const ui: Registry['items'] = [
     registryDependencies: [],
     files: [
       {
-        path: 'registry/examples/hooks-example/UseSessionStorageExamples/BasicExample.tsx',
-        type: 'registry:component',
-      },
-      {
-        path: 'registry/components/ui/loading-spinner.tsx',
+        path: 'ui/loading-spinner.tsx',
         type: 'registry:ui',
         target: 'components/ui/loading-spinner.tsx',
       },

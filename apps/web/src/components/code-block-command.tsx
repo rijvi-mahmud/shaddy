@@ -12,6 +12,7 @@ export function CodeBlockCommand({
   __pnpmCommand__,
   __bunCommand__,
 }: React.ComponentProps<'pre'> & any) {
+
   const [hasCopied, setHasCopied] = React.useState(false)
 
   React.useEffect(() => {

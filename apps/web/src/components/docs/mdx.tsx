@@ -54,7 +54,6 @@ const components = {
   AccordionContent,
   AccordionTrigger,
   AlertDescription,
-
   h1,
   h2,
   h3,

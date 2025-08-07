@@ -23,7 +23,7 @@ export const pre = ({
 } & NpmCommands) => {
   const showCommands =
     __npmCommand__ && __yarnCommand__ && __pnpmCommand__ && __bunCommand__
-
+    
   if (showCommands) {
     return (
       <CodeBlockCommand

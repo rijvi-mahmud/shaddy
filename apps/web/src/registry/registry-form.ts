@@ -7,12 +7,9 @@ export const form: Registry['items'] = [
     registryDependencies: ['form', 'shaddy-form:local'],
     files: [
       {
-        path: 'registry/examples/hooks-example/UseSessionStorageExamples/BasicExample.tsx',
+        path: 'form/form-context.ts',
         type: 'registry:component',
-      },
-      {
-        path: 'registry/shaddyForm/form-context.ts',
-        type: 'registry:component',
+        target: 'components/form/form-context.ts',
       },
     ],
     dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
@@ -23,12 +20,9 @@ export const form: Registry['items'] = [
     type: 'registry:component',
     files: [
       {
-        path: 'registry/examples/hooks-example/UseSessionStorageExamples/BasicExample.tsx',
+        path: 'form/shaddy-form.tsx',
         type: 'registry:component',
-      },
-      {
-        path: 'registry/shaddyForm/shaddy-form.tsx',
-        type: 'registry:component',
+        target: 'components/form/shaddy-form.tsx',
       },
     ],
     dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
@@ -40,70 +34,59 @@ export const form: Registry['items'] = [
     type: 'registry:component',
     files: [
       {
-        path: 'registry/examples/hooks-example/UseSessionStorageExamples/BasicExample.tsx',
+        path: 'form/fields/submit-button.tsx',
         type: 'registry:component',
-      },
-      {
-        path: 'registry/shaddyForm/fields/submit-button.tsx',
-        type: 'registry:component',
+        target: 'components/form/fields/submit-button.tsx',
       },
     ],
     dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
     devDependencies: [],
-    registryDependencies: ['form'],
+    registryDependencies: ['shaddy-form:local'],
   },
   {
     name: 'text-field',
     type: 'registry:component',
     files: [
       {
-        path: 'registry/examples/form-example/TextFieldExample.tsx',
+        path: 'form/fields/text-field.tsx',
         type: 'registry:component',
-      },
-      {
-        path: 'registry/shaddyForm/fields/text-field.tsx',
-        type: 'registry:component',
-        target: 'components/shaddy-form/fields/text-field.tsx',
+        target: 'components/form/fields/text-field.tsx',
       },
     ],
     dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
     devDependencies: [],
-    registryDependencies: ['form', 'shaddy-form:local', 'loading-spinner:ui'],
+    registryDependencies: [
+      'form',
+      'shaddy-form:local',
+      'loading-spinner:local',
+    ],
   },
   {
     name: 'unique-text-field',
     type: 'registry:component',
     files: [
       {
-        path: 'registry/examples/form-example/UniqueTextFieldExample.tsx',
+        path: 'form/fields/unique-text-field.tsx',
         type: 'registry:component',
-      },
-      {
-        path: 'registry/shaddyForm/fields/unique-text-field.tsx',
-        type: 'registry:component',
-        target: 'components/shaddy-form/fields/unique-text-field.tsx',
+        target: 'components/form/fields/unique-text-field.tsx',
       },
     ],
     dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
     devDependencies: [],
-    registryDependencies: ['form', 'shaddy-form:local'],
+    registryDependencies: ['form', 'shaddy-form'],
   },
   {
     name: 'password-field',
     type: 'registry:component',
     files: [
       {
-        path: 'registry/examples/form-example/PasswordFieldExample.tsx',
+        path: 'form/fields/password-field.tsx',
         type: 'registry:component',
-      },
-      {
-        path: 'registry/shaddyForm/fields/password-field.tsx',
-        type: 'registry:component',
-        target: 'components/shaddy-form/fields/password-field.tsx',
+        target: 'components/form/fields/password-field.tsx',
       },
     ],
     dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
     devDependencies: [],
-    registryDependencies: ['form', 'shaddy-form:local'],
+    registryDependencies: ['form', 'shaddy-form'],
   },
 ]

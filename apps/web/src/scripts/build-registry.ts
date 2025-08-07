@@ -16,6 +16,7 @@ import {
   registryItemTypeSchema,
   registrySchema,
 } from '@/registry/schema'
+import { localGlobalDependencyGenerator } from './local-global-dependency-generator'
 
 const REGISTRY_PATH = path.join(process.cwd(), 'public/r')
 
@@ -27,6 +28,7 @@ const REGISTRY_INDEX_WHITELIST: z.infer<typeof registryItemTypeSchema>[] = [
   'registry:block',
   'registry:example',
   'registry:internal',
+  'registry:component',
 ]
 
 const project = new Project({
@@ -200,7 +202,9 @@ export const Index: Record<string, any> = {
   // Build registry/index.json.
   // ----------------------------------------------------------------------------
   const items = registry.items
-    .filter((item) => ['registry:ui', 'registry:hook'].includes(item.type))
+    .filter((item) =>
+      ['registry:ui', 'registry:hook', 'registry:component'].includes(item.type)
+    )
     .map((item) => {
       return {
         ...item,
@@ -284,11 +288,6 @@ async function buildStyles(registry: Registry) {
                 path.join(process.cwd(), 'src/registry', style.name, file.path),
                 'utf8'
               )
-
-              // Only fix imports for v0- blocks.
-              if (item.name.startsWith('v0-')) {
-                content = fixImport(content)
-              }
             } catch (error) {
               return
             }
@@ -304,7 +303,7 @@ async function buildStyles(registry: Registry) {
 
             let target = file.target || ''
 
-            if ((!target || target === '') && item.name.startsWith('v0-')) {
+            if (!target || target === '') {
               const fileName = file.path.split('/').pop()
               if (
                 file.type === 'registry:block' ||
@@ -338,9 +337,12 @@ async function buildStyles(registry: Registry) {
       }
 
       const payload = registryItemSchema.safeParse({
-        $schema: 'https://ui.shadcn.com/schema/registry-item.json',
-        author: 'shadcn (https://ui.shadcn.com)',
+        $schema: '',
+        author: 'shaddy (https://shaddy-docs.vercel.app/)',
         ...item,
+        registryDependencies: item.registryDependencies
+          ? localGlobalDependencyGenerator(item.registryDependencies)
+          : undefined,
         files,
       })
 
@@ -398,24 +400,6 @@ async function buildStylesIndex() {
   }
 }
 
-async function syncRegistry() {
-  // Copy the public/r directory to v4/public/r without triggering v4's build
-  const wwwPublicR = path.resolve(process.cwd(), 'public/r')
-  const v4PublicR = path.resolve(process.cwd(), '../v4/public/r')
-
-  // Ensure the source directory exists
-  if (!existsSync(wwwPublicR)) {
-    await fs.mkdir(wwwPublicR, { recursive: true })
-  }
-
-  // Clean and recreate the v4/public/r directory
-  rimraf.sync(v4PublicR)
-  await fs.mkdir(v4PublicR, { recursive: true })
-
-  // Copy files from www to v4
-  await fs.cp(wwwPublicR, v4PublicR, { recursive: true })
-}
-
 async function main() {
   try {
     console.log('💽 Building registry...')
@@ -426,14 +410,9 @@ async function main() {
       process.exit(1)
     }
 
-    // await syncStyles() // Skip since we only have default style
     await buildRegistry(result.data)
     await buildStyles(result.data)
     await buildStylesIndex()
-    // await buildThemes() // Comment out if function doesn't exist
-
-    console.log('🔄 Syncing registry...')
-    await syncRegistry()
 
     console.log('✅ Done!')
     process.exit(0)

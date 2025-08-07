@@ -9,7 +9,6 @@ export function rehypeNpmCommand() {
       if (node.type !== 'element' || node?.tagName !== 'pre') {
         return
       }
-
       // npm install.
       if (node.properties?.['__rawString__']?.startsWith('npm i')) {
         const npmCommand = node.properties?.['__rawString__']

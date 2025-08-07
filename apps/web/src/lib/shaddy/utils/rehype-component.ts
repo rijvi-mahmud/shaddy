@@ -19,36 +19,17 @@ export function rehypeComponent() {
           type?: string
         }) || {}
 
-      if (node.name === 'ComponentSource') {
+      if (node.name === 'ComponentPreview') {
         const name = getNodeAttributeByName(node, 'name')?.value as string
-        const fileName = getNodeAttributeByName(node, 'fileName')?.value as
-          | string
-          | undefined
 
-        if (!name && !srcPath) {
+        if (!name) {
           return null
         }
 
         try {
           for (const style of styles) {
-            let src: string
-
-            if (srcPath) {
-              src = path.join(process.cwd(), srcPath)
-            } else {
-              const component = Index[style.name][name]
-              src = fileName
-                ? component.files.find((file: unknown) => {
-                    if (typeof file === 'string') {
-                      return (
-                        file.endsWith(`${fileName}.tsx`) ||
-                        file.endsWith(`${fileName}.ts`)
-                      )
-                    }
-                    return false
-                  }) || component.files[0]?.path
-                : component.files[0]?.path
-            }
+            const component = Index[style.name][name]
+            const src = component.files[0]?.path
 
             // Read the source file.
             const filePath = src
@@ -82,15 +63,7 @@ export function rehypeComponent() {
                 tagName: 'pre',
                 properties: {
                   __src__: src,
-                  __style__: style.name,
                 },
-                attributes: [
-                  {
-                    name: 'styleName',
-                    type: 'mdxJsxAttribute',
-                    value: style.name,
-                  },
-                ],
                 children: [
                   u('element', {
                     tagName: 'code',

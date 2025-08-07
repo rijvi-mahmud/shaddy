@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils"
 import { CopyButton } from './copy-button'
 import { styles } from "@/registry/registry-styles"
 import { Icons } from './icons'
+import { ThemeModeToggle } from './theme-mode-toggle'
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string
@@ -38,9 +39,6 @@ export function ComponentPreview({
 
   const Preview = React.useMemo(() => {
     const Component = Index['default'][name]?.component
-
-    console.log({Component})
-
     if (!Component) {
       return (
         <p className="text-sm text-muted-foreground">
@@ -56,7 +54,7 @@ export function ComponentPreview({
     return <Component />
   }, [name])
 
-  const codeString = React.useMemo(() => {
+const codeString = React.useMemo(() => {
     if (
       typeof Code?.props["data-rehype-pretty-code-fragment"] !== "undefined"
     ) {
@@ -67,7 +65,6 @@ export function ComponentPreview({
     }
   }, [Code])
 
-  console.log({codeString})
 
   if (type === "block") {
     return (
@@ -123,36 +120,42 @@ export function ComponentPreview({
         <TabsContent value="preview" className="relative rounded-md border">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-2">
-              <CopyButton
-                value={codeString}
-                className="h-7 w-7 text-foreground opacity-100 hover:bg-muted hover:text-foreground [&_svg]:h-3.5 [&_svg]:w-3.5"
+              <ThemeModeToggle
+                messages={{
+                  dark: 'Dark',
+                  light: 'Light',
+                  system: 'System',
+                }}
               />
             </div>
           </div>
-            <div
-              className={cn(
-                "preview flex min-h-[350px] w-full justify-center p-10",
-                {
-                  "items-center": align === "center",
-                  "items-start": align === "start",
-                  "items-end": align === "end",
-                }
-              )}
+          <div
+            className={cn(
+              "preview flex min-h-[350px] w-full justify-center p-10",
+              {
+                "items-center": align === "center",
+                "items-start": align === "start",
+                "items-end": align === "end",
+              }
+            )}
+          >
+            <React.Suspense
+              fallback={
+                <div className="flex w-full items-center justify-center text-sm text-muted-foreground">
+                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  Loading...
+                </div>
+              }
             >
-              <React.Suspense
-                fallback={
-                  <div className="flex w-full items-center justify-center text-sm text-muted-foreground">
-                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                    Loading...
-                  </div>
-                }
-              >
-                {Preview}
-              </React.Suspense>
-            </div>
-
+              {Preview}
+            </React.Suspense>
+          </div>
         </TabsContent>
-        <TabsContent value="code">
+        <TabsContent value="code" className='relative'>
+            {/* <CopyButton
+              value={codeString}
+              className="absolute right-6 top-4 z-10 h-8 w-8 p-0 hover:bg-background"
+            /> */}
           <div className="flex flex-col space-y-4">
             <div className="w-full rounded-md [&_pre]:my-0 [&_pre]:max-h-[350px] [&_pre]:overflow-auto">
               {Code}

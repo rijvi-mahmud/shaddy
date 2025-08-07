@@ -20,6 +20,216 @@ export const Index: Record<string, any> = {
       source: "",
       meta: undefined,
     },
+    "use-clipboard-copy": {
+      name: "use-clipboard-copy",
+      description: "",
+      type: "registry:hook",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/hooks/use-clipboard-copy.ts",
+        type: "registry:hook",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/hooks/use-clipboard-copy.ts")),
+      source: "",
+      meta: undefined,
+    },
+    "use-debounce": {
+      name: "use-debounce",
+      description: "",
+      type: "registry:hook",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/hooks/use-debounce.ts",
+        type: "registry:hook",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/hooks/use-debounce.ts")),
+      source: "",
+      meta: undefined,
+    },
+    "use-debounced-callback": {
+      name: "use-debounced-callback",
+      description: "",
+      type: "registry:hook",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/hooks/use-debounced-callback.ts",
+        type: "registry:hook",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/hooks/use-debounced-callback.ts")),
+      source: "",
+      meta: undefined,
+    },
+    "use-default": {
+      name: "use-default",
+      description: "",
+      type: "registry:hook",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/hooks/use-default.ts",
+        type: "registry:hook",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/hooks/use-default.ts")),
+      source: "",
+      meta: undefined,
+    },
+    "use-interval": {
+      name: "use-interval",
+      description: "",
+      type: "registry:hook",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/hooks/use-interval.ts",
+        type: "registry:hook",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/hooks/use-interval.ts")),
+      source: "",
+      meta: undefined,
+    },
+    "use-previous": {
+      name: "use-previous",
+      description: "",
+      type: "registry:hook",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/hooks/use-previous.ts",
+        type: "registry:hook",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/hooks/use-previous.ts")),
+      source: "",
+      meta: undefined,
+    },
+    "use-window-resize": {
+      name: "use-window-resize",
+      description: "",
+      type: "registry:hook",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/hooks/use-window-resize.ts",
+        type: "registry:hook",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/hooks/use-window-resize.ts")),
+      source: "",
+      meta: undefined,
+    },
+    "form-context": {
+      name: "form-context",
+      description: "",
+      type: "registry:component",
+      registryDependencies: ["form","shaddy-form:local"],
+      files: [{
+        path: "registry/default/form/form-context.ts",
+        type: "registry:component",
+        target: "components/form/form-context.ts"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/form/form-context.ts")),
+      source: "",
+      meta: undefined,
+    },
+    "shaddy-form": {
+      name: "shaddy-form",
+      description: "",
+      type: "registry:component",
+      registryDependencies: ["form","text-field:local","submit-button:local"],
+      files: [{
+        path: "registry/default/form/shaddy-form.tsx",
+        type: "registry:component",
+        target: "components/form/shaddy-form.tsx"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/form/shaddy-form.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "submit-button": {
+      name: "submit-button",
+      description: "",
+      type: "registry:component",
+      registryDependencies: ["shaddy-form:local"],
+      files: [{
+        path: "registry/default/form/fields/submit-button.tsx",
+        type: "registry:component",
+        target: "components/form/fields/submit-button.tsx"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/form/fields/submit-button.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "text-field": {
+      name: "text-field",
+      description: "",
+      type: "registry:component",
+      registryDependencies: ["form","shaddy-form:local","loading-spinner:local"],
+      files: [{
+        path: "registry/default/form/fields/text-field.tsx",
+        type: "registry:component",
+        target: "components/form/fields/text-field.tsx"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/form/fields/text-field.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "unique-text-field": {
+      name: "unique-text-field",
+      description: "",
+      type: "registry:component",
+      registryDependencies: ["form","shaddy-form"],
+      files: [{
+        path: "registry/default/form/fields/unique-text-field.tsx",
+        type: "registry:component",
+        target: "components/form/fields/unique-text-field.tsx"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/form/fields/unique-text-field.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "password-field": {
+      name: "password-field",
+      description: "",
+      type: "registry:component",
+      registryDependencies: ["form","shaddy-form"],
+      files: [{
+        path: "registry/default/form/fields/password-field.tsx",
+        type: "registry:component",
+        target: "components/form/fields/password-field.tsx"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/form/fields/password-field.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "loading-spinner": {
+      name: "loading-spinner",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/ui/loading-spinner.tsx",
+        type: "registry:ui",
+        target: "components/ui/loading-spinner.tsx"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/ui/loading-spinner.tsx")),
+      source: "",
+      meta: undefined,
+    },
     "use-boolean-example": {
       name: "use-boolean-example",
       description: "",
@@ -47,6 +257,261 @@ export const Index: Record<string, any> = {
       }],
       categories: undefined,
       component: React.lazy(() => import("@/registry/default/examples/hooks/use-clipboard-copy-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "use-debounce-example": {
+      name: "use-debounce-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/hooks/use-debounce-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/hooks/use-debounce-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "use-debounced-callback-example": {
+      name: "use-debounced-callback-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/hooks/use-debounced-callback-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/hooks/use-debounced-callback-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "use-default-example": {
+      name: "use-default-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/hooks/use-default-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/hooks/use-default-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "use-interval-example": {
+      name: "use-interval-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/hooks/use-interval-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/hooks/use-interval-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "use-previous-example": {
+      name: "use-previous-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/hooks/use-previous-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/hooks/use-previous-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "use-window-resize-example": {
+      name: "use-window-resize-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/hooks/use-window-resize-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/hooks/use-window-resize-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "use-local-storage-basic-example": {
+      name: "use-local-storage-basic-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/hooks/use-local-storage-basic-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/hooks/use-local-storage-basic-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "use-local-storage-settings-example": {
+      name: "use-local-storage-settings-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/hooks/use-local-storage-settings-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/hooks/use-local-storage-settings-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "use-local-storage-form-example": {
+      name: "use-local-storage-form-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/hooks/use-local-storage-form-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/hooks/use-local-storage-form-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "use-local-storage-advanced-example": {
+      name: "use-local-storage-advanced-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/hooks/use-local-storage-advanced-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/hooks/use-local-storage-advanced-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "use-session-storage-basic-example": {
+      name: "use-session-storage-basic-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/hooks/use-session-storage-basic-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/hooks/use-session-storage-basic-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "use-session-storage-settings-example": {
+      name: "use-session-storage-settings-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/hooks/use-session-storage-settings-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/hooks/use-session-storage-settings-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "use-session-storage-form-example": {
+      name: "use-session-storage-form-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/hooks/use-session-storage-form-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/hooks/use-session-storage-form-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "use-session-storage-advanced-example": {
+      name: "use-session-storage-advanced-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/hooks/use-session-storage-advanced-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/hooks/use-session-storage-advanced-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "text-field-example": {
+      name: "text-field-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/form/text-field-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/form/text-field-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "unique-text-field-example": {
+      name: "unique-text-field-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/form/unique-text-field-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/form/unique-text-field-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "password-field-example": {
+      name: "password-field-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/form/password-field-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/form/password-field-example.tsx")),
       source: "",
       meta: undefined,
     },

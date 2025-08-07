@@ -30,7 +30,7 @@ const githubStars = async () => {
       headers: {
         Accept: 'application/vnd.github.v3+json',
       },
-      next: { revalidate: 3600 }, // Cache for 1 hour
+      next: { revalidate: 172800 }, // Cache for 2 days
     })
 
     if (!response.ok) {

@@ -14,4 +14,95 @@ export const hook: Registry['items'] = [
     dependencies: [],
     devDependencies: [],
   },
+  {
+    name: 'use-clipboard-copy',
+    type: 'registry:hook',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'hooks/use-clipboard-copy.ts',
+        type: 'registry:hook',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
+  {
+    name: 'use-debounce',
+    type: 'registry:hook',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'hooks/use-debounce.ts',
+        type: 'registry:hook',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
+  {
+    name: 'use-debounced-callback',
+    type: 'registry:hook',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'hooks/use-debounced-callback.ts',
+        type: 'registry:hook',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
+  {
+    name: 'use-default',
+    type: 'registry:hook',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'hooks/use-default.ts',
+        type: 'registry:hook',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
+  {
+    name: 'use-interval',
+    type: 'registry:hook',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'hooks/use-interval.ts',
+        type: 'registry:hook',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
+  {
+    name: 'use-previous',
+    type: 'registry:hook',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'hooks/use-previous.ts',
+        type: 'registry:hook',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
+  {
+    name: 'use-window-resize',
+    type: 'registry:hook',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'hooks/use-window-resize.ts',
+        type: 'registry:hook',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
 ]
