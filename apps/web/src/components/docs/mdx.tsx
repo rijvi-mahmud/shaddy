@@ -38,10 +38,12 @@ import { th } from '../mdx-components/th'
 import { td } from '../mdx-components/td'
 import { a } from '../mdx-components/a'
 import { p } from '../mdx-components/p'
+import { ComponentSource } from '../mdx-components/component-source'
 
 import type { ComponentProps } from 'react'
 import { ComponentPreview } from '../component-preview'
 import { CodeBlockCommand } from '../code-block-command'
+import { CodeTabs } from '../mdx-components/code-tabs'
 
 const components = {
   Image,
@@ -54,6 +56,8 @@ const components = {
   AccordionContent,
   AccordionTrigger,
   AlertDescription,
+  ComponentSource,
+  CodeTabs,
   h1,
   h2,
   h3,
@@ -73,6 +77,7 @@ const components = {
   pre,
   table,
   blockquote,
+  ComponentPreview,
   CodeBlockWrapper: ({ ...props }) => (
     <CodeBlockWrapper className="rounded-md border" {...props} />
   ),
@@ -92,13 +97,6 @@ const components = {
       />
     )
   },
-
-  ComponentPreview: ({
-    className,
-    ...props
-  }: ComponentProps<typeof ComponentPreview>) => (
-    <ComponentPreview className={className} {...props} />
-  ),
   Step: ({ className, ...props }: ComponentProps<'h3'>) => (
     <h3
       className={cn(

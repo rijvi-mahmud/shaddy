@@ -20,64 +20,38 @@ ShaddyForm acts as a wrapper component for creating forms efficiently.
 
 ### Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
 ```bash
-npx shadcn@latest add https://shaddy-docs.vercel.app/r/shaddy-form
+npx shadcn add https://shaddy-docs.vercel.app/r/shaddy-form
 ```
 
-### Snippet
+</TabsContent>
 
-```tsx
-export type ShaddyFormRef<T extends FieldValues> = {
-  form: UseFormReturn<T>
-}
+<TabsContent value="manual">
 
-export type ShaddyFormProps<TSchema extends ZodType> = {
-  schema: TSchema
-  initialValues: Partial<z.infer<TSchema>>
-  onSubmit: SubmitHandler<z.infer<TSchema>>
-  children: ReactNode
-  //   @ts-ignore
-  ref: Ref<ShaddyFormRef<z.infer<TSchema>>>
-  mode?: 'onChange' | 'onBlur' | 'onSubmit' | 'all'
-} & React.ComponentPropsWithoutRef<'form'>
+<Steps>
 
-/**
- * A generic form component.
- * @param schema The schema of the form.
- * @param initialValues The initial values of the form.
- * @param onSubmit The submit handler of the form.
- * @param children The children of the form.
- * @param ref The reference of the form.
- *
- * @returns The generic form component.
- */
-export const ShaddyForm = <TSchema extends ZodType>({
-  ref,
-  initialValues,
-  schema,
-  onSubmit,
-  children,
-  mode = 'onChange',
-}: ShaddyFormProps<TSchema>) => {
-  // @ts-ignore
-  const form = useForm<z.infer<TSchema>>({
-    defaultValues: initialValues as DefaultValues<z.infer<TSchema>>,
-    // @ts-ignore
-    resolver: zodResolver(schema),
-    mode,
-  })
+<Step>Install the following dependencies:</Step>
 
-  useImperativeHandle(ref, () => ({
-    // @ts-ignore
-    form,
-  }))
-
-  return (
-    // @ts-ignore
-    <Form {...form}>
-      {/* @ts-ignore */}
-      <form onSubmit={form.handleSubmit(onSubmit)}>{children}</form>
-    </Form>
-  )
-}
+```bash
+npm i react-hook-form zod
 ```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="shaddy-form" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>

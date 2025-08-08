@@ -5,10 +5,11 @@ import * as React from "react"
 import Image from "next/image"
 import { Index } from "@/__registry__"
 import { cn } from "@/lib/utils"
-import { CopyButton } from './copy-button'
+// import { CopyButton } from './copy-button'
 import { styles } from "@/registry/registry-styles"
 import { Icons } from './icons'
 import { ThemeModeToggle } from './theme-mode-toggle'
+import { useConfig } from '@/hooks/use-config'
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string
@@ -32,7 +33,8 @@ export function ComponentPreview({
   hideCode = false,
   ...props
 }: ComponentPreviewProps) {
-  const index = styles.findIndex((style) => style.name === 'default')
+  const {config} = useConfig()
+  const index = styles.findIndex((style) => style.name === config.style)
 
   const Codes = React.Children.toArray(children) as React.ReactElement[]
   const Code = Codes[index]
@@ -54,16 +56,16 @@ export function ComponentPreview({
     return <Component />
   }, [name])
 
-const codeString = React.useMemo(() => {
-    if (
-      typeof Code?.props["data-rehype-pretty-code-fragment"] !== "undefined"
-    ) {
-      const [Button] = React.Children.toArray(
-        Code.props.children
-      ) as React.ReactElement[]
-      return Button?.props?.value || Button?.props?.__rawString__ || null
-    }
-  }, [Code])
+// const codeString = React.useMemo(() => {
+//     if (
+//       typeof Code?.props["data-rehype-pretty-code-fragment"] !== "undefined"
+//     ) {
+//       const [Button] = React.Children.toArray(
+//         Code.props.children
+//       ) as React.ReactElement[]
+//       return Button?.props?.value || Button?.props?.__rawString__ || null
+//     }
+//   }, [Code])
 
 
   if (type === "block") {

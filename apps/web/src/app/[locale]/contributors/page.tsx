@@ -22,7 +22,7 @@ async function getContributors(): Promise<Contributor[]> {
     const response = await fetch(
       `https://api.github.com/repos/${owner}/${repo}/contributors`,
       {
-        next: { revalidate: 3600 }, // Revalidate every hour
+        next: { revalidate: 60 * 60 * 24 * 30 },
         headers: {
           Accept: 'application/vnd.github.v3+json',
         },

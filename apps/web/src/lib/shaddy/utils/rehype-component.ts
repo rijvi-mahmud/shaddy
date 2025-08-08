@@ -51,17 +51,30 @@ export function rehypeComponent() {
             }
 
             // Read the source file.
-            const filePath = src
+            const filePath = `src/${src}`
             let source = fs.readFileSync(filePath, 'utf8')
 
             // Replace imports.
             // TODO: Use @swc/core and a visitor to replace this.
             // For now a simple regex should do.
-            source = source.replaceAll(
-              `@/registry/${style.name}/`,
-              '@/components/'
-            )
-            source = source.replaceAll('export default', 'export')
+            const replacements = [
+              {
+                from: new RegExp(`@/registry/${style.name}/hooks/`, 'g'),
+                to: '@/hooks/',
+              },
+              {
+                from: new RegExp(`@/registry/${style.name}/`, 'g'),
+                to: '@/components/',
+              },
+              {
+                from: /export default/g,
+                to: 'export',
+              },
+            ]
+
+            source = replacements.reduce((acc, { from, to }) => {
+              return acc.replace(from, to)
+            }, source)
 
             // Add code as children so that rehype can take over at build time.
             node.children?.push(
