@@ -15,4 +15,18 @@ export const ui: Registry['items'] = [
     dependencies: ['lucide-react'],
     devDependencies: [],
   },
+  {
+    name: 'autosize-textarea',
+    type: 'registry:ui',
+    registryDependencies: ['textarea'],
+    files: [
+      {
+        path: 'ui/autosize-textarea.tsx',
+        type: 'registry:ui',
+        target: 'components/ui/autosize-textarea.tsx',
+      },
+    ],
+    dependencies: ['lucide-react'],
+    devDependencies: [],
+  },
 ]

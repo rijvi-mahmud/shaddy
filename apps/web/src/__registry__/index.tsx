@@ -200,11 +200,26 @@ export const Index: Record<string, any> = {
       source: "",
       meta: undefined,
     },
+    "reset-button": {
+      name: "reset-button",
+      description: "",
+      type: "registry:component",
+      registryDependencies: ["shaddy-form:local","button"],
+      files: [{
+        path: "registry/default/form/fields/reset-button.tsx",
+        type: "registry:component",
+        target: "components/form/fields/reset-button.tsx"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/form/fields/reset-button.tsx")),
+      source: "",
+      meta: undefined,
+    },
     "text-field": {
       name: "text-field",
       description: "",
       type: "registry:component",
-      registryDependencies: ["form","shaddy-form:local","loading-spinner:local"],
+      registryDependencies: ["form","input","button","shaddy-form:local","loading-spinner:local"],
       files: [{
         path: "registry/default/form/fields/text-field.tsx",
         type: "registry:component",
@@ -215,11 +230,26 @@ export const Index: Record<string, any> = {
       source: "",
       meta: undefined,
     },
+    "text-area-field": {
+      name: "text-area-field",
+      description: "",
+      type: "registry:component",
+      registryDependencies: ["form","button","autosize-textarea:local","shaddy-form:local","loading-spinner:local"],
+      files: [{
+        path: "registry/default/form/fields/text-area-field.tsx",
+        type: "registry:component",
+        target: "components/form/fields/text-area-field.tsx"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/form/fields/text-area-field.tsx")),
+      source: "",
+      meta: undefined,
+    },
     "unique-text-field": {
       name: "unique-text-field",
       description: "",
       type: "registry:component",
-      registryDependencies: ["form","shaddy-form"],
+      registryDependencies: ["form","input","shaddy-form:local","use-debounce:local"],
       files: [{
         path: "registry/default/form/fields/unique-text-field.tsx",
         type: "registry:component",
@@ -234,7 +264,7 @@ export const Index: Record<string, any> = {
       name: "password-field",
       description: "",
       type: "registry:component",
-      registryDependencies: ["form","shaddy-form"],
+      registryDependencies: ["form","input","shaddy-form:local"],
       files: [{
         path: "registry/default/form/fields/password-field.tsx",
         type: "registry:component",
@@ -257,6 +287,21 @@ export const Index: Record<string, any> = {
       }],
       categories: undefined,
       component: React.lazy(() => import("@/registry/default/ui/loading-spinner.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "autosize-textarea": {
+      name: "autosize-textarea",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["textarea"],
+      files: [{
+        path: "registry/default/ui/autosize-textarea.tsx",
+        type: "registry:ui",
+        target: "components/ui/autosize-textarea.tsx"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/ui/autosize-textarea.tsx")),
       source: "",
       meta: undefined,
     },
@@ -557,6 +602,21 @@ export const Index: Record<string, any> = {
       }],
       categories: undefined,
       component: React.lazy(() => import("@/registry/default/examples/form/password-field-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "text-area-field-example": {
+      name: "text-area-field-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/form/text-area-field-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/form/text-area-field-example.tsx")),
       source: "",
       meta: undefined,
     },

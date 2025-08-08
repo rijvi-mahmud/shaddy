@@ -44,6 +44,20 @@ export const form: Registry['items'] = [
     registryDependencies: ['shaddy-form:local'],
   },
   {
+    name: 'reset-button',
+    type: 'registry:component',
+    files: [
+      {
+        path: 'form/fields/reset-button.tsx',
+        type: 'registry:component',
+        target: 'components/form/fields/reset-button.tsx',
+      },
+    ],
+    dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
+    devDependencies: [],
+    registryDependencies: ['shaddy-form:local', 'button'],
+  },
+  {
     name: 'text-field',
     type: 'registry:component',
     files: [
@@ -57,6 +71,28 @@ export const form: Registry['items'] = [
     devDependencies: [],
     registryDependencies: [
       'form',
+      'input',
+      'button',
+      'shaddy-form:local',
+      'loading-spinner:local',
+    ],
+  },
+  {
+    name: 'text-area-field',
+    type: 'registry:component',
+    files: [
+      {
+        path: 'form/fields/text-area-field.tsx',
+        type: 'registry:component',
+        target: 'components/form/fields/text-area-field.tsx',
+      },
+    ],
+    dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
+    devDependencies: [],
+    registryDependencies: [
+      'form',
+      'button',
+      'autosize-textarea:local',
       'shaddy-form:local',
       'loading-spinner:local',
     ],
@@ -73,7 +109,12 @@ export const form: Registry['items'] = [
     ],
     dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
     devDependencies: [],
-    registryDependencies: ['form', 'shaddy-form'],
+    registryDependencies: [
+      'form',
+      'input',
+      'shaddy-form:local',
+      'use-debounce:local',
+    ],
   },
   {
     name: 'password-field',
@@ -87,6 +128,6 @@ export const form: Registry['items'] = [
     ],
     dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
     devDependencies: [],
-    registryDependencies: ['form', 'shaddy-form'],
+    registryDependencies: ['form', 'input', 'shaddy-form:local'],
   },
 ]

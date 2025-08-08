@@ -3,9 +3,9 @@
   "version": "3.0.8",
   "private": true,
   "scripts": {
-    "dev": "run-s build:registry dev:parallel",
-    "dev:parallel": "concurrently \"pnpm build:registry:watch\" \"next dev\"",
-    "build": "run-s contentlayer:build build:registry next:build",
+    "dev": "run-s build:registry next-dev",
+    "next-dev": "next dev",
+    "build": "run-s contentlayer:build registry:build next:build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "eslint --fix .",

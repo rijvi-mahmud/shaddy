@@ -1,0 +1,31 @@
+---
+title: Reset Button
+description: Reset button is a specialized reusable button component for shaddy form.
+---
+
+`ResetButton` is a specialized, reusable button component for the Shaddy Form. it accepts all the generic button props. It also accepts a loading state and custom labels. This button should be used within shaddy form to reset the form data.
+
+
+### Installation
+
+```bash
+npx shadcn add https://shaddy-docs.vercel.app/r/reset-button
+```
+
+
+### Usage
+
+```tsx
+<ShaddyForm>
+  <div className="space-y-4">
+    <TextField<Type>
+      name="email"
+      label="Email"
+      required
+      placeholder="Enter your email"
+    />
+
+    <ResetButton label="Reset" />
+  </div>
+</ShaddyForm>
+```

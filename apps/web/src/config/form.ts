@@ -76,6 +76,14 @@ export const formConfig: DocsConfig = {
           items: [],
         },
         {
+          href: '/form/reset-button',
+          title: {
+            en: 'Reset Button',
+            pt: 'Botão de Reset',
+          },
+          items: [],
+        },
+        {
           href: '/form/text-field',
           title: {
             en: 'Text Field',
@@ -88,6 +96,14 @@ export const formConfig: DocsConfig = {
           title: {
             en: 'Unique Text Field',
             pt: 'Campo de Texto Único',
+          },
+          items: [],
+        },
+        {
+          href: '/form/text-area-field',
+          title: {
+            en: 'Text Area Field',
+            pt: 'Campo de Texto',
           },
           items: [],
         },
