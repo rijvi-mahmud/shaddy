@@ -69,6 +69,7 @@ export async function SiteHeader() {
             typed_hooks: t('words.typed_hooks'),
             table: t('words.table'),
             form: t('words.form'),
+            ui: t('words.ui'),
           }}
         />
 

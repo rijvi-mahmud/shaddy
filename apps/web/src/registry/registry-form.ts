@@ -4,7 +4,7 @@ export const form: Registry['items'] = [
   {
     name: 'form-context',
     type: 'registry:component',
-    registryDependencies: ['form', 'shaddy-form:local'],
+    registryDependencies: ['shaddy-form:local'],
     files: [
       {
         path: 'form/form-context.ts',
@@ -12,7 +12,7 @@ export const form: Registry['items'] = [
         target: 'components/form/form-context.ts',
       },
     ],
-    dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
+    dependencies: [],
     devDependencies: [],
   },
   {
@@ -25,9 +25,15 @@ export const form: Registry['items'] = [
         target: 'components/form/shaddy-form.tsx',
       },
     ],
-    dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
+    dependencies: [],
     devDependencies: [],
-    registryDependencies: ['form', 'text-field:local', 'submit-button:local'],
+    registryDependencies: [
+      'form',
+      'input',
+      'button',
+      'text-field:local',
+      'submit-button:local',
+    ],
   },
   {
     name: 'submit-button',
@@ -39,7 +45,7 @@ export const form: Registry['items'] = [
         target: 'components/form/fields/submit-button.tsx',
       },
     ],
-    dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
+    dependencies: [],
     devDependencies: [],
     registryDependencies: ['shaddy-form:local'],
   },
@@ -53,9 +59,9 @@ export const form: Registry['items'] = [
         target: 'components/form/fields/reset-button.tsx',
       },
     ],
-    dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
+    dependencies: [],
     devDependencies: [],
-    registryDependencies: ['shaddy-form:local', 'button'],
+    registryDependencies: ['shaddy-form:local'],
   },
   {
     name: 'text-field',
@@ -67,15 +73,9 @@ export const form: Registry['items'] = [
         target: 'components/form/fields/text-field.tsx',
       },
     ],
-    dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
+    dependencies: [],
     devDependencies: [],
-    registryDependencies: [
-      'form',
-      'input',
-      'button',
-      'shaddy-form:local',
-      'loading-spinner:local',
-    ],
+    registryDependencies: ['shaddy-form:local', 'loading-spinner:local'],
   },
   {
     name: 'text-area-field',
@@ -87,11 +87,9 @@ export const form: Registry['items'] = [
         target: 'components/form/fields/text-area-field.tsx',
       },
     ],
-    dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
+    dependencies: [],
     devDependencies: [],
     registryDependencies: [
-      'form',
-      'button',
       'autosize-textarea:local',
       'shaddy-form:local',
       'loading-spinner:local',
@@ -107,14 +105,9 @@ export const form: Registry['items'] = [
         target: 'components/form/fields/unique-text-field.tsx',
       },
     ],
-    dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
+    dependencies: [],
     devDependencies: [],
-    registryDependencies: [
-      'form',
-      'input',
-      'shaddy-form:local',
-      'use-debounce:local',
-    ],
+    registryDependencies: ['shaddy-form:local', 'use-debounce:local'],
   },
   {
     name: 'password-field',
@@ -126,8 +119,36 @@ export const form: Registry['items'] = [
         target: 'components/form/fields/password-field.tsx',
       },
     ],
-    dependencies: ['react-hook-form', 'zod', '@hookform/resolvers'],
+    dependencies: [],
     devDependencies: [],
-    registryDependencies: ['form', 'input', 'shaddy-form:local'],
+    registryDependencies: ['shaddy-form:local'],
+  },
+  {
+    name: 'select-field',
+    type: 'registry:component',
+    files: [
+      {
+        path: 'form/fields/select-field.tsx',
+        type: 'registry:component',
+        target: 'components/form/fields/select-field.tsx',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+    registryDependencies: ['shaddy-form:local'],
+  },
+  {
+    name: 'switch-field',
+    type: 'registry:component',
+    files: [
+      {
+        path: 'form/fields/switch-field.tsx',
+        type: 'registry:component',
+        target: 'components/form/fields/switch-field.tsx',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+    registryDependencies: ['shaddy-form:local'],
   },
 ]

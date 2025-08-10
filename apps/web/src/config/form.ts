@@ -115,6 +115,22 @@ export const formConfig: DocsConfig = {
           },
           items: [],
         },
+        {
+          href: '/form/select-field',
+          title: {
+            en: 'Select Field',
+            pt: 'Campo de Seleção',
+          },
+          items: [],
+        },
+        {
+          href: '/form/switch-field',
+          title: {
+            en: 'Switch Field',
+            pt: 'Campo de Alternância',
+          },
+          items: [],
+        },
       ],
     },
   ],

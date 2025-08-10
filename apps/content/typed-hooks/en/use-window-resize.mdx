@@ -11,9 +11,41 @@ The hook includes built-in debouncing using shaddy's built-in custom [useDebounc
 
 ### Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
 ```bash
 npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-window-resize
 ```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-event-listener https://shaddy-docs.vercel.app/r/use-debounced-callback
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="use-window-resize" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
 
 ## API
 ▸ **useWindowResize**(): WindowSize
@@ -26,69 +58,3 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-window-resize
 | --- | --- | --- |
 | `width` | `number \| undefined` | Current window width in pixels. `undefined` during server-side rendering. |
 | `height` | `number \| undefined` | Current window height in pixels. `undefined` during server-side rendering. |
-
-## Hook
-
-```tsx
-import { useState, useEffect, useCallback } from 'react'
-import { useDebouncedCallback } from '@/hooks/use-debounced-callback'
-import { useEventListener } from '@/hooks/use-event-listener'
-
-/**
- * Custom React hook to get the current window size.
- *
- * @example
- * const Component = () => {
- *   const { width = 0, height = 0 } = useWindowResize();
- *   return (
- *     <div>
- *       <p>Width: {width}</p>
- *       <p>Height: {height}</p>
- *     </div>
- *   );
- * };
- *
- * @returns {{ width: number | undefined, height: number | undefined }}
- * An object containing the width and height of the window.
- */
-
-type WindowSize = {
-  width: number | undefined
-  height: number | undefined
-}
-
-type UseWindowResize = () => WindowSize
-
-export const useWindowResize: UseWindowResize = () => {
-  const isServer = typeof window === 'undefined'
-
-  const [windowSize, setWindowSize] = useState<WindowSize>({
-    width: isServer ? undefined : window.innerWidth,
-    height: isServer ? undefined : window.innerHeight,
-  })
-
-  const debouncedSetWindowSize = useDebouncedCallback((newSize: WindowSize) => {
-    setWindowSize(newSize)
-  }, 200)
-
-  const handleResize = useCallback(() => {
-    const newSize = {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    }
-    debouncedSetWindowSize(newSize)
-  }, [debouncedSetWindowSize])
-
-  /** Set initial size */
-  useEffect(() => {
-    if (!isServer) {
-      handleResize()
-    }
-  }, [handleResize, isServer])
-
-  /** Use the event listener hook to handle resize events */
-  useEventListener('resize', handleResize)
-
-  return windowSize
-}
-```

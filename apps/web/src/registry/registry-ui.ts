@@ -29,4 +29,18 @@ export const ui: Registry['items'] = [
     dependencies: ['lucide-react'],
     devDependencies: [],
   },
+  {
+    name: 'date-range-picker',
+    type: 'registry:ui',
+    registryDependencies: ['textarea'],
+    files: [
+      {
+        path: 'ui/date-range-picker.tsx',
+        type: 'registry:ui',
+        target: 'components/ui/date-range-picker.tsx',
+      },
+    ],
+    dependencies: ['lucide-react'],
+    devDependencies: [],
+  },
 ]

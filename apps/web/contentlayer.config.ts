@@ -31,6 +31,22 @@ const docComputedFields: ComputedFields = {
   },
 }
 
+// Helper for common document types
+function createCommonDocType(name: string, filePathPattern: string) {
+  return defineDocumentType(() => ({
+    name,
+    contentType: 'mdx',
+    filePathPattern,
+    fields: {
+      title: { type: 'string', required: true },
+      description: { type: 'string', required: true },
+      links: { type: 'nested', of: LinksProperties },
+      toc: { type: 'boolean', default: true, required: false },
+    },
+    computedFields: docComputedFields,
+  }))
+}
+
 const blogComputedFields: ComputedFields = {
   slug: {
     type: 'string',
@@ -151,129 +167,14 @@ const AuthorProperties = defineNestedType(() => ({
   },
 }))
 
-export const Doc = defineDocumentType(() => ({
-  name: 'Doc',
-  contentType: 'mdx',
-  filePathPattern: `docs/**/*.mdx`,
-
-  fields: {
-    title: {
-      type: 'string',
-      required: true,
-    },
-
-    description: {
-      type: 'string',
-      required: true,
-    },
-
-    links: {
-      type: 'nested',
-      of: LinksProperties,
-    },
-
-    toc: {
-      type: 'boolean',
-      default: true,
-      required: false,
-    },
-  },
-
-  computedFields: docComputedFields,
-}))
-
-export const TypedHooks = defineDocumentType(() => ({
-  name: 'TypedHooks',
-  contentType: 'mdx',
-  filePathPattern: `typed-hooks/**/*.mdx`,
-
-  fields: {
-    title: {
-      type: 'string',
-      required: true,
-    },
-
-    description: {
-      type: 'string',
-      required: true,
-    },
-
-    links: {
-      type: 'nested',
-      of: LinksProperties,
-    },
-
-    toc: {
-      type: 'boolean',
-      default: true,
-      required: false,
-    },
-  },
-
-  computedFields: docComputedFields,
-}))
-
-export const Form = defineDocumentType(() => ({
-  name: 'Form',
-  contentType: 'mdx',
-  filePathPattern: `form/**/*.mdx`,
-
-  fields: {
-    title: {
-      type: 'string',
-      required: true,
-    },
-
-    description: {
-      type: 'string',
-      required: true,
-    },
-
-    links: {
-      type: 'nested',
-      of: LinksProperties,
-    },
-
-    toc: {
-      type: 'boolean',
-      default: true,
-      required: false,
-    },
-  },
-
-  computedFields: docComputedFields,
-}))
-
-export const Utils = defineDocumentType(() => ({
-  name: 'Utils',
-  contentType: 'mdx',
-  filePathPattern: `utils/**/*.mdx`,
-
-  fields: {
-    title: {
-      type: 'string',
-      required: true,
-    },
-
-    description: {
-      type: 'string',
-      required: true,
-    },
-
-    links: {
-      type: 'nested',
-      of: LinksProperties,
-    },
-
-    toc: {
-      type: 'boolean',
-      default: true,
-      required: false,
-    },
-  },
-
-  computedFields: docComputedFields,
-}))
+export const Doc = createCommonDocType('Doc', 'docs/**/*.mdx')
+export const TypedHooks = createCommonDocType(
+  'TypedHooks',
+  'typed-hooks/**/*.mdx'
+)
+export const Form = createCommonDocType('Form', 'form/**/*.mdx')
+export const UI = createCommonDocType('UI', 'ui/**/*.mdx')
+export const Utils = createCommonDocType('Utils', 'utils/**/*.mdx')
 
 export const Blog = defineDocumentType(() => ({
   name: 'Blog',
@@ -328,9 +229,9 @@ export const Blog = defineDocumentType(() => ({
 }))
 
 export default makeSource({
-  documentTypes: [Doc, Blog, TypedHooks, Utils, Form],
+  documentTypes: [Doc, Blog, TypedHooks, Utils, Form, UI],
   contentDirPath: '../content',
-  contentDirInclude: ['docs', 'blog', 'typed-hooks', 'utils', 'form'],
+  contentDirInclude: ['docs', 'blog', 'typed-hooks', 'utils', 'form', 'ui'],
   mdx: {
     remarkPlugins: [remarkGfm, codeImport],
 

@@ -11,9 +11,37 @@ This hook is particularly useful when you need to maintain state values that mig
 
 ### Installation
 
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-default
 ```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="use-default" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
 
 ## API
 ▸ **useDefault**(initialValue, defaultValue): `[T, (newValue: Nullable<T>) => void]`
@@ -27,39 +55,3 @@ Returns `[value, setValue]`:
 
 - `value` (`T`): The current state value.
 - `setValue` (`function`): A function that updates the state value. If called with `null` or `undefined`, it will use the default value instead.
-
-## Hook
-
-```tsx
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from 'react'
-
-/**
- * A type alias representing a value that can be of type T, null, or undefined.
- */
-type Nullable<T> = T | null | undefined
-
-/**
- * A custom hook that manages a stateful value with a default fallback.
- * @template T - The type of the value being managed.
- * @param {T} initialValue - The initial value of the state.
- * @param {T} defaultValue - The default value to fall back to when the state is null or undefined.
- * @returns {[T, (newValue: Nullable<T>) => void]} - A tuple containing the current value and a setter function.
- */
-export const useDefault = <T = any>(
-  initialValue: T,
-  defaultValue: T
-): [T, (newValue: Nullable<T>) => void] => {
-  const [value, setValue] = useState<Nullable<T>>(initialValue)
-
-  /**
-   * Sets the state to a new value or falls back to the default value if the new value is null or undefined.
-   * @param {Nullable<T>} newValue - The new value to set, or null/undefined to reset to the default value.
-   */
-  const setValueWithDefault = (newValue: Nullable<T>) => {
-    setValue(newValue ?? defaultValue)
-  }
-
-  return [value, setValueWithDefault] as [T, (newValue: Nullable<T>) => void]
-}
-```

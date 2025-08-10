@@ -159,7 +159,7 @@ export const Index: Record<string, any> = {
       name: "form-context",
       description: "",
       type: "registry:component",
-      registryDependencies: ["form","shaddy-form:local"],
+      registryDependencies: ["shaddy-form:local"],
       files: [{
         path: "registry/default/form/form-context.ts",
         type: "registry:component",
@@ -174,7 +174,7 @@ export const Index: Record<string, any> = {
       name: "shaddy-form",
       description: "",
       type: "registry:component",
-      registryDependencies: ["form","text-field:local","submit-button:local"],
+      registryDependencies: ["form","input","button","text-field:local","submit-button:local"],
       files: [{
         path: "registry/default/form/shaddy-form.tsx",
         type: "registry:component",
@@ -204,7 +204,7 @@ export const Index: Record<string, any> = {
       name: "reset-button",
       description: "",
       type: "registry:component",
-      registryDependencies: ["shaddy-form:local","button"],
+      registryDependencies: ["shaddy-form:local"],
       files: [{
         path: "registry/default/form/fields/reset-button.tsx",
         type: "registry:component",
@@ -219,7 +219,7 @@ export const Index: Record<string, any> = {
       name: "text-field",
       description: "",
       type: "registry:component",
-      registryDependencies: ["form","input","button","shaddy-form:local","loading-spinner:local"],
+      registryDependencies: ["shaddy-form:local","loading-spinner:local"],
       files: [{
         path: "registry/default/form/fields/text-field.tsx",
         type: "registry:component",
@@ -234,7 +234,7 @@ export const Index: Record<string, any> = {
       name: "text-area-field",
       description: "",
       type: "registry:component",
-      registryDependencies: ["form","button","autosize-textarea:local","shaddy-form:local","loading-spinner:local"],
+      registryDependencies: ["autosize-textarea:local","shaddy-form:local","loading-spinner:local"],
       files: [{
         path: "registry/default/form/fields/text-area-field.tsx",
         type: "registry:component",
@@ -249,7 +249,7 @@ export const Index: Record<string, any> = {
       name: "unique-text-field",
       description: "",
       type: "registry:component",
-      registryDependencies: ["form","input","shaddy-form:local","use-debounce:local"],
+      registryDependencies: ["shaddy-form:local","use-debounce:local"],
       files: [{
         path: "registry/default/form/fields/unique-text-field.tsx",
         type: "registry:component",
@@ -264,7 +264,7 @@ export const Index: Record<string, any> = {
       name: "password-field",
       description: "",
       type: "registry:component",
-      registryDependencies: ["form","input","shaddy-form:local"],
+      registryDependencies: ["shaddy-form:local"],
       files: [{
         path: "registry/default/form/fields/password-field.tsx",
         type: "registry:component",
@@ -272,6 +272,36 @@ export const Index: Record<string, any> = {
       }],
       categories: undefined,
       component: React.lazy(() => import("@/registry/default/form/fields/password-field.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "select-field": {
+      name: "select-field",
+      description: "",
+      type: "registry:component",
+      registryDependencies: ["shaddy-form:local"],
+      files: [{
+        path: "registry/default/form/fields/select-field.tsx",
+        type: "registry:component",
+        target: "components/form/fields/select-field.tsx"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/form/fields/select-field.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "switch-field": {
+      name: "switch-field",
+      description: "",
+      type: "registry:component",
+      registryDependencies: ["shaddy-form:local"],
+      files: [{
+        path: "registry/default/form/fields/switch-field.tsx",
+        type: "registry:component",
+        target: "components/form/fields/switch-field.tsx"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/form/fields/switch-field.tsx")),
       source: "",
       meta: undefined,
     },
@@ -302,6 +332,21 @@ export const Index: Record<string, any> = {
       }],
       categories: undefined,
       component: React.lazy(() => import("@/registry/default/ui/autosize-textarea.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "date-range-picker": {
+      name: "date-range-picker",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["textarea"],
+      files: [{
+        path: "registry/default/ui/date-range-picker.tsx",
+        type: "registry:ui",
+        target: "components/ui/date-range-picker.tsx"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/ui/date-range-picker.tsx")),
       source: "",
       meta: undefined,
     },
@@ -617,6 +662,51 @@ export const Index: Record<string, any> = {
       }],
       categories: undefined,
       component: React.lazy(() => import("@/registry/default/examples/form/text-area-field-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "select-field-example": {
+      name: "select-field-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/form/select-field-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/form/select-field-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "switch-field-example": {
+      name: "switch-field-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/form/switch-field-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/form/switch-field-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "date-range-picker-demo": {
+      name: "date-range-picker-demo",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/ui/date-range-picker-demo.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/ui/date-range-picker-demo.tsx")),
       source: "",
       meta: undefined,
     },

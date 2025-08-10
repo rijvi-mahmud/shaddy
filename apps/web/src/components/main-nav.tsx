@@ -12,6 +12,7 @@ interface MainNavProps {
     typed_hooks: string
     table: string
     form: string
+    ui: string
   }
 }
 
@@ -40,6 +41,17 @@ export function MainNav({ messages }: MainNavProps) {
         >
           {messages.docs}
         </Link> */}
+                <Link
+          href="/ui"
+          className={cn(
+            'hover:text-foreground/80 transition-colors',
+            pathname.includes('/ui')
+              ? 'dark:text-primary-active'
+              : 'text-foreground/60'
+          )}
+        >
+          {messages.ui}
+        </Link>
 
         <Link
           href="/typed-hooks"
@@ -64,6 +76,7 @@ export function MainNav({ messages }: MainNavProps) {
         >
           {messages.form}
         </Link>
+
         <Link
           href="/table"
           className={cn(

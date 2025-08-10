@@ -1,0 +1,36 @@
+---
+title: Components
+description: A guide to using Shaddy Form (a generic form) in your React application.
+---
+
+### Introduction
+
+Forms are essential in React and Next.js applications for tasks like user registration, login, data submission, and file uploads. In admin panels and data-centric apps, forms can become complex and challenging to manage. Some websites even have forms in 90% of their sections.
+
+### The Challenge
+
+Web developers often work with forms repeatedly. In organizations, multiple projects are handled by different teams, making consistent and efficient form management crucial. Modern web development demands faster, more maintainable solutions. While custom frameworks help, they require time and thorough documentation.
+
+### Existing Solutions
+
+Libraries like `react-hook-form` are great for managing forms, and the `shadcn/ui` Form component uses the render props pattern to reduce boilerplate. However, redundant code and duplication still occur when creating multiple forms.
+
+### Our Approach
+
+We believe forms should be generated automatically by providing a schema and a submit handler, without repetitive boilerplate. You should only need to adjust the layout.
+
+### Installation
+
+```bash
+npx shadcn@latest add https://shaddy-docs.vercel.app/r/shaddy-form
+```
+
+### What is Shaddy Form?
+
+Shaddy Form is a generic solution that lets you create forms automatically by providing a schema and a submit handler. It manages form state, validation, and submission for you.
+
+### Features
+
+- **Reusable Custom Fields:** Built on top of shadcn/ui components.
+- **Easy Integration:** Designed to be reusable and customizable.
+- **Extensible:** Easily create your own custom fields.

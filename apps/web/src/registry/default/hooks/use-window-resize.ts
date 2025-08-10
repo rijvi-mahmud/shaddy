@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
-import { useDebouncedCallback } from './use-debounced-callback'
-import { useEventListener } from './use-event-listener'
+import { useDebouncedCallback } from '@/registry/default/hooks/use-debounced-callback'
+import { useEventListener } from '@/registry/default/hooks/use-event-listener'
 
 /**
  * Custom React hook to get the current window size.

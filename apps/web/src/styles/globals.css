@@ -67,6 +67,12 @@
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
   }
+
+  html body[data-scroll-locked] {
+    margin-right: 0px !important; /* For LTR layout */
+    margin-left: 0px !important;  /* For RTL layout */
+    overflow: visible !important;
+}
 }
 
 @layer utilities {

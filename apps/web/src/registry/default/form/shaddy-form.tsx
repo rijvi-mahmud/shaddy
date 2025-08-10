@@ -1,28 +1,27 @@
-import { Form } from '@/components/ui/form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { ReactNode, Ref, useImperativeHandle } from 'react'
+import { Form } from '@/components/ui/form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ReactNode, Ref, useImperativeHandle } from 'react';
 import {
   DefaultValues,
   FieldValues,
   SubmitHandler,
   useForm,
   UseFormReturn,
-} from 'react-hook-form'
-import { z, ZodType } from 'zod'
+} from 'react-hook-form';
+import { ZodType } from 'zod';
 
-export type ShaddyFormRef<T extends FieldValues> = {
-  form: UseFormReturn<T>
-}
+export type ShaddyFormRef<T extends FieldValues = FieldValues> = {
+  form: UseFormReturn<T, any, T>;
+};
 
-export type ShaddyFormProps<TSchema extends ZodType> = {
-  schema: TSchema
-  initialValues: Partial<z.infer<TSchema>>
-  onSubmit: SubmitHandler<z.infer<TSchema>>
-  children: ReactNode
-  //   @ts-ignore
-  ref?: Ref<ShaddyFormRef<z.infer<TSchema>>>
-  mode?: 'onChange' | 'onBlur' | 'onSubmit' | 'all'
-} & React.ComponentPropsWithoutRef<'form'>
+export type ShaddyFormProps<TSchema extends FieldValues = FieldValues> = {
+  schema: ZodType<TSchema, any>; 
+  initialValues: DefaultValues<TSchema>;
+  onSubmit: SubmitHandler<TSchema>;
+  children: ReactNode;
+  ref?: Ref<ShaddyFormRef<TSchema>>;
+  mode?: 'onChange' | 'onBlur' | 'onSubmit' | 'all';
+} & Omit<React.ComponentPropsWithoutRef<'form'>, 'onSubmit'>;
 
 /**
  * A generic form component.
@@ -34,7 +33,7 @@ export type ShaddyFormProps<TSchema extends ZodType> = {
  *
  * @returns The generic form component.
  */
-export const ShaddyForm = <TSchema extends ZodType>({
+export const ShaddyForm = <TSchema extends FieldValues = FieldValues>({
   ref,
   initialValues,
   schema,
@@ -42,26 +41,19 @@ export const ShaddyForm = <TSchema extends ZodType>({
   children,
   mode = 'onChange',
 }: ShaddyFormProps<TSchema>) => {
-  // @ts-ignore
-  const form = useForm<z.infer<TSchema>>({
-    defaultValues: initialValues as DefaultValues<z.infer<TSchema>>,
-    // @ts-ignore
+  const form = useForm<TSchema>({
+    defaultValues: initialValues,
     resolver: zodResolver(schema),
     mode,
-  })
+  });
 
-  useImperativeHandle(ref, () => ({
-    // @ts-ignore
-    form,
-  }))
+  useImperativeHandle(ref, () => ({ form }));
 
   return (
-    // @ts-ignore
     <Form {...form}>
-      {/* @ts-ignore */}
       <form onSubmit={form.handleSubmit(onSubmit)}>{children}</form>
     </Form>
-  )
-}
+  );
+};
 
-ShaddyForm.displayName = 'ShaddyForm'
+ShaddyForm.displayName = 'ShaddyForm';
