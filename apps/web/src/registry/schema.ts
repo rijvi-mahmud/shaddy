@@ -16,6 +16,7 @@ export const registryItemTypeSchema = z.enum([
   'registry:item',
   'registry:hook',
   'registry:form',
+  'registry:utils',
 
   // Internal use only
   'registry:example',

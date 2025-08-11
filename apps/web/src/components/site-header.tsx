@@ -70,6 +70,7 @@ export async function SiteHeader() {
             table: t('words.table'),
             form: t('words.form'),
             ui: t('words.ui'),
+            utils: t('words.utils'),
           }}
         />
 

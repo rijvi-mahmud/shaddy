@@ -29,6 +29,7 @@ const REGISTRY_INDEX_WHITELIST: z.infer<typeof registryItemTypeSchema>[] = [
   'registry:example',
   'registry:internal',
   'registry:component',
+  'registry:utils',
 ]
 
 const project = new Project({
@@ -203,7 +204,12 @@ export const Index: Record<string, any> = {
   // ----------------------------------------------------------------------------
   const items = registry.items
     .filter((item) =>
-      ['registry:ui', 'registry:hook', 'registry:component'].includes(item.type)
+      [
+        'registry:ui',
+        'registry:hook',
+        'registry:component',
+        'registry:utils',
+      ].includes(item.type)
     )
     .map((item) => {
       return {

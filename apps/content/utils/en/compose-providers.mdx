@@ -1,0 +1,119 @@
+---
+title: Compose Providers
+description: Compose providers is a utility for combining multiple context providers into a single provider.
+---
+
+`ComposeProviders` is a utility for combining multiple context providers into a single provider. It accepts an array of providers and returns a new provider that renders all of the provided providers in the correct order.
+
+### Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://shaddy-docs.vercel.app/r/compose-providers
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="compose-providers" shouldExpanded={true} />
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+### Provider Hell Problem
+
+When building React apps, you often need to use multiple context providers (e.g., Theme, Auth, Localization, etc.). Nesting them manually can quickly become messy and hard to maintain:
+
+```jsx
+<AuthProvider>
+  <ThemeProvider>
+    <LocalizationProvider>
+      <SomeComponent />
+    </LocalizationProvider>
+  </ThemeProvider>
+</AuthProvider>
+```
+
+As your app grows, this "provider hell" makes your root component harder to read and update.
+
+### Why Compose Providers?
+
+`ComposeProviders` solves this by letting you combine all your providers into a single, reusable component. This keeps your code clean and easy to manage.
+
+### Example Usage
+
+Suppose you have three providers:
+
+```jsx
+import { AuthProvider } from './auth'
+import { ThemeProvider } from './theme'
+import { LocalizationProvider } from './localization'
+import { composeProviders } from '@/utils/compose-providers'
+
+const AppProviders = composeProviders([
+  AuthProvider,
+  ThemeProvider,
+  LocalizationProvider,
+])
+
+// Use AppProviders at the root of your app
+<AppProviders>
+  <App />
+</AppProviders>
+```
+
+Now, you only need to wrap your app with `AppProviders`, and all contexts are available!
+
+### Passing Props to Providers
+
+`composeProviders` also supports providers that require props. You can pass a tuple `[Provider, props]` for each provider that needs props:
+
+```jsx
+const AppContainer = composeProviders([
+  ErrorBoundary,
+  // Providers with props
+  [
+    QueryClientProvider,
+    {
+      client: queryClient,
+    },
+  ],
+  [
+    IntlProvider,
+    {
+      locale,
+      messages,
+    },
+  ],
+  BrowserRouter,
+])
+
+// Usage
+<AppContainer>
+  <App />
+</AppContainer>
+```
+
+This makes it easy to configure providers like `QueryClientProvider` or `IntlProvider` that need props, while keeping your provider setup clean and maintainable.
+
+### Benefits
+
+- **Cleaner code:** No more deeply nested providers.
+- **Easier maintenance:** Add or remove providers in one place.
+- **Reusable:** Use the composed provider anywhere in your app.

@@ -20,6 +20,7 @@
       "typed_hooks": "hooks",
       "form": "form",
       "table": "table",
+      "utils": "utils",
       "ui": "components"
     },
 

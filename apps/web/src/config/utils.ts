@@ -31,10 +31,18 @@ export const utilsConfig: DocsConfig = {
       items: [
         {
           href: '/utils',
-
           title: {
             en: 'Introduction',
             pt: 'Introdução',
+          },
+
+          items: [],
+        },
+        {
+          href: '/utils/compose-providers',
+          title: {
+            en: 'Compose Providers',
+            pt: 'Compor Provedores',
           },
 
           items: [],

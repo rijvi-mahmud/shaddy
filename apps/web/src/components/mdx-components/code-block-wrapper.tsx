@@ -13,15 +13,17 @@ import {
 
 interface CodeBlockProps extends React.HTMLAttributes<HTMLDivElement> {
   expandButtonTitle?: string
+  shouldExpanded?: boolean
 }
 
 export function CodeBlockWrapper({
   expandButtonTitle = 'View Code',
   className,
   children,
+  shouldExpanded = false,
   ...props
 }: CodeBlockProps) {
-  const [isOpened, setIsOpened] = React.useState(false)
+  const [isOpened, setIsOpened] = React.useState(shouldExpanded)
 
   return (
     <Collapsible open={isOpened} onOpenChange={setIsOpened}>

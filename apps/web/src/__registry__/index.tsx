@@ -350,6 +350,21 @@ export const Index: Record<string, any> = {
       source: "",
       meta: undefined,
     },
+    "compose-providers": {
+      name: "compose-providers",
+      description: "",
+      type: "registry:utils",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/utils/compose-providers.ts",
+        type: "registry:utils",
+        target: "utils/compose-providers.ts"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/utils/compose-providers.ts")),
+      source: "",
+      meta: undefined,
+    },
     "use-boolean-example": {
       name: "use-boolean-example",
       description: "",
