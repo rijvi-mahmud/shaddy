@@ -232,23 +232,23 @@ function DateRangePicker({
                   </ul>
                 </div>
                 <Calendar
-                  initialFocus
                   mode="range"
                   defaultMonth={date?.from}
                   selected={date}
                   onSelect={setDate}
                   numberOfMonths={2}
+                  captionLayout="dropdown"
                 />
               </div>
             </>
           ) : (
             <Calendar
-              initialFocus
               mode="range"
               defaultMonth={date?.from}
               selected={date}
               onSelect={setDate}
               numberOfMonths={2}
+              captionLayout="dropdown"
             />
           )}
 

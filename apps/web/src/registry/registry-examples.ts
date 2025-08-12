@@ -307,6 +307,45 @@ export const examples: Registry['items'] = [
     dependencies: [],
     devDependencies: [],
   },
+  {
+    name: 'checkbox-field-example',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'examples/form/checkbox-field-example.tsx',
+        type: 'registry:example',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
+  {
+    name: 'checkbox-group-field-example',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'examples/form/checkbox-group-field-example.tsx',
+        type: 'registry:example',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
+  {
+    name: 'date-picker-field-example',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'examples/form/date-picker-field-example.tsx',
+        type: 'registry:example',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
 
   // ----------------------------------------------------------------------------
   // Arrange the ui examples

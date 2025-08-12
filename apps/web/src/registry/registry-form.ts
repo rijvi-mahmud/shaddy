@@ -151,4 +151,46 @@ export const form: Registry['items'] = [
     devDependencies: [],
     registryDependencies: ['shaddy-form:local'],
   },
+  {
+    name: 'checkbox-field',
+    type: 'registry:component',
+    files: [
+      {
+        path: 'form/fields/checkbox-field.tsx',
+        type: 'registry:component',
+        target: 'components/form/fields/checkbox-field.tsx',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+    registryDependencies: ['shaddy-form:local'],
+  },
+  {
+    name: 'checkbox-group-field',
+    type: 'registry:component',
+    files: [
+      {
+        path: 'form/fields/checkbox-group-field.tsx',
+        type: 'registry:component',
+        target: 'components/form/fields/checkbox-group-field.tsx',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+    registryDependencies: ['shaddy-form:local'],
+  },
+  {
+    name: 'date-picker-field',
+    type: 'registry:component',
+    files: [
+      {
+        path: 'form/fields/date-picker-field.tsx',
+        type: 'registry:component',
+        target: 'components/form/fields/date-picker-field.tsx',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+    registryDependencies: ['shaddy-form:local', 'calender'],
+  },
 ]

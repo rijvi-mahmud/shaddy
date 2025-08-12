@@ -305,6 +305,51 @@ export const Index: Record<string, any> = {
       source: "",
       meta: undefined,
     },
+    "checkbox-field": {
+      name: "checkbox-field",
+      description: "",
+      type: "registry:component",
+      registryDependencies: ["shaddy-form:local"],
+      files: [{
+        path: "registry/default/form/fields/checkbox-field.tsx",
+        type: "registry:component",
+        target: "components/form/fields/checkbox-field.tsx"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/form/fields/checkbox-field.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "checkbox-group-field": {
+      name: "checkbox-group-field",
+      description: "",
+      type: "registry:component",
+      registryDependencies: ["shaddy-form:local"],
+      files: [{
+        path: "registry/default/form/fields/checkbox-group-field.tsx",
+        type: "registry:component",
+        target: "components/form/fields/checkbox-group-field.tsx"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/form/fields/checkbox-group-field.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "date-picker-field": {
+      name: "date-picker-field",
+      description: "",
+      type: "registry:component",
+      registryDependencies: ["shaddy-form:local","calender"],
+      files: [{
+        path: "registry/default/form/fields/date-picker-field.tsx",
+        type: "registry:component",
+        target: "components/form/fields/date-picker-field.tsx"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/form/fields/date-picker-field.tsx")),
+      source: "",
+      meta: undefined,
+    },
     "loading-spinner": {
       name: "loading-spinner",
       description: "",
@@ -707,6 +752,51 @@ export const Index: Record<string, any> = {
       }],
       categories: undefined,
       component: React.lazy(() => import("@/registry/default/examples/form/switch-field-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "checkbox-field-example": {
+      name: "checkbox-field-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/form/checkbox-field-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/form/checkbox-field-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "checkbox-group-field-example": {
+      name: "checkbox-group-field-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/form/checkbox-group-field-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/form/checkbox-group-field-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "date-picker-field-example": {
+      name: "date-picker-field-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/form/date-picker-field-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/form/date-picker-field-example.tsx")),
       source: "",
       meta: undefined,
     },

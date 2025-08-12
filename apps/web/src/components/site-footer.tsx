@@ -45,7 +45,7 @@ export async function SiteFooter() {
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
-              'hover:text-yellow-400 transition-colors text-foreground/60'
+              'hover:text-yellow-500 transition-colors text-yellow-400'
             )}
           >
             ☕ coffee

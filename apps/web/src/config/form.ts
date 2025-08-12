@@ -131,6 +131,30 @@ export const formConfig: DocsConfig = {
           },
           items: [],
         },
+        {
+          href: '/form/checkbox-field',
+          title: {
+            en: 'Checkbox Field',
+            pt: 'Campo de Seleção',
+          },
+          items: [],
+        },
+        {
+          href: '/form/checkbox-group-field',
+          title: {
+            en: 'Checkbox Group Field',
+            pt: 'Campo de Seleção em Grupo',
+          },
+          items: [],
+        },
+        {
+          href: '/form/date-picker-field',
+          title: {
+            en: 'Date Picker Field',
+            pt: 'Campo de Seleção de Data',
+          },
+          items: [],
+        },
       ],
     },
   ],
