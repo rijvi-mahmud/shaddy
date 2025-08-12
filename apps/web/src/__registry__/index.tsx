@@ -339,7 +339,7 @@ export const Index: Record<string, any> = {
       name: "date-range-picker",
       description: "",
       type: "registry:ui",
-      registryDependencies: ["textarea"],
+      registryDependencies: ["button","calendar","popover"],
       files: [{
         path: "registry/default/ui/date-range-picker.tsx",
         type: "registry:ui",
@@ -353,11 +353,11 @@ export const Index: Record<string, any> = {
     "compose-providers": {
       name: "compose-providers",
       description: "",
-      type: "registry:utils",
+      type: "registry:lib",
       registryDependencies: [],
       files: [{
         path: "registry/default/utils/compose-providers.ts",
-        type: "registry:utils",
+        type: "registry:lib",
         target: "utils/compose-providers.ts"
       }],
       categories: undefined,

@@ -32,7 +32,7 @@ export const ui: Registry['items'] = [
   {
     name: 'date-range-picker',
     type: 'registry:ui',
-    registryDependencies: ['textarea'],
+    registryDependencies: ['button', 'calendar', 'popover'],
     files: [
       {
         path: 'ui/date-range-picker.tsx',
@@ -40,7 +40,12 @@ export const ui: Registry['items'] = [
         target: 'components/ui/date-range-picker.tsx',
       },
     ],
-    dependencies: ['lucide-react'],
+    dependencies: [
+      'lucide-react',
+      '@radix-ui/react-icons',
+      'date-fns',
+      'react-day-picker',
+    ],
     devDependencies: [],
   },
 ]
