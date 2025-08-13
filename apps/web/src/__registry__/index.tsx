@@ -350,6 +350,21 @@ export const Index: Record<string, any> = {
       source: "",
       meta: undefined,
     },
+    "date-range-picker-field": {
+      name: "date-range-picker-field",
+      description: "",
+      type: "registry:component",
+      registryDependencies: ["shaddy-form:local","calender"],
+      files: [{
+        path: "registry/default/form/fields/date-range-picker-field.tsx",
+        type: "registry:component",
+        target: "components/form/fields/date-range-picker-field.tsx"
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/form/fields/date-range-picker-field.tsx")),
+      source: "",
+      meta: undefined,
+    },
     "loading-spinner": {
       name: "loading-spinner",
       description: "",
@@ -797,6 +812,21 @@ export const Index: Record<string, any> = {
       }],
       categories: undefined,
       component: React.lazy(() => import("@/registry/default/examples/form/date-picker-field-example.tsx")),
+      source: "",
+      meta: undefined,
+    },
+    "date-range-picker-field-example": {
+      name: "date-range-picker-field-example",
+      description: "",
+      type: "registry:example",
+      registryDependencies: [],
+      files: [{
+        path: "registry/default/examples/form/date-range-picker-field-example.tsx",
+        type: "registry:example",
+        target: ""
+      }],
+      categories: undefined,
+      component: React.lazy(() => import("@/registry/default/examples/form/date-range-picker-field-example.tsx")),
       source: "",
       meta: undefined,
     },

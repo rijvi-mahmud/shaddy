@@ -193,4 +193,18 @@ export const form: Registry['items'] = [
     devDependencies: [],
     registryDependencies: ['shaddy-form:local', 'calender'],
   },
+  {
+    name: 'date-range-picker-field',
+    type: 'registry:component',
+    files: [
+      {
+        path: 'form/fields/date-range-picker-field.tsx',
+        type: 'registry:component',
+        target: 'components/form/fields/date-range-picker-field.tsx',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+    registryDependencies: ['shaddy-form:local', 'calender'],
+  },
 ]

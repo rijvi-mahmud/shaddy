@@ -346,6 +346,19 @@ export const examples: Registry['items'] = [
     dependencies: [],
     devDependencies: [],
   },
+  {
+    name: 'date-range-picker-field-example',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'examples/form/date-range-picker-field-example.tsx',
+        type: 'registry:example',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
 
   // ----------------------------------------------------------------------------
   // Arrange the ui examples

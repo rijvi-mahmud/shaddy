@@ -155,6 +155,14 @@ export const formConfig: DocsConfig = {
           },
           items: [],
         },
+        {
+          href: '/form/date-range-picker-field',
+          title: {
+            en: 'Date Range Picker Field',
+            pt: 'Campo de Seleção de Intervalo de Data',
+          },
+          items: [],
+        },
       ],
     },
   ],
