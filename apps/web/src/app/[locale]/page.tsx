@@ -16,6 +16,7 @@ import {
 } from '@/components/page-header'
 
 import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
+import Image from 'next/image'
 
 export const dynamicParams = true
 
@@ -55,7 +56,8 @@ export default async function IndexPage({
             <rect width="100%" height="100%" fill="url(#grid)" />
           </svg>
         </div>
-        <Announcement title={t('site.announcement')} href="/" />
+       <a href="https://www.producthunt.com/products/shaddy?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-shaddy" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1004538&theme=light&t=1755074945165" alt="shaddy - One&#0032;stop&#0032;frontend&#0032;resource | Product Hunt" style={{width: '150px',marginBottom: '1rem'}} className='' width={150} height={54} /></a>
+        {/* <Announcement title={t('site.announcement')} href="/" /> */}
 
         <PageHeaderHeading>
           <TextGenerateEffect words={t('site.title')} />
