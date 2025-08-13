@@ -6,15 +6,13 @@ const DateRangePickerDemo = () => {
   const [dateRange, setDateRange] = useState<DateRange>({ from: new Date(), to: new Date() })
 
   return (
-    <div>
-      <DateRangePicker
-        dateRange={dateRange}
-        onChange={(range) => setDateRange({
-          from: range.from || new Date(),
-          to: range.to || new Date(),
-        })}
-      />
-    </div>
+    <DateRangePicker
+      dateRange={dateRange}
+      onChange={(range) => setDateRange({
+        from: range.from || new Date(),
+        to: range.to || new Date(),
+      })}
+    />
   )
 }
 
