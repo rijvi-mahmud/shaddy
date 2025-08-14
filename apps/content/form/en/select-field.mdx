@@ -1,11 +1,11 @@
 ---
 title: Select Field
-description: Select field is a specialized reusable input component for shaddy form.
+description: SelectField is a specialized reusable input component for Shaddy Form.
 ---
 
-`SelectField` is a specialized reusable input component for the shaddy form. It accepts various props to customize its behavior and appearance, making it a flexible choice for different use cases.
+`SelectField` is a reusable select/dropdown component for Shaddy Form. It supports labels, required state, custom placeholder, and dynamic options. Use it inside a Shaddy Form to collect single-choice user input with validation.
 
-<ComponentPreview name="select-field-example"/>
+<ComponentPreview name="select-field-example" />
 
 ### Installation
 
@@ -45,3 +45,34 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/shaddy-form
 </TabsContent>
 
 </CodeTabs>
+
+### Props
+
+| Name          | Type                                   | Default      | Description                                     |
+| ------------- | -------------------------------------- | ------------ | ----------------------------------------------- |
+| `name`        | `string` (from `react-hook-form` Path) | **required** | The field name (must match your form schema).   |
+| `label`       | `string`                               |              | The label displayed above the select.           |
+| `placeholder` | `string`                               |              | Placeholder text for the select.                |
+| `options`     | `{ value: string; text: string }[]`    | **required** | Array of options for the dropdown.              |
+| `required`    | `boolean`                              | `false`      | Marks the field as required.                    |
+| `className`   | `string`                               |              | Additional CSS classes for the field container. |
+
+### Usage
+
+```tsx
+const PublishedOptions = [
+  { value: "draft", text: "Draft" },
+  { value: "published", text: "Published" },
+  { value: "archived", text: "Archived" },
+];
+
+<ShaddyForm>
+  <SelectField
+    name="publishedStatus"
+    label="Published Status"
+    options={PublishedOptions}
+    placeholder="Select status"
+    required
+  />
+</ShaddyForm>;
+```

@@ -1,11 +1,11 @@
 ---
 title: Date Picker Field
-description: Date picker field is a specialized reusable input component for shaddy form.
+description: DatePickerField is a specialized reusable input component for shaddy form.
 ---
 
-`DatePickerField` is a specialized reusable input component for the shaddy form. It accepts various props to customize its behavior and appearance, making it a flexible choice for different use cases.
+`DatePickerField` is a specialized reusable input component for the shaddy form. It accepts various props to customize its behavior and appearance, making it a flexible choice for different use cases. Use it to collect a single date input with validation and a calendar UI.
 
-<ComponentPreview name="date-picker-field-example"/>
+<ComponentPreview name="date-picker-field-example" />
 
 ### Installation
 
@@ -45,3 +45,27 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/shaddy-form
 </TabsContent>
 
 </CodeTabs>
+
+### Props
+
+| Name          | Type                                   | Default      | Description                                     |
+| ------------- | -------------------------------------- | ------------ | ----------------------------------------------- |
+| `name`        | `string` (from `react-hook-form` Path) | **required** | The field name (must match your form schema).   |
+| `label`       | `string`                               |              | The label displayed above the date picker.      |
+| `required`    | `boolean`                              | `false`      | Marks the field as required.                    |
+| `disabled`    | `boolean`                              | `false`      | Disables the date picker when true.             |
+| `className`   | `string`                               |              | Additional CSS classes for the field container. |
+| `description` | `string`                               |              | Optional description displayed below the field. |
+
+### Usage
+
+```tsx
+<ShaddyForm>
+  <DatePickerField
+    name="birthDate"
+    label="Birth Date"
+    required
+    description="Please select your date of birth"
+  />
+</ShaddyForm>
+```

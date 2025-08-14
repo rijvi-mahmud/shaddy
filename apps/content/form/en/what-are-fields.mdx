@@ -1,6 +1,95 @@
 ---
 title: What are Fields?
-description: Fields are specialized reusable input components for Shaddy forms, designed to collect various types of user input.
+description: Reusable input fields for shaddy form.
 ---
 
-# Coming Soon
+#### What Are Fields?
+
+**Fields** are specialized, reusable input components in Shaddy forms, designed to handle various types of user input efficiently and consistently.
+
+A **Field** acts as a wrapper around any form input element—whether it’s a standard `<input>` or a completely custom component. Wrapping your inputs in a Field ensures they follow a consistent structure and behavior across your forms.
+
+All Shaddy form field components use the `field` prefix (e.g., `TextField`, `PasswordField`) for easy identification and better developer experience. This naming convention helps you quickly locate and reuse components when building or maintaining forms.
+
+Every field component follows a consistent pattern:
+
+- Accepts a **generic type** for strong TypeScript support.
+- Receives a `control` property from `useFormContext()` to integrate seamlessly with `react-hook-form`.
+- Can be customized or extended to meet specific use cases.
+
+---
+
+#### Why Separate Fields?
+
+Fields are designed to be **modular** and **purpose-driven**. For example:
+
+- **`TextField`** can handle all text-based inputs, with optional customizations.
+- **`PasswordField`** extends this functionality with additional features such as a show/hide password toggle icon.
+- **`SubmitButton`** and **`ResetButton`** are both buttons, but they’re separated based on their respective actions for clarity and maintainability.
+
+By separating responsibilities, forms remain **highly customizable**, **efficient**, and **easy to work with**.
+
+---
+
+#### Creating a Custom Field
+
+If you’re using **React** or **Next.js** with **shadcn/ui**, creating a custom field is much easier. Below is an example of a generic `PasswordField` component that integrates with `react-hook-form` and follows Shaddy’s field pattern:
+
+```tsx
+import { cn } from "@/lib/utils";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+import { FieldValues, Path, useFormContext } from "react-hook-form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+type PasswordFieldProps<T extends FieldValues> = {
+  name: Path<T>;
+  label?: string;
+  required?: boolean;
+  className?: string;
+  /** Extend with additional custom props if needed */
+};
+
+/**
+ * A generic, reusable password input field.
+ * Validation is handled externally (e.g., via Zod schemas).
+ */
+export const PasswordField = <T extends FieldValues>({
+  name,
+  label,
+  required,
+  className,
+}: PasswordFieldProps<T>) => {
+  const { control } = useFormContext<T>();
+
+  return (
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem className={cn(className)}>
+          {label && (
+            <FormLabel>
+              {label}
+              {required && <span className="text-red-500 ml-1">*</span>}
+            </FormLabel>
+          )}
+
+          <FormControl>
+            {/* Insert your input or component logic here */}
+          </FormControl>
+
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+};
+```

@@ -1,13 +1,13 @@
 ---
 title: Unique Text Field
-description: Unique text field is a specialized reuseable input component for shaddy form responsible for collecting unique user input.
+description: UniqueTextField is a specialized reusable input component for Shaddy Form responsible for collecting unique user input.
 ---
 
-`UniqueTextField` is a specialized reuseable input component for the shaddy form. It accepts various props to customize its behavior and appearance, making it a flexible choice for different use cases.
+`UniqueTextField` is a specialized input component for Shaddy Form that checks if the entered value is unique (e.g., for usernames or emails). It provides instant feedback with a loading spinner and success/error indicators, using a debounced async check function.
 
-<ComponentPreview name="unique-text-field-example"/>
+<ComponentPreview name="unique-text-field-example" />
 
-### Installation
+#### Installation
 
 <CodeTabs>
 
@@ -17,8 +17,9 @@ description: Unique text field is a specialized reuseable input component for sh
 </TabsList>
 
 <TabsContent value="cli">
+
 ```bash
-npx shadcn@latest add https://shaddy-docs.vercel.app/r/unique-text-field 
+npx shadcn@latest add https://shaddy-docs.vercel.app/r/unique-text-field
 ```
 
 </TabsContent>
@@ -26,22 +27,56 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/unique-text-field
 <TabsContent value="manual">
 
 <Steps>
-
-<Step>Install the following dependencies:</Step>
+<Step>Install the required dependencies:</Step>
 
 ```bash
 npx shadcn@latest add https://shaddy-docs.vercel.app/r/shaddy-form https://shaddy-docs.vercel.app/r/use-debounce
 ```
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>Copy and paste the following code into your project:</Step>
 
 <ComponentSource name="unique-text-field" />
 
-<Step>Update the import paths to match your project setup.</Step>
-
+<Step>Update import paths as needed for your project structure.</Step>
 </Steps>
 
 </TabsContent>
 
 </CodeTabs>
 
+### Props
+
+| Name            | Type                                   | Default      | Description                                                                        |
+| --------------- | -------------------------------------- | ------------ | ---------------------------------------------------------------------------------- |
+| `name`          | `string` (from `react-hook-form` Path) | **required** | The field name (must match your form schema).                                      |
+| `label`         | `string`                               |              | The label displayed above the input.                                               |
+| `placeholder`   | `string`                               |              | Placeholder text for the input.                                                    |
+| `required`      | `boolean`                              | `false`      | Marks the field as required.                                                       |
+| `className`     | `string`                               |              | Additional CSS classes for the field container.                                    |
+| `type`          | `'text' \| 'email'`                    | `'text'`     | The input type.                                                                    |
+| `checkFunction` | `(value: string) => Promise<boolean>`  | **required** | Async function to check if the value is unique. Should return `true` if available. |
+| `debounceMs`    | `number`                               | `1000`       | Debounce time in milliseconds before checking uniqueness.                          |
+
+### Usage
+
+```tsx
+async function checkUsernameUnique(username: string) {
+  // Replace with your API call
+  return !["taken", "admin"].includes(username);
+}
+
+<ShaddyForm>
+  <UniqueTextField
+    name="username"
+    label="Username"
+    required
+    placeholder="Enter a unique username"
+    checkFunction={checkUsernameUnique}
+    debounceMs={800}
+  />
+</ShaddyForm>;
+```
+
+### Notes
+
+- The `checkFunction` should return a Promise that resolves to `true` if the value is available/unique, or `false` if taken.

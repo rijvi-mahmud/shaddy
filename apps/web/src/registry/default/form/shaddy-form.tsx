@@ -1,27 +1,27 @@
-import { Form } from '@/components/ui/form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ReactNode, Ref, useImperativeHandle } from 'react';
+import { Form } from '@/components/ui/form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ReactNode, Ref, useImperativeHandle } from 'react'
 import {
   DefaultValues,
   FieldValues,
   SubmitHandler,
   useForm,
   UseFormReturn,
-} from 'react-hook-form';
-import { ZodType } from 'zod';
+} from 'react-hook-form'
+import { ZodType } from 'zod'
 
 export type ShaddyFormRef<T extends FieldValues = FieldValues> = {
-  form: UseFormReturn<T, any, T>;
-};
+  form: UseFormReturn<T, any, T>
+}
 
 export type ShaddyFormProps<TSchema extends FieldValues = FieldValues> = {
-  schema: ZodType<TSchema, any>; 
-  initialValues: DefaultValues<TSchema>;
-  onSubmit: SubmitHandler<TSchema>;
-  children: ReactNode;
-  ref?: Ref<ShaddyFormRef<TSchema>>;
-  mode?: 'onChange' | 'onBlur' | 'onSubmit' | 'all';
-} & Omit<React.ComponentPropsWithoutRef<'form'>, 'onSubmit'>;
+  schema: ZodType<TSchema, any>
+  initialValues: DefaultValues<TSchema>
+  onSubmit: SubmitHandler<TSchema>
+  children: ReactNode
+  ref?: Ref<ShaddyFormRef<TSchema>>
+  mode?: 'onChange' | 'onBlur' | 'onSubmit' | 'all'
+} & Omit<React.ComponentPropsWithoutRef<'form'>, 'onSubmit'>
 
 /**
  * A generic form component.
@@ -45,15 +45,15 @@ export const ShaddyForm = <TSchema extends FieldValues = FieldValues>({
     defaultValues: initialValues,
     resolver: zodResolver(schema),
     mode,
-  });
+  })
 
-  useImperativeHandle(ref, () => ({ form }));
+  useImperativeHandle(ref, () => ({ form }))
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>{children}</form>
     </Form>
-  );
-};
+  )
+}
 
-ShaddyForm.displayName = 'ShaddyForm';
+ShaddyForm.displayName = 'ShaddyForm'

@@ -6,7 +6,7 @@ import z from 'zod'
 
 const schema = z.object({
   dob: z.date({
-    message: "A date of birth is required.",
+    message: 'A date of birth is required.',
   }),
 })
 

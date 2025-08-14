@@ -1,11 +1,11 @@
 ---
 title: Date Range Picker Field
-description: Date range picker field is a specialized reusable input component for shaddy form.
+description: DateRangePickerField is a specialized reusable input component for shaddy form.
 ---
 
-`DateRangePickerField` is a specialized reusable input component for the shaddy form. It accepts various props to customize its behavior and appearance, making it a flexible choice for different use cases.
+`DateRangePickerField` is a specialized reusable input component for the shaddy form. It is built on top of the [`DateRangePicker`](/ui/date-range-picker) UI component and is designed to accept a range of dates with validation and flexible configuration. Use it inside a Shaddy Form to collect a start and end date from users.
 
-<ComponentPreview name="date-range-picker-field-example"/>
+<ComponentPreview name="date-range-picker-field-example" />
 
 ### Installation
 
@@ -45,3 +45,25 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/shaddy-form
 </TabsContent>
 
 </CodeTabs>
+
+### Props
+
+| Name        | Type                                   | Default      | Description                                      |
+| ----------- | -------------------------------------- | ------------ | ------------------------------------------------ |
+| `name`      | `string` (from `react-hook-form` Path) | **required** | The field name (must match your form schema).    |
+| `label`     | `string`                               |              | The label displayed above the date range picker. |
+| `required`  | `boolean`                              | `false`      | Marks the field as required.                     |
+| `disabled`  | `boolean`                              | `false`      | Disables the date range picker when true.        |
+| `className` | `string`                               |              | Additional CSS classes for the field container.  |
+
+### Usage
+
+```tsx
+<ShaddyForm>
+  <DateRangePickerField name="eventDates" label="Event Dates" required />
+</ShaddyForm>
+```
+
+### Notes
+
+- It is built on top of the [`DateRangePicker`](/ui/date-range-picker) UI component, so you can refer to its documentation for more customization options.

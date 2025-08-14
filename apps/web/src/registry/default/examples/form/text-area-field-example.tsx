@@ -38,5 +38,3 @@ const TextAreaFieldExample = () => {
 }
 
 export default TextAreaFieldExample
-
-

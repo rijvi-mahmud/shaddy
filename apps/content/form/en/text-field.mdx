@@ -1,11 +1,11 @@
 ---
 title: Text Field
-description: Text field is a specialized reuseable input component for shaddy form.
+description: TextField is a reusable input component for Shaddy Form with support for icons, actions, and loading state.
 ---
 
-`TextField` is a specialized reuseable input component for the shaddy form. It accepts various props to customize its behavior and appearance, making it a flexible choice for different use cases.
+`TextField` is a reusable input component for Shaddy Form. It supports labels, required state, icons, loading indicators, custom actions, and more. Use it inside a Shaddy Form to collect user input with validation.
 
-<ComponentPreview name="text-field-example"/>
+<ComponentPreview name="text-field-example" />
 
 ### Installation
 
@@ -27,23 +27,57 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/text-field
 <TabsContent value="manual">
 
 <Steps>
-
-<Step>Install the following dependencies:</Step>
+<Step>Install the required dependencies:</Step>
 
 ```bash
 npx shadcn@latest add https://shaddy-docs.vercel.app/r/shaddy-form
 ```
 
-<Step>Copy and paste the following code into your project.</Step>
+<Step>Copy and paste the following code into your project:</Step>
 
 <ComponentSource name="text-field" />
 `loading-spinner.tsx`
 <ComponentSource name="loading-spinner" />
 
-<Step>Update the import paths to match your project setup.</Step>
-
+<Step>Update import paths as needed for your project structure.</Step>
 </Steps>
 
 </TabsContent>
 
 </CodeTabs>
+
+### Props
+
+| Name          | Type                                   | Default      | Description                                              |
+| ------------- | -------------------------------------- | ------------ | -------------------------------------------------------- |
+| `name`        | `string` (from `react-hook-form` Path) | **required** | The field name (must match your form schema).            |
+| `label`       | `string`                               |              | The label displayed above the input.                     |
+| `type`        | `'text' \| 'email' \| 'number'`        | `'text'`     | The input type.                                          |
+| `placeholder` | `string`                               | `'Input'`    | Placeholder text for the input.                          |
+| `required`    | `boolean`                              | `false`      | Marks the field as required.                             |
+| `action`      | `() => void`                           |              | Optional action button on the right (e.g., clear/reset). |
+| `icon`        | `ReactNode`                            |              | Icon to display on the right side of the input.          |
+| `loading`     | `boolean`                              |              | Shows a loading spinner on the right when true.          |
+| `className`   | `string`                               |              | Additional CSS classes for the field container.          |
+| `inputClass`  | `string`                               |              | Additional CSS classes for the input element.            |
+| `iconClass`   | `string`                               |              | Additional CSS classes for the icon or action button.    |
+| `disabled`    | `boolean`                              | `false`      | Disables the input when true.                            |
+
+### Usage
+
+```tsx
+<ShaddyForm>
+  <TextField
+    name="email"
+    label="Email"
+    type="email"
+    required
+    placeholder="Enter your email"
+  />
+</ShaddyForm>
+```
+
+### Notes
+
+- The `action` prop adds a button on the right (e.g., for clearing the field). If `icon` is provided, it will be shown inside the action button; otherwise, a default X icon is used.
+- If `loading` is true, a loading spinner appears on the right.

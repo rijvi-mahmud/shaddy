@@ -7,7 +7,6 @@ import { useState, useRef } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Link } from '@/navigation'
 
-
 const UseEventListenerExample = () => {
   return (
     <Card className="w-full border">
@@ -276,7 +275,7 @@ const DelegationExample = () => {
           <span className={'text-xs text-muted-foreground'}>
             Note: we can effectively handle table with{' '}
             <Link
-              target='_blank'
+              target="_blank"
               className="text-primary hover:underline"
               href={'https://tanstack.com/table/latest'}
             >

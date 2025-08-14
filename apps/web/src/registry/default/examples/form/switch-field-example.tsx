@@ -32,7 +32,6 @@ const onSubmit: SubmitHandler<User> = (data) => {
   console.log('User saved:', data.isActive)
 }
 
-
 const SwitchFieldExample = () => {
   return (
     <ShaddyForm<User>
@@ -47,10 +46,7 @@ const SwitchFieldExample = () => {
           placeholder="Enter username"
         />
 
-        <SwitchField<User>
-          name="isActive"
-          label="Account Enabled"
-        />
+        <SwitchField<User> name="isActive" label="Account Enabled" />
 
         <SelectField<User>
           name="role"

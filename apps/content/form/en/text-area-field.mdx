@@ -1,11 +1,11 @@
 ---
 title: Text Area Field
-description: Text area field is a specialized reusable input component for shaddy form.
+description: TextAreaField is a flexible reusable textarea component for Shaddy Form.
 ---
 
-`TextAreaField` is a specialized reusable input component for the shaddy form. It accepts various props to customize its behavior and appearance, making it a flexible choice for different use cases.
+`TextAreaField` is a reusable textarea component for Shaddy Form. It supports labels, required state, icons, loading indicators, custom actions, auto-resizing, and more. Use it inside a Shaddy Form to collect multi-line user input with validation.
 
-<ComponentPreview name="text-area-field-example"/>
+<ComponentPreview name="text-area-field-example" />
 
 ### Installation
 
@@ -21,12 +21,12 @@ description: Text area field is a specialized reusable input component for shadd
 ```bash
 npx shadcn@latest add https://shaddy-docs.vercel.app/r/text-area-field
 ```
+
 </TabsContent>
 
 <TabsContent value="manual">
 
 <Steps>
-
 <Step>Install the following dependencies:</Step>
 
 ```bash
@@ -38,9 +38,48 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/shaddy-form
 <ComponentSource name="text-area-field" />
 
 <Step>Update the import paths to match your project setup.</Step>
-
 </Steps>
 
 </TabsContent>
 
 </CodeTabs>
+
+### Props
+
+| Name             | Type                                   | Default      | Description                                                    |
+| ---------------- | -------------------------------------- | ------------ | -------------------------------------------------------------- |
+| `name`           | `string` (from `react-hook-form` Path) | **required** | The field name (must match your form schema).                  |
+| `label`          | `string`                               |              | The label displayed above the textarea.                        |
+| `required`       | `boolean`                              | `false`      | Marks the field as required.                                   |
+| `placeholder`    | `string`                               |              | Placeholder text for the textarea.                             |
+| `resizable`      | `boolean`                              | `false`      | If `false`, disables manual resizing.                          |
+| `autoResize`     | `boolean`                              | `false`      | If `true`, textarea auto-grows with content.                   |
+| `maxHeight`      | `number`                               |              | Maximum height for the textarea (in px).                       |
+| `minHeight`      | `number`                               |              | Minimum height for the textarea (in px).                       |
+| `action`         | `() => void`                           |              | Optional action button on the right (e.g., clear/reset).       |
+| `Icon`           | `ReactNode`                            |              | Icon to display on the right side or inside the action button. |
+| `loading`        | `boolean`                              |              | Shows a loading spinner on the right when true.                |
+| `className`      | `string`                               |              | Additional CSS classes for the field container.                |
+| `inputClassName` | `string`                               |              | Additional CSS classes for the textarea element.               |
+| `iconClassName`  | `string`                               |              | Additional CSS classes for the icon or action button.          |
+
+### Usage
+
+```tsx
+<ShaddyForm>
+  <TextAreaField
+    name="summary"
+    label="Summary"
+    placeholder="Write something..."
+    required
+    autoResize
+    minHeight={80}
+    maxHeight={300}
+  />
+</ShaddyForm>
+```
+
+### Notes
+
+- The `action` prop adds a button on the right (e.g., for clearing the field). If `Icon` is provided, it will be shown inside the action button; otherwise, a default X icon is used.
+- If `loading` is true, a loading spinner appears on the right.

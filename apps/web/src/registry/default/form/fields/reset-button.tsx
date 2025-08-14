@@ -1,11 +1,11 @@
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { useFormContext } from 'react-hook-form';
-import { ComponentProps } from 'react';
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import { useFormContext } from 'react-hook-form'
+import { ComponentProps } from 'react'
 
 type Props = ComponentProps<typeof Button> & {
-	label?: string;
-};
+  label?: string
+}
 
 /**
  * ResetButton component
@@ -17,32 +17,32 @@ type Props = ComponentProps<typeof Button> & {
  */
 
 export const ResetButton = ({
-	label = 'Reset',
-	disabled = false,
-	className,
-	onClick,
-	...props
+  label = 'Reset',
+  disabled = false,
+  className,
+  onClick,
+  ...props
 }: Props) => {
-	const form = useFormContext();
+  const form = useFormContext()
 
-	const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-		form.reset();
-		onClick?.(e);
-	};
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    form.reset()
+    onClick?.(e)
+  }
 
-	return (
-		<Button
-			type="reset"
-			variant={'outline'}
-			size={'sm'}
-			disabled={disabled}
-			className={cn(className)}
-			onClick={handleClick}
-			{...props}
-		>
-			{label}
-		</Button>
-	);
-};
+  return (
+    <Button
+      type="reset"
+      variant={'outline'}
+      size={'sm'}
+      disabled={disabled}
+      className={cn(className)}
+      onClick={handleClick}
+      {...props}
+    >
+      {label}
+    </Button>
+  )
+}
 
-ResetButton.displayName = 'ResetButton';
+ResetButton.displayName = 'ResetButton'

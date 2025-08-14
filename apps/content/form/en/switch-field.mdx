@@ -1,11 +1,11 @@
 ---
 title: Switch Field
-description: Switch field is a specialized reusable input component for shaddy form.
+description: SwitchField is a specialized reusable input component for Shaddy Form.
 ---
 
-`SwitchField` is a specialized reusable input component for the shaddy form. It accepts various props to customize its behavior and appearance, making it a flexible choice for different use cases.
+`SwitchField` is a reusable switch/toggle component for Shaddy Form. It supports labels, required state, disabled state, flexible layout options, and more. Use it inside a Shaddy Form to collect boolean user input with validation.
 
-<ComponentPreview name="switch-field-example"/>
+<ComponentPreview name="switch-field-example" />
 
 ### Installation
 
@@ -45,3 +45,29 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/shaddy-form
 </TabsContent>
 
 </CodeTabs>
+
+### Props
+
+| Name        | Type                                   | Default      | Description                                       |
+| ----------- | -------------------------------------- | ------------ | ------------------------------------------------- |
+| `name`      | `string` (from `react-hook-form` Path) | **required** | The field name (must match your form schema).     |
+| `label`     | `string`                               |              | The label displayed next to the switch.           |
+| `className` | `string`                               |              | Additional CSS classes for the field container.   |
+| `disabled`  | `boolean`                              | `false`      | Disables the switch when true.                    |
+| `required`  | `boolean`                              | `false`      | Marks the field as required.                      |
+| `column`    | `boolean`                              | `false`      | Arranges the switch and label in a column layout. |
+| `longGap`   | `boolean`                              | `false`      | Adds extra space between the switch and label.    |
+| `reverse`   | `boolean`                              | `false`      | Reverses the order of the switch and label.       |
+| `gap`       | `'2' \| '4' \| '6' \| '8'`             | `'2'`        | Sets the gap between the switch and label.        |
+
+### Usage
+
+```tsx
+<ShaddyForm>
+  <SwitchField name="isActive" label="Active" required gap="4" column />
+</ShaddyForm>
+```
+
+### Notes
+
+- You can control the layout and spacing using the `column`, `longGap`, `reverse`, and `gap` props.

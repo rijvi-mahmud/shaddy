@@ -5,15 +5,15 @@
   "scripts": {
     "dev": "run-s build:registry dev:parallel",
     "dev:parallel": "concurrently \"pnpm build:registry:watch\" \"next dev\"",
-    "build": "run-s contentlayer:build build:registry next:build",
+    "build": "run-s contentlayer:build registry:build next:build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "eslint --fix .",
     "next:build": "next build",
     "contentlayer:build": "contentlayer2 build",
-    "build:registry": "tsx --no-cache src/scripts/build-registry.ts",
-    "registry:build": "tsx src/scripts/build-registry.ts && prettier --loglevel silent --write \"registry/**/*.{ts,tsx,mdx}\" --cache",
-    "build:registry:watch": "tsx watch --no-cache src/scripts/build-registry.ts"
+    "build:registry": "tsx --no-cache ./src/scripts/build-registry.ts",
+    "registry:build": "tsx ./src/scripts/build-registry.ts && prettier --config .prettierrc --log-level silent --write \"./src/registry/**/*.{ts,tsx,mdx}\" --cache",
+    "build:registry:watch": "tsx watch --no-cache ./src/scripts/build-registry.ts"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.3.0",
@@ -86,6 +86,7 @@
     "mdast-util-toc": "^7.1.0",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.39",
+    "prettier": "^3.3.3",
     "pretty-quick": "^4.0.0",
     "rehype": "^13.0.1",
     "rehype-autolink-headings": "^7.1.0",

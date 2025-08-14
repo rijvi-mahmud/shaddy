@@ -7,10 +7,10 @@ import { DateRangePickerField } from '@/registry/default/form/fields/date-range-
 const schema = z.object({
   stayingDates: z.object({
     from: z.date({
-      message: "A start date is required.",
+      message: 'A start date is required.',
     }),
     to: z.date({
-      message: "An end date is required.",
+      message: 'An end date is required.',
     }),
   }),
 })

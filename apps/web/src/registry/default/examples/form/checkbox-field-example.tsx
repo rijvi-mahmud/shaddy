@@ -5,7 +5,7 @@ import { ShaddyForm } from '@/registry/default/form/shaddy-form'
 import z from 'zod'
 
 const schema = z.object({
-  acceptTerms: z.boolean().refine(val => val === true, {
+  acceptTerms: z.boolean().refine((val) => val === true, {
     message: 'You must accept the terms and conditions',
   }),
 })

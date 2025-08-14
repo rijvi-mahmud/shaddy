@@ -1,10 +1,9 @@
 ---
 title: Reset Button
-description: Reset button is a specialized reusable button component for shaddy form.
+description: ResetButton is a reusable button component for Shaddy Form that resets form data.
 ---
 
-`ResetButton` is a specialized, reusable button component for the Shaddy Form. it accepts all the generic button props. It also accepts a loading state and custom labels. This button should be used within shaddy form to reset the form data.
-
+`ResetButton` is a reusable button component designed for use within a Shaddy Form. It accepts all generic button props, a custom label, and integrates with `react-hook-form` to reset the form state. Use this button inside a Shaddy Form to clear all form fields.
 
 ### Installation
 
@@ -44,20 +43,34 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/shaddy-form
 
 </CodeTabs>
 
+### Props
+
+| Name            | Type                                 | Default | Description                                  |
+| --------------- | ------------------------------------ | ------- | -------------------------------------------- |
+| `label`         | `string`                             | "Reset" | The text displayed on the button.            |
+| `disabled`      | `boolean`                            | `false` | Disables the button when set to true.        |
+| `className`     | `string`                             |         | Additional CSS classes for the button.       |
+| `onClick`       | `(e: React.MouseEvent) => void`      |         | Optional click handler (called after reset). |
+| ...Button props | All props from your Button component |         | Inherits all other props from your Button.   |
 
 ### Usage
 
 ```tsx
-<ShaddyForm>
-  <div className="space-y-4">
-    <TextField<Type>
-      name="email"
-      label="Email"
-      required
-      placeholder="Enter your email"
-    />
+import { ShaddyForm, TextField, ResetButton } from "@/components";
 
-    <ResetButton label="Reset" />
-  </div>
-</ShaddyForm>
+function MyForm() {
+  return (
+    <ShaddyForm>
+      <div className="space-y-4">
+        <TextField
+          name="email"
+          label="Email"
+          required
+          placeholder="Enter your email"
+        />
+        <ResetButton label="Reset" />
+      </div>
+    </ShaddyForm>
+  );
+}
 ```

@@ -1,11 +1,11 @@
 ---
 title: Checkbox Group Field
-description: Checkbox group field is a specialized reusable input component for shaddy form.
+description: CheckboxGroupField is a specialized reusable input component for Shaddy Form.
 ---
 
-`CheckboxGroupField` is a specialized reusable input component for the shaddy form. It accepts various props to customize its behavior and appearance, making it a flexible choice for different use cases.
+`CheckboxGroupField` is a specialized reusable input component for Shaddy Form. It is used for multiple checkbox selections and supports labels, required state, flexible layout, and more.
 
-<ComponentPreview name="checkbox-group-field-example"/>
+<ComponentPreview name="checkbox-group-field-example" />
 
 ### Installation
 
@@ -45,3 +45,40 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/shaddy-form
 </TabsContent>
 
 </CodeTabs>
+
+### Props
+
+| Name        | Type                                   | Default      | Description                                        |
+| ----------- | -------------------------------------- | ------------ | -------------------------------------------------- |
+| `name`      | `string` (from `react-hook-form` Path) | **required** | The field name (must match your form schema).      |
+| `label`     | `string`                               |              | The label displayed above the group.               |
+| `options`   | `{ text: string; value: string }[]`    | **required** | Array of options for the checkbox group.           |
+| `className` | `string`                               |              | Additional CSS classes for the field container.    |
+| `disabled`  | `boolean`                              |              | Disables all checkboxes when true.                 |
+| `column`    | `boolean`                              | `true`       | Arranges checkboxes in a column (or row if false). |
+| `required`  | `boolean`                              |              | Marks the field as required.                       |
+
+### Usage
+
+```tsx
+const skillOptions = [
+  { text: "React", value: "react" },
+  { text: "Vue", value: "vue" },
+  { text: "Angular", value: "angular" },
+]
+
+<ShaddyForm>
+  <CheckboxGroupField
+    name="skills"
+    label="Skills"
+    options={skillOptions}
+    required
+  />
+</ShaddyForm>
+
+```
+
+### Notes
+
+- `CheckboxGroupField` is intended for multiple checkbox selection (array of values).
+- Use the `column` prop to control vertical or horizontal layout.

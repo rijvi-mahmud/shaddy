@@ -1,10 +1,9 @@
 ---
 title: Submit Button
-description: Submit button is a specialized reusable button component for shaddy form.
+description: SubmitButton is a reusable button component for Shaddy Form that supports loading and disabled states.
 ---
 
-`SubmitButton` is a specialized, reusable button component for the Shaddy Form. it accepts all the generic button props. It also accepts a loading state and custom labels. This button should be used within shaddy form to submit the form data.
-
+`SubmitButton` is a reusable button component designed for use within a Shaddy Form. It accepts all generic button props, supports loading and disabled states, and allows for custom labels and icons. Use this button inside a Shaddy Form to submit form data.
 
 ### Installation
 
@@ -44,19 +43,41 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/shaddy-form
 
 </CodeTabs>
 
+### Props
+
+| Name            | Type                                 | Default        | Description                                            |
+| --------------- | ------------------------------------ | -------------- | ------------------------------------------------------ |
+| `isLoading`     | `boolean`                            | `false`        | Shows loading state and disables the button when true. |
+| `disabled`      | `boolean`                            | `false`        | Disables the button when true.                         |
+| `label`         | `string`                             | "Save Changes" | The text displayed on the button.                      |
+| `loadingLabel`  | `string`                             | "Saving..."    | The text displayed when loading.                       |
+| `icon`          | `ReactNode`                          |                | Icon to display before the label.                      |
+| `loadingIcon`   | `ReactNode`                          |                | Icon to display when loading.                          |
+| `className`     | `string`                             |                | Additional CSS classes for the button.                 |
+| ...Button props | All props from your Button component |                | Inherits all other props from your Button.             |
+
 ### Usage
 
 ```tsx
-<ShaddyForm>
-  <div className="space-y-4">
-    <TextField<Type>
-      name="email"
-      label="Email"
-      required
-      placeholder="Enter your email"
-    />
+import { ShaddyForm, TextField, SubmitButton } from "@/components";
 
-    <SubmitButton label="Submit" />
-  </div>
-</ShaddyForm>
+function MyForm() {
+  return (
+    <ShaddyForm>
+      <div className="space-y-4">
+        <TextField
+          name="email"
+          label="Email"
+          required
+          placeholder="Enter your email"
+        />
+        <SubmitButton
+          label="Submit"
+          loadingLabel="Submitting..."
+          isLoading={false}
+        />
+      </div>
+    </ShaddyForm>
+  );
+}
 ```

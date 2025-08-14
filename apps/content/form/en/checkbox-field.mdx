@@ -1,11 +1,11 @@
 ---
 title: Checkbox Field
-description: Checkbox field is a specialized reusable input component for shaddy form.
+description: CheckboxField is a specialized reusable input component for Shaddy Form.
 ---
 
-`CheckboxField` is a specialized reusable input component for the shaddy form. It accepts various props to customize its behavior and appearance, making it a flexible choice for different use cases.
+`CheckboxField` is a specialized reusable input component for Shaddy Form. It is designed for single checkbox use cases and supports labels, required state, disabled state, flexible layout options, and more.
 
-<ComponentPreview name="checkbox-field-example"/>
+<ComponentPreview name="checkbox-field-example" />
 
 ### Installation
 
@@ -45,3 +45,29 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/shaddy-form
 </TabsContent>
 
 </CodeTabs>
+### Props
+
+| Name        | Type                                   | Default      | Description                                      |
+| ----------- | -------------------------------------- | ------------ | ------------------------------------------------ |
+| `name`      | `string` (from `react-hook-form` Path) | **required** | The field name (must match your form schema).    |
+| `label`     | `string`                               |              | The label displayed next to the checkbox.        |
+| `required`  | `boolean`                              | `false`      | Marks the field as required.                     |
+| `disabled`  | `boolean`                              | `false`      | Disables the checkbox when true.                 |
+| `column`    | `boolean`                              | `false`      | Arranges the checkbox and label in a column.     |
+| `longGap`   | `boolean`                              | `false`      | Adds extra space between the checkbox and label. |
+| `reverse`   | `boolean`                              | `false`      | Reverses the order of the checkbox and label.    |
+| `gap`       | `'2' \| '4' \| '6' \| '8'`             | `'2'`        | Sets the gap between the checkbox and label.     |
+| `className` | `string`                               |              | Additional CSS classes for the field container.  |
+
+### Usage
+
+```tsx
+<ShaddyForm>
+  <CheckboxField name="isActive" label="Is Active" required gap="4" />
+</ShaddyForm>
+```
+
+### Notes
+
+- `CheckboxField` is intended for single checkbox use (not for checkbox groups).
+- You can control the layout and spacing using the `column`, `longGap`, `reverse`, and `gap` props.
