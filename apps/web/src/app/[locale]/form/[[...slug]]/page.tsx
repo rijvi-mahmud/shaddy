@@ -1,53 +1,53 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
-import { allForms } from "contentlayer/generated";
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { allForms } from 'contentlayer/generated'
 
-import type { LocaleOptions } from "@/lib/shaddy/types/i18n";
-import type { Metadata } from "next";
+import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
+import type { Metadata } from 'next'
 
-import "@/styles/mdx.css";
+import '@/styles/mdx.css'
 
-import { DashboardTableOfContents } from "@/components/docs/toc";
-import { DocumentNotFound } from "@/components/docs/not-found";
-import { getTableOfContents } from "@/lib/shaddy/utils/toc";
-import { DocBreadcrumb } from "@/components/docs/breadcrumb";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { DocPageProps } from "@/lib/shaddy/types/docs";
-import { DocHeading } from "@/components/docs/heading";
-import { DocsPager } from "@/components/docs/pager";
-import { DocLinks } from "@/components/docs/links";
-import { defaultLocale } from "@/config/i18n";
-import { Mdx } from "@/components/docs/mdx";
-import { siteConfig } from "@/config/site";
-import { absoluteUrl } from "@/lib/utils";
-import { getDocFromParams } from "@/lib/shaddy/utils/doc";
-import { formConfig } from "@/config/form";
-import { BuyMeCoffee } from "@/components/ui/bmc";
-import { ProductHuntBadge } from "@/components/ui/product-hunt-badge";
+import { DashboardTableOfContents } from '@/components/docs/toc'
+import { DocumentNotFound } from '@/components/docs/not-found'
+import { getTableOfContents } from '@/lib/shaddy/utils/toc'
+import { DocBreadcrumb } from '@/components/docs/breadcrumb'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { DocPageProps } from '@/lib/shaddy/types/docs'
+import { DocHeading } from '@/components/docs/heading'
+import { DocsPager } from '@/components/docs/pager'
+import { DocLinks } from '@/components/docs/links'
+import { defaultLocale } from '@/config/i18n'
+import { Mdx } from '@/components/docs/mdx'
+import { siteConfig } from '@/config/site'
+import { absoluteUrl } from '@/lib/utils'
+import { getDocFromParams } from '@/lib/shaddy/utils/doc'
+import { formConfig } from '@/config/form'
+import { BuyMeCoffee } from '@/components/ui/bmc'
+import { ProductHuntBadge } from '@/components/ui/product-hunt-badge'
 
-export const dynamicParams = true;
+export const dynamicParams = true
 
 export async function generateMetadata({
   params,
 }: DocPageProps): Promise<Metadata> {
-  const locale = params.locale;
+  const locale = params.locale
 
-  setRequestLocale(locale || defaultLocale);
+  setRequestLocale(locale || defaultLocale)
 
-  const doc = await getDocFromParams({ params, data: allForms });
+  const doc = await getDocFromParams({ params, data: allForms })
 
   if (!doc) {
-    return {};
+    return {}
   }
 
-  const [, ...docSlugList] = doc.slugAsParams.split("/");
-  const docSlug = docSlugList.join("/") || "";
+  const [, ...docSlugList] = doc.slugAsParams.split('/')
+  const docSlug = docSlugList.join('/') || ''
 
   return {
     title: doc.title,
     description: doc.description,
 
     openGraph: {
-      type: "article",
+      type: 'article',
       title: doc.title,
       url: absoluteUrl(`/${locale}/docs/${docSlug}`),
       description: doc.description,
@@ -62,48 +62,48 @@ export async function generateMetadata({
     },
 
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title: doc.title,
       description: doc.description,
       images: [siteConfig.og.image],
       creator: siteConfig.links.twitter.username,
     },
-  };
+  }
 }
 
 export async function generateStaticParams(): Promise<
-  DocPageProps["params"][]
+  DocPageProps['params'][]
 > {
   const docs = allForms.map((doc) => {
-    const [locale, ...slugs] = doc.slugAsParams.split("/");
+    const [locale, ...slugs] = doc.slugAsParams.split('/')
 
     return {
       slug: slugs,
       locale: locale as LocaleOptions,
-    };
-  });
+    }
+  })
 
-  return docs;
+  return docs
 }
 
 export default async function DocPage({ params }: DocPageProps) {
-  setRequestLocale(params.locale || defaultLocale);
+  setRequestLocale(params.locale || defaultLocale)
 
-  const doc = await getDocFromParams({ params, data: allForms });
-  const t = await getTranslations("forms");
+  const doc = await getDocFromParams({ params, data: allForms })
+  const t = await getTranslations('forms')
 
   if (!doc) {
     return (
       <DocumentNotFound
         messages={{
-          title: t("not_found.title"),
-          description: t("not_found.description"),
+          title: t('not_found.title'),
+          description: t('not_found.description'),
         }}
       />
-    );
+    )
   }
 
-  const toc = await getTableOfContents(doc.body.raw);
+  const toc = await getTableOfContents(doc.body.raw)
 
   return (
     <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px] min-h-svh">
@@ -113,7 +113,7 @@ export default async function DocPage({ params }: DocPageProps) {
           rootPath="form"
           doc={doc}
           messages={{
-            docs: t("docs"),
+            docs: t('docs'),
           }}
         />
 
@@ -147,9 +147,9 @@ export default async function DocPage({ params }: DocPageProps) {
                   toc={toc}
                   sourceFilePath={doc._raw.sourceFilePath}
                   messages={{
-                    onThisPage: t("on_this_page"),
-                    editPageOnGitHub: t("edit_page_on_github"),
-                    startDiscussionOnGitHub: t("start_discussion_on_github"),
+                    onThisPage: t('on_this_page'),
+                    editPageOnGitHub: t('edit_page_on_github'),
+                    startDiscussionOnGitHub: t('start_discussion_on_github'),
                   }}
                 />
               </div>
@@ -162,5 +162,5 @@ export default async function DocPage({ params }: DocPageProps) {
         </div>
       )}
     </main>
-  );
+  )
 }

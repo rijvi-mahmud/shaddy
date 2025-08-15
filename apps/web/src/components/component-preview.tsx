@@ -1,12 +1,12 @@
 'use client'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import * as React from "react"
-import Image from "next/image"
-import { Index } from "@/__registry__"
-import { cn } from "@/lib/utils"
+import * as React from 'react'
+import Image from 'next/image'
+import { Index } from '@/__registry__'
+import { cn } from '@/lib/utils'
 // import { CopyButton } from './copy-button'
-import { styles } from "@/registry/registry-styles"
+import { styles } from '@/registry/registry-styles'
 import { Icons } from './icons'
 import { ThemeModeToggle } from './theme-mode-toggle'
 import { useConfig } from '@/hooks/use-config'
@@ -15,10 +15,10 @@ interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string
   extractClassname?: boolean
   extractedClassNames?: string
-  align?: "center" | "start" | "end"
+  align?: 'center' | 'start' | 'end'
   description?: string
   hideCode?: boolean
-  type?: "block" | "component" | "example"
+  type?: 'block' | 'component' | 'example'
 }
 
 export function ComponentPreview({
@@ -28,12 +28,12 @@ export function ComponentPreview({
   className,
   extractClassname,
   extractedClassNames,
-  align = "center",
+  align = 'center',
   description,
   hideCode = false,
   ...props
 }: ComponentPreviewProps) {
-  const {config} = useConfig()
+  const { config } = useConfig()
   const index = styles.findIndex((style) => style.name === config.style)
 
   const Codes = React.Children.toArray(children) as React.ReactElement[]
@@ -44,10 +44,10 @@ export function ComponentPreview({
     if (!Component) {
       return (
         <p className="text-sm text-muted-foreground">
-          Component{" "}
+          Component{' '}
           <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
             {name}
-          </code>{" "}
+          </code>{' '}
           not found in registry.
         </p>
       )
@@ -56,19 +56,18 @@ export function ComponentPreview({
     return <Component />
   }, [name])
 
-// const codeString = React.useMemo(() => {
-//     if (
-//       typeof Code?.props["data-rehype-pretty-code-fragment"] !== "undefined"
-//     ) {
-//       const [Button] = React.Children.toArray(
-//         Code.props.children
-//       ) as React.ReactElement[]
-//       return Button?.props?.value || Button?.props?.__rawString__ || null
-//     }
-//   }, [Code])
+  // const codeString = React.useMemo(() => {
+  //     if (
+  //       typeof Code?.props["data-rehype-pretty-code-fragment"] !== "undefined"
+  //     ) {
+  //       const [Button] = React.Children.toArray(
+  //         Code.props.children
+  //       ) as React.ReactElement[]
+  //       return Button?.props?.value || Button?.props?.__rawString__ || null
+  //     }
+  //   }, [Code])
 
-
-  if (type === "block") {
+  if (type === 'block') {
     return (
       <div className="relative aspect-[4/2.5] w-full overflow-hidden rounded-md border">
         <Image
@@ -86,10 +85,7 @@ export function ComponentPreview({
           className="absolute left-0 top-0 z-20 hidden w-[970px] max-w-none bg-background dark:block sm:w-[1280px] md:hidden md:dark:hidden"
         />
         <div className="absolute inset-0 hidden w-[1600px] bg-background md:block">
-          <iframe
-            src={`/view/styles/default/${name}`}
-            className="size-full"
-          />
+          <iframe src={`/view/styles/default/${name}`} className="size-full" />
         </div>
       </div>
     )
@@ -97,7 +93,7 @@ export function ComponentPreview({
 
   return (
     <div
-      className={cn("group relative my-4 flex flex-col space-y-2", className)}
+      className={cn('group relative my-4 flex flex-col space-y-2', className)}
       {...props}
     >
       <Tabs defaultValue="preview" className="relative mr-auto w-full">
@@ -133,11 +129,11 @@ export function ComponentPreview({
           </div>
           <div
             className={cn(
-              "preview flex min-h-[350px] w-full justify-center p-10",
+              'preview flex min-h-[350px] w-full justify-center p-10',
               {
-                "items-center": align === "center",
-                "items-start": align === "start",
-                "items-end": align === "end",
+                'items-center': align === 'center',
+                'items-start': align === 'start',
+                'items-end': align === 'end',
               }
             )}
           >
@@ -153,8 +149,8 @@ export function ComponentPreview({
             </React.Suspense>
           </div>
         </TabsContent>
-        <TabsContent value="code" className='relative'>
-            {/* <CopyButton
+        <TabsContent value="code" className="relative">
+          {/* <CopyButton
               value={codeString}
               className="absolute right-6 top-4 z-10 h-8 w-8 p-0 hover:bg-background"
             /> */}

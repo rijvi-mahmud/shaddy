@@ -42,7 +42,7 @@ export function MainNav({ messages }: MainNavProps) {
         >
           {messages.docs}
         </Link> */}
-                <Link
+        <Link
           href="/ui"
           className={cn(
             'hover:text-foreground/80 transition-colors',

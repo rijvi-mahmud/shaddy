@@ -240,7 +240,7 @@ export default function (props: VortexProps) {
       }
     })
     // eslint-disable-next-line
-  }, []);
+  }, [])
 
   /**
    * Firefox has some issues with this component and becomes very laggy

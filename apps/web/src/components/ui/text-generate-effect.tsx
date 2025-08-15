@@ -29,7 +29,7 @@ export const TextGenerateEffect = ({
       }
     )
     // eslint-disable-next-line
-  }, [scope.current]);
+  }, [scope.current])
 
   const renderWords = () => {
     return (

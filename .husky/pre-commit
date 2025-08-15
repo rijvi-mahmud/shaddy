@@ -1,0 +1,22 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+pnpm lint
+if [ $? -ne 0 ]; then
+  echo "\n❌ Linting failed. Commit aborted."
+  exit 1
+fi
+
+pnpm format
+if [ $? -ne 0 ]; then
+  echo "\n❌ Formatting failed. Commit aborted."
+  exit 1
+fi
+
+pnpm build
+if [ $? -ne 0 ]; then
+  echo "\n❌ Build failed. Commit aborted."
+  exit 1
+fi
+
+exit 0

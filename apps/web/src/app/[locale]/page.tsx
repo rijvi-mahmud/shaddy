@@ -57,7 +57,7 @@ export default async function IndexPage({
             <rect width="100%" height="100%" fill="url(#grid)" />
           </svg>
         </div>
-        <ProductHuntBadge/>
+        <ProductHuntBadge />
         {/* <Announcement title={t('site.announcement')} href="/" /> */}
 
         <PageHeaderHeading>

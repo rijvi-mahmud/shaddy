@@ -7,7 +7,6 @@ import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
 import { getServerDocsConfig } from '@/lib/shaddy/utils/get-server-docs-config'
 import { uiConfig as config } from '@/config/ui'
 
-
 interface DocsLayoutProps {
   children: React.ReactNode
   params: {
