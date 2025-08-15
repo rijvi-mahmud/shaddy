@@ -16,6 +16,9 @@
     "registry:build": "tsx ./src/scripts/build-registry.ts && prettier --config .prettierrc --log-level silent --write \"./src/registry/**/*.{ts,tsx,mdx}\" --cache",
     "build:registry:watch": "tsx watch --no-cache ./src/scripts/build-registry.ts"
   },
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.3.0",
     "@hookform/resolvers": "^5.2.1",
