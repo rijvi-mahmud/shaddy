@@ -1,0 +1,17 @@
+{
+  "$schema": "",
+  "name": "use-window-resize",
+  "type": "registry:hook",
+  "author": "shaddy (https://shaddy-docs.vercel.app/)",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "hooks/use-window-resize.ts",
+      "content": "import { useState, useEffect, useCallback } from 'react'\nimport { useDebouncedCallback } from '@/registry/default/hooks/use-debounced-callback'\nimport { useEventListener } from '@/registry/default/hooks/use-event-listener'\n\n/**\n * Custom React hook to get the current window size.\n *\n * @example\n * const Component = () => {\n *   const { width = 0, height = 0 } = useWindowResize();\n *   return (\n *     <div>\n *       <p>Width: {width}</p>\n *       <p>Height: {height}</p>\n *     </div>\n *   );\n * };\n *\n * @returns {{ width: number | undefined, height: number | undefined }}\n * An object containing the width and height of the window.\n */\n\ntype WindowSize = {\n  width: number | undefined\n  height: number | undefined\n}\n\ntype UseWindowResize = () => WindowSize\n\nexport const useWindowResize: UseWindowResize = () => {\n  const isServer = typeof window === 'undefined'\n\n  const [windowSize, setWindowSize] = useState<WindowSize>({\n    width: isServer ? undefined : window.innerWidth,\n    height: isServer ? undefined : window.innerHeight,\n  })\n\n  const debouncedSetWindowSize = useDebouncedCallback((newSize: WindowSize) => {\n    setWindowSize(newSize)\n  }, 200)\n\n  const handleResize = useCallback(() => {\n    const newSize = {\n      width: window.innerWidth,\n      height: window.innerHeight,\n    }\n    debouncedSetWindowSize(newSize)\n  }, [debouncedSetWindowSize])\n\n  /** Set initial size */\n  useEffect(() => {\n    if (!isServer) {\n      handleResize()\n    }\n  }, [handleResize, isServer])\n\n  /** Use the event listener hook to handle resize events */\n  useEventListener('resize', handleResize)\n\n  return windowSize\n}\n",
+      "type": "registry:hook",
+      "target": "hooks/use-window-resize.ts"
+    }
+  ]
+}

@@ -7,10 +7,9 @@ description: A custom React hook that manages a stateful value with a default fa
 
 This hook is particularly useful when you need to maintain state values that might be reset or cleared, but should fall back to a predefined default rather than being null or undefined.
 
-<ComponentPreview name="use-default-example"/>
+<ComponentPreview name="use-default-example" />
 
 ### Installation
-
 
 <CodeTabs>
 
@@ -44,11 +43,12 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-default
 </CodeTabs>
 
 ## API
+
 ▸ **useDefault**(initialValue, defaultValue): `[T, (newValue: Nullable<T>) => void]`
 
-| Name         | Type | Required | Description                              |
-| ------------ | ---- | -------- | ---------------------------------------- |
-| initialValue | T    | Yes      | The initial value of the state.          |
+| Name         | Type | Required | Description                                         |
+| ------------ | ---- | -------- | --------------------------------------------------- |
+| initialValue | T    | Yes      | The initial value of the state.                     |
 | defaultValue | T    | Yes      | The fallback value when state is null or undefined. |
 
 Returns `[value, setValue]`:

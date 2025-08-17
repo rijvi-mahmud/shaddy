@@ -2,8 +2,9 @@
 title: useClipboardCopy
 description: A custom React hook that provides clipboard copy functionality.
 links:
-    links: {
-        "clipboard": "https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API"
+  links:
+    {
+      "clipboard": "https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API",
     }
 ---
 
@@ -11,10 +12,9 @@ links:
 
 This hook handles browser compatibility checks and provides feedback on the success or failure of copy operations, making it easy to implement clipboard functionality with proper error handling. It also provides a status indicator that automatically resets after a delay.
 
-<ComponentPreview name="use-clipboard-copy-example"/>
+<ComponentPreview name="use-clipboard-copy-example" />
 
 ### Installation
-
 
 <CodeTabs>
 
@@ -48,9 +48,11 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-clipboard-copy
 </CodeTabs>
 
 ## API
+
 ▸ **useClipboardCopy**(): `[CopiedValue, CopyFunc, CopyStatus]`
 
 ### Returns
+
 Returns `[copiedText, copy, copyStatus]`:
 
 - `copiedText` (`string | null`): The last successfully copied text or null if no copy has occurred or the last copy failed.

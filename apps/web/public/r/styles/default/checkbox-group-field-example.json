@@ -1,0 +1,17 @@
+{
+  "$schema": "",
+  "name": "checkbox-group-field-example",
+  "type": "registry:example",
+  "author": "shaddy (https://shaddy-docs.vercel.app/)",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "examples/form/checkbox-group-field-example.tsx",
+      "content": "'use client'\nimport { SubmitButton } from '@/registry/default/form/fields/submit-button'\nimport { ShaddyForm } from '@/registry/default/form/shaddy-form'\nimport z from 'zod'\nimport { CheckboxGroupField } from '@/registry/default/form/fields/checkbox-group-field'\n\nconst schema = z.object({\n  skills: z.array(z.string()).min(1, 'Select at least one skill'),\n})\n\nexport type FormValues = z.infer<typeof schema>\n\nconst initialValues: FormValues = {\n  skills: [],\n}\n\nconst CheckboxGroupFieldExample = () => {\n  return (\n    <ShaddyForm<FormValues>\n      mode=\"onChange\"\n      schema={schema}\n      initialValues={initialValues}\n      onSubmit={(data) => {\n        console.log('Form submitted:', data)\n      }}\n    >\n      <div className=\"space-y-4 w-72\">\n        <CheckboxGroupField<FormValues>\n          name=\"skills\"\n          label=\"Skills\"\n          required\n          options={[\n            { text: 'React', value: 'react' },\n            { text: 'Vue', value: 'vue' },\n            { text: 'Angular', value: 'angular' },\n          ]}\n        />\n        <SubmitButton label=\"Submit\" />\n      </div>\n    </ShaddyForm>\n  )\n}\n\nexport default CheckboxGroupFieldExample\n",
+      "type": "registry:example",
+      "target": "components/checkbox-group-field-example.tsx"
+    }
+  ]
+}

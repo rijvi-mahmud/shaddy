@@ -1,0 +1,17 @@
+{
+  "$schema": "",
+  "name": "use-session-storage-basic-example",
+  "type": "registry:example",
+  "author": "shaddy (https://shaddy-docs.vercel.app/)",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "examples/hooks/use-session-storage-basic-example.tsx",
+      "content": "'use client'\n\nimport { Button } from '@/components/ui/button'\nimport { Input } from '@/components/ui/input'\nimport { Label } from '@/components/ui/label'\nimport { useSessionStorage } from '@/registry/default/hooks/use-session-storage'\nimport { Trash2 } from 'lucide-react'\n\n// Example 1: Session-based interaction counter\nconst BasicExample = () => {\n  const [clickCount, setClickCount, removeClickCount] = useSessionStorage(\n    'session-clicks',\n    0\n  )\n  const [nickname, setNickname, removeNickname] = useSessionStorage(\n    'session-nickname',\n    ''\n  )\n\n  return (\n    <div className=\"space-y-4\">\n      <div className=\"bg-muted/30 rounded-md p-4 shadow-sm\">\n        <div className=\"text-center mb-4\">\n          <div className=\"text-sm text-muted-foreground mb-1\">\n            Session Interaction Counter\n          </div>\n          <div className=\"text-4xl font-bold text-primary mb-2\">\n            {clickCount}\n          </div>\n          <div className=\"flex justify-center gap-2\">\n            <Button onClick={() => setClickCount(clickCount + 1)} size=\"sm\">\n              Register Click\n            </Button>\n            <Button\n              onClick={() => setClickCount(0)}\n              variant=\"secondary\"\n              size=\"sm\"\n            >\n              Reset\n            </Button>\n            <Button onClick={removeClickCount} variant=\"destructive\" size=\"sm\">\n              <Trash2 className=\"h-4 w-4\" />\n            </Button>\n          </div>\n        </div>\n\n        <div className=\"space-y-2\">\n          <Label htmlFor=\"nickname\">Session Nickname</Label>\n          <div className=\"flex gap-2\">\n            <Input\n              id=\"nickname\"\n              value={nickname}\n              onChange={(e) => setNickname(e.target.value)}\n              placeholder=\"Enter temporary nickname...\"\n              className=\"flex-1\"\n            />\n            <Button onClick={removeNickname} variant=\"outline\" size=\"sm\">\n              Clear\n            </Button>\n          </div>\n          {nickname && (\n            <div className=\"text-sm text-muted-foreground\">\n              Current nickname: <span className=\"font-medium\">{nickname}</span>\n            </div>\n          )}\n        </div>\n      </div>\n\n      <div className=\"text-sm p-2 bg-muted/30 text-muted-foreground rounded border\">\n        <code className=\"font-mono text-xs\">\n          const [value, setValue, removeValue] = useSessionStorage(key,\n          initialValue)\n        </code>\n        <div className=\"mt-1 text-xs\">\n          Tracks interactions and nickname for this session only - close tab to\n          clear\n        </div>\n      </div>\n    </div>\n  )\n}\n\nexport default BasicExample\n",
+      "type": "registry:example",
+      "target": "components/use-session-storage-basic-example.tsx"
+    }
+  ]
+}

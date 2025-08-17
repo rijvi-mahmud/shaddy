@@ -1,0 +1,17 @@
+{
+  "$schema": "",
+  "name": "phone-input-no-country-demo",
+  "type": "registry:example",
+  "author": "shaddy (https://shaddy-docs.vercel.app/)",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "examples/ui/phone-input-no-country-demo.tsx",
+      "content": "import React from 'react'\nimport { PhoneInput } from '@/registry/default/ui/phone-input'\n\nconst PhoneInputWithoutCountrySelectorDemo = () => {\n  const [value, setValue] = React.useState<string>('')\n  return (\n    <div>\n      <PhoneInput\n        withCountryCodeSelector={false}\n        className=\"h-10\"\n        value={value}\n        onPhoneChange={(phone) => setValue(phone)}\n      />\n      <p className=\"mt-4 text-sm text-muted-foreground\">\n        Current Value: {value}\n      </p>\n    </div>\n  )\n}\n\nexport default PhoneInputWithoutCountrySelectorDemo\n",
+      "type": "registry:example",
+      "target": "components/phone-input-no-country-demo.tsx"
+    }
+  ]
+}

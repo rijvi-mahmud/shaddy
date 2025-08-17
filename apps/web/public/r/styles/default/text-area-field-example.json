@@ -1,0 +1,17 @@
+{
+  "$schema": "",
+  "name": "text-area-field-example",
+  "type": "registry:example",
+  "author": "shaddy (https://shaddy-docs.vercel.app/)",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "examples/form/text-area-field-example.tsx",
+      "content": "'use client'\nimport { SubmitButton } from '@/registry/default/form/fields/submit-button'\nimport { ShaddyForm } from '@/registry/default/form/shaddy-form'\nimport z from 'zod'\nimport { TextAreaField } from '@/registry/default/form/fields/text-area-field'\n\nconst user = z.object({\n  description: z.string().min(1, { error: 'Description is required' }),\n})\n\nexport type User = z.infer<typeof user>\n\nconst initialValues: User = {\n  description: '',\n}\n\nconst TextAreaFieldExample = () => {\n  return (\n    <ShaddyForm\n      schema={user}\n      initialValues={initialValues}\n      onSubmit={(data) => {\n        console.log('Form submitted:', data)\n      }}\n    >\n      <div className=\"space-y-4 w-72\">\n        <TextAreaField<User>\n          name=\"description\"\n          label=\"Description\"\n          placeholder=\"Enter a description\"\n          resizable\n        />\n\n        <SubmitButton label=\"Submit\" />\n      </div>\n    </ShaddyForm>\n  )\n}\n\nexport default TextAreaFieldExample\n",
+      "type": "registry:example",
+      "target": "components/text-area-field-example.tsx"
+    }
+  ]
+}

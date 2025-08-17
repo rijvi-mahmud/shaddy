@@ -1,0 +1,17 @@
+{
+  "$schema": "",
+  "name": "use-previous-example",
+  "type": "registry:example",
+  "author": "shaddy (https://shaddy-docs.vercel.app/)",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "examples/hooks/use-previous-example.tsx",
+      "content": "'use client'\nimport { useState } from 'react'\nimport { Card, CardContent } from '@/components/ui/card'\nimport { Button } from '@/components/ui/button'\nimport { usePrevious } from '@/registry/default/hooks/use-previous'\nimport { PlusIcon, MinusIcon } from 'lucide-react'\n\nconst UsePreviousExample = () => {\n  const [count, setCount] = useState(0)\n  const prevCount = usePrevious(count)\n  return (\n    <Card className=\"w-full max-w-md border\">\n      <CardContent className=\"space-y-4 pt-6\">\n        {/* Counter Display */}\n        <div className=\"bg-muted/30 rounded-md p-4 shadow-sm transition-all duration-200\">\n          <div className=\"flex justify-center py-3\">\n            <div className=\"text-6xl font-bold tabular-nums text-center text-primary transition-all duration-200\">\n              {count}\n            </div>\n          </div>\n          <div className=\"text-center text-sm mt-2 py-1 bg-muted/50 rounded-md text-muted-foreground\">\n            Previous:{' '}\n            <span className=\"font-medium\">\n              {prevCount !== undefined ? prevCount : 'N/A'}\n            </span>\n          </div>\n        </div>\n\n        {/* Control Buttons */}\n        <div className=\"grid grid-cols-2 gap-3\">\n          <Button\n            onClick={() => setCount((c) => c - 1)}\n            size=\"sm\"\n            variant=\"outline\"\n            className=\"flex items-center justify-center hover:bg-destructive/10\"\n          >\n            <MinusIcon className=\"h-4 w-4 mr-1\" /> Decrement\n          </Button>\n          <Button\n            onClick={() => setCount((c) => c + 1)}\n            size=\"sm\"\n            className=\"flex items-center justify-center\"\n          >\n            <PlusIcon className=\"h-4 w-4 mr-1\" /> Increment\n          </Button>\n        </div>\n      </CardContent>\n    </Card>\n  )\n}\n\nexport default UsePreviousExample\n",
+      "type": "registry:example",
+      "target": "components/use-previous-example.tsx"
+    }
+  ]
+}

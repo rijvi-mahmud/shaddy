@@ -1,0 +1,17 @@
+{
+  "$schema": "",
+  "name": "switch-field-example",
+  "type": "registry:example",
+  "author": "shaddy (https://shaddy-docs.vercel.app/)",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "examples/form/switch-field-example.tsx",
+      "content": "'use client'\nimport { SubmitButton } from '@/registry/default/form/fields/submit-button'\nimport { ShaddyForm, ShaddyFormRef } from '@/registry/default/form/shaddy-form'\nimport z from 'zod'\nimport { SelectField } from '@/registry/default/form/fields/select-field'\nimport { TextField } from '@/registry/default/form/fields/text-field'\nimport { SwitchField } from '@/registry/default/form/fields/switch-field'\nimport { FormEvent, useRef } from 'react'\nimport { SubmitHandler } from 'react-hook-form'\n\nconst user = z.object({\n  username: z.string().min(1, { error: 'Username is required' }),\n  role: z.string().min(1, { error: 'Role is required' }),\n  isActive: z.boolean().default(false),\n})\n\nexport type User = z.infer<typeof user>\n\nconst initialValues: User = {\n  username: '',\n  role: '',\n  isActive: false,\n}\n\nconst ROLE_OPTIONS = [\n  { value: 'admin', text: 'Admin' },\n  { value: 'editor', text: 'Editor' },\n  { value: 'viewer', text: 'Viewer' },\n]\n\nconst onSubmit: SubmitHandler<User> = (data) => {\n  console.log('User saved:', data.isActive)\n}\n\nconst SwitchFieldExample = () => {\n  return (\n    <ShaddyForm<User>\n      schema={user}\n      initialValues={initialValues}\n      onSubmit={onSubmit}\n    >\n      <div className=\"space-y-4 w-72\">\n        <TextField<User>\n          name=\"username\"\n          label=\"Username\"\n          placeholder=\"Enter username\"\n        />\n\n        <SwitchField<User> name=\"isActive\" label=\"Account Enabled\" />\n\n        <SelectField<User>\n          name=\"role\"\n          label=\"User Role\"\n          placeholder=\"Select a role\"\n          options={ROLE_OPTIONS}\n        />\n\n        <SubmitButton label=\"Save User\" />\n      </div>\n    </ShaddyForm>\n  )\n}\n\nexport default SwitchFieldExample\n",
+      "type": "registry:example",
+      "target": "components/switch-field-example.tsx"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "",
+  "name": "reset-button",
+  "type": "registry:component",
+  "author": "shaddy (https://shaddy-docs.vercel.app/)",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": ["http://localhost:3000/r/shaddy-form"],
+  "files": [
+    {
+      "path": "form/fields/reset-button.tsx",
+      "content": "import { Button } from '@/components/ui/button'\nimport { cn } from '@/lib/utils'\nimport { useFormContext } from 'react-hook-form'\nimport { ComponentProps } from 'react'\n\ntype Props = ComponentProps<typeof Button> & {\n  label?: string\n}\n\n/**\n * ResetButton component\n *\n * @param resetLabel - The label for the reset button.\n * @param disabled - Whether the button is disabled.\n * @param className - The class name for the button.\n * @returns The ResetButton component.\n */\n\nexport const ResetButton = ({\n  label = 'Reset',\n  disabled = false,\n  className,\n  onClick,\n  ...props\n}: Props) => {\n  const form = useFormContext()\n\n  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {\n    form.reset()\n    onClick?.(e)\n  }\n\n  return (\n    <Button\n      type=\"reset\"\n      variant={'outline'}\n      size={'sm'}\n      disabled={disabled}\n      className={cn(className)}\n      onClick={handleClick}\n      {...props}\n    >\n      {label}\n    </Button>\n  )\n}\n\nResetButton.displayName = 'ResetButton'\n",
+      "type": "registry:component",
+      "target": "components/form/fields/reset-button.tsx"
+    }
+  ]
+}

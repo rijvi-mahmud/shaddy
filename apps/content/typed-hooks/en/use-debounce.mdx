@@ -2,16 +2,17 @@
 title: useDebounce
 description: A custom React hook that delays updating a value until after a specified delay.
 links:
-  links: {
-    "debouncing": "https://www.geeksforgeeks.org/javascript/debouncing-in-javascript/"
-  }
+  links:
+    {
+      "debouncing": "https://www.geeksforgeeks.org/javascript/debouncing-in-javascript/",
+    }
 ---
 
 `useDebounce` is a useful custom React hook that implements debouncing functionality in React applications. Debouncing is a programming practice that limits the rate at which a function can execute, ensuring that time-intensive operations don't trigger too frequently.
 
 This hook is particularly useful for scenarios like search inputs, where you want to delay API calls until the user has stopped typing, or for any situation where you need to delay processing a rapidly changing value.
 
-<ComponentPreview name="use-debounce-example"/>
+<ComponentPreview name="use-debounce-example" />
 
 ### Installation
 
@@ -46,16 +47,16 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-debounce
 </CodeTabs>
 
 ## API
+
 ▸ **useDebounce**`<T>(`value`: T, `delay`: number): T`
 
 ### Parameters
 
-| Parameter | Type | Description |
-| --- | --- | --- |
-| `value` | `T` | The input value to debounce. |
-| `delay` | `number` | The delay in milliseconds before updating the debounced value. |
+| Parameter | Type     | Description                                                    |
+| --------- | -------- | -------------------------------------------------------------- |
+| `value`   | `T`      | The input value to debounce.                                   |
+| `delay`   | `number` | The delay in milliseconds before updating the debounced value. |
 
 ### Returns
 
 - Returns (T): The debounced value that updates only after the specified delay has passed without new changes.
-

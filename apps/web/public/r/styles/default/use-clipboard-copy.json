@@ -1,0 +1,17 @@
+{
+  "$schema": "",
+  "name": "use-clipboard-copy",
+  "type": "registry:hook",
+  "author": "shaddy (https://shaddy-docs.vercel.app/)",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "hooks/use-clipboard-copy.ts",
+      "content": "import { useCallback, useState } from 'react'\n\ntype CopiedValue = string | null\ntype CopyFunc = (text: string) => Promise<boolean>\ntype CopyStatus = 'idle' | 'success' | 'error'\ntype UseClipboardCopyReturn = [CopiedValue, CopyFunc, CopyStatus]\n\n/**\n * Custom hook to copy text to clipboard.\n *\n * @returns An array containing the copied text, a function to copy text, and the current copy status.\n */\n\nexport function useClipboardCopy(): UseClipboardCopyReturn {\n  const [copiedText, setCopiedText] = useState<CopiedValue>(null)\n  const [copyStatus, setCopyStatus] = useState<CopyStatus>('idle')\n\n  const copy: CopyFunc = useCallback(async (text) => {\n    const stringText = typeof text === 'string' ? text : String(text)\n    const { clipboard } = navigator\n\n    if (!clipboard) {\n      console.warn('Clipboard is not supported in this browser')\n      setCopiedText(null)\n      return false\n    }\n\n    if (!stringText) {\n      console.warn('No text provided to copy')\n      setCopiedText(null)\n      return false\n    }\n    setCopyStatus('idle')\n\n    try {\n      await clipboard.writeText(stringText)\n      setCopiedText(stringText)\n      setCopyStatus('success')\n      return true\n    } catch (error) {\n      console.warn('Copy failed', error)\n      setCopiedText(null)\n      setCopyStatus('error')\n      return false\n    }\n  }, [])\n\n  /** Reset copy status after a delay */\n  setTimeout(() => {\n    if (copyStatus === 'success' || copyStatus === 'error') {\n      setCopyStatus('idle')\n    }\n  }, 2000)\n\n  return [copiedText, copy, copyStatus]\n}\n",
+      "type": "registry:hook",
+      "target": "hooks/use-clipboard-copy.ts"
+    }
+  ]
+}

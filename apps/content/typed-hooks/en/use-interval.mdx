@@ -2,10 +2,10 @@
 title: useInterval
 description: A custom hook for managing intervals in React projects.
 links:
-  links: {
-    "setInterval": "https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval"
-  }
-
+  links:
+    {
+      "setInterval": "https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval",
+    }
 ---
 
 `useInterval` is a powerful custom React hook that provides a declarative way to use intervals in React applications. Unlike the native [setInterval](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval), this hook properly handles component lifecycle, cleanup, and provides manual control over the interval execution.
@@ -15,7 +15,6 @@ This hook is particularly useful for scenarios like periodic data fetching, anim
 <ComponentPreview name="use-interval-example" />
 
 ### Installation
-
 
 <CodeTabs>
 
@@ -48,15 +47,16 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-interval
 </CodeTabs>
 
 ## API
+
 ▸ **useInterval** `(`callback`: Callback, `delay`: Delay, `options?`: { autoStart?: boolean }): { `stop`: () => void, `start`: () => void, `reset`: () => void, `isRunning`: boolean }
 
 ### Parameters
 
-| Parameter | Type | Description |
-| --- | --- | --- |
-| `callback` | `Callback` | The function to be executed at each interval. |
-| `delay` | `Delay` | The delay in milliseconds for the interval. If `null`, the interval is paused and cleared. |
-| `options` | `Object` (optional) | Configuration options with properties:<br />- `autoStart` (boolean, default: `true`): Whether the interval should start automatically. |
+| Parameter  | Type                | Description                                                                                                                            |
+| ---------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `callback` | `Callback`          | The function to be executed at each interval.                                                                                          |
+| `delay`    | `Delay`             | The delay in milliseconds for the interval. If `null`, the interval is paused and cleared.                                             |
+| `options`  | `Object` (optional) | Configuration options with properties:<br />- `autoStart` (boolean, default: `true`): Whether the interval should start automatically. |
 
 ### Returns
 

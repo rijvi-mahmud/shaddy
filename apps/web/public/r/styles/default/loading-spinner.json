@@ -1,0 +1,17 @@
+{
+  "$schema": "",
+  "name": "loading-spinner",
+  "type": "registry:ui",
+  "author": "shaddy (https://shaddy-docs.vercel.app/)",
+  "dependencies": ["lucide-react"],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "ui/loading-spinner.tsx",
+      "content": "import { cn } from '@/lib/utils'\nimport { Loader2 } from 'lucide-react'\n\n/**\n * LoadingSpinner component\n *\n * @param {string} className - The class name for the component.\n *\n * @returns {JSX.Element} - The LoadingSpinner component.\n *\n * @example\n * <LoadingSpinner />\n */\n\nexport const LoadingSpinner = ({ className = '' }: { className?: string }) => {\n  return <Loader2 className={cn('h-10 w-10 animate-spin', className)} />\n}\n\nLoadingSpinner.displayName = 'LoadingSpinner'\n",
+      "type": "registry:ui",
+      "target": "components/ui/loading-spinner.tsx"
+    }
+  ]
+}

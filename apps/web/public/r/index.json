@@ -1,0 +1,403 @@
+[
+  {
+    "name": "use-boolean",
+    "type": "registry:hook",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "hooks/use-boolean.ts",
+        "type": "registry:hook"
+      }
+    ]
+  },
+  {
+    "name": "use-clipboard-copy",
+    "type": "registry:hook",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "hooks/use-clipboard-copy.ts",
+        "type": "registry:hook"
+      }
+    ]
+  },
+  {
+    "name": "use-debounce",
+    "type": "registry:hook",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "hooks/use-debounce.ts",
+        "type": "registry:hook"
+      }
+    ]
+  },
+  {
+    "name": "use-debounced-callback",
+    "type": "registry:hook",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "hooks/use-debounced-callback.ts",
+        "type": "registry:hook"
+      }
+    ]
+  },
+  {
+    "name": "use-default",
+    "type": "registry:hook",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "hooks/use-default.ts",
+        "type": "registry:hook"
+      }
+    ]
+  },
+  {
+    "name": "use-interval",
+    "type": "registry:hook",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "hooks/use-interval.ts",
+        "type": "registry:hook"
+      }
+    ]
+  },
+  {
+    "name": "use-previous",
+    "type": "registry:hook",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "hooks/use-previous.ts",
+        "type": "registry:hook"
+      }
+    ]
+  },
+  {
+    "name": "use-window-resize",
+    "type": "registry:hook",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "hooks/use-window-resize.ts",
+        "type": "registry:hook"
+      }
+    ]
+  },
+  {
+    "name": "use-session-storage",
+    "type": "registry:hook",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "hooks/use-session-storage.ts",
+        "type": "registry:hook"
+      }
+    ]
+  },
+  {
+    "name": "use-local-storage",
+    "type": "registry:hook",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "hooks/use-local-storage.ts",
+        "type": "registry:hook"
+      }
+    ]
+  },
+  {
+    "name": "form-context",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": ["shaddy-form:local"],
+    "files": [
+      {
+        "path": "form/form-context.ts",
+        "type": "registry:component",
+        "target": "components/form/form-context.ts"
+      }
+    ]
+  },
+  {
+    "name": "shaddy-form",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": [
+      "form",
+      "input",
+      "button",
+      "text-field:local",
+      "submit-button:local"
+    ],
+    "files": [
+      {
+        "path": "form/shaddy-form.tsx",
+        "type": "registry:component",
+        "target": "components/form/shaddy-form.tsx"
+      }
+    ]
+  },
+  {
+    "name": "submit-button",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": ["shaddy-form:local"],
+    "files": [
+      {
+        "path": "form/fields/submit-button.tsx",
+        "type": "registry:component",
+        "target": "components/form/fields/submit-button.tsx"
+      }
+    ]
+  },
+  {
+    "name": "reset-button",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": ["shaddy-form:local"],
+    "files": [
+      {
+        "path": "form/fields/reset-button.tsx",
+        "type": "registry:component",
+        "target": "components/form/fields/reset-button.tsx"
+      }
+    ]
+  },
+  {
+    "name": "text-field",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": ["shaddy-form:local", "loading-spinner:local"],
+    "files": [
+      {
+        "path": "form/fields/text-field.tsx",
+        "type": "registry:component",
+        "target": "components/form/fields/text-field.tsx"
+      }
+    ]
+  },
+  {
+    "name": "text-area-field",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": [
+      "autosize-textarea:local",
+      "shaddy-form:local",
+      "loading-spinner:local"
+    ],
+    "files": [
+      {
+        "path": "form/fields/text-area-field.tsx",
+        "type": "registry:component",
+        "target": "components/form/fields/text-area-field.tsx"
+      }
+    ]
+  },
+  {
+    "name": "unique-text-field",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": ["shaddy-form:local", "use-debounce:local"],
+    "files": [
+      {
+        "path": "form/fields/unique-text-field.tsx",
+        "type": "registry:component",
+        "target": "components/form/fields/unique-text-field.tsx"
+      }
+    ]
+  },
+  {
+    "name": "password-field",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": ["shaddy-form:local"],
+    "files": [
+      {
+        "path": "form/fields/password-field.tsx",
+        "type": "registry:component",
+        "target": "components/form/fields/password-field.tsx"
+      }
+    ]
+  },
+  {
+    "name": "select-field",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": ["shaddy-form:local"],
+    "files": [
+      {
+        "path": "form/fields/select-field.tsx",
+        "type": "registry:component",
+        "target": "components/form/fields/select-field.tsx"
+      }
+    ]
+  },
+  {
+    "name": "switch-field",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": ["shaddy-form:local"],
+    "files": [
+      {
+        "path": "form/fields/switch-field.tsx",
+        "type": "registry:component",
+        "target": "components/form/fields/switch-field.tsx"
+      }
+    ]
+  },
+  {
+    "name": "checkbox-field",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": ["shaddy-form:local"],
+    "files": [
+      {
+        "path": "form/fields/checkbox-field.tsx",
+        "type": "registry:component",
+        "target": "components/form/fields/checkbox-field.tsx"
+      }
+    ]
+  },
+  {
+    "name": "checkbox-group-field",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": ["shaddy-form:local"],
+    "files": [
+      {
+        "path": "form/fields/checkbox-group-field.tsx",
+        "type": "registry:component",
+        "target": "components/form/fields/checkbox-group-field.tsx"
+      }
+    ]
+  },
+  {
+    "name": "date-picker-field",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": ["shaddy-form:local", "calender"],
+    "files": [
+      {
+        "path": "form/fields/date-picker-field.tsx",
+        "type": "registry:component",
+        "target": "components/form/fields/date-picker-field.tsx"
+      }
+    ]
+  },
+  {
+    "name": "date-range-picker-field",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": ["shaddy-form:local", "calender"],
+    "files": [
+      {
+        "path": "form/fields/date-range-picker-field.tsx",
+        "type": "registry:component",
+        "target": "components/form/fields/date-range-picker-field.tsx"
+      }
+    ]
+  },
+  {
+    "name": "loading-spinner",
+    "type": "registry:ui",
+    "dependencies": ["lucide-react"],
+    "devDependencies": [],
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "ui/loading-spinner.tsx",
+        "type": "registry:ui",
+        "target": "components/ui/loading-spinner.tsx"
+      }
+    ]
+  },
+  {
+    "name": "autosize-textarea",
+    "type": "registry:ui",
+    "dependencies": ["lucide-react"],
+    "devDependencies": [],
+    "registryDependencies": ["textarea"],
+    "files": [
+      {
+        "path": "ui/autosize-textarea.tsx",
+        "type": "registry:ui",
+        "target": "components/ui/autosize-textarea.tsx"
+      }
+    ]
+  },
+  {
+    "name": "date-range-picker",
+    "type": "registry:ui",
+    "dependencies": [
+      "lucide-react",
+      "@radix-ui/react-icons",
+      "date-fns",
+      "react-day-picker"
+    ],
+    "devDependencies": [],
+    "registryDependencies": ["button", "calendar", "popover"],
+    "files": [
+      {
+        "path": "ui/date-range-picker.tsx",
+        "type": "registry:ui",
+        "target": "components/ui/date-range-picker.tsx"
+      }
+    ]
+  },
+  {
+    "name": "phone-input",
+    "type": "registry:ui",
+    "dependencies": [
+      "country-data-list",
+      "libphonenumber-js",
+      "react-circle-flags"
+    ],
+    "devDependencies": [],
+    "registryDependencies": ["popover", "command", "input", "scroll-area"],
+    "files": [
+      {
+        "path": "ui/phone-input.tsx",
+        "type": "registry:ui",
+        "target": "components/ui/phone-input.tsx"
+      }
+    ]
+  }
+]

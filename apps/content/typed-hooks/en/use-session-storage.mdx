@@ -2,10 +2,11 @@
 title: useSessionStorage
 description: A React hook for managing sessionStorage with automatic JSON serialization, type safety, and cross-tab synchronization.
 links:
-  links: {
-    "useEventListener": "https://shaddy-omega.vercel.app/typed-hooks/use-event-listener",
-    "StorageEvent": "https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event",
-  }
+  links:
+    {
+      "useEventListener": "https://shaddy-omega.vercel.app/typed-hooks/use-event-listener",
+      "StorageEvent": "https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event",
+    }
 ---
 
 `useSessionStorage` is a powerful React hook that provides a seamless interface for managing browser sessionStorage with full TypeScript support. It automatically handles JSON serialization/deserialization, provides type safety, and includes cross-tab synchronization to keep data consistent across multiple browser tabs.
@@ -80,47 +81,46 @@ Custom serialization for complex data types and multiple storage patterns:
 
 This advanced example demonstrates custom serialization for Date objects and managing arrays of complex objects like a session analytics tracker. It shows how to handle data types that don't serialize well with JSON by default.
 
-
 ## API
 
 ▸ **useSessionStorage**`<T>`(key, initialValue?, options?): `[T, Dispatch<SetStateAction<T>>, () => void]`
 
 ### Parameters
 
-| Parameter | Type | Description |
-| --- | --- | --- |
-| `key` | `string` | The sessionStorage key to store the value under |
-| `initialValue` | `T \| (() => T) \| undefined` | The initial value or a function to compute it. Defaults to `undefined` |
-| `options` | `UseSessionStorageOptions<T> \| undefined` | Optional configuration for serialization, initialization, and error handling |
+| Parameter      | Type                                       | Description                                                                  |
+| -------------- | ------------------------------------------ | ---------------------------------------------------------------------------- |
+| `key`          | `string`                                   | The sessionStorage key to store the value under                              |
+| `initialValue` | `T \| (() => T) \| undefined`              | The initial value or a function to compute it. Defaults to `undefined`       |
+| `options`      | `UseSessionStorageOptions<T> \| undefined` | Optional configuration for serialization, initialization, and error handling |
 
 ### Options
 
 The `options` parameter provides advanced configuration:
 
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| `serializer` | `(value: T) => string \| undefined` | `JSON.stringify` | Custom function to serialize the value before storing in sessionStorage |
-| `deserializer` | `(value: string) => T \| undefined` | `JSON.parse` | Custom function to deserialize the value when reading from sessionStorage |
-| `initializeWithValue` | `boolean \| undefined` | `true` | Whether to initialize with value from sessionStorage on mount |
-| `onError` | `(error: Error, key: string) => void \| undefined` | Console warning | Error handler called when sessionStorage operations fail |
+| Property              | Type                                               | Default          | Description                                                               |
+| --------------------- | -------------------------------------------------- | ---------------- | ------------------------------------------------------------------------- |
+| `serializer`          | `(value: T) => string \| undefined`                | `JSON.stringify` | Custom function to serialize the value before storing in sessionStorage   |
+| `deserializer`        | `(value: string) => T \| undefined`                | `JSON.parse`     | Custom function to deserialize the value when reading from sessionStorage |
+| `initializeWithValue` | `boolean \| undefined`                             | `true`           | Whether to initialize with value from sessionStorage on mount             |
+| `onError`             | `(error: Error, key: string) => void \| undefined` | Console warning  | Error handler called when sessionStorage operations fail                  |
 
 ### Returns
 
 Returns a tuple with three elements:
 
-| Index | Type | Description |
-| --- | --- | --- |
-| `0` | `T` | The current value from sessionStorage or the initial value |
-| `1` | `Dispatch<SetStateAction<T>>` | A setter function that accepts a value or updater function (same API as useState) |
-| `2` | `() => void` | A function to remove the item from sessionStorage and reset to initial value |
+| Index | Type                          | Description                                                                       |
+| ----- | ----------------------------- | --------------------------------------------------------------------------------- |
+| `0`   | `T`                           | The current value from sessionStorage or the initial value                        |
+| `1`   | `Dispatch<SetStateAction<T>>` | A setter function that accepts a value or updater function (same API as useState) |
+| `2`   | `() => void`                  | A function to remove the item from sessionStorage and reset to initial value      |
 
 ### Types
 
 ```typescript
 type UseSessionStorageOptions<T> = {
-  serializer?: (value: T) => string
-  deserializer?: (value: string) => T
-  initializeWithValue?: boolean
-  onError?: (error: Error, key: string) => void
-}
+  serializer?: (value: T) => string;
+  deserializer?: (value: string) => T;
+  initializeWithValue?: boolean;
+  onError?: (error: Error, key: string) => void;
+};
 ```

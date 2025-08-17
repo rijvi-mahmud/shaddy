@@ -1,0 +1,17 @@
+{
+  "$schema": "",
+  "name": "date-picker-field-example",
+  "type": "registry:example",
+  "author": "shaddy (https://shaddy-docs.vercel.app/)",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "examples/form/date-picker-field-example.tsx",
+      "content": "'use client'\nimport { SubmitButton } from '@/registry/default/form/fields/submit-button'\nimport { DatePickerField } from '@/registry/default/form/fields/date-picker-field'\nimport { ShaddyForm } from '@/registry/default/form/shaddy-form'\nimport z from 'zod'\n\nconst schema = z.object({\n  dob: z.date({\n    message: 'A date of birth is required.',\n  }),\n})\n\nexport type FormValues = z.infer<typeof schema>\n\nconst initialValues: FormValues = {\n  dob: new Date(),\n}\n\nconst DatePickerFieldExample = () => {\n  return (\n    <ShaddyForm<FormValues>\n      mode=\"onChange\"\n      schema={schema}\n      initialValues={initialValues}\n      onSubmit={(data) => {\n        console.log('Form submitted:', data)\n      }}\n    >\n      <div className=\"space-y-4 w-72\">\n        <DatePickerField<FormValues>\n          name=\"dob\"\n          label=\"Date of Birth\"\n          required\n        />\n        <SubmitButton label=\"Submit\" />\n      </div>\n    </ShaddyForm>\n  )\n}\n\nexport default DatePickerFieldExample\n",
+      "type": "registry:example",
+      "target": "components/date-picker-field-example.tsx"
+    }
+  ]
+}

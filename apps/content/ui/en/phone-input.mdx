@@ -1,0 +1,78 @@
+---
+title: Phone Input
+description: A flexible phone number input with international support, validation, and optional country selector.
+---
+
+The `PhoneInput` component provides a user-friendly way to enter and validate phone numbers, with built-in support for international formats and country selection. It enhances UX by handling formatting, validation, and country code selection automatically.
+
+By default, this component includes a country selector. You can control its visibility using the `withCountryCodeSelector` prop.
+
+<ComponentPreview name="phone-input-with-country-selector-demo" />
+
+#### Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">CLI</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://shaddy-docs.vercel.app/r/phone-input
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps>
+    <Step>Install the required dependencies:</Step>
+
+```bash
+npm i country-data-list libphonenumber-js react-circle-flags
+```
+
+    <Step>Install the required shadcn dependencies:</Step>
+
+```bash
+npx shadcn@latest add popover command input scroll-area
+```
+
+      <Step>Copy and paste the following code into your project.</Step>
+      <ComponentSource name="phone-input" />
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+#### With default country
+
+<ComponentPreview name="phone-input-with-default-country-demo" />
+
+#### Without Country Selector
+
+<ComponentPreview name="phone-input-no-country-demo" />
+
+#### Usage
+
+```tsx
+<PhoneInput
+  onCountryChange={(data) => console.log("Country changed:", data)}
+  onPhoneChange={(phone) => console.log("Phone changed:", phone)}
+  defaultCountry="United_States"
+  withCountryCodeSelector
+/>
+```
+
+#### Props
+
+| Prop                        | Type                                       | Description                                                 |
+| --------------------------- | ------------------------------------------ | ----------------------------------------------------------- |
+| **onCountryChange**         | `(data: CountryData \| undefined) => void` | Callback when the country selection changes.                |
+| **onPhoneChange**           | `(phone: string) => void`                  | Callback when the phone number changes.                     |
+| **defaultCountry**          | `keyof typeof CountryAlpha2`               | Sets the default selected country (using its alpha-2 code). |
+| **withCountryCodeSelector** | `boolean`                                  | Show or hide the country code selector (default: `true`).   |
+
+Other common input props like `placeholder`, `value`, `className`, and `disabled` are also supported.

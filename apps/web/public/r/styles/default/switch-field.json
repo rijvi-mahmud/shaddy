@@ -1,0 +1,17 @@
+{
+  "$schema": "",
+  "name": "switch-field",
+  "type": "registry:component",
+  "author": "shaddy (https://shaddy-docs.vercel.app/)",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": ["http://localhost:3000/r/shaddy-form"],
+  "files": [
+    {
+      "path": "form/fields/switch-field.tsx",
+      "content": "import {\n  FormControl,\n  FormField,\n  FormItem,\n  FormLabel,\n  FormMessage,\n} from '@/components/ui/form'\nimport { Switch } from '@/components/ui/switch'\nimport { cn } from '@/lib/utils'\nimport { FieldValues, Path, useFormContext } from 'react-hook-form'\n\ntype SwitchFieldProps<T extends FieldValues> = {\n  name: Path<T>\n  label?: string\n  className?: string\n  disabled?: boolean\n  required?: boolean\n  column?: boolean\n  longGap?: boolean\n  reverse?: boolean\n  gap?: '2' | '4' | '6' | '8'\n}\n\n/**\n * SwitchField\n *\n * @param name - The name of the field.\n * @param label - The label of the field.\n * @param className - The class name of the field.\n * @param disabled - The disabled state of the field.\n * @param required - The required state of the field.\n * @param column - The column state of the field.\n * @param longGap - The long gap state of the field.\n * @param reverse - The reverse state of the field.\n * @param gap - The gap state of the field.\n *\n * @returns The SwitchField component.\n */\n\nexport const SwitchField = <T extends FieldValues>({\n  name,\n  label,\n  className,\n  required = false,\n  disabled = false,\n  column = false,\n  longGap = false,\n  reverse = false,\n  gap = '2',\n}: SwitchFieldProps<T>) => {\n  const { control } = useFormContext<T>()\n\n  return (\n    <FormField\n      name={name}\n      control={control}\n      render={({ field }) => (\n        <FormItem className={className}>\n          <FormControl>\n            <div\n              className={cn(\n                'relative flex items-center',\n                `gap-${gap}`,\n                column ? 'flex-col items-start' : '',\n                longGap ? 'justify-between' : ''\n              )}\n            >\n              <Switch\n                className={cn(reverse ? 'order-1' : 'order-0')}\n                onCheckedChange={field.onChange}\n                id={name}\n                checked={field.value}\n                disabled={disabled}\n              />\n              {label && (\n                <FormLabel\n                  htmlFor={name}\n                  className={cn(reverse ? 'order-0' : 'order-1')}\n                >\n                  <span>{label}</span>\n                  {required && <span className=\"ml-1 text-red-500\">*</span>}\n                </FormLabel>\n              )}\n            </div>\n          </FormControl>\n          <FormMessage className=\"line-clamp-1 text-xs\" />\n        </FormItem>\n      )}\n    />\n  )\n}\n\nSwitchField.displayName = 'SwitchField'\n",
+      "type": "registry:component",
+      "target": "components/form/fields/switch-field.tsx"
+    }
+  ]
+}

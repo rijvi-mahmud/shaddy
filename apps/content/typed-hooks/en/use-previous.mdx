@@ -1,14 +1,13 @@
 ---
 title: usePrevious
 description: A custom hook for accessing the previous value of a state or prop in React.
-
 ---
 
 `usePrevious` is a simple yet powerful custom React hook that allows you to access the previous value of a prop or state in your functional components. This is especially useful when you need to compare current and previous values to trigger side effects or conditionally render components based on value changes.
 
 Unlike class components where you could access previous props or state in the [`componentDidUpdate`](https://legacy.reactjs.org/docs/react-component.html#componentdidupdate) lifecycle method, functional components don't have built-in access to previous values. This hook leverages React's `useRef` and `useEffect` to provide this functionality in a clean, reusable way.
 
-<ComponentPreview name="use-previous-example"/>
+<ComponentPreview name="use-previous-example" />
 
 ### Installation
 
@@ -43,13 +42,14 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-previous
 </CodeTabs>
 
 ## API
+
 ▸ **usePrevious** `<T>`(`value`: T): T | undefined
 
 ### Parameters
 
-| Parameter | Type | Description |
-| --- | --- | --- |
-| `value` | `T` | The current value to track. |
+| Parameter | Type | Description                 |
+| --------- | ---- | --------------------------- |
+| `value`   | `T`  | The current value to track. |
 
 ### Returns
 

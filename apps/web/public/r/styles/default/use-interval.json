@@ -1,0 +1,17 @@
+{
+  "$schema": "",
+  "name": "use-interval",
+  "type": "registry:hook",
+  "author": "shaddy (https://shaddy-docs.vercel.app/)",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "hooks/use-interval.ts",
+      "content": "import { useEffect, useRef, useState, useCallback } from 'react'\n\n/**\n * A custom hook that sets up an interval and executes a callback function at the specified delay.\n * It also provides functions to manually start/stop the interval and check if it's running.\n *\n * @param callback - The function to be executed at each interval.\n * @param delay - The delay in milliseconds for the interval. If `null`, the interval is paused and cleared.\n * @returns An object containing `stop`, `start` functions and `isRunning` state.\n *\n * @example\n * const { stop, start, isRunning } = useInterval(() => {\n *   console.log(\"This will run every second\");\n * }, 1000);\n *\n * To pause the interval:\n * const { stop, start, isRunning } = useInterval(() => {\n *   console.log(\"This will not run\");\n * }, null);\n *\n * To stop/start the interval manually:\n * stop(); // stops the interval\n * start(); // starts the interval again\n */\n\ntype Callback = () => void\ntype Delay = number | null\ntype UseInterval = (\n  callback: Callback,\n  delay: Delay,\n  options?: { autoStart?: boolean }\n) => {\n  stop: () => void\n  start: () => void\n  reset: () => void\n  isRunning: boolean\n}\n\nexport const useInterval: UseInterval = (callback, delay, options = {}) => {\n  const { autoStart = true } = options\n  const savedCallback = useRef<Callback>(callback)\n  const intervalId = useRef<ReturnType<typeof setInterval> | null>(null)\n  const [isRunning, setIsRunning] = useState(false)\n\n  // Remember the latest callback if it changes.\n  useEffect(() => {\n    savedCallback.current = callback\n  }, [callback])\n\n  /** Reusable function to clear interval */\n  const clearCurrentInterval = useCallback(() => {\n    if (intervalId.current) {\n      clearInterval(intervalId.current)\n      intervalId.current = null\n      setIsRunning(false)\n    }\n  }, [])\n\n  /** Reusable function to start interval */\n  const startInterval = useCallback(() => {\n    if (!intervalId.current && delay !== null) {\n      intervalId.current = setInterval(() => {\n        savedCallback.current()\n      }, delay)\n      setIsRunning(true)\n    }\n  }, [delay])\n\n  useEffect(() => {\n    /**\n     * Don't schedule if no delay is specified.\n     * Note: 0 is a valid value for delay.\n     */\n    if (delay === null) {\n      clearCurrentInterval()\n      return\n    }\n\n    if (autoStart) {\n      startInterval()\n    }\n\n    return clearCurrentInterval\n  }, [delay, autoStart])\n\n  /** Function to stop the interval manually. */\n  const stop = clearCurrentInterval\n\n  /** Function to start the interval manually. */\n  const start = startInterval\n\n  const reset = useCallback(() => {\n    clearCurrentInterval()\n    if (autoStart && delay !== null) {\n      startInterval()\n    }\n  }, [clearCurrentInterval, startInterval, autoStart, delay])\n\n  return {\n    stop,\n    start,\n    reset,\n    isRunning,\n  }\n}\n",
+      "type": "registry:hook",
+      "target": "hooks/use-interval.ts"
+    }
+  ]
+}

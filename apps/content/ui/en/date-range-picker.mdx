@@ -3,18 +3,9 @@ title: Date Range Picker
 description: An enhanced date picker with built-in range presets and flexible UX.
 ---
 
-The **Date Range Picker** is an extensible component built on top of the shadcn calendar. It provides a user-friendly way to select a date range, with built-in presets for common ranges like "Today", "Yesterday", "Last 7 Days", "This Month", and more. This improves UX by allowing users to quickly pick common date ranges or select custom ranges from a calendar.
+The `DateRangePicker` is an extensible component built on top of the shadcn calendar. It provides a user-friendly way to select a date range, with built-in presets for common ranges like "Today", "Yesterday", "Last 7 Days", "This Month", and more. This improves UX by allowing users to quickly pick common date ranges or select custom ranges from a calendar.
 
-<ComponentPreview name="date-range-picker-demo"/>
-
-#### Features
-
-- **Preset Ranges:** Quickly select from common date ranges (Today, Yesterday, This Week, Last 7 Days, etc.).
-- **Custom Range Selection:** Pick any date range using the calendar.
-- **Clear Selection:** Easily clear the selected range.
-- **Customizable Trigger:** Adjust button style, size, and placeholder.
-- **Callback Support:** Get notified when the range changes.
-- **Flexible Display:** Show or hide internal presets.
+<ComponentPreview name="date-range-picker-demo" />
 
 #### Installation
 
@@ -36,6 +27,17 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/date-range-picker
 <TabsContent value="manual">
 
 <Steps>
+    <Step>Install the required dependencies:</Step>
+
+```bash
+npm i date-fns react-day-picker @radix-ui/react-icons lucide-react
+```
+
+    <Step>Install the required shadcn dependencies:</Step>
+
+```bash
+npx shadcn@latest add popover button calendar
+```
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -49,39 +51,42 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/date-range-picker
 
 </CodeTabs>
 
+#### Features
+
+- **Preset Ranges:** Quickly select from common date ranges (Today, Yesterday, This Week, Last 7 Days, etc.).
+- **Custom Range Selection:** Pick any date range using the calendar.
+- **Clear Selection:** Easily clear the selected range.
+- **Customizable Trigger:** Adjust button style, size, and placeholder.
+- **Callback Support:** Get notified when the range changes.
+- **Flexible Display:** Show or hide internal presets.
+
 #### Usage
 
 ```tsx
-import DateRangePicker from "@/components/date-range-picker";
+const [range, setRange] = React.useState();
 
-function Example() {
-  const [range, setRange] = React.useState();
-
-  return (
-    <DateRangePicker
-      dateRange={range}
-      onChange={setRange}
-      placeholder="Select date range"
-      triggerVariant="outline"
-      triggerSize="default"
-      showInternalPresets={true}
-    />
-  );
-}
+<DateRangePicker
+  dateRange={range}
+  onChange={setRange}
+  placeholder="Select date range"
+  triggerVariant="outline"
+  triggerSize="default"
+  showInternalPresets={true}
+/>;
 ```
 
 #### Props
 
-| Prop                | Type                                      | Default      | Description                                                                                 |
-|---------------------|-------------------------------------------|--------------|---------------------------------------------------------------------------------------------|
-| `dateRange`         | `{ from?: Date; to?: Date }`              | `undefined`  | The selected date range.                                                                    |
-| `dayCount`          | `number`                                  | `undefined`  | Number of days for the initial range (e.g., `7` for last 7 days).                           |
-| `placeholder`       | `string`                                  | `"Pick a date"` | Placeholder text for the trigger button.                                                    |
-| `triggerVariant`    | `"default" \| "outline" \| "secondary" \| "ghost"` | `"outline"`   | Style variant for the trigger button.                                                       |
-| `triggerSize`       | `"default" \| "sm" \| "lg"`               | `"default"`  | Size of the trigger button.                                                                 |
-| `triggerClassName`  | `string`                                  | `undefined`  | Additional class names for the trigger button.                                              |
-| `onChange`          | `(date: { from?: Date; to?: Date }) => void` | `undefined`  | Callback when the date range changes.                                                       |
-| `showInternalPresets` | `boolean`                               | `true`       | Show or hide the built-in preset ranges.                                                    |
+| Prop                  | Type                                               | Default         | Description                                                       |
+| --------------------- | -------------------------------------------------- | --------------- | ----------------------------------------------------------------- |
+| `dateRange`           | `{ from?: Date; to?: Date }`                       | `undefined`     | The selected date range.                                          |
+| `dayCount`            | `number`                                           | `undefined`     | Number of days for the initial range (e.g., `7` for last 7 days). |
+| `placeholder`         | `string`                                           | `"Pick a date"` | Placeholder text for the trigger button.                          |
+| `triggerVariant`      | `"default" \| "outline" \| "secondary" \| "ghost"` | `"outline"`     | Style variant for the trigger button.                             |
+| `triggerSize`         | `"default" \| "sm" \| "lg"`                        | `"default"`     | Size of the trigger button.                                       |
+| `triggerClassName`    | `string`                                           | `undefined`     | Additional class names for the trigger button.                    |
+| `onChange`            | `(date: { from?: Date; to?: Date }) => void`       | `undefined`     | Callback when the date range changes.                             |
+| `showInternalPresets` | `boolean`                                          | `true`          | Show or hide the built-in preset ranges.                          |
 
 #### Preset Ranges
 

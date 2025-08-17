@@ -1,0 +1,17 @@
+{
+  "$schema": "",
+  "name": "use-previous",
+  "type": "registry:hook",
+  "author": "shaddy (https://shaddy-docs.vercel.app/)",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "hooks/use-previous.ts",
+      "content": "import { useEffect, useRef } from 'react'\n\n/**\n * Custom React hook to get the previous value of a state or prop.\n *\n * @template T - The type of the value to track.\n * @param {T} value - The current value to track.\n * @returns {T | undefined} - The previous value of the tracked state or prop.\n *\n * @example\n * const [count, setCount] = useState(0);\n * const prevCount = usePrevious(count);\n *\n * useEffect(() => {\n *   console.log(\"Current count:\", count);\n *   console.log(\"Previous count:\", prevCount);\n * }, [count]);\n */\n\nexport const usePrevious = <T = any>(value: T): T | undefined => {\n  const ref = useRef<T | undefined>(undefined)\n  useEffect(() => {\n    ref.current = value\n  }, [value])\n  return ref.current\n}\n",
+      "type": "registry:hook",
+      "target": "hooks/use-previous.ts"
+    }
+  ]
+}

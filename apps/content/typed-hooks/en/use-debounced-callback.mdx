@@ -2,9 +2,10 @@
 title: useDebouncedCallback
 description: A custom hook for creating debounced functions in React.
 links:
-  links: {
-    "debounce": "https://css-tricks.com/debouncing-throttling-explained-examples/",
-  }
+  links:
+    {
+      "debounce": "https://css-tricks.com/debouncing-throttling-explained-examples/",
+    }
 ---
 
 `useDebouncedCallback` is a powerful custom React hook that creates a debounced version of a callback function, preventing excessive function calls in scenarios like search inputs, window resizing, or handling rapid user interactions.
@@ -55,19 +56,19 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-debounced-callback
 
 ### Parameters
 
-| Parameter | Type | Description |
-| --- | --- | --- |
-| `callback` | `T` | The function to debounce. |
-| `delay` | `number` | The delay in milliseconds before executing the callback. Default is `300`. |
-| `options` | `DebounceOptions` | Optional configuration for debounce behavior. |
+| Parameter  | Type              | Description                                                                |
+| ---------- | ----------------- | -------------------------------------------------------------------------- |
+| `callback` | `T`               | The function to debounce.                                                  |
+| `delay`    | `number`          | The delay in milliseconds before executing the callback. Default is `300`. |
+| `options`  | `DebounceOptions` | Optional configuration for debounce behavior.                              |
 
 #### Options Object
 
-| Option | Type | Description | Default |
-| --- | --- | --- | --- |
-| `leading` | `boolean` | Whether to execute the function on the leading edge (first call). | `false` |
-| `trailing` | `boolean` | Whether to execute the function on the trailing edge (after delay). | `true` |
-| `maxWait` | `number` | Maximum time to wait before forcing execution, even with continued calls. | `undefined` |
+| Option     | Type      | Description                                                               | Default     |
+| ---------- | --------- | ------------------------------------------------------------------------- | ----------- |
+| `leading`  | `boolean` | Whether to execute the function on the leading edge (first call).         | `false`     |
+| `trailing` | `boolean` | Whether to execute the function on the trailing edge (after delay).       | `true`      |
+| `maxWait`  | `number`  | Maximum time to wait before forcing execution, even with continued calls. | `undefined` |
 
 ### Returns
 
@@ -77,4 +78,3 @@ Returns a debounced function with attached control methods:
 - `cancel()`: Cancels any pending executions of the debounced function
 - `flush()`: Immediately executes any pending function call
 - `isPending()`: Returns `true` if a function call is waiting to be executed
-

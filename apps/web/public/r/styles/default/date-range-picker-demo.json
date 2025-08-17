@@ -1,0 +1,17 @@
+{
+  "$schema": "",
+  "name": "date-range-picker-demo",
+  "type": "registry:example",
+  "author": "shaddy (https://shaddy-docs.vercel.app/)",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "examples/ui/date-range-picker-demo.tsx",
+      "content": "import React, { useState } from 'react'\nimport DateRangePicker from '@/registry/default/ui/date-range-picker'\nimport { DateRange } from 'react-day-picker'\n\nconst DateRangePickerDemo = () => {\n  const [dateRange, setDateRange] = useState<DateRange>({\n    from: new Date(),\n    to: new Date(),\n  })\n\n  return (\n    <DateRangePicker\n      dateRange={dateRange}\n      onChange={(range) =>\n        setDateRange({\n          from: range.from || new Date(),\n          to: range.to || new Date(),\n        })\n      }\n    />\n  )\n}\n\nexport default DateRangePickerDemo\n",
+      "type": "registry:example",
+      "target": "components/date-range-picker-demo.tsx"
+    }
+  ]
+}

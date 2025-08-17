@@ -1,0 +1,17 @@
+{
+  "$schema": "",
+  "name": "phone-input-demo",
+  "type": "registry:example",
+  "author": "shaddy (https://shaddy-docs.vercel.app/)",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "examples/ui/phone-input-demo.tsx",
+      "content": "import React from 'react'\nimport { PhoneInput } from '@/registry/default/ui/phone-input'\n\nconst PhoneInputDemo = () => {\n  return (\n    <div><PhoneInput/></div>\n  )\n}\n\nexport default PhoneInputDemo",
+      "type": "registry:example",
+      "target": "components/phone-input-demo.tsx"
+    }
+  ]
+}

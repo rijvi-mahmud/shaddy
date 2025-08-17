@@ -47,26 +47,25 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-event-listener
 
 ### Parameters
 
-| Parameter | Type | Description |
-| --- | --- | --- |
-| `eventName` | `K extends EventNameType<T>` | The name of the event to listen for (e.g., 'click', 'resize', 'keydown') |
-| `handler` | `(event: EventType<T, K>, delegateTarget?: Element) => void` | The callback function that handles the event with proper typing |
-| `element` | `T \| null \| undefined` | The target element to attach the listener to. Defaults to `window` if not provided |
-| `options` | `UseEventListenerOptions \| boolean \| undefined` | Optional addEventListener options or useCapture boolean. Includes `selector` for event delegation |
+| Parameter   | Type                                                         | Description                                                                                       |
+| ----------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| `eventName` | `K extends EventNameType<T>`                                 | The name of the event to listen for (e.g., 'click', 'resize', 'keydown')                          |
+| `handler`   | `(event: EventType<T, K>, delegateTarget?: Element) => void` | The callback function that handles the event with proper typing                                   |
+| `element`   | `T \| null \| undefined`                                     | The target element to attach the listener to. Defaults to `window` if not provided                |
+| `options`   | `UseEventListenerOptions \| boolean \| undefined`            | Optional addEventListener options or useCapture boolean. Includes `selector` for event delegation |
 
 ### Options
 
 The `options` parameter extends standard `AddEventListenerOptions` with:
 
-| Property | Type | Description |
-| --- | --- | --- |
-| `selector` | `string \| undefined` | CSS selector for event delegation. When provided, handler only fires when event target matches this selector |
-| `capture` | `boolean \| undefined` | Standard addEventListener capture option |
-| `once` | `boolean \| undefined` | Standard addEventListener once option |
-| `passive` | `boolean \| undefined` | Standard addEventListener passive option |
-| `signal` | `AbortSignal \| undefined` | Standard addEventListener signal option |
+| Property   | Type                       | Description                                                                                                  |
+| ---------- | -------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `selector` | `string \| undefined`      | CSS selector for event delegation. When provided, handler only fires when event target matches this selector |
+| `capture`  | `boolean \| undefined`     | Standard addEventListener capture option                                                                     |
+| `once`     | `boolean \| undefined`     | Standard addEventListener once option                                                                        |
+| `passive`  | `boolean \| undefined`     | Standard addEventListener passive option                                                                     |
+| `signal`   | `AbortSignal \| undefined` | Standard addEventListener signal option                                                                      |
 
 ### Returns
 
 - `void` - This hook doesn't return anything, it manages the event listener lifecycle internally.
-

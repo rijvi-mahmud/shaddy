@@ -48,4 +48,22 @@ export const ui: Registry['items'] = [
     ],
     devDependencies: [],
   },
+  {
+    name: 'phone-input',
+    type: 'registry:ui',
+    registryDependencies: ['popover', 'command', 'input', 'scroll-area'],
+    files: [
+      {
+        path: 'ui/phone-input.tsx',
+        type: 'registry:ui',
+        target: 'components/ui/phone-input.tsx',
+      },
+    ],
+    dependencies: [
+      'country-data-list',
+      'libphonenumber-js',
+      'react-circle-flags',
+    ],
+    devDependencies: [],
+  },
 ]

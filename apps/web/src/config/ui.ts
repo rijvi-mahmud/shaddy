@@ -43,6 +43,14 @@ export const uiConfig: DocsConfig = {
           },
           items: [],
         },
+        {
+          href: '/ui/phone-input',
+          title: {
+            en: 'Phone Input',
+            pt: 'Campo de Telefone',
+          },
+          items: [],
+        },
       ],
     },
   ],

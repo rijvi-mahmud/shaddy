@@ -529,6 +529,25 @@ export const Index: Record<string, any> = {
       source: '',
       meta: undefined,
     },
+    'phone-input': {
+      name: 'phone-input',
+      description: '',
+      type: 'registry:ui',
+      registryDependencies: ['popover', 'command', 'input', 'scroll-area'],
+      files: [
+        {
+          path: 'registry/default/ui/phone-input.tsx',
+          type: 'registry:ui',
+          target: 'components/ui/phone-input.tsx',
+        },
+      ],
+      categories: undefined,
+      component: React.lazy(
+        () => import('@/registry/default/ui/phone-input.tsx')
+      ),
+      source: '',
+      meta: undefined,
+    },
     'compose-providers': {
       name: 'compose-providers',
       description: '',
@@ -1135,6 +1154,72 @@ export const Index: Record<string, any> = {
       component: React.lazy(
         () =>
           import('@/registry/default/examples/ui/date-range-picker-demo.tsx')
+      ),
+      source: '',
+      meta: undefined,
+    },
+    'phone-input-with-country-selector-demo': {
+      name: 'phone-input-with-country-selector-demo',
+      description: '',
+      type: 'registry:example',
+      registryDependencies: [],
+      files: [
+        {
+          path: 'registry/default/examples/ui/phone-input-with-country-selector-demo.tsx',
+          type: 'registry:example',
+          target: '',
+        },
+      ],
+      categories: undefined,
+      component: React.lazy(
+        () =>
+          import(
+            '@/registry/default/examples/ui/phone-input-with-country-selector-demo.tsx'
+          )
+      ),
+      source: '',
+      meta: undefined,
+    },
+    'phone-input-no-country-demo': {
+      name: 'phone-input-no-country-demo',
+      description: '',
+      type: 'registry:example',
+      registryDependencies: [],
+      files: [
+        {
+          path: 'registry/default/examples/ui/phone-input-no-country-demo.tsx',
+          type: 'registry:example',
+          target: '',
+        },
+      ],
+      categories: undefined,
+      component: React.lazy(
+        () =>
+          import(
+            '@/registry/default/examples/ui/phone-input-no-country-demo.tsx'
+          )
+      ),
+      source: '',
+      meta: undefined,
+    },
+    'phone-input-with-default-country-demo': {
+      name: 'phone-input-with-default-country-demo',
+      description: '',
+      type: 'registry:example',
+      registryDependencies: [],
+      files: [
+        {
+          path: 'registry/default/examples/ui/phone-input-with-default-country-demo.tsx',
+          type: 'registry:example',
+          target: '',
+        },
+      ],
+      categories: undefined,
+      component: React.lazy(
+        () =>
+          import(
+            '@/registry/default/examples/ui/phone-input-with-default-country-demo.tsx'
+          )
       ),
       source: '',
       meta: undefined,
