@@ -116,6 +116,14 @@ export const formConfig: DocsConfig = {
           items: [],
         },
         {
+          href: '/form/phone-input-field',
+          title: {
+            en: 'Phone Input Field',
+            pt: 'Campo de Telefone',
+          },
+          items: [],
+        },
+        {
           href: '/form/select-field',
           title: {
             en: 'Select Field',

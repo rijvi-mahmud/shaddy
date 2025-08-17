@@ -359,6 +359,19 @@ export const examples: Registry['items'] = [
     dependencies: [],
     devDependencies: [],
   },
+  {
+    name: 'phone-input-field-example',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'examples/form/phone-input-field-example.tsx',
+        type: 'registry:example',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
 
   // ----------------------------------------------------------------------------
   // Arrange the ui examples

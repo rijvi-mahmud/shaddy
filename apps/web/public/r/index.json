@@ -349,6 +349,20 @@
     ]
   },
   {
+    "name": "phone-input-field",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": ["shaddy-form:local"],
+    "files": [
+      {
+        "path": "form/fields/phone-input-field.tsx",
+        "type": "registry:component",
+        "target": "components/form/fields/phone-input-field.tsx"
+      }
+    ]
+  },
+  {
     "name": "loading-spinner",
     "type": "registry:ui",
     "dependencies": ["lucide-react"],

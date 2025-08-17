@@ -1,0 +1,72 @@
+---
+title: Phone Input Field
+description: PhoneInputField is reusable phone number taking input.
+---
+
+`PhoneInputField` is a reusable input component for Shaddy Form, designed for collecting and validating phone numbers. It integrates with `react-hook-form` and supports labels, required state, and disabled state.
+
+<ComponentPreview name="phone-input-field-example" />
+
+### Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://shaddy-docs.vercel.app/r/phone-input-field
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+<Step>Install the required dependencies:</Step>
+
+```bash
+npx shadcn@latest add https://shaddy-docs.vercel.app/r/shaddy-form
+```
+
+<Step>Copy and paste the following code into your project:</Step>
+
+<ComponentSource name="phone-input-field" />
+
+<Step>Update import paths as needed for your project structure.</Step>
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+### Props
+
+| Name        | Type                                   | Default      | Description                                   |
+| ----------- | -------------------------------------- | ------------ | --------------------------------------------- |
+| `name`      | `string` (from `react-hook-form` Path) | **required** | The field name (must match your form schema). |
+| `label`     | `string`                               |              | The label displayed above the input.          |
+| `required`  | `boolean`                              | `false`      | Marks the field as required.                  |
+| `disabled`  | `boolean`                              | `false`      | Disables the input when true.                 |
+| `className` | `string`                               |              | Additional CSS classes for the field.         |
+
+### Usage
+
+```tsx
+<ShaddyForm>
+  <PhoneInputField
+    name="phone"
+    label="Phone Number"
+    required
+    placeholder="Enter your phone number"
+  />
+</ShaddyForm>
+```
+
+### Notes
+
+- `PhoneInputField` uses the `PhoneInput` component for formatting and validation.

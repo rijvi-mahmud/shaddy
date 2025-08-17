@@ -207,4 +207,18 @@ export const form: Registry['items'] = [
     devDependencies: [],
     registryDependencies: ['shaddy-form:local', 'calender'],
   },
+  {
+    name: 'phone-input-field',
+    type: 'registry:component',
+    files: [
+      {
+        path: 'form/fields/phone-input-field.tsx',
+        type: 'registry:component',
+        target: 'components/form/fields/phone-input-field.tsx',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+    registryDependencies: ['shaddy-form:local'],
+  },
 ]

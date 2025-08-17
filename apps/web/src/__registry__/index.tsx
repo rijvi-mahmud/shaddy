@@ -491,6 +491,25 @@ export const Index: Record<string, any> = {
       source: '',
       meta: undefined,
     },
+    'phone-input-field': {
+      name: 'phone-input-field',
+      description: '',
+      type: 'registry:component',
+      registryDependencies: ['shaddy-form:local'],
+      files: [
+        {
+          path: 'registry/default/form/fields/phone-input-field.tsx',
+          type: 'registry:component',
+          target: 'components/form/fields/phone-input-field.tsx',
+        },
+      ],
+      categories: undefined,
+      component: React.lazy(
+        () => import('@/registry/default/form/fields/phone-input-field.tsx')
+      ),
+      source: '',
+      meta: undefined,
+    },
     'loading-spinner': {
       name: 'loading-spinner',
       description: '',
@@ -1152,6 +1171,28 @@ export const Index: Record<string, any> = {
         () =>
           import(
             '@/registry/default/examples/form/date-range-picker-field-example.tsx'
+          )
+      ),
+      source: '',
+      meta: undefined,
+    },
+    'phone-input-field-example': {
+      name: 'phone-input-field-example',
+      description: '',
+      type: 'registry:example',
+      registryDependencies: [],
+      files: [
+        {
+          path: 'registry/default/examples/form/phone-input-field-example.tsx',
+          type: 'registry:example',
+          target: '',
+        },
+      ],
+      categories: undefined,
+      component: React.lazy(
+        () =>
+          import(
+            '@/registry/default/examples/form/phone-input-field-example.tsx'
           )
       ),
       source: '',
