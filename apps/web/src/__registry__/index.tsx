@@ -157,6 +157,25 @@ export const Index: Record<string, any> = {
       source: '',
       meta: undefined,
     },
+    'use-event-listener': {
+      name: 'use-event-listener',
+      description: '',
+      type: 'registry:hook',
+      registryDependencies: [],
+      files: [
+        {
+          path: 'registry/default/hooks/use-event-listener.ts',
+          type: 'registry:hook',
+          target: '',
+        },
+      ],
+      categories: undefined,
+      component: React.lazy(
+        () => import('@/registry/default/hooks/use-event-listener.ts')
+      ),
+      source: '',
+      meta: undefined,
+    },
     'use-session-storage': {
       name: 'use-session-storage',
       description: '',

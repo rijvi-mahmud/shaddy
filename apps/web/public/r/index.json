@@ -104,6 +104,19 @@
     ]
   },
   {
+    "name": "use-event-listener",
+    "type": "registry:hook",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "hooks/use-event-listener.ts",
+        "type": "registry:hook"
+      }
+    ]
+  },
+  {
     "name": "use-session-storage",
     "type": "registry:hook",
     "dependencies": [],

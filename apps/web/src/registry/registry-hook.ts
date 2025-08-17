@@ -106,6 +106,19 @@ export const hook: Registry['items'] = [
     devDependencies: [],
   },
   {
+    name: 'use-event-listener',
+    type: 'registry:hook',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'hooks/use-event-listener.ts',
+        type: 'registry:hook',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
+  {
     name: 'use-session-storage',
     type: 'registry:hook',
     registryDependencies: [],
