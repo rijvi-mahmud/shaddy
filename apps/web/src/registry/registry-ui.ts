@@ -66,4 +66,22 @@ export const ui: Registry['items'] = [
     ],
     devDependencies: [],
   },
+  {
+    name: 'dropzone',
+    type: 'registry:ui',
+    registryDependencies: ['popover', 'command', 'input', 'scroll-area'],
+    files: [
+      {
+        path: 'ui/dropzone.tsx',
+        type: 'registry:ui',
+        target: 'components/ui/dropzone.tsx',
+      },
+    ],
+    dependencies: [
+      'country-data-list',
+      'libphonenumber-js',
+      'react-circle-flags',
+    ],
+    devDependencies: [],
+  },
 ]

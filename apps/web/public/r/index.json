@@ -426,5 +426,23 @@
         "target": "components/ui/phone-input.tsx"
       }
     ]
+  },
+  {
+    "name": "dropzone",
+    "type": "registry:ui",
+    "dependencies": [
+      "country-data-list",
+      "libphonenumber-js",
+      "react-circle-flags"
+    ],
+    "devDependencies": [],
+    "registryDependencies": ["popover", "command", "input", "scroll-area"],
+    "files": [
+      {
+        "path": "ui/dropzone.tsx",
+        "type": "registry:ui",
+        "target": "components/ui/dropzone.tsx"
+      }
+    ]
   }
 ]

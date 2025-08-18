@@ -129,7 +129,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       if (!value) {
         onPhoneChange?.(getCountryCode(newCountryData))
       }
-    }, [defaultCountry, onPhoneChange, value])
+    }, [defaultCountry])
 
     // Handle country dropdown change
     const handleCountryDropdownChange = useCallback(

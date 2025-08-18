@@ -51,6 +51,14 @@ export const uiConfig: DocsConfig = {
           },
           items: [],
         },
+        {
+          href: '/ui/dropzone',
+          title: {
+            en: 'Dropzone',
+            pt: 'Área de Soltar',
+          },
+          items: [],
+        },
       ],
     },
   ],

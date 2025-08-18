@@ -586,6 +586,23 @@ export const Index: Record<string, any> = {
       source: '',
       meta: undefined,
     },
+    dropzone: {
+      name: 'dropzone',
+      description: '',
+      type: 'registry:ui',
+      registryDependencies: ['popover', 'command', 'input', 'scroll-area'],
+      files: [
+        {
+          path: 'registry/default/ui/dropzone.tsx',
+          type: 'registry:ui',
+          target: 'components/ui/dropzone.tsx',
+        },
+      ],
+      categories: undefined,
+      component: React.lazy(() => import('@/registry/default/ui/dropzone.tsx')),
+      source: '',
+      meta: undefined,
+    },
     'compose-providers': {
       name: 'compose-providers',
       description: '',
@@ -1280,6 +1297,25 @@ export const Index: Record<string, any> = {
           import(
             '@/registry/default/examples/ui/phone-input-with-default-country-demo.tsx'
           )
+      ),
+      source: '',
+      meta: undefined,
+    },
+    'dropzone-demo': {
+      name: 'dropzone-demo',
+      description: '',
+      type: 'registry:example',
+      registryDependencies: [],
+      files: [
+        {
+          path: 'registry/default/examples/ui/dropzone-demo.tsx',
+          type: 'registry:example',
+          target: '',
+        },
+      ],
+      categories: undefined,
+      component: React.lazy(
+        () => import('@/registry/default/examples/ui/dropzone-demo.tsx')
       ),
       source: '',
       meta: undefined,

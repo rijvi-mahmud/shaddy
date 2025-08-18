@@ -1,0 +1,46 @@
+---
+title: Dropzone
+description: Dropzone component with drag-and-drop support and file validation.
+---
+
+The `Dropzone` component provides a user-friendly way to upload files, with built-in support for drag-and-drop functionality and file validation. It enhances UX by handling file previews, validation errors, and upload progress automatically.
+
+<ComponentPreview name="dropzone-demo" />
+
+#### Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">CLI</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://shaddy-docs.vercel.app/r/dropzone
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps>
+    <Step>Install the required dependencies:</Step>
+
+```bash
+npm i react-dropzone
+```
+
+    <Step>Install the required shadcn dependencies:</Step>
+
+```bash
+npx shadcn@latest add button
+```
+
+      <Step>Copy and paste the following code into your project.</Step>
+      <ComponentSource name="dropzone" />
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
