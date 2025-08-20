@@ -47,6 +47,15 @@ export const utilsConfig: DocsConfig = {
 
           items: [],
         },
+        {
+          href: '/utils/create-env',
+          title: {
+            en: 'Create Env',
+            pt: 'Criar Env',
+          },
+
+          items: [],
+        },
       ],
     },
   ],

@@ -1,0 +1,92 @@
+---
+title: Create Env
+description: A utility for validating and parsing environment variables using Zod schemas.
+---
+
+`createEnv` is a utility for validating and parsing environment variables using [Zod](https://zod.dev/) schemas. It ensures your environment variables are present and valid, both on the server and client, with support for client-exposed variable prefixes.
+
+### Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://shaddy-docs.vercel.app/r/create-env
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+  <Step>Copy and paste the following code into your project.</Step>
+  <ComponentSource name="create-env" shouldExpanded={true} />
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+### The Environment Variable Problem
+
+Managing environment variables can be error-prone. Typos, missing variables, or invalid values can cause runtime errors that are hard to debug. You may also want to expose only certain variables to the client.
+
+### Why createEnv?
+
+`createEnv` solves these problems by validating your environment variables at runtime using a Zod schema. It provides clear errors if something is missing or invalid, and makes it easy to control which variables are exposed to the client.
+
+### Example Usage
+
+Suppose you want to validate your environment variables:
+
+```ts
+import { createEnv } from "@/utils/create-env";
+import { z } from "zod";
+
+export const env = createEnv({
+  schemas: z.object({
+    USER_SPACE_APP_URL: z.string().url().min(1),
+    NEXT_PUBLIC_API_URL: z.string().url(),
+  }),
+  runTimeEnv: {
+    USER_SPACE_APP_URL: process.env.USER_SPACE_APP_URL,
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+  },
+});
+```
+
+Now, `env` will only be defined if all variables are present and valid.
+
+### Client vs Server
+
+- On the **server**, all variables are validated.
+- On the **client**, only variables with the specified prefix (default: `NEXT_PUBLIC_`) are validated and exposed.
+
+### Customizing the Client Prefix
+
+You can change the prefix for client-exposed variables:
+
+```ts
+createEnv({
+  schemas: z.object({
+    PUBLIC_API_URL: z.string().url(),
+  }),
+  runTimeEnv: {
+    PUBLIC_API_URL: process.env.PUBLIC_API_URL,
+  },
+  clientEnvPrefix: "PUBLIC_",
+});
+```
+
+### Benefits
+
+- **Type-safe:** Uses Zod for runtime validation and TypeScript inference.
+- **Secure:** Only exposes variables you intend to share with the client.
+- **Helpful errors:** Clear error messages for missing or invalid variables.
+- **Flexible:** Works in both server and client environments.

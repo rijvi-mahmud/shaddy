@@ -15,4 +15,18 @@ export const utils: Registry['items'] = [
     dependencies: ['lucide-react'],
     devDependencies: [],
   },
+  {
+    name: 'create-env',
+    type: 'registry:lib',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'utils/create-env.ts',
+        type: 'registry:lib',
+        target: 'utils/create-env.ts',
+      },
+    ],
+    dependencies: ['lucide-react'],
+    devDependencies: [],
+  },
 ]

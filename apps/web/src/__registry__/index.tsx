@@ -622,6 +622,25 @@ export const Index: Record<string, any> = {
       source: '',
       meta: undefined,
     },
+    'create-env': {
+      name: 'create-env',
+      description: '',
+      type: 'registry:lib',
+      registryDependencies: [],
+      files: [
+        {
+          path: 'registry/default/utils/create-env.ts',
+          type: 'registry:lib',
+          target: 'utils/create-env.ts',
+        },
+      ],
+      categories: undefined,
+      component: React.lazy(
+        () => import('@/registry/default/utils/create-env.ts')
+      ),
+      source: '',
+      meta: undefined,
+    },
     'use-boolean-example': {
       name: 'use-boolean-example',
       description: '',
