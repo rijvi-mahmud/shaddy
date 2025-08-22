@@ -385,6 +385,19 @@ export const examples: Registry['items'] = [
     dependencies: [],
     devDependencies: [],
   },
+  {
+    name: 'step-form-example',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'examples/form/step-form-example.tsx',
+        type: 'registry:example',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
 
   // ----------------------------------------------------------------------------
   // Arrange the ui examples

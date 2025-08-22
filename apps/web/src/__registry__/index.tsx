@@ -529,6 +529,25 @@ export const Index: Record<string, any> = {
       source: '',
       meta: undefined,
     },
+    'use-trigger-form': {
+      name: 'use-trigger-form',
+      description: '',
+      type: 'registry:hook',
+      registryDependencies: ['shaddy-form:local'],
+      files: [
+        {
+          path: 'registry/default/form/use-trigger-form.ts',
+          type: 'registry:hook',
+          target: 'components/form/use-trigger-form.ts',
+        },
+      ],
+      categories: undefined,
+      component: React.lazy(
+        () => import('@/registry/default/form/use-trigger-form.ts')
+      ),
+      source: '',
+      meta: undefined,
+    },
     'loading-spinner': {
       name: 'loading-spinner',
       description: '',
@@ -619,6 +638,23 @@ export const Index: Record<string, any> = {
       ],
       categories: undefined,
       component: React.lazy(() => import('@/registry/default/ui/dropzone.tsx')),
+      source: '',
+      meta: undefined,
+    },
+    stepper: {
+      name: 'stepper',
+      description: '',
+      type: 'registry:component',
+      registryDependencies: [],
+      files: [
+        {
+          path: 'registry/default/ui/stepper.tsx',
+          type: 'registry:component',
+          target: 'components/ui/stepper.tsx',
+        },
+      ],
+      categories: undefined,
+      component: React.lazy(() => import('@/registry/default/ui/stepper.tsx')),
       source: '',
       meta: undefined,
     },
@@ -1268,6 +1304,25 @@ export const Index: Record<string, any> = {
       categories: undefined,
       component: React.lazy(
         () => import('@/registry/default/examples/form/field-array-example.tsx')
+      ),
+      source: '',
+      meta: undefined,
+    },
+    'step-form-example': {
+      name: 'step-form-example',
+      description: '',
+      type: 'registry:example',
+      registryDependencies: [],
+      files: [
+        {
+          path: 'registry/default/examples/form/step-form-example.tsx',
+          type: 'registry:example',
+          target: '',
+        },
+      ],
+      categories: undefined,
+      component: React.lazy(
+        () => import('@/registry/default/examples/form/step-form-example.tsx')
       ),
       source: '',
       meta: undefined,

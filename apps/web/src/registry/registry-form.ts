@@ -235,4 +235,18 @@ export const form: Registry['items'] = [
     devDependencies: [],
     registryDependencies: ['shaddy-form:local'],
   },
+  {
+    name: 'use-trigger-form',
+    type: 'registry:hook',
+    files: [
+      {
+        path: 'form/use-trigger-form.ts',
+        type: 'registry:hook',
+        target: 'components/form/use-trigger-form.ts',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+    registryDependencies: ['shaddy-form:local'],
+  },
 ]

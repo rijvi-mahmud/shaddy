@@ -1,6 +1,6 @@
 import { Form } from '@/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ReactNode, Ref, useImperativeHandle } from 'react'
+import { ReactNode, forwardRef, useImperativeHandle } from 'react'
 import {
   DefaultValues,
   FieldValues,
@@ -19,7 +19,6 @@ export type ShaddyFormProps<TSchema extends FieldValues = FieldValues> = {
   initialValues: DefaultValues<TSchema>
   onSubmit: SubmitHandler<TSchema>
   children: ReactNode
-  ref?: Ref<ShaddyFormRef<TSchema>>
   mode?: 'onChange' | 'onBlur' | 'onSubmit' | 'all'
 } & Omit<React.ComponentPropsWithoutRef<'form'>, 'onSubmit'>
 
@@ -33,27 +32,40 @@ export type ShaddyFormProps<TSchema extends FieldValues = FieldValues> = {
  *
  * @returns The generic form component.
  */
-export const ShaddyForm = <TSchema extends FieldValues = FieldValues>({
-  ref,
-  initialValues,
-  schema,
-  onSubmit,
-  children,
-  mode = 'onChange',
-}: ShaddyFormProps<TSchema>) => {
-  const form = useForm<TSchema>({
-    defaultValues: initialValues,
-    resolver: zodResolver(schema),
-    mode,
-  })
+const ShaddyFormInner = forwardRef(
+  <TSchema extends FieldValues = any>(
+    {
+      initialValues,
+      schema,
+      onSubmit,
+      children,
+      mode = 'onChange',
+      ...props
+    }: ShaddyFormProps<TSchema>,
+    ref: React.Ref<ShaddyFormRef<TSchema>>
+  ) => {
+    const form = useForm<TSchema>({
+      defaultValues: initialValues,
+      resolver: zodResolver(schema),
+      mode,
+    })
 
-  useImperativeHandle(ref, () => ({ form }))
+    useImperativeHandle(ref, () => ({ form }))
 
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>{children}</form>
-    </Form>
-  )
-}
+    return (
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} {...props}>
+          {children}
+        </form>
+      </Form>
+    )
+  }
+)
 
-ShaddyForm.displayName = 'ShaddyForm'
+ShaddyFormInner.displayName = 'ShaddyForm'
+
+export const ShaddyForm = ShaddyFormInner as <
+  TSchema extends FieldValues = any,
+>(
+  props: ShaddyFormProps<TSchema> & { ref?: React.Ref<ShaddyFormRef<TSchema>> }
+) => JSX.Element

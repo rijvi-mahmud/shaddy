@@ -51,6 +51,14 @@ export const formConfig: DocsConfig = {
           },
           items: [],
         },
+        {
+          href: '/form/step-form',
+          title: {
+            en: 'Step Form',
+            pt: 'Formulário em Etapas',
+          },
+          items: [],
+        },
       ],
     },
     {

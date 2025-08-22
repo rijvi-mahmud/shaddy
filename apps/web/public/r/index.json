@@ -377,6 +377,20 @@
     ]
   },
   {
+    "name": "use-trigger-form",
+    "type": "registry:hook",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": ["shaddy-form:local"],
+    "files": [
+      {
+        "path": "form/use-trigger-form.ts",
+        "type": "registry:hook",
+        "target": "components/form/use-trigger-form.ts"
+      }
+    ]
+  },
+  {
     "name": "loading-spinner",
     "type": "registry:ui",
     "dependencies": ["lucide-react"],
@@ -456,6 +470,20 @@
         "path": "ui/dropzone.tsx",
         "type": "registry:ui",
         "target": "components/ui/dropzone.tsx"
+      }
+    ]
+  },
+  {
+    "name": "stepper",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "ui/stepper.tsx",
+        "type": "registry:component",
+        "target": "components/ui/stepper.tsx"
       }
     ]
   }
