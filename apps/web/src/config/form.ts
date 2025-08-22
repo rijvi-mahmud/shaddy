@@ -43,6 +43,14 @@ export const formConfig: DocsConfig = {
           },
           items: [],
         },
+        {
+          href: '/form/field-array',
+          title: {
+            en: 'Field Array',
+            pt: 'Campo de Array',
+          },
+          items: [],
+        },
       ],
     },
     {

@@ -1,0 +1,60 @@
+---
+title: Field Array
+description: Utility component for handling dynamic field arrays in shaddy form.
+---
+
+`FieldArray` is a utility component that uses the function-as-children pattern to make working with [react-hook-form](https://react-hook-form.com/) field arrays simple and ergonomic inside a shaddy form.  
+It provides a convenient way to render, append, and remove groups of fields dynamically, without having to manage the array logic yourself.
+
+<ComponentPreview name="field-array-example" />
+
+### Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://shaddy-docs.vercel.app/r/field-array
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npx shadcn@latest add https://shaddy-docs.vercel.app/r/shaddy-form
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="field-array" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+### Usage
+
+```tsx
+<FieldArray name="items">
+  {({ fields }) =>
+    fields.map((field, index) => (
+      <TextField key={field.id} name={`items.${index}.name`} />
+    ))
+  }
+</FieldArray>
+```

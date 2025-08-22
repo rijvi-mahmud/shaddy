@@ -372,6 +372,19 @@ export const examples: Registry['items'] = [
     dependencies: [],
     devDependencies: [],
   },
+  {
+    name: 'field-array-example',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'examples/form/field-array-example.tsx',
+        type: 'registry:example',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
 
   // ----------------------------------------------------------------------------
   // Arrange the ui examples

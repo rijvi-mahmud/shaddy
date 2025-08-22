@@ -363,6 +363,20 @@
     ]
   },
   {
+    "name": "field-array",
+    "type": "registry:component",
+    "dependencies": [],
+    "devDependencies": [],
+    "registryDependencies": ["shaddy-form:local"],
+    "files": [
+      {
+        "path": "form/field-array.tsx",
+        "type": "registry:component",
+        "target": "components/form/field-array.tsx"
+      }
+    ]
+  },
+  {
     "name": "loading-spinner",
     "type": "registry:ui",
     "dependencies": ["lucide-react"],

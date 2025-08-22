@@ -510,6 +510,25 @@ export const Index: Record<string, any> = {
       source: '',
       meta: undefined,
     },
+    'field-array': {
+      name: 'field-array',
+      description: '',
+      type: 'registry:component',
+      registryDependencies: ['shaddy-form:local'],
+      files: [
+        {
+          path: 'registry/default/form/field-array.tsx',
+          type: 'registry:component',
+          target: 'components/form/field-array.tsx',
+        },
+      ],
+      categories: undefined,
+      component: React.lazy(
+        () => import('@/registry/default/form/field-array.tsx')
+      ),
+      source: '',
+      meta: undefined,
+    },
     'loading-spinner': {
       name: 'loading-spinner',
       description: '',
@@ -1230,6 +1249,25 @@ export const Index: Record<string, any> = {
           import(
             '@/registry/default/examples/form/phone-input-field-example.tsx'
           )
+      ),
+      source: '',
+      meta: undefined,
+    },
+    'field-array-example': {
+      name: 'field-array-example',
+      description: '',
+      type: 'registry:example',
+      registryDependencies: [],
+      files: [
+        {
+          path: 'registry/default/examples/form/field-array-example.tsx',
+          type: 'registry:example',
+          target: '',
+        },
+      ],
+      categories: undefined,
+      component: React.lazy(
+        () => import('@/registry/default/examples/form/field-array-example.tsx')
       ),
       source: '',
       meta: undefined,

@@ -221,4 +221,18 @@ export const form: Registry['items'] = [
     devDependencies: [],
     registryDependencies: ['shaddy-form:local'],
   },
+  {
+    name: 'field-array',
+    type: 'registry:component',
+    files: [
+      {
+        path: 'form/field-array.tsx',
+        type: 'registry:component',
+        target: 'components/form/field-array.tsx',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+    registryDependencies: ['shaddy-form:local'],
+  },
 ]
