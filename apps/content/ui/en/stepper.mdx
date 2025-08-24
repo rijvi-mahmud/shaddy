@@ -1,0 +1,111 @@
+---
+title: Stepper
+description: Stepper component for multi-step processes.
+---
+
+The `Stepper` component provides a structured way to guide users through multi-step processes. It includes visual progress indicators, step validation, error handling, and navigation controls for a seamless user experience.
+
+<ComponentPreview name="step-form-example" />
+
+#### Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">CLI</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://shaddy-docs.vercel.app/r/stepper
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps>
+    <Step>Install the required dependencies:</Step>
+
+```bash
+npm i lucide-react
+```
+
+    <Step>Install the required shadcn dependencies:</Step>
+
+```bash
+npx shadcn@latest add button
+```
+
+      <Step>Copy and paste the following code into your project.</Step>
+      <ComponentSource name="stepper" />
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+#### Usage
+
+##### Basic Usage
+
+```tsx
+<Stepper>
+  <Step>
+    <h3>Step 1: Personal Information</h3>
+    <p>Enter your basic details here.</p>
+  </Step>
+
+  <Step>
+    <h3>Step 2: Contact Details</h3>
+    <p>Provide your contact information.</p>
+  </Step>
+
+  <Step>
+    <h3>Step 3: Review</h3>
+    <p>Review your information before submitting.</p>
+  </Step>
+</Stepper>
+```
+
+##### With Validation
+
+```tsx
+<Stepper
+  onComplete={() => console.log("Form completed!")}
+  completeLabel="Submit Form"
+>
+  <Step
+    validate={async () => {
+      // Your validation logic here
+      if (!isValid) {
+        return { hasError: true, message: "Please fill all required fields" };
+      }
+      return { hasError: false };
+    }}
+  >
+    <h3>Step 1: Form Data</h3>
+    {/* Your form content */}
+  </Step>
+
+  <Step>
+    <h3>Step 2: Confirmation</h3>
+    {/* Confirmation content */}
+  </Step>
+</Stepper>
+```
+
+#### API Reference
+
+##### Stepper
+
+| Prop              | Type                          | Default       | Description                                 |
+| ----------------- | ----------------------------- | ------------- | ------------------------------------------- |
+| **onComplete**    | `() => void \| Promise<void>` | -             | Callback when final step is completed      |
+| **completeLabel** | `string`                      | `"Complete"`  | Label for the complete button               |
+
+##### Step
+
+| Prop         | Type                                    | Default | Description                       |
+| ------------ | --------------------------------------- | ------- | --------------------------------- |
+| **validate** | `() => StepError \| Promise<StepError>` | -       | Optional validation for this step |

@@ -59,6 +59,14 @@ export const uiConfig: DocsConfig = {
           },
           items: [],
         },
+        {
+          href: '/ui/stepper',
+          title: {
+            en: 'Stepper',
+            pt: 'Stepper',
+          },
+          items: [],
+        },
       ],
     },
   ],

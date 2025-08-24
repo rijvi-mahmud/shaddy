@@ -1,0 +1,52 @@
+---
+title: Multi Step Form
+description: Multi Step Form with stepper and ShaddyForm.
+---
+
+A multi-step form breaks down complex forms into manageable steps to collect user input. With [`Stepper`](/ui/stepper) and `ShaddyForm` you can create a multi-step form with validation.
+
+<ComponentPreview name="step-form-example" />
+
+### Installation
+
+The `useTriggerForm` hook is required to validate `ShaddyForm` fields within each stepper step.
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-trigger-form
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm i react-hook-form
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+<ComponentSource name="use-trigger-form" />
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+You'll also need to install the [`Stepper`](/ui/stepper) component to create multi-step forms with ShaddyForm.
+
+```bash
+npx shadcn@latest add https://shaddy-docs.vercel.app/r/stepper
+```

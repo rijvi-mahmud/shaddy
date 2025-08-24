@@ -52,9 +52,9 @@ export const formConfig: DocsConfig = {
           items: [],
         },
         {
-          href: '/form/step-form',
+          href: '/form/multi-step-form',
           title: {
-            en: 'Step Form',
+            en: 'Multi Step Form',
             pt: 'Formulário em Etapas',
           },
           items: [],
@@ -71,7 +71,7 @@ export const formConfig: DocsConfig = {
           href: '/form/form-context',
           title: {
             en: 'Form Context',
-            pt: 'Form Context',
+            pt: 'Contexto de Formulário',
           },
           items: [],
         },
@@ -79,7 +79,7 @@ export const formConfig: DocsConfig = {
           href: '/form/shaddy-form',
           title: {
             en: 'Form',
-            pt: 'Form',
+            pt: 'Formulário',
           },
           items: [],
         },
@@ -119,7 +119,7 @@ export const formConfig: DocsConfig = {
           href: '/form/text-area-field',
           title: {
             en: 'Text Area Field',
-            pt: 'Campo de Texto',
+            pt: 'Campo de Área de Texto',
           },
           items: [],
         },
@@ -175,7 +175,7 @@ export const formConfig: DocsConfig = {
           href: '/form/date-picker-field',
           title: {
             en: 'Date Picker Field',
-            pt: 'Campo de Seleção de Data',
+            pt: 'Campo de Seletor de Data',
           },
           items: [],
         },
