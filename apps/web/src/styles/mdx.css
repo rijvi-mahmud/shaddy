@@ -7,6 +7,15 @@ pre [data-line] {
   padding: 0 0.5rem;
 }
 
+.light p > code,
+.light li > code {
+  @apply bg-gray-100;
+}
+
+.light pre > code {
+  @apply text-gray-50;
+}
+
 .mdx > .steps:first-child > h3:first-child {
   @apply mt-0;
 }
