@@ -99,7 +99,7 @@ export function MobileNav({ messages, menuLinks }: MobileNavProps) {
           onOpenChange={setOpen}
         >
           <Icons.logo className="mr-2 size-4 -rotate-45" />
-          <span className="font-bold">{siteConfig.name}</span>
+          <span className="font-bold">{siteConfig.title}</span>
         </MobileLink>
 
         {menuLinks && (

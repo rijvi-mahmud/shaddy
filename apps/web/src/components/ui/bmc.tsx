@@ -13,7 +13,7 @@ export const BuyMeCoffee = ({ className }: { className?: string }) => {
         className
       )}
     >
-      ☕ coffee
+      ☕ Coffee
     </Link>
   )
 }

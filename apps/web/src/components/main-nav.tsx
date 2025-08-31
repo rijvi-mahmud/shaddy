@@ -4,6 +4,7 @@ import { Link, usePathname } from '@/navigation'
 import { Icons } from '@/components/icons'
 import { siteConfig } from '@/config/site'
 import { cn } from '@/lib/utils'
+import { Logo } from './ui/logo'
 
 interface MainNavProps {
   messages: {
@@ -22,13 +23,7 @@ export function MainNav({ messages }: MainNavProps) {
 
   return (
     <div className="mr-4 hidden md:flex">
-      <Link href="/" className="mr-6 flex items-center space-x-2">
-        <Icons.logo className="size-6" />
-
-        <span className="hidden font-bold sm:inline-block">
-          {siteConfig.name}
-        </span>
-      </Link>
+      <Logo />
 
       <nav className="flex items-center gap-4 text-sm lg:gap-6">
         {/* <Link

@@ -3,7 +3,8 @@ import en from '@/i18n/locales/en.json'
 import pt from '@/i18n/locales/pt.json'
 
 export const siteConfig = {
-  name: 'shaddydocs',
+  title: 'shaddydocs',
+  name: 'shaddy docs',
 
   description: {
     en: en.site.description,

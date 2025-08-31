@@ -10,6 +10,7 @@ import { styles } from '@/registry/registry-styles'
 import { Icons } from './icons'
 import { ThemeModeToggle } from './theme-mode-toggle'
 import { useConfig } from '@/hooks/use-config'
+import { ThemeToggleButton } from './theme-toggle-switch'
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string
@@ -118,13 +119,7 @@ export function ComponentPreview({
         <TabsContent value="preview" className="relative rounded-md border">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-2">
-              <ThemeModeToggle
-                messages={{
-                  dark: 'Dark',
-                  light: 'Light',
-                  system: 'System',
-                }}
-              />
+              <ThemeToggleButton />
             </div>
           </div>
           <div

@@ -14,6 +14,7 @@ import { I18nToggle } from './i18n-toggle'
 import { Link } from '@/navigation'
 import { cn } from '@/lib/utils'
 import { SiteHeaderClientWrapper } from './site-header-client-wrapper'
+import { ThemeToggleButton } from './theme-toggle-switch'
 
 const CommandMenu = dynamic(() =>
   import('@/components/command-menu').then((mod) => mod.CommandMenu)
@@ -30,7 +31,7 @@ const githubStars = async () => {
       headers: {
         Accept: 'application/vnd.github.v3+json',
       },
-      next: { revalidate: 172800 }, // Cache for 2 days
+      next: { revalidate: 60 * 60 * 24 * 2 }, // Cache for 2 days
     })
 
     if (!response.ok) {
@@ -118,13 +119,15 @@ export async function SiteHeader() {
               }}
             /> */}
 
-            <ThemeModeToggle
+            {/* <ThemeModeToggle
               messages={{
                 dark: t('themes.dark'),
                 light: t('themes.light'),
                 system: t('themes.system'),
               }}
-            />
+            /> */}
+
+            <ThemeToggleButton />
 
             <div className="phone:flex hidden items-center">
               <Separator orientation="vertical" className="mx-1 h-5" />
