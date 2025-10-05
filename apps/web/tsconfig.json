@@ -10,8 +10,7 @@
       "@/*": ["./src/*"],
       "contentlayer/generated": ["./.contentlayer/generated"]
     },
-    "baseUrl": ".",
-    "rootDir": ".",
+    "ignoreDeprecations": "6.0"
   },
   "include": [
     "**/*.ts",

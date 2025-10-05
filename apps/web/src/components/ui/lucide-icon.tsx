@@ -7,7 +7,7 @@ export const LucideIcon = ({
   className,
 }: {
   name: keyof typeof icons
-  color: string
+  color?: string
   size: number
   className?: string
 }) => {

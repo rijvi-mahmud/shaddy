@@ -1,18 +1,11 @@
 'use client'
 
-import { type PointerEvent, useState, useMemo } from 'react'
-import { MoonIcon, SunIcon, ChevronDown } from 'lucide-react'
+import { MoonIcon, SunIcon, MonitorIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 
-import { useIsMobile } from '@/lib/shaddy/hooks/use-is-mobile'
 import { Button } from '@/components/ui/button'
-
-import {
-  DropdownMenu,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-} from './ui/dropdown-menu'
+import { cn } from '@/lib/utils'
 
 interface ThemeModeToggleProps {
   messages: {
@@ -23,69 +16,94 @@ interface ThemeModeToggleProps {
 }
 
 export function ThemeModeToggle({ messages }: ThemeModeToggleProps) {
-  const isMobile = useIsMobile()
   const { theme, setTheme } = useTheme()
-  const [open, setOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
-  const themes = useMemo(() => {
-    return [
-      { label: messages.dark, value: 'dark' },
-      { label: messages.light, value: 'light' },
-      { label: messages.system, value: 'system' },
-    ]
-  }, [messages])
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
-  function openDropdown() {
-    setOpen(() => true)
+  const cycleTheme = () => {
+    if (theme === 'light') setTheme('dark')
+    else if (theme === 'dark') setTheme('system')
+    else setTheme('light')
   }
 
-  function closeDropdown(element: PointerEvent<HTMLElement>) {
-    const target = element.relatedTarget as Element
+  const getIcon = () => {
+    if (theme === 'light') return <SunIcon className="h-4 w-4" />
+    if (theme === 'dark') return <MoonIcon className="h-4 w-4" />
+    return <MonitorIcon className="h-4 w-4" />
+  }
 
-    if ('closest' in target && target.closest('[role=menu]')) return
-
-    setOpen(() => false)
+  if (!mounted) {
+    return (
+      <>
+        <div className="md:hidden h-8 w-8 rounded-md bg-muted" />
+        <div className="hidden md:inline-flex h-7 items-center justify-center rounded-md bg-muted p-0.5 w-[90px]" />
+      </>
+    )
   }
 
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
-      <DropdownMenuTrigger asChild>
+    <>
+      {/* Mobile: Single icon toggle */}
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={cycleTheme}
+        className="md:hidden h-8 w-8 rounded-md"
+        aria-label="Toggle theme"
+      >
+        {getIcon()}
+      </Button>
+
+      {/* Desktop: Segmented control */}
+      <div className="hidden md:inline-flex h-7 items-center justify-center rounded-md bg-muted p-0.5 text-muted-foreground gap-0.5">
         <Button
           variant="ghost"
-          aria-expanded={open}
-          className="group pointer-events-auto relative flex w-fit gap-1 px-2 py-4"
-          onClick={() => isMobile && openDropdown()}
-          onPointerEnter={() => !isMobile && openDropdown()}
-          onPointerLeave={(event) => !isMobile && closeDropdown(event)}
+          size="icon"
+          onClick={() => setTheme('light')}
+          className={cn(
+            'h-6 w-6 rounded-sm transition-all',
+            theme === 'light'
+              ? 'bg-background text-foreground shadow-sm'
+              : 'hover:bg-transparent hover:text-foreground'
+          )}
+          aria-label={messages.light}
         >
-          <SunIcon className="size-[1.2rem] rotate-0 scale-100 transition-all dark:hidden dark:-rotate-90 dark:scale-0" />
-          <MoonIcon className="hidden size-[1.2rem] rotate-90 scale-0 transition-all dark:flex dark:rotate-0 dark:scale-100" />
-          <ChevronDown className="size-3 transition duration-300 group-aria-[expanded=true]:rotate-180" />
-
-          <span className="sr-only">Toggle theme</span>
-          <span className="pointer-events-auto absolute z-10 block h-14 w-full" />
+          <SunIcon className="h-3.5 w-3.5" />
         </Button>
-      </DropdownMenuTrigger>
 
-      <DropdownMenuContent
-        className="flex flex-col items-center"
-        align="center"
-        role="menu"
-        onPointerLeave={closeDropdown}
-        onCloseAutoFocus={(e) => e.preventDefault()}
-      >
-        <div className="w-full">
-          {themes.map(({ label, value }) => (
-            <DropdownMenuItem
-              key={value}
-              onClick={() => setTheme(value)}
-              disabled={theme === value}
-            >
-              {label}
-            </DropdownMenuItem>
-          ))}
-        </div>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setTheme('dark')}
+          className={cn(
+            'h-6 w-6 rounded-sm transition-all',
+            theme === 'dark'
+              ? 'bg-background text-foreground shadow-sm'
+              : 'hover:bg-transparent hover:text-foreground'
+          )}
+          aria-label={messages.dark}
+        >
+          <MoonIcon className="h-3.5 w-3.5" />
+        </Button>
+
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setTheme('system')}
+          className={cn(
+            'h-6 w-6 rounded-sm transition-all',
+            theme === 'system'
+              ? 'bg-background text-foreground shadow-sm'
+              : 'hover:bg-transparent hover:text-foreground'
+          )}
+          aria-label={messages.system}
+        >
+          <MonitorIcon className="h-3.5 w-3.5" />
+        </Button>
+      </div>
+    </>
   )
 }
