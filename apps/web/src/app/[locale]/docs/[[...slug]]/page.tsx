@@ -104,7 +104,7 @@ export default async function DocPage({ params }: DocPageProps) {
   const toc = await getTableOfContents(doc.body.raw)
 
   return (
-    <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+    <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px] min-h-svh">
       <div className="mx-auto w-full min-w-0">
         <DocBreadcrumb
           rootPath="docs"
@@ -115,24 +115,28 @@ export default async function DocPage({ params }: DocPageProps) {
           }}
         />
 
-        <DocHeading
-          description={doc.description}
-          notAvailable={doc.notAvailable}
-          title={doc.title}
-          locale={params.locale}
-        />
-        <DocLinks links={doc.links} />
+        <div className="mt-6 border-b pb-6">
+          <DocHeading
+            description={doc.description}
+            notAvailable={doc.notAvailable}
+            title={doc.title}
+            locale={params.locale}
+          />
+          <DocLinks links={doc.links} />
+        </div>
 
-        <div className="pb-12 pt-8">
+        <div className="border-b pb-12 pt-8">
           <Mdx code={doc.body.code} />
         </div>
 
-        <DocsPager
-          doc={doc}
-          locale={params.locale}
-          config={docsConfig}
-          slugFor="docs"
-        />
+        <div className="pt-6">
+          <DocsPager
+            doc={doc}
+            locale={params.locale}
+            config={docsConfig}
+            slugFor="docs"
+          />
+        </div>
       </div>
 
       {doc.toc && (
