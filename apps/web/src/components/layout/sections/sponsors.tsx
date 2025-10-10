@@ -1,6 +1,7 @@
 'use client'
 import { LucideIcon } from '@/components/ui/lucide-icon'
 import { Marquee } from '@/components/ui/marquee'
+import { Link } from '@/navigation'
 
 import { icons } from 'lucide-react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
@@ -98,40 +99,42 @@ const SponsorButton = () => {
   }
 
   return (
-    <motion.button
-      ref={buttonRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ x, y }}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.3 }}
-      viewport={{ once: true }}
-      className="group relative px-8 py-4 font-semibold text-base overflow-hidden rounded-lg border border-border/50 bg-background hover:border-primary/50 transition-colors duration-500"
-    >
-      {/* Subtle glow on hover */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 animate-gradient-rotate"
-        initial={{ opacity: 0 }}
-        whileHover={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      />
+    <Link href="/sponsor">
+      <motion.button
+        ref={buttonRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{ x, y }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+        viewport={{ once: true }}
+        className="group relative px-8 py-4 font-semibold text-base overflow-hidden rounded-lg border border-border/50 bg-background hover:border-primary/50 transition-colors duration-500"
+      >
+        {/* Subtle glow on hover */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 animate-gradient-rotate"
+          initial={{ opacity: 0 }}
+          whileHover={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        />
 
-      {/* Shimmer effect */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent"
-        initial={{ x: '-100%' }}
-        whileHover={{ x: '100%' }}
-        transition={{ duration: 1, ease: 'easeOut' }}
-      />
+        {/* Shimmer effect */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent"
+          initial={{ x: '-100%' }}
+          whileHover={{ x: '100%' }}
+          transition={{ duration: 1, ease: 'easeOut' }}
+        />
 
-      {/* Button text */}
-      <span className="relative z-10 text-foreground group-hover:text-primary transition-colors duration-300">
-        Become a Sponsor
-      </span>
-    </motion.button>
+        {/* Button text */}
+        <span className="relative z-10 text-foreground group-hover:text-primary transition-colors duration-300">
+          Become a Sponsor
+        </span>
+      </motion.button>
+    </Link>
   )
 }
 

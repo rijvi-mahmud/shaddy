@@ -51,9 +51,6 @@ export function HowItWorksSection() {
       <div className="grid md:grid-cols-3 gap-8 lg:gap-12 max-w-5xl mx-auto">
         {steps.map(({ number, icon, title, description }, index) => (
           <div key={title} className="relative">
-            {index < steps.length - 1 && (
-              <div className="hidden md:block absolute top-16 left-[60%] w-full h-0.5 bg-border/50" />
-            )}
             <div className="text-center relative">
               <div className="mb-6 mx-auto w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center relative">
                 <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-primary text-primary-foreground text-sm font-bold flex items-center justify-center">

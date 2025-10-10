@@ -117,25 +117,29 @@ export default async function DocPage({ params }: DocPageProps) {
           }}
         />
 
-        <DocHeading
-          title={doc.title}
-          description={doc.description}
-          notAvailable={doc.notAvailable}
-          locale={params.locale}
-        />
+        <div className="mt-6 border-b pb-6">
+          <DocHeading
+            title={doc.title}
+            description={doc.description}
+            notAvailable={doc.notAvailable}
+            locale={params.locale}
+          />
 
-        <DocLinks links={doc.links} />
+          <DocLinks links={doc.links} />
+        </div>
 
-        <div className="pb-12 pt-8">
+        <div className="border-b pb-12 pt-8">
           <Mdx code={doc.body.code} />
         </div>
 
-        <DocsPager
-          doc={doc}
-          locale={params.locale}
-          config={typedHooksConfig}
-          slugFor="typed-hooks"
-        />
+        <div className="pt-6">
+          <DocsPager
+            doc={doc}
+            locale={params.locale}
+            config={typedHooksConfig}
+            slugFor="typed-hooks"
+          />
+        </div>
       </div>
 
       {doc.toc && (

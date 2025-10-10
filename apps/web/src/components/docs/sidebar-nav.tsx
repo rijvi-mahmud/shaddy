@@ -40,10 +40,11 @@ export function DocsSidebarNav({
       )}
     >
       {items.map((item, index) => (
-        <div key={index} className={cn('pb-4')}>
+        <div key={index} className={cn('pb-6')}>
           <h4
             className={cn(
-              !isMobile && 'mb-1 rounded-md px-2 py-1 text-sm font-semibold',
+              !isMobile &&
+                'mb-2 rounded-md px-2 py-1 text-sm font-semibold tracking-tight',
               isMobile && 'font-medium'
             )}
           >
@@ -88,7 +89,7 @@ export function DocsSidebarNavItems({
   }
 
   return items?.length ? (
-    <div className="grid grid-flow-row auto-rows-max text-sm">
+    <div className="grid grid-flow-row auto-rows-max text-sm gap-0.5">
       {items.map((item) => {
         const ChildrenComponent = () => {
           const activeChild = item?.items?.find(
@@ -159,10 +160,10 @@ export function DocsSidebarNavItems({
               href={item.href}
               {...props}
               className={cn(
-                'group my-1 ml-2 flex h-fit w-full items-center gap-2 rounded-md border border-transparent px-2 hover:underline',
+                'group my-1 ml-2 flex h-fit w-full items-center gap-2 rounded-md border border-transparent px-2 py-1 transition-colors hover:bg-accent/50 hover:text-foreground',
                 item.disabled && 'cursor-not-allowed opacity-60',
                 pathname?.endsWith(item.href)
-                  ? 'text-foreground border-l-primary-active rounded-none border-l-2 font-medium'
+                  ? 'text-foreground bg-accent/60 border-l-primary-active rounded-none border-l-2 font-medium'
                   : 'text-muted-foreground'
               )}
               target={item.external ? '_blank' : ''}

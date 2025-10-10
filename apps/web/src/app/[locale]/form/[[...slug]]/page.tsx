@@ -117,29 +117,33 @@ export default async function DocPage({ params }: DocPageProps) {
           }}
         />
 
-        <DocHeading
-          title={doc.title}
-          description={doc.description}
-          notAvailable={doc.notAvailable}
-          locale={params.locale}
-        />
+        <div className="mt-6 border-b pb-6">
+          <DocHeading
+            title={doc.title}
+            description={doc.description}
+            notAvailable={doc.notAvailable}
+            locale={params.locale}
+          />
 
-        <DocLinks links={doc.links} />
+          <DocLinks links={doc.links} />
+        </div>
 
-        <div className="pb-12 pt-8">
+        <div className="border-b pb-12 pt-8">
           <Mdx code={doc.body.code} />
         </div>
 
-        <DocsPager
-          doc={doc}
-          locale={params.locale}
-          config={formConfig}
-          slugFor="form"
-        />
+        <div className="pt-6">
+          <DocsPager
+            doc={doc}
+            locale={params.locale}
+            config={formConfig}
+            slugFor="form"
+          />
+        </div>
       </div>
 
       {doc.toc && (
-        <div className="hidden text-sm lg:block">
+        <div className="hidden text-sm xl:block">
           <div className="sticky top-16 -mt-10 pt-4">
             <ScrollArea>
               <div className="sticky top-16 -mt-10 h-fit py-12">

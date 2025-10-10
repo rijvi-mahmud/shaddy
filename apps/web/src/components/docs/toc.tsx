@@ -56,12 +56,14 @@ export function DashboardTableOfContents({
   }
 
   return (
-    <div className="space-y-2">
-      <p className="font-medium">{messages.onThisPage}</p>
+    <div className="space-y-4">
+      <p className="font-semibold text-sm tracking-tight">
+        {messages.onThisPage}
+      </p>
 
       <Tree tree={toc} activeItem={activeHeading as string} />
 
-      <div className="py-4">
+      <div className="pt-4">
         <Separator />
       </div>
 
@@ -78,16 +80,16 @@ function DefaultTableOfContentItems({
   sourceFilePath,
 }: DefaultTableOfContentItemsProps) {
   return (
-    <div className="mt-2 flex flex-col gap-1">
+    <div className="mt-2 flex flex-col gap-2">
       <a
-        className="text-muted-foreground hover:text-foreground flex items-center gap-2 transition"
+        className="text-muted-foreground hover:text-foreground hover:bg-accent/50 flex items-center gap-2 transition-colors rounded-md px-2 py-1.5 text-xs"
         href={`${siteConfig.links.github.url}/edit/main/apps/content/${sourceFilePath}`}
       >
         {messages.editPageOnGitHub} <ExternalLink size={12} />
       </a>
 
       <a
-        className="text-muted-foreground hover:text-foreground flex items-center gap-2 transition"
+        className="text-muted-foreground hover:text-foreground hover:bg-accent/50 flex items-center gap-2 transition-colors rounded-md px-2 py-1.5 text-xs"
         href={`${siteConfig.links.github.url}/discussions/new/choose`}
       >
         {messages.startDiscussionOnGitHub} <ExternalLink size={12} />
@@ -141,17 +143,17 @@ interface TreeProps {
 
 function Tree({ tree, level = 1, activeItem }: TreeProps) {
   return tree?.items?.length && level < 3 ? (
-    <ul className={cn('m-0 list-none', { 'pl-4': level !== 1 })}>
+    <ul className={cn('m-0 list-none space-y-2', { 'pl-4': level !== 1 })}>
       {tree.items.map((item, index) => {
         return (
-          <li key={index} className={cn('mt-0 pt-2')}>
+          <li key={index} className={cn('mt-0')}>
             <a
               href={item.url}
               className={cn(
-                'hover:text-foreground inline-block no-underline transition-colors',
+                'hover:text-foreground inline-block no-underline transition-colors text-sm py-1',
                 item.url === `#${activeItem}`
                   ? 'text-foreground border-l-primary-active border-l-2 pl-2 font-medium'
-                  : 'text-muted-foreground'
+                  : 'text-muted-foreground hover:pl-1'
               )}
             >
               {item.title}

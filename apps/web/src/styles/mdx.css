@@ -24,19 +24,19 @@ pre [data-line] {
   @apply mt-8 mb-4 text-base font-semibold;
 }
 
-[data-theme="light"] {
+[data-theme='light'] {
   display: block;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   display: none;
 }
 
-.dark [data-theme="light"] {
+.dark [data-theme='light'] {
   display: none;
 }
 
-.dark [data-theme="dark"] {
+.dark [data-theme='dark'] {
   display: block;
 }
 
@@ -133,4 +133,45 @@ code[data-line-numbers] > [data-line]::before {
 
 [data-chars-id='i'] {
   @apply !text-purple-200 bg-purple-800/50 font-bold;
+}
+
+/* Modern Table Styles */
+.mdx table {
+  @apply w-full border-collapse text-sm;
+}
+
+.mdx > div:has(> table) {
+  @apply overflow-x-auto my-6 rounded-lg border border-border/40;
+}
+
+.mdx thead {
+  @apply border-b border-border/50;
+}
+
+.mdx thead tr {
+  @apply bg-muted/5;
+}
+
+.mdx th {
+  @apply px-3 py-2 text-left font-semibold text-foreground/80 tracking-tight whitespace-nowrap text-xs;
+}
+
+.mdx tbody tr {
+  @apply border-b border-border/20 transition-colors;
+}
+
+.mdx tbody tr:last-child {
+  @apply border-b-0;
+}
+
+.mdx td {
+  @apply px-3 py-2 text-muted-foreground/70 whitespace-nowrap text-xs;
+}
+
+.mdx td code {
+  @apply text-xs;
+}
+
+.mdx table code {
+  @apply px-1.5 py-0.5 rounded-md bg-muted/30 font-mono;
 }
