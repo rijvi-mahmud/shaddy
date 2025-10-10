@@ -84,7 +84,7 @@ async function StatsDisplay() {
         </div>
       </div>
       <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-muted/50 backdrop-blur-sm border border-border/50">
-        <Heart className="h-5 w-5 text-pink-500 fill-pink-500" />
+        <Heart className="h-5 w-5 text-primary fill-primary" />
         <div className="text-left">
           <p className="text-2xl font-bold text-foreground">
             {stats.forks.toLocaleString()}
@@ -101,14 +101,14 @@ export default async function SponsorPage() {
     <div className="container mx-auto px-4 py-12 max-w-7xl">
       {/* Hero Section */}
       <div className="text-center mb-16 space-y-6">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-pink-500/10 to-purple-500/10 border border-pink-500/20 text-sm font-medium mb-4">
-          <Heart className="h-4 w-4 text-pink-500 fill-pink-500" />
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-accent/20 border border-primary/20 text-sm font-medium mb-4">
+          <Heart className="h-4 w-4 text-primary fill-primary" />
           <span className="text-foreground">Become a Sponsor</span>
         </div>
 
         <h1 className="text-4xl md:text-6xl font-bold text-foreground tracking-tight">
           Support Open Source
-          <span className="block mt-2 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+          <span className="block mt-2 bg-gradient-to-r from-primary via-accent-foreground to-primary/70 bg-clip-text text-transparent">
             Shape the Future Together
           </span>
         </h1>
