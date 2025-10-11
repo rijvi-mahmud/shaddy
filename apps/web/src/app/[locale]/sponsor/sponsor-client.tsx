@@ -253,7 +253,7 @@ export function SponsorPageClient() {
 
                     <Button
                       className="w-full group-hover:scale-105 transition-transform"
-                      variant={tier.popular ? 'default' : 'outline-solid'}
+                      variant={tier.popular ? 'default' : 'outline'}
                       onClick={() => handleTierSelect(tier.name)}
                     >
                       Choose {tier.name}
