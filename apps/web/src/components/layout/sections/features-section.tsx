@@ -118,15 +118,15 @@ export function FeaturesSection() {
               whileHover={{ y: -8, scale: 1.02 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
             >
-              <Card className="border-border/50 hover:border-primary/30 transition-colors h-full bg-card/50 backdrop-blur-sm hover:shadow-lg hover:shadow-primary/5">
+              <Card className="border-border/50 hover:border-primary/30 transition-colors h-full bg-card/50 backdrop-blur-xs hover:shadow-lg hover:shadow-primary/5">
                 <CardHeader>
                   <motion.div
-                    className="mb-4 w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center relative overflow-hidden group"
+                    className="mb-4 w-12 h-12 rounded-xl bg-linear-to-br from-primary/20 to-primary/5 flex items-center justify-center relative overflow-hidden group"
                     whileHover={{ scale: 1.1 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 15 }}
                   >
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent"
+                      className="absolute inset-0 bg-linear-to-r from-primary/20 to-transparent"
                       initial={{ x: '-100%' }}
                       whileHover={{ x: '100%' }}
                       transition={{ duration: 0.6 }}

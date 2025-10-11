@@ -143,17 +143,17 @@ interface TreeProps {
 
 function Tree({ tree, level = 1, activeItem }: TreeProps) {
   return tree?.items?.length && level < 3 ? (
-    <ul className={cn('m-0 list-none space-y-2', { 'pl-4': level !== 1 })}>
+    <ul className={cn('m-0 list-none', { 'pl-4 space-y-1.5': level !== 1, 'space-y-2': level === 1 })}>
       {tree.items.map((item, index) => {
         return (
           <li key={index} className={cn('mt-0')}>
             <a
               href={item.url}
               className={cn(
-                'hover:text-foreground inline-block no-underline transition-colors text-sm py-1',
+                'hover:text-foreground inline-block no-underline transition-all duration-150 text-sm leading-relaxed border-l-2 pl-2.5',
                 item.url === `#${activeItem}`
-                  ? 'text-foreground border-l-primary-active border-l-2 pl-2 font-medium'
-                  : 'text-muted-foreground hover:pl-1'
+                  ? 'text-foreground border-l-[hsl(var(--primary-active))] font-medium'
+                  : 'text-muted-foreground border-l-transparent'
               )}
             >
               {item.title}

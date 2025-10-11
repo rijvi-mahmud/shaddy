@@ -51,7 +51,7 @@ export function Marquee({
     <div
       {...props}
       className={cn(
-        'group flex overflow-hidden p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)]',
+        'group flex overflow-hidden p-2 [--duration:40s] [--gap:1rem] gap-(--gap)',
         {
           'flex-row': !vertical,
           'flex-col': vertical,
@@ -65,7 +65,7 @@ export function Marquee({
         .map((_, i) => (
           <div
             key={i}
-            className={cn('flex shrink-0 justify-around [gap:var(--gap)]', {
+            className={cn('flex shrink-0 justify-around gap-(--gap)', {
               'animate-marquee flex-row': !vertical,
               'animate-marquee-vertical flex-col': vertical,
               'group-hover:[animation-play-state:paused]': pauseOnHover,
@@ -79,17 +79,17 @@ export function Marquee({
         <>
           <div
             className={cn('pointer-events-none absolute z-10', {
-              'left-0 top-0 h-full w-1/3 bg-gradient-to-r from-background to-transparent':
+              'left-0 top-0 h-full w-1/3 bg-linear-to-r from-background to-transparent':
                 !vertical,
-              'top-0 left-0 w-full h-1/3 bg-gradient-to-b from-background to-transparent':
+              'top-0 left-0 w-full h-1/3 bg-linear-to-b from-background to-transparent':
                 vertical,
             })}
           />
           <div
             className={cn('pointer-events-none absolute z-10', {
-              'right-0 top-0 h-full w-1/3 bg-gradient-to-l from-background to-transparent':
+              'right-0 top-0 h-full w-1/3 bg-linear-to-l from-background to-transparent':
                 !vertical,
-              'bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-background to-transparent':
+              'bottom-0 left-0 w-full h-1/3 bg-linear-to-t from-background to-transparent':
                 vertical,
             })}
           />

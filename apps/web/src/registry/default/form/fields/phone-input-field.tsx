@@ -35,7 +35,6 @@ export const PhoneInputField = <T extends FieldValues>({
   className,
 }: Props<T>) => {
   const { control, formState } = useFormContext<T>()
-  console.log({ formState })
   return (
     <FormField
       control={control}

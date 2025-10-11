@@ -119,10 +119,10 @@ const UseDebounceExample = () => {
               {results.map((result, index) => (
                 <div
                   key={index}
-                  className="group relative p-3 bg-gradient-to-r from-muted/20 to-muted/10 rounded-lg border border-border/50 hover:border-primary/20 hover:shadow-sm transition-all duration-200 cursor-pointer"
+                  className="group relative p-3 bg-linear-to-r from-muted/20 to-muted/10 rounded-lg border border-border/50 hover:border-primary/20 hover:shadow-xs transition-all duration-200 cursor-pointer"
                 >
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                    <div className="shrink-0 w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
                       <Search className="h-4 w-4 text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -134,13 +134,13 @@ const UseDebounceExample = () => {
                         {Math.floor(Math.random() * 100)}% relevance
                       </div>
                     </div>
-                    <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
                         <Plus className="h-3 w-3" />
                       </Button>
                     </div>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-lg" />
+                  <div className="absolute inset-0 bg-linear-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-lg" />
                 </div>
               ))}
             </div>

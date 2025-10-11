@@ -24,7 +24,7 @@ const SettingsExample = () => {
 
   return (
     <div className="space-y-4">
-      <div className="bg-muted/30 rounded-md p-4 shadow-sm">
+      <div className="bg-muted/30 rounded-md p-4 shadow-xs">
         <div className="flex items-center gap-2 mb-4">
           <Settings className="h-5 w-5" />
           <h3 className="text-lg font-semibold">Session UI Preferences</h3>

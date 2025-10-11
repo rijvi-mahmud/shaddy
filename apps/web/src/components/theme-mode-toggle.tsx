@@ -66,7 +66,7 @@ export function ThemeModeToggle({ messages }: ThemeModeToggleProps) {
           className={cn(
             'h-6 w-6 rounded-sm transition-all',
             theme === 'light'
-              ? 'bg-background text-foreground shadow-sm'
+              ? 'bg-background text-foreground shadow-xs'
               : 'hover:bg-transparent hover:text-foreground'
           )}
           aria-label={messages.light}
@@ -81,7 +81,7 @@ export function ThemeModeToggle({ messages }: ThemeModeToggleProps) {
           className={cn(
             'h-6 w-6 rounded-sm transition-all',
             theme === 'dark'
-              ? 'bg-background text-foreground shadow-sm'
+              ? 'bg-background text-foreground shadow-xs'
               : 'hover:bg-transparent hover:text-foreground'
           )}
           aria-label={messages.dark}
@@ -96,7 +96,7 @@ export function ThemeModeToggle({ messages }: ThemeModeToggleProps) {
           className={cn(
             'h-6 w-6 rounded-sm transition-all',
             theme === 'system'
-              ? 'bg-background text-foreground shadow-sm'
+              ? 'bg-background text-foreground shadow-xs'
               : 'hover:bg-transparent hover:text-foreground'
           )}
           aria-label={messages.system}

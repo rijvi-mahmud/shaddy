@@ -217,7 +217,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
     )
 
     const inputClasses = cn(
-      'flex items-center gap-2 relative bg-transparent transition-colors text-base rounded-md border pl-3 h-9 disabled:opacity-50 disabled:cursor-not-allowed md:text-sm has-[input:focus]:outline-none has-[input:focus]:ring-1 has-[input:focus]:ring-ring [interpolate-size:allow-keywords]',
+      'flex items-center gap-2 relative bg-transparent transition-colors text-base rounded-md border pl-3 h-9 disabled:opacity-50 disabled:cursor-not-allowed md:text-sm has-[input:focus]:outline-hidden has-[input:focus]:ring-1 has-[input:focus]:ring-ring [interpolate-size:allow-keywords]',
       inline && 'rounded-l-none w-full',
       className
     )
@@ -248,7 +248,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
                 name={name}
                 className={cn(
                   'h-9 rounded-l-none border-l-0 pl-3',
-                  'flex w-full bg-transparent text-base transition-colors placeholder:text-muted-foreground outline-none py-1 leading-none md:text-sm [interpolate-size:allow-keywords]',
+                  'flex w-full bg-transparent text-base transition-colors placeholder:text-muted-foreground outline-hidden py-1 leading-none md:text-sm [interpolate-size:allow-keywords]',
                   className
                 )}
                 disabled={disabled}
@@ -280,7 +280,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
           autoComplete="tel"
           name={name}
           className={cn(
-            'flex w-full border-none bg-transparent text-base transition-colors placeholder:text-muted-foreground outline-none h-9 py-1 p-0 leading-none md:text-sm [interpolate-size:allow-keywords] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent',
+            'flex w-full border-none bg-transparent text-base transition-colors placeholder:text-muted-foreground outline-hidden h-9 py-1 p-0 leading-none md:text-sm [interpolate-size:allow-keywords] focus-visible:outline-hidden focus-visible:ring-0 focus-visible:ring-transparent',
             className
           )}
           disabled={disabled}
@@ -350,7 +350,7 @@ const CountryDropdownComponent = (
   )
 
   const triggerClasses = cn(
-    'flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border bg-transparent px-3 py-1 text-base transition-colors placeholder:text-muted-foreground outline-none md:text-sm [interpolate-size:allow-keywords]',
+    'flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border bg-transparent px-3 py-1 text-base transition-colors placeholder:text-muted-foreground outline-hidden md:text-sm [interpolate-size:allow-keywords]',
     slim === true && 'gap-1 w-min',
     inline && 'rounded-r-none border-r-0 gap-1 pr-1 w-min',
     className
@@ -365,7 +365,7 @@ const CountryDropdownComponent = (
         {...props}
       >
         {selectedCountry ? (
-          <div className="flex items-center flex-grow gap-2 overflow-hidden">
+          <div className="flex items-center grow gap-2 overflow-hidden">
             <div className="inline-flex items-center justify-center w-4 h-4 shrink-0 overflow-hidden rounded-full">
               <CircleFlag
                 countryCode={selectedCountry.alpha2.toLowerCase() || ''}
@@ -393,7 +393,7 @@ const CountryDropdownComponent = (
       <PopoverContent
         collisionPadding={10}
         side="bottom"
-        className="min-w-[--radix-popper-anchor-width] p-0"
+        className="min-w-(--radix-popper-anchor-width) p-0"
       >
         <ScrollArea className="w-full max-h-[200px] sm:max-h-[270px]">
           <Command className="w-full">
@@ -411,7 +411,7 @@ const CountryDropdownComponent = (
                       key={key}
                       onSelect={() => handleSelect(option)}
                     >
-                      <div className="flex flex-grow space-x-2 overflow-hidden">
+                      <div className="flex grow space-x-2 overflow-hidden">
                         <div className="inline-flex items-center justify-center w-5 h-5 shrink-0 overflow-hidden rounded-full">
                           <CircleFlag
                             countryCode={option.alpha2.toLowerCase()}

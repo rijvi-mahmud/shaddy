@@ -35,7 +35,7 @@ export const HeroSection = async () => {
         />
 
         {/* Subtle noise texture overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/5 to-background/80" />
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-background/5 to-background/80" />
 
         {/* Center spotlight effect */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
@@ -50,10 +50,10 @@ export const HeroSection = async () => {
         {/* Heading with premium styling */}
         <div className="relative">
           {/* Glow effect behind heading */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent blur-3xl animate-pulse-glow" />
+          <div className="absolute inset-0 bg-linear-to-r from-transparent via-primary/20 to-transparent blur-3xl animate-pulse-glow" />
 
           <PageHeaderHeading className="relative text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">
-            <div className="bg-clip-text text-transparent bg-gradient-to-b from-foreground via-foreground/90 to-foreground/70 dark:from-white dark:via-white/90 dark:to-white/70">
+            <div className="bg-clip-text text-transparent bg-linear-to-b from-foreground via-foreground/90 to-foreground/70 dark:from-white dark:via-white/90 dark:to-white/70">
               <TextGenerateEffect words={t('site.title')} />
               <div className="mt-1.5">
                 <TextGenerateEffect words={t('site.heading')} />
@@ -95,7 +95,7 @@ export const HeroSection = async () => {
               </svg>
             </span>
             {/* Shimmer effect on hover */}
-            <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-linear-to-r from-transparent via-white/20 to-transparent" />
           </Link>
 
           <Link
@@ -106,7 +106,7 @@ export const HeroSection = async () => {
             className={cn(
               buttonVariants({ variant: 'outline', size: 'default' }),
               'group h-10 px-6 text-sm font-semibold rounded-lg',
-              'backdrop-blur-sm bg-background/30 hover:bg-background/60',
+              'backdrop-blur-xs bg-background/30 hover:bg-background/60',
               'border border-border/60 hover:border-border',
               'shadow-md hover:shadow-lg',
               'transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]'
@@ -151,7 +151,7 @@ export const HeroSection = async () => {
       </div>
 
       {/* Bottom gradient fade for seamless transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-linear-to-t from-background via-background/80 to-transparent pointer-events-none" />
     </PageHeader>
   )
 }
