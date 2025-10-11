@@ -41,7 +41,7 @@ function UseIntervalExample() {
         <div className="bg-muted/30 rounded-md p-4">
           <div className="flex items-center justify-between mb-3">
             <Badge
-              variant={isRunning ? 'default' : 'outline'}
+              variant={isRunning ? 'default' : 'outline-solid'}
               className="text-xs"
             >
               {isRunning ? 'Active' : 'Idle'}
@@ -130,7 +130,7 @@ function UseIntervalExample() {
             <Button
               key={preset}
               onClick={() => setDelay(preset)}
-              variant={delay === preset ? 'default' : 'outline'}
+              variant={delay === preset ? 'default' : 'outline-solid'}
               size="sm"
               className="text-xs h-7"
             >

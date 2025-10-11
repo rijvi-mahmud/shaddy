@@ -21,25 +21,28 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 
 interface AppLayoutProps {
   children: React.ReactNode
-  params: {
+  params: Promise<{
     locale: LocaleOptions
-  }
+  }>
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: LocaleOptions }
+  params: Promise<{ locale: LocaleOptions }>
 }): Promise<Metadata> {
-  setRequestLocale(params.locale || defaultLocale)
+  const { locale } = await params
+  setRequestLocale(locale || defaultLocale)
 
   return {
+    metadataBase: new URL(siteConfig.url || 'http://localhost:3000'),
+
     title: {
       default: siteConfig.name,
       template: `%s - ${siteConfig.name}`,
     },
 
-    description: getObjectValueByLocale(siteConfig.description, params.locale),
+    description: getObjectValueByLocale(siteConfig.description, locale),
 
     keywords: [
       'Docs',
@@ -74,7 +77,7 @@ export async function generateMetadata({
 
       description: getObjectValueByLocale(
         siteConfig.description,
-        params.locale
+        locale
       ),
 
       images: [
@@ -94,7 +97,7 @@ export async function generateMetadata({
 
       description: getObjectValueByLocale(
         siteConfig.description,
-        params.locale
+        locale
       ),
     },
 
@@ -117,11 +120,12 @@ export const viewport: Viewport = {
   ],
 }
 
-export default function RootLayout({ children, params }: AppLayoutProps) {
-  setRequestLocale(params.locale)
+export default async function RootLayout({ children, params }: AppLayoutProps) {
+  const { locale } = await params
+  setRequestLocale(locale)
 
   return (
-    <html lang={params.locale || defaultLocale} suppressHydrationWarning>
+    <html lang={locale || defaultLocale} suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#181423" />
       </head>
@@ -133,7 +137,7 @@ export default function RootLayout({ children, params }: AppLayoutProps) {
         )}
       >
         <NextIntlClientProvider
-          locale={params.locale || defaultLocale}
+          locale={locale || defaultLocale}
           messages={{}}
         >
           <ThemeProvider

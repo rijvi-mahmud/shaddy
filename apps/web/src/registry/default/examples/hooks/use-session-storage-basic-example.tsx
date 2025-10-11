@@ -19,7 +19,7 @@ const BasicExample = () => {
 
   return (
     <div className="space-y-4">
-      <div className="bg-muted/30 rounded-md p-4 shadow-sm">
+      <div className="bg-muted/30 rounded-md p-4 shadow-xs">
         <div className="text-center mb-4">
           <div className="text-sm text-muted-foreground mb-1">
             Session Interaction Counter

@@ -3,6 +3,7 @@ import { allDocs } from 'contentlayer/generated'
 
 import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
 import type { Metadata } from 'next'
+import type { DocParams } from '@/lib/shaddy/types/docs'
 
 import '@/styles/mdx.css'
 
@@ -27,7 +28,7 @@ export const dynamicParams = true
 export async function generateMetadata({
   params,
 }: DocPageProps): Promise<Metadata> {
-  const locale = params.locale
+  const { locale } = await params
 
   setRequestLocale(locale || defaultLocale)
 
@@ -69,9 +70,7 @@ export async function generateMetadata({
   }
 }
 
-export async function generateStaticParams(): Promise<
-  DocPageProps['params'][]
-> {
+export async function generateStaticParams(): Promise<DocParams[]> {
   const docs = allDocs.map((doc) => {
     const [locale, ...slugs] = doc.slugAsParams.split('/')
 
@@ -85,7 +84,8 @@ export async function generateStaticParams(): Promise<
 }
 
 export default async function DocPage({ params }: DocPageProps) {
-  setRequestLocale(params.locale || defaultLocale)
+  const { locale } = await params
+  setRequestLocale(locale || defaultLocale)
 
   const doc = await getDocFromParams({ params, data: allDocs })
   const t = await getTranslations('docs')
@@ -120,7 +120,7 @@ export default async function DocPage({ params }: DocPageProps) {
             description={doc.description}
             notAvailable={doc.notAvailable}
             title={doc.title}
-            locale={params.locale}
+            locale={locale}
           />
           <DocLinks links={doc.links} />
         </div>
@@ -132,7 +132,7 @@ export default async function DocPage({ params }: DocPageProps) {
         <div className="pt-6">
           <DocsPager
             doc={doc}
-            locale={params.locale}
+            locale={locale}
             config={docsConfig}
             slugFor="docs"
           />

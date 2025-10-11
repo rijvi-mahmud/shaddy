@@ -12,7 +12,7 @@ const UsePreviousExample = () => {
     <Card className="w-full max-w-md border">
       <CardContent className="space-y-4 pt-6">
         {/* Counter Display */}
-        <div className="bg-muted/30 rounded-md p-4 shadow-sm transition-all duration-200">
+        <div className="bg-muted/30 rounded-md p-4 shadow-xs transition-all duration-200">
           <div className="flex justify-center py-3">
             <div className="text-6xl font-bold tabular-nums text-center text-primary transition-all duration-200">
               {count}

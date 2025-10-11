@@ -58,7 +58,7 @@ const DropzoneDemo = () => {
         <DropzoneFileList className="grid grid-cols-3 gap-3 p-0">
           {dropzone.fileStatuses.map((file) => (
             <DropzoneFileListItem
-              className="overflow-hidden rounded-md p-0 shadow-sm"
+              className="overflow-hidden rounded-md p-0 shadow-xs"
               key={file.id}
               file={file}
             >

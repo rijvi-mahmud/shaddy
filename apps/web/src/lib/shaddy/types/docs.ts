@@ -6,9 +6,11 @@ export interface DocsConfig {
   sidebarNav: SidebarNavItem[]
 }
 
+export type DocParams = {
+  slug: string[]
+  locale: LocaleOptions
+}
+
 export interface DocPageProps {
-  params: {
-    slug: string[]
-    locale: LocaleOptions
-  }
+  params: Promise<DocParams>
 }

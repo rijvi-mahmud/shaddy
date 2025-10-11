@@ -4,7 +4,8 @@ import type { DocPageProps, DocsConfig } from '../types/docs'
 import { getSlugWithoutLocale } from './locale'
 import { defaultLocale } from '@/config/i18n'
 
-export function makeLocalizedSlug({ locale, slug }: DocPageProps['params']) {
+export async function makeLocalizedSlug(params: DocPageProps['params']) {
+  const { locale, slug } = await params
   const _slug = slug?.join('/')
   const _locale = locale || defaultLocale
 
@@ -19,14 +20,17 @@ export async function getDocFromParams<T extends { slugAsParams: string }>({
 }: DocPageProps & {
   data: T[]
 }): Promise<(T & { notAvailable: boolean }) | null> {
-  let localizedSlug = makeLocalizedSlug(params)
+  let localizedSlug = await makeLocalizedSlug(params)
   let doc = data.find((doc) => doc.slugAsParams === localizedSlug)
 
   if (!doc) {
-    localizedSlug = makeLocalizedSlug({
-      ...params,
-      locale: defaultLocale,
-    })
+    const awaitedParams = await params
+    localizedSlug = await makeLocalizedSlug(
+      Promise.resolve({
+        ...awaitedParams,
+        locale: defaultLocale,
+      })
+    )
 
     doc = data.find((doc) => doc.slugAsParams === localizedSlug)
 

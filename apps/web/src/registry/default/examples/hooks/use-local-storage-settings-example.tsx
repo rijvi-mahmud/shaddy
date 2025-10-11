@@ -27,7 +27,7 @@ const SettingsExample = () => {
 
   return (
     <div className="space-y-4">
-      <div className="bg-muted/30 rounded-md p-4 shadow-sm">
+      <div className="bg-muted/30 rounded-md p-4 shadow-xs">
         <div className="flex items-center gap-2 mb-4">
           <Settings className="h-5 w-5" />
           <h3 className="text-lg font-semibold">User Preferences</h3>
@@ -45,7 +45,9 @@ const SettingsExample = () => {
                 <Button
                   key={theme}
                   onClick={() => updateSetting('theme', theme)}
-                  variant={settings.theme === theme ? 'default' : 'outline'}
+                  variant={
+                    settings.theme === theme ? 'default' : 'outline-solid'
+                  }
                   size="sm"
                   className="capitalize"
                 >
@@ -67,7 +69,9 @@ const SettingsExample = () => {
                   key={lang.code}
                   onClick={() => updateSetting('language', lang.code)}
                   variant={
-                    settings.language === lang.code ? 'default' : 'outline'
+                    settings.language === lang.code
+                      ? 'default'
+                      : 'outline-solid'
                   }
                   size="sm"
                 >

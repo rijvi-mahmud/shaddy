@@ -144,7 +144,7 @@ export const BenefitsSection = () => {
                     className={`w-full text-left p-4 rounded-xl border transition-all relative overflow-hidden ${
                       selectedComponent === index
                         ? 'border-primary/50 bg-primary/5 shadow-lg shadow-primary/10'
-                        : 'border-border/50 hover:border-primary/30 bg-card/50 backdrop-blur-sm'
+                        : 'border-border/50 hover:border-primary/30 bg-card/50 backdrop-blur-xs'
                     }`}
                     whileHover={{
                       scale: 1.02,
@@ -154,7 +154,7 @@ export const BenefitsSection = () => {
                   >
                     {/* Gradient background */}
                     <div
-                      className={`absolute inset-0 bg-gradient-to-br ${component.gradient} opacity-0 hover:opacity-100 transition-opacity duration-200`}
+                      className={`absolute inset-0 bg-linear-to-br ${component.gradient} opacity-0 hover:opacity-100 transition-opacity duration-200`}
                     />
 
                     <div className="relative z-10">
@@ -193,9 +193,9 @@ export const BenefitsSection = () => {
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          <Card className="relative p-8 bg-gradient-to-br from-card via-card to-card/50 backdrop-blur-xl border-primary/20 shadow-2xl shadow-primary/10">
+          <Card className="relative p-8 bg-linear-to-br from-card via-card to-card/50 backdrop-blur-xl border-primary/20 shadow-2xl shadow-primary/10">
             {/* Gradient border effect */}
-            <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-primary/20 via-primary/5 to-transparent opacity-50" />
+            <div className="absolute inset-0 rounded-lg bg-linear-to-br from-primary/20 via-primary/5 to-transparent opacity-50" />
 
             {/* Component info header */}
             <motion.div className="mb-6 pb-4 border-b border-border/50" layout>
@@ -209,7 +209,7 @@ export const BenefitsSection = () => {
                   className="flex items-center gap-3"
                 >
                   <div
-                    className={`h-12 w-12 rounded-xl bg-gradient-to-br ${currentComponent.gradient} flex items-center justify-center backdrop-blur-sm`}
+                    className={`h-12 w-12 rounded-xl bg-linear-to-br ${currentComponent.gradient} flex items-center justify-center backdrop-blur-xs`}
                   >
                     {(() => {
                       const IconComponent =

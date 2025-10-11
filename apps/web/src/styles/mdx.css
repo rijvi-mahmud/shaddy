@@ -1,3 +1,4 @@
+@reference "./globals.css";
 pre {
   overflow-x: auto;
   padding: 1rem 0;

@@ -217,7 +217,7 @@ const UseDebouncedCallbackExample = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-4">
-      <Card className="shadow-sm">
+      <Card className="shadow-xs">
         <CardContent className="p-6 space-y-5">
           {/* Input */}
           <div className="space-y-3">
@@ -262,7 +262,9 @@ const UseDebouncedCallbackExample = () => {
               {Object.entries(EXAMPLES).map(([key, example]) => (
                 <Button
                   key={key}
-                  variant={ui.activeExample === key ? 'default' : 'outline'}
+                  variant={
+                    ui.activeExample === key ? 'default' : 'outline-solid'
+                  }
                   size="default"
                   onClick={() => applyExample(key as keyof typeof EXAMPLES)}
                   className="h-9"
