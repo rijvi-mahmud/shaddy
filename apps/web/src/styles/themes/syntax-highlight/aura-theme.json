@@ -89,7 +89,7 @@
 		"panelTitle.activeBorder": "#61ffca",
 		"panelTitle.activeForeground": "#cdccce",
 		"progressBar.background": "#61ffca",
-		"scrollbar.shadow": "#15141b",
+		"scrollbar.shadow-sm": "#15141b",
 		"scrollbarSlider.activeBackground": "#3d375e7f",
 		"scrollbarSlider.background": "#a394f033",
 		"scrollbarSlider.hoverBackground": "#a394f033",
@@ -137,7 +137,7 @@
 		"titleBar.border": "#000000",
 		"titleBar.inactiveBackground": "#2d2b38",
 		"tree.indentGuidesStroke": "#4d4d4d",
-		"widget.shadow": "#0f0f0f"
+		"widget.shadow-sm": "#0f0f0f"
 	},
 	"tokenColors": [
 		{

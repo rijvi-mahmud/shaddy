@@ -92,8 +92,8 @@ interface DateRangePickerProps
 
   /**
    * The variant of the calendar trigger button.
-   * @default "outline"
-   * @type "default" | "outline" | "secondary" | "ghost"
+   * @default "outline-solid"
+   * @type "default" | "outline-solid" | "secondary" | "ghost"
    */
   triggerVariant?: Exclude<ButtonProps['variant'], 'destructive' | 'link'>
 
@@ -130,7 +130,7 @@ function DateRangePicker({
   dateRange,
   dayCount,
   placeholder = 'Pick a date',
-  triggerVariant = 'outline',
+  triggerVariant = 'outline-solid',
   triggerSize = 'default',
   triggerClassName,
   onChange,
@@ -198,7 +198,7 @@ function DateRangePicker({
                   {format(date.from, 'LLL dd, y')} -{' '}
                   {format(date.to, 'LLL dd, y')}
                   <div
-                    className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-sm opacity-70 hover:opacity-100 focus:outline-none focus:ring-0"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-sm opacity-70 hover:opacity-100 focus:outline-hidden focus:ring-0"
                     onClick={handleClearDate}
                   >
                     <XIcon className="h-4 w-4 text-muted-foreground" />

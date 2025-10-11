@@ -7,7 +7,7 @@ export const SiteHeaderClientWrapper = ({ children }: PropsWithChildren) => {
   const pathname = usePathname()
   const positionClass = pathname === '/' ? 'fixed' : 'sticky'
   return (
-    <header className={cn(positionClass, 'top-0 z-50 w-full backdrop-blur')}>
+    <header className={cn(positionClass, 'top-0 z-50 w-full backdrop-blur-sm')}>
       {children}
     </header>
   )

@@ -11,7 +11,7 @@ const UseWindowResizeExample = () => {
     <Card className="w-full border">
       <CardContent className="space-y-4 pt-6">
         {/* Dimensions Display */}
-        <div className="bg-muted/30 rounded-md p-4 shadow-sm transition-all duration-200">
+        <div className="bg-muted/30 rounded-md p-4 shadow-xs transition-all duration-200">
           <div className="flex justify-center items-center gap-3 py-3">
             <div className="text-center">
               <div className="text-sm text-muted-foreground mb-1">Width</div>
