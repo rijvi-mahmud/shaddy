@@ -16,7 +16,7 @@ const UseBooleanExample = () => {
     useBoolean(false)
 
   return (
-    <Card className="mx-auto border shadow-sm transition-all duration-200">
+    <Card className="mx-auto border shadow-xs transition-all duration-200">
       <CardHeader className="pb-2">
         <CardTitle className="text-center flex flex-col items-center gap-3">
           <h6 className="text-sm uppercase tracking-wide text-muted-foreground font-medium">

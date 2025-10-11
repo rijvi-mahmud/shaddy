@@ -39,7 +39,7 @@ const AdvancedExample = () => {
 
   return (
     <div className="space-y-4">
-      <div className="bg-muted/30 rounded-md p-4 shadow-sm">
+      <div className="bg-muted/30 rounded-md p-4 shadow-xs">
         <h3 className="text-lg font-semibold mb-4">Session Analytics</h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

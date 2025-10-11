@@ -51,7 +51,7 @@ export function VersionDropdown({ messages }: VersionDropdownProps) {
         >
           <span className="">v{siteConfig.app.latestVersion}</span>
 
-          <ChevronDown className="size-3 transition duration-300 group-aria-[expanded=true]:rotate-180" />
+          <ChevronDown className="size-3 transition duration-300 group-aria-expanded:rotate-180" />
 
           <span className="pointer-events-auto absolute z-10 block h-14 w-full" />
         </Button>

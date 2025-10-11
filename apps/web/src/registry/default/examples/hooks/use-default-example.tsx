@@ -20,7 +20,7 @@ const UseDefaultExample = () => {
   const [customValue, setCustomValue] = useState(5)
 
   return (
-    <Card className="mx-auto border shadow-sm transition-all duration-200 max-w-sm">
+    <Card className="mx-auto border shadow-xs transition-all duration-200 max-w-sm">
       <CardHeader className="pb-2">
         <CardTitle className="text-center flex flex-col justify-center items-center gap-3">
           <h6 className="text-sm uppercase tracking-wide text-muted-foreground font-medium">

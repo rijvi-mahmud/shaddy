@@ -55,7 +55,7 @@ const SponsorCard = ({
       transition={{ duration: 0.5, delay: index * 0.1 }}
       viewport={{ once: true }}
       whileHover={{ scale: 1.05, y: -5 }}
-      className="flex items-center gap-3 px-6 py-4 rounded-xl border border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/30 hover:bg-card/80 transition-all duration-300 min-w-[200px]"
+      className="flex items-center gap-3 px-6 py-4 rounded-xl border border-border/50 bg-card/50 backdrop-blur-xs hover:border-primary/30 hover:bg-card/80 transition-all duration-300 min-w-[200px]"
     >
       <motion.div
         whileHover={{ rotate: 360 }}
@@ -115,7 +115,7 @@ const SponsorButton = () => {
       >
         {/* Subtle glow on hover */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 animate-gradient-rotate"
+          className="absolute inset-0 bg-linear-to-r from-primary/10 via-primary/5 to-primary/10 animate-gradient-rotate"
           initial={{ opacity: 0 }}
           whileHover={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -123,7 +123,7 @@ const SponsorButton = () => {
 
         {/* Shimmer effect */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent"
+          className="absolute inset-0 bg-linear-to-r from-transparent via-primary/10 to-transparent"
           initial={{ x: '-100%' }}
           whileHover={{ x: '100%' }}
           transition={{ duration: 1, ease: 'easeOut' }}
@@ -142,7 +142,7 @@ export const OurSponsors = () => {
   return (
     <section id="sponsors" className="relative py-24 sm:py-32 overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-b from-transparent via-primary/2 to-transparent pointer-events-none" />
       <motion.div
         className="absolute top-1/2 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"
         animate={{
@@ -186,7 +186,7 @@ export const OurSponsors = () => {
           >
             Our Sponsors
           </motion.div>
-          <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent mb-4">
+          <h2 className="text-3xl md:text-5xl font-bold bg-linear-to-br from-foreground to-foreground/70 bg-clip-text text-transparent mb-4">
             Powered by Amazing Supporters
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">

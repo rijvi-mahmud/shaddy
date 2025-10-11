@@ -15,9 +15,10 @@ export const dynamicParams = true
 export default async function IndexPage({
   params,
 }: {
-  params: { locale: LocaleOptions }
+  params: Promise<{ locale: LocaleOptions }>
 }) {
-  setRequestLocale(params.locale)
+  const { locale } = await params
+  setRequestLocale(locale)
 
   return (
     <>
