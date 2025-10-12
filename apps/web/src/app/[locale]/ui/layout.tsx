@@ -9,9 +9,9 @@ import { uiConfig as config } from '@/config/ui'
 
 interface DocsLayoutProps {
   children: React.ReactNode
-  params: {
+  params: Promise<{
     locale: LocaleOptions
-  }
+  }>
 }
 
 export const dynamicParams = true
@@ -20,10 +20,11 @@ export default async function DocsLayout({
   children,
   params,
 }: DocsLayoutProps) {
-  setRequestLocale(params.locale)
+  const { locale } = await params
+  setRequestLocale(locale)
 
   const uiConfig = await getServerDocsConfig({
-    locale: params.locale,
+    locale,
     config,
   })
 

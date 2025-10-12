@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getTierByName } from '@/config/sponsorship'
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,16 +25,39 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Get tier information
+    const tierData = tier !== 'general' ? getTierByName(tier) : null
+
+    // Format tier information for email
+    let tierInfo = 'General Inquiry'
+    let emailBody = message
+
+    if (tierData) {
+      tierInfo = `${tierData.name} Tier - ${tierData.price}/month`
+      const benefits = tierData.benefits
+        .map((benefit) => `  • ${benefit}`)
+        .join('\n')
+      emailBody = `
+Sponsorship Tier: ${tierData.name}
+Price: ${tierData.price}/month
+
+Package Benefits:
+${benefits}
+
+Message from Sponsor:
+${message}
+`.trim()
+    }
+
     // Prepare data for Web3Forms
     const formData = {
       access_key: accessKey,
       name,
       email,
       company: company || 'Not provided',
-      tier: tier === 'general' ? 'General Inquiry' : `${tier} Tier`,
-      message,
-      subject: `New Sponsor Inquiry: ${tier === 'general' ? 'General' : tier} Tier`,
-      from_name: 'OpenDocs Sponsor Form',
+      message: emailBody,
+      subject: `Sponsorship Inquiry - ${tierInfo}`,
+      from_name: 'Shaddy Sponsorship Portal',
       replyto: email,
     }
 
