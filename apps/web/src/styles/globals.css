@@ -15,7 +15,7 @@
   }
 }
 
-@theme {
+@theme inline {
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
@@ -234,13 +234,12 @@
   }
 
   button:not(:disabled),
-  [role="button"]:not(:disabled) {
+  [role='button']:not(:disabled) {
     cursor: pointer;
   }
 }
 
 @layer utilities {
-
   @keyframes gradient-rotate {
     0% {
       background-position: 0% 50%;

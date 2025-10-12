@@ -197,7 +197,7 @@ export const OurSponsors = () => {
 
         {/* Sponsors Marquee */}
         <div className="mb-16">
-          <Marquee className="gap-6" fade={false} pauseOnHover={true}>
+          <Marquee className="gap-6" pauseOnHover={true}>
             {sponsors.map((sponsor, index) => (
               <SponsorCard key={sponsor.name} {...sponsor} index={index} />
             ))}
