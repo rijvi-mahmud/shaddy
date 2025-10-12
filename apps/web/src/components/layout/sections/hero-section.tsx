@@ -42,7 +42,7 @@ export const HeroSection = async () => {
       </div>
 
       {/* Product Hunt Badge */}
-      <ProductHuntBadge />
+      <ProductHuntBadge mode='dark'/>
       {/* <Announcement title={t('site.announcement')} href="/" /> */}
 
       {/* Main content */}
