@@ -70,32 +70,35 @@ export const TextAreaField = <T extends FieldValues>({
 }: Props<T>) => {
   const { control } = useFormContext<T>()
   const TextArea = autoResize ? AutosizeTextarea : ShadCnTextArea
+
   return (
     <FormField
       name={name}
       control={control}
-      render={({ field }) => (
-        <FormItem className={cn(className)}>
-          {label && (
-            <FormLabel>
-              <span>{label}</span>
-              {required && <span className="ml-1 text-red-500">*</span>}
-            </FormLabel>
-          )}
-          <FormControl>
-            <div className="relative flex items-center gap-2">
-              <TextArea
-                {...field}
-                placeholder={placeholder ?? 'Enter a value'}
-                className={cn(
-                  'w-full',
-                  action && 'pr-12',
-                  resizable === false && 'resize-none',
-                  inputClassName
-                )}
-                maxHeight={maxHeight}
-                minHeight={minHeight}
-              />
+      render={({ field }) => {
+        const textAreaProps = {
+          ...field,
+          placeholder: placeholder ?? 'Enter a value',
+          className: cn(
+            'w-full',
+            action && 'pr-12',
+            resizable === false && 'resize-none',
+            inputClassName
+          ),
+          ...(autoResize && { maxHeight, minHeight }),
+        }
+
+        return (
+          <FormItem className={cn(className)}>
+            {label && (
+              <FormLabel>
+                <span>{label}</span>
+                {required && <span className="ml-1 text-red-500">*</span>}
+              </FormLabel>
+            )}
+            <FormControl>
+              <div className="relative flex items-center gap-2">
+                <TextArea {...textAreaProps} />
               {loading && <LoadingSpinner className="absolute right-4" />}
               {action && (
                 <Button
@@ -114,11 +117,12 @@ export const TextAreaField = <T extends FieldValues>({
                   {Icon}
                 </div>
               )}
-            </div>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
+              </div>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )
+      }}
     />
   )
 }
