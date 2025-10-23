@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "run-s dev:parallel",
     "dev:parallel": "concurrently \"pnpm build:registry:watch\" \"next dev\"",
-    "build": "run-s contentlayer:build registry:build next:build",
+    "build": "run-s registry:build contentlayer:build next:build",
     "start": "next start",
     "format": "prettier --config .prettierrc --log-level silent --write \"./src/**/*.{ts,tsx,mdx,json,css,scss}\"",
     "lint": "eslint",

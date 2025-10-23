@@ -1,1 +1,6 @@
 pnpm dlx commitlint --edit $1
+
+# Remove Claude Code attribution
+sed -i '/Co-Authored-By: Claude <noreply@anthropic.com>/d' "$1"
+sed -i '/🤖 Generated with \[Claude Code\]/d' "$1"
+sed -i -e :a -e '/^\s*$/d;N;ba' "$1"

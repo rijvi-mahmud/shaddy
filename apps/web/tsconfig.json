@@ -1,6 +1,7 @@
 {
   "extends": "@shaddy/typescript-config/nextjs.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "plugins": [
       {
         "name": "next"
@@ -8,6 +9,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
+      "@/__registry__": ["./src/__registry__"],
       "contentlayer/generated": ["./.contentlayer/generated"]
     },
     "ignoreDeprecations": "6.0"
