@@ -1,7 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
-  "globalEnv": ["NODE_ENV", "NEXT_PUBLIC_APP_URL", "APP_URL", "WEB3FORMS_ACCESS_KEY"],
+  "globalEnv": [
+    "NODE_ENV",
+    "NEXT_PUBLIC_APP_URL",
+    "APP_URL",
+    "WEB3FORMS_ACCESS_KEY"
+  ],
   "tasks": {
     "start": {
       "dependsOn": ["^build"],
@@ -10,8 +15,20 @@
     },
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*",
+        "!apps/web/src/registry/index.ts",
+        "!apps/web/src/registry/registry-*.ts",
+        "!apps/web/src/registry/schema.ts"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "apps/web/src/registry/index.ts",
+        "apps/web/src/registry/registry-*.ts",
+        "apps/web/src/registry/schema.ts"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"]
@@ -22,6 +39,9 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "clean": {
+      "cache": false
     }
   }
 }

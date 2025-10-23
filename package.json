@@ -8,7 +8,9 @@
     "lint": "turbo lint",
     "lint:fix": "turbo lint:fix",
     "prepare": "husky",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "clean": "turbo clean && rimraf node_modules .turbo apps/*/node_modules packages/*/node_modules",
+    "clean:cache": "rimraf .turbo apps/*/.next apps/*/.turbo packages/*/.turbo"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",

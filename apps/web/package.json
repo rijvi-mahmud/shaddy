@@ -13,7 +13,9 @@
     "next:build": "next build",
     "contentlayer:build": "contentlayer2 build",
     "registry:build": "tsx ./src/scripts/build-registry.ts && prettier --config .prettierrc --log-level silent --write \"./src/registry/**/*.{ts,tsx,mdx}\" --cache",
-    "build:registry:watch": "tsx --watch ./src/scripts/build-registry.ts && prettier --config .prettierrc --log-level silent --write \"./src/registry/**/*.{ts,tsx,mdx}\" --cache"
+    "build:registry:watch": "tsx --watch ./src/scripts/build-registry.ts && prettier --config .prettierrc --log-level silent --write \"./src/registry/**/*.{ts,tsx,mdx}\" --cache",
+    "clean": "rimraf .next .contentlayer .turbo node_modules",
+    "clean:cache": "rimraf .next .turbo"
   },
   "engines": {
     "node": ">=20"
