@@ -36,3 +36,7 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+# Registry
+apps/web/src/__registry__
+apps/web/public/r

@@ -99,24 +99,24 @@ export const TextAreaField = <T extends FieldValues>({
             <FormControl>
               <div className="relative flex items-center gap-2">
                 <TextArea {...textAreaProps} />
-              {loading && <LoadingSpinner className="absolute right-4" />}
-              {action && (
-                <Button
-                  variant={'ghost'}
-                  size={'sm'}
-                  onClick={action}
-                  type="button"
-                  className={cn(iconClassName, 'absolute right-0.5 top-0.5')}
-                >
-                  {Icon ? Icon : <X className="h-4 w-4 text-red-500" />}
-                </Button>
-              )}
+                {loading && <LoadingSpinner className="absolute right-4" />}
+                {action && (
+                  <Button
+                    variant={'ghost'}
+                    size={'sm'}
+                    onClick={action}
+                    type="button"
+                    className={cn(iconClassName, 'absolute right-0.5 top-0.5')}
+                  >
+                    {Icon ? Icon : <X className="h-4 w-4 text-red-500" />}
+                  </Button>
+                )}
 
-              {!action && Icon && (
-                <div className={cn(iconClassName, 'absolute right-2 top-3')}>
-                  {Icon}
-                </div>
-              )}
+                {!action && Icon && (
+                  <div className={cn(iconClassName, 'absolute right-2 top-3')}>
+                    {Icon}
+                  </div>
+                )}
               </div>
             </FormControl>
             <FormMessage />
