@@ -1,8 +1,14 @@
-import { JetBrains_Mono as FontMono } from 'next/font/google'
+import { JetBrains_Mono as FontMono, Inter } from 'next/font/google'
 import { GeistSans } from 'geist/font/sans'
 import { absoluteUrl } from './utils'
 
-export const fontSans = GeistSans
+export const fontSans = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+})
+
+export const fontGeist = GeistSans
 
 export const fontMono = FontMono({
   subsets: ['latin'],

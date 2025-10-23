@@ -1,4 +1,57 @@
 @reference "./globals.css";
+
+/* Premium Typography */
+.mdx {
+  @apply text-[15px] leading-[1.75] tracking-[-0.011em];
+  font-feature-settings:
+    'liga' 1,
+    'calt' 1,
+    'kern' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.mdx p {
+  @apply text-foreground mb-5;
+}
+
+.mdx h1 {
+  @apply text-[2rem] leading-[1.2] tracking-[-0.025em] font-semibold mb-6 mt-10;
+}
+
+.mdx h2 {
+  @apply text-[1.5rem] leading-[1.3] tracking-[-0.022em] font-semibold mb-5 mt-10;
+}
+
+.mdx h3 {
+  @apply text-[1.25rem] leading-[1.4] tracking-[-0.019em] font-semibold mb-4 mt-8;
+}
+
+.mdx h4 {
+  @apply text-[1.125rem] leading-[1.5] tracking-[-0.016em] font-semibold mb-3 mt-6;
+}
+
+.mdx ul,
+.mdx ol {
+  @apply mb-6 leading-[1.75];
+}
+
+.mdx li {
+  @apply mb-2 text-foreground;
+}
+
+.mdx strong {
+  @apply font-semibold text-foreground;
+}
+
+.mdx a {
+  @apply text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground/60 transition-colors;
+}
+
+.mdx blockquote {
+  @apply border-l-2 border-primary/30 pl-6 italic text-foreground/90 mb-6 bg-muted/30 py-4 rounded-r-md;
+}
+
 pre {
   overflow-x: auto;
   padding: 1rem 0;
@@ -136,29 +189,31 @@ code[data-line-numbers] > [data-line]::before {
   @apply !text-purple-200 bg-purple-800/50 font-bold;
 }
 
-/* Modern Table Styles */
+/* Premium Table Styles */
 .mdx table {
   @apply w-full border-collapse text-sm;
+  border-spacing: 0;
 }
 
 .mdx > div:has(> table) {
-  @apply overflow-x-auto my-6 rounded-lg border border-border/40;
+  @apply overflow-x-auto my-8 rounded-xl border border-border/60 shadow-sm bg-muted/5;
 }
 
 .mdx thead {
-  @apply border-b border-border/50;
+  @apply border-b-2 border-border/80;
 }
 
 .mdx thead tr {
-  @apply bg-muted/5;
+  @apply bg-muted/20;
 }
 
 .mdx th {
-  @apply px-3 py-2 text-left font-semibold text-foreground/80 tracking-tight whitespace-nowrap text-xs;
+  @apply px-5 py-4 text-left font-semibold text-foreground tracking-tight text-sm;
+  white-space: nowrap;
 }
 
 .mdx tbody tr {
-  @apply border-b border-border/20 transition-colors;
+  @apply border-b border-border/30 transition-all duration-150 hover:bg-muted/10;
 }
 
 .mdx tbody tr:last-child {
@@ -166,13 +221,14 @@ code[data-line-numbers] > [data-line]::before {
 }
 
 .mdx td {
-  @apply px-3 py-2 text-muted-foreground/70 whitespace-nowrap text-xs;
+  @apply px-5 py-4 text-foreground/95 text-sm leading-relaxed;
+  white-space: normal;
 }
 
 .mdx td code {
-  @apply text-xs;
+  @apply text-sm;
 }
 
 .mdx table code {
-  @apply px-1.5 py-0.5 rounded-md bg-muted/30 font-mono;
+  @apply px-2 py-1 rounded-md bg-muted/60 font-mono font-medium text-foreground border border-border/30;
 }

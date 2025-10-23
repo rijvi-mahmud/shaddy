@@ -88,9 +88,9 @@ const components = {
     return (
       <code
         className={cn(
-          'font-mono text-sm',
+          'font-mono text-sm font-medium',
           isInlineCode
-            ? 'relative rounded-md bg-[#18181B] px-2 py-1 text-foreground'
+            ? 'relative rounded-md bg-muted/80 px-2 py-0.5 text-foreground border border-border/40 dark:bg-muted/60 dark:border-border/30'
             : 'text-foreground'
         )}
         {...props}

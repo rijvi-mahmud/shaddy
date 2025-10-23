@@ -75,10 +75,7 @@ export async function generateMetadata({
       title: siteConfig.name,
       siteName: siteConfig.name,
 
-      description: getObjectValueByLocale(
-        siteConfig.description,
-        locale
-      ),
+      description: getObjectValueByLocale(siteConfig.description, locale),
 
       images: [
         {
@@ -95,10 +92,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       images: [siteConfig.og.image],
 
-      description: getObjectValueByLocale(
-        siteConfig.description,
-        locale
-      ),
+      description: getObjectValueByLocale(siteConfig.description, locale),
     },
 
     icons: {
@@ -132,14 +126,12 @@ export default async function RootLayout({ children, params }: AppLayoutProps) {
 
       <body
         className={cn(
-          'bg-background min-h-screen font-sans antialiased',
-          fontSans.variable
+          'bg-background min-h-screen antialiased',
+          fontSans.variable,
+          fontSans.className
         )}
       >
-        <NextIntlClientProvider
-          locale={locale || defaultLocale}
-          messages={{}}
-        >
+        <NextIntlClientProvider locale={locale || defaultLocale} messages={{}}>
           <ThemeProvider
             enableSystem
             attribute="class"

@@ -105,9 +105,14 @@ export default async function DocPage({ params }: DocPageProps) {
 
   const toc = await getTableOfContents(doc.body.raw)
 
+  // Get the current page URL
+  const [, ...docSlugList] = doc.slugAsParams.split('/')
+  const docSlug = docSlugList.join('/') || ''
+  const pageUrl = absoluteUrl(`/${locale}/ui/${docSlug}`)
+
   return (
-    <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px] min-h-svh">
-      <div className="mx-auto w-full min-w-0">
+    <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_240px] min-h-svh">
+      <div className="mx-auto w-full min-w-0 max-w-4xl">
         <DocBreadcrumb
           docsConfig={uiConfig}
           rootPath="ui"
@@ -117,28 +122,25 @@ export default async function DocPage({ params }: DocPageProps) {
           }}
         />
 
-        <div className="mt-6 border-b pb-6">
+        <div className="pb-8">
           <DocHeading
             title={doc.title}
             description={doc.description}
             notAvailable={doc.notAvailable}
             locale={locale}
+            rawContent={doc.body.raw}
+            pageUrl={pageUrl}
           />
 
           <DocLinks links={doc.links} />
         </div>
 
-        <div className="border-b pb-12 pt-8">
+        <div className="pb-12">
           <Mdx code={doc.body.code} />
         </div>
 
-        <div className="pt-6">
-          <DocsPager
-            doc={doc}
-            locale={locale}
-            config={uiConfig}
-            slugFor="ui"
-          />
+        <div>
+          <DocsPager doc={doc} locale={locale} config={uiConfig} slugFor="ui" />
         </div>
       </div>
 
