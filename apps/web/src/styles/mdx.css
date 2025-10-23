@@ -96,6 +96,8 @@ pre [data-line] {
 
 pre > code {
   counter-reset: line;
+  background: transparent;
+  border: none;
 }
 
 code[data-line-numbers] {
@@ -191,44 +193,67 @@ code[data-line-numbers] > [data-line]::before {
 
 /* Premium Table Styles */
 .mdx table {
-  @apply w-full border-collapse text-sm;
+  @apply w-full text-sm;
+  border-collapse: separate;
   border-spacing: 0;
+  min-width: 100%;
 }
 
 .mdx > div:has(> table) {
-  @apply overflow-x-auto my-8 rounded-xl border border-border/60 shadow-sm bg-muted/5;
+  @apply overflow-x-auto my-8 rounded-lg border border-border/50 shadow-lg bg-card/50 backdrop-blur-sm;
 }
 
 .mdx thead {
-  @apply border-b-2 border-border/80;
+  @apply border-b border-border/60;
 }
 
 .mdx thead tr {
-  @apply bg-muted/20;
+  @apply bg-muted/30;
 }
 
 .mdx th {
-  @apply px-5 py-4 text-left font-semibold text-foreground tracking-tight text-sm;
+  @apply px-6 py-4 text-left font-semibold text-foreground/90 tracking-[-0.01em] text-[13px] uppercase;
   white-space: nowrap;
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+}
+
+.mdx th:first-child {
+  @apply rounded-tl-lg;
+}
+
+.mdx th:last-child {
+  @apply rounded-tr-lg;
 }
 
 .mdx tbody tr {
-  @apply border-b border-border/30 transition-all duration-150 hover:bg-muted/10;
+  @apply transition-all duration-200 hover:bg-muted/20;
 }
 
-.mdx tbody tr:last-child {
-  @apply border-b-0;
+.mdx tbody tr:nth-child(even) {
+  @apply bg-muted/30 hover:bg-muted/20;
+}
+
+.mdx tbody tr:last-child td:first-child {
+  @apply rounded-bl-lg;
+}
+
+.mdx tbody tr:last-child td:last-child {
+  @apply rounded-br-lg;
 }
 
 .mdx td {
-  @apply px-5 py-4 text-foreground/95 text-sm leading-relaxed;
-  white-space: normal;
+  @apply px-6 py-4 text-foreground/90 text-[14px] leading-relaxed border-b border-border/20;
+  white-space: nowrap;
+}
+
+.mdx tbody tr:last-child td {
+  @apply border-b-0;
 }
 
 .mdx td code {
-  @apply text-sm;
+  @apply text-[13px];
 }
 
 .mdx table code {
-  @apply px-2 py-1 rounded-md bg-muted/60 font-mono font-medium text-foreground border border-border/30;
+  @apply px-2 py-1 rounded-md bg-muted/70 font-mono font-medium text-foreground/95 border border-border/40 shadow-sm;
 }
