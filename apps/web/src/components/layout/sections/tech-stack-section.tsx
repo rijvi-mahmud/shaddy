@@ -12,11 +12,11 @@ interface TechStackProps {
 const techStack: TechStackProps[] = [
   {
     icon: 'react',
-    name: 'React 18',
+    name: 'React 19',
     description: 'Latest React with concurrent features',
   },
   {
-    name: 'Next.js 14',
+    name: 'Next.js 15',
     description: 'App Router with Server Components',
     lucideIcon: 'Box',
   },
@@ -31,19 +31,9 @@ const techStack: TechStackProps[] = [
     lucideIcon: 'Code',
   },
   {
-    name: 'Radix UI',
-    description: 'Accessible component primitives',
+    name: 'shadcn/ui',
+    description: 'Beautifully designed components',
     lucideIcon: 'Component',
-  },
-  {
-    name: 'Lucide Icons',
-    description: 'Beautiful icon library',
-    lucideIcon: 'Heart',
-  },
-  {
-    name: 'React Hook Form',
-    description: 'Performant form validation',
-    lucideIcon: 'FileText',
   },
   {
     name: 'Zod',
