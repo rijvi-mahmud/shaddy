@@ -8,7 +8,6 @@ import {
 } from '@/components/ui/card'
 import { LucideIcon } from '@/components/ui/lucide-icon'
 import { icons } from 'lucide-react'
-import { motion } from 'framer-motion'
 
 interface FeatureProps {
   icon: keyof typeof icons
@@ -47,55 +46,15 @@ const features: FeatureProps[] = [
     description:
       'Built-in dark mode support with seamless theme switching for better user experience.',
   },
-  {
-    icon: 'Globe',
-    title: 'i18n Ready',
-    description:
-      'Internationalization built-in with next-intl for seamless multi-language support.',
-  },
 ]
-
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 },
-}
 
 export function FeaturesSection() {
   return (
-    <section
-      id="features"
-      className="container py-24 sm:py-32 relative overflow-hidden"
-    >
-      {/* Background decoration */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2" />
-      <div className="absolute top-1/2 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2" />
-
-      <motion.div
-        className="text-center mb-16 relative z-10"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-      >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="inline-block mb-4 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-sm font-medium text-primary"
-        >
+    <section id="features" className="container py-24 sm:py-32">
+      <div className="text-center mb-16">
+        <div className="inline-block mb-4 px-4 py-1.5 rounded-full border text-sm font-medium">
           Features
-        </motion.div>
+        </div>
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
           Everything You Need
         </h2>
@@ -103,57 +62,28 @@ export function FeaturesSection() {
           Powerful features designed to help you build better applications
           faster
         </p>
-      </motion.div>
+      </div>
 
-      <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10"
-        variants={container}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
-      >
-        {features.map(({ icon, title, description }, index) => (
-          <motion.div key={title} variants={item}>
-            <motion.div
-              whileHover={{ y: -8, scale: 1.02 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            >
-              <Card className="border-border/50 hover:border-primary/30 transition-colors h-full bg-card/50 backdrop-blur-xs hover:shadow-lg hover:shadow-primary/5">
-                <CardHeader>
-                  <motion.div
-                    className="mb-4 w-12 h-12 rounded-xl bg-linear-to-br from-primary/20 to-primary/5 flex items-center justify-center relative overflow-hidden group"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-                  >
-                    <motion.div
-                      className="absolute inset-0 bg-linear-to-r from-primary/20 to-transparent"
-                      initial={{ x: '-100%' }}
-                      whileHover={{ x: '100%' }}
-                      transition={{ duration: 0.6 }}
-                    />
-                    <motion.div
-                      whileHover={{ rotate: 360 }}
-                      transition={{ duration: 0.6 }}
-                    >
-                      <LucideIcon
-                        name={icon}
-                        size={24}
-                        className="text-primary relative z-10"
-                      />
-                    </motion.div>
-                  </motion.div>
-                  <CardTitle className="text-xl">{title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-base leading-relaxed">
-                    {description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </motion.div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {features.map(({ icon, title, description }) => (
+          <Card
+            key={title}
+            className="h-full transition-colors hover:border-primary/50"
+          >
+            <CardHeader>
+              <div className="mb-4 w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                <LucideIcon name={icon} size={24} className="text-primary" />
+              </div>
+              <CardTitle className="text-xl">{title}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="text-base leading-relaxed">
+                {description}
+              </CardDescription>
+            </CardContent>
+          </Card>
         ))}
-      </motion.div>
+      </div>
     </section>
   )
 }

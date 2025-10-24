@@ -38,7 +38,7 @@ export function ThemeModeToggle({ messages }: ThemeModeToggleProps) {
   if (!mounted) {
     return (
       <>
-        <div className="md:hidden h-8 w-8 rounded-md bg-muted" />
+        <div className="md:hidden h-9 w-8 rounded-md bg-muted" />
         <div className="hidden md:inline-flex h-7 items-center justify-center rounded-md bg-muted p-0.5 w-[90px]" />
       </>
     )

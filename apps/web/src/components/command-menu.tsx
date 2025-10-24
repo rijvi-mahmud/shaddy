@@ -13,6 +13,7 @@ import {
   MoonIcon,
   LaptopIcon,
   CircleIcon,
+  MagnifyingGlassIcon,
 } from '@radix-ui/react-icons'
 
 import { Button } from '@/components/ui/button'
@@ -32,6 +33,8 @@ import {
 import { useDocsConfig } from '@/lib/shaddy/hooks/use-docs-config'
 import { useBlogConfig } from '@/lib/shaddy/hooks/use-blog-config'
 import { useTypedHooksConfig } from '@/lib/shaddy/hooks/use-typed-hooks-config'
+import { useUiConfig } from '@/lib/shaddy/hooks/use-ui-config'
+import { useUtilsConfig } from '@/lib/shaddy/hooks/use-utils-config'
 import { getObjectValueByLocale } from '@/lib/shaddy/utils/locale'
 import { allBlogs } from 'contentlayer/generated'
 import { useFormConfig } from '@/lib/shaddy/hooks/use-form-config'
@@ -42,6 +45,8 @@ interface CommandMenuProps extends AlertDialogProps {
     blog: string
     hooks: string
     form: string
+    ui: string
+    utils: string
     search: string
     noResultsFound: string
     searchDocumentation: string
@@ -63,6 +68,8 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
   // const blogConfig = useBlogConfig()
   const hooksConfig = useTypedHooksConfig()
   const formConfig = useFormConfig()
+  const uiConfig = useUiConfig()
+  const utilsConfig = useUtilsConfig()
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -121,6 +128,8 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
       // ...blogConfig.blog.mainNav,
       ...hooksConfig.hooks.mainNav,
       ...formConfig.form.mainNav,
+      ...uiConfig.ui.mainNav,
+      ...utilsConfig.utils.mainNav,
     ]
       .filter((navItem) => !navItem.external && navItem.href)
       .map((item) => ({
@@ -139,6 +148,14 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
 
     const formItems = formConfig.form.sidebarNav.flatMap((group) =>
       flattenNavItems(group.items, formConfig.currentLocale, messages.form)
+    )
+
+    const uiItems = uiConfig.ui.sidebarNav.flatMap((group) =>
+      flattenNavItems(group.items, uiConfig.currentLocale, messages.ui)
+    )
+
+    const utilsItems = utilsConfig.utils.sidebarNav.flatMap((group) =>
+      flattenNavItems(group.items, utilsConfig.currentLocale, messages.utils)
     )
 
     // const blogItems = allBlogs
@@ -163,32 +180,40 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
       hooks: hooksItems,
       // blog: blogItems,
       form: formItems,
+      ui: uiItems,
+      utils: utilsItems,
     }
-  }, [hooksConfig, locale, messages])
+  }, [hooksConfig, formConfig, uiConfig, utilsConfig, locale, messages])
 
   return (
     <>
       <Button
         variant="outline"
         className={cn(
-          'bg-card-primary text-muted-foreground relative h-8 w-full justify-start rounded-lg text-sm font-normal shadow-none sm:pr-12 md:w-40 lg:w-64'
+          'bg-card-primary text-muted-foreground relative h-8 w-full justify-start rounded-md border-input text-sm font-normal shadow-sm transition-all duration-200 hover:bg-accent hover:text-accent-foreground focus-visible:ring-1 focus-visible:ring-ring sm:pr-12 md:w-40 lg:w-64'
         )}
         onClick={() => setOpen(true)}
         {...props}
       >
+        <MagnifyingGlassIcon className="mr-2 h-4 w-4 shrink-0 opacity-50" />
         <span className="hidden lg:inline-flex">
           {messages.searchDocumentation}...
         </span>
         <span className="inline-flex lg:hidden">{messages.search}...</span>
-        <kbd className="bg-muted pointer-events-none absolute right-[0.3rem] top-[0.3rem] hidden h-5 select-none items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+        <kbd className="bg-muted pointer-events-none absolute right-[0.3rem] top-[0.3rem] hidden h-5 select-none items-center gap-0.5 rounded border border-border/50 px-1.5 font-mono text-[10px] font-medium opacity-100 shadow-sm sm:flex">
           <span className="text-xs">⌘</span>K
         </kbd>
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder={`${messages.typeCommandOrSearch}...`} />
-        <CommandList>
-          <CommandEmpty>{messages.noResultsFound}.</CommandEmpty>
+        <CommandInput
+          placeholder={`${messages.typeCommandOrSearch}...`}
+          className="h-11"
+        />
+        <CommandList className="max-h-[400px] overflow-y-auto scrollbar-thin">
+          <CommandEmpty className="py-6 text-center text-sm">
+            {messages.noResultsFound}.
+          </CommandEmpty>
 
           <CommandGroup heading="Links">
             {allSearchableItems.mainNav.map((item) => (
@@ -196,14 +221,15 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
                 key={item.href}
                 value={`${item.title} (${item.group})`}
                 onSelect={() => runCommand(() => router.push(item.href!))}
+                className="cursor-pointer aria-selected:bg-accent aria-selected:text-accent-foreground"
               >
-                <FileIcon className="mr-2 size-4" />
-                {item.title}
+                <FileIcon className="mr-2 size-4 shrink-0 text-muted-foreground" />
+                <span className="flex-1 truncate">{item.title}</span>
               </CommandItem>
             ))}
           </CommandGroup>
 
-          <CommandSeparator className="my-1" />
+          <CommandSeparator className="my-1.5" />
 
           {/* <CommandGroup heading={messages.docs}>
             {allSearchableItems.docs.map((item) => (
@@ -220,7 +246,7 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
             ))}
           </CommandGroup> */}
 
-          <CommandSeparator className="my-1" />
+          <CommandSeparator className="my-1.5" />
 
           <CommandGroup heading={messages.hooks}>
             {allSearchableItems.hooks.map((item) => (
@@ -228,16 +254,17 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
                 key={item.href}
                 value={`${item.title} (${item.group})`}
                 onSelect={() => runCommand(() => router.push(item.href!))}
+                className="cursor-pointer aria-selected:bg-accent aria-selected:text-accent-foreground"
               >
-                <div className="mr-2 flex size-4 items-center justify-center">
+                <div className="mr-2 flex size-4 shrink-0 items-center justify-center">
                   <CircleIcon className="size-3" />
                 </div>
-                {item.title}
+                <span className="flex-1 truncate">{item.title}</span>
               </CommandItem>
             ))}
           </CommandGroup>
 
-          <CommandSeparator className="my-1" />
+          <CommandSeparator className="my-1.5" />
           {/* 
           <CommandGroup heading={messages.blog}>
             {allSearchableItems.blog.map((item) => (
@@ -256,7 +283,7 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
             ))}
           </CommandGroup>
 
-          <CommandSeparator className="my-1" /> */}
+          <CommandSeparator className="my-1.5" /> */}
 
           <CommandGroup heading={messages.form}>
             {allSearchableItems.form.map((item) => (
@@ -264,29 +291,75 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
                 key={item.href}
                 value={`${item.title} (${item.group})`}
                 onSelect={() => runCommand(() => router.push(item.href!))}
+                className="cursor-pointer aria-selected:bg-accent aria-selected:text-accent-foreground"
               >
-                <div className="mr-2 flex size-4 items-center justify-center">
+                <div className="mr-2 flex size-4 shrink-0 items-center justify-center">
                   <CircleIcon className="size-3" />
                 </div>
-                {item.title}
+                <span className="flex-1 truncate">{item.title}</span>
               </CommandItem>
             ))}
           </CommandGroup>
 
-          <CommandSeparator className="my-1" />
+          <CommandSeparator className="my-1.5" />
+
+          <CommandGroup heading={messages.ui}>
+            {allSearchableItems.ui.map((item) => (
+              <CommandItem
+                key={item.href}
+                value={`${item.title} (${item.group})`}
+                onSelect={() => runCommand(() => router.push(item.href!))}
+                className="cursor-pointer aria-selected:bg-accent aria-selected:text-accent-foreground"
+              >
+                <div className="mr-2 flex size-4 shrink-0 items-center justify-center">
+                  <CircleIcon className="size-3" />
+                </div>
+                <span className="flex-1 truncate">{item.title}</span>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+
+          <CommandSeparator className="my-1.5" />
+
+          <CommandGroup heading={messages.utils}>
+            {allSearchableItems.utils.map((item) => (
+              <CommandItem
+                key={item.href}
+                value={`${item.title} (${item.group})`}
+                onSelect={() => runCommand(() => router.push(item.href!))}
+                className="cursor-pointer aria-selected:bg-accent aria-selected:text-accent-foreground"
+              >
+                <div className="mr-2 flex size-4 shrink-0 items-center justify-center">
+                  <CircleIcon className="size-3" />
+                </div>
+                <span className="flex-1 truncate">{item.title}</span>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+
+          <CommandSeparator className="my-1.5" />
 
           <CommandGroup heading={messages.themes.theme}>
-            <CommandItem onSelect={() => runCommand(() => setTheme('light'))}>
-              <SunIcon className="mr-2 size-4" />
-              {messages.themes.light}
+            <CommandItem
+              onSelect={() => runCommand(() => setTheme('light'))}
+              className="cursor-pointer aria-selected:bg-accent aria-selected:text-accent-foreground"
+            >
+              <SunIcon className="mr-2 size-4 shrink-0" />
+              <span className="flex-1">{messages.themes.light}</span>
             </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme('dark'))}>
-              <MoonIcon className="mr-2 size-4" />
-              {messages.themes.dark}
+            <CommandItem
+              onSelect={() => runCommand(() => setTheme('dark'))}
+              className="cursor-pointer aria-selected:bg-accent aria-selected:text-accent-foreground"
+            >
+              <MoonIcon className="mr-2 size-4 shrink-0" />
+              <span className="flex-1">{messages.themes.dark}</span>
             </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme('system'))}>
-              <LaptopIcon className="mr-2 size-4" />
-              {messages.themes.system}
+            <CommandItem
+              onSelect={() => runCommand(() => setTheme('system'))}
+              className="cursor-pointer aria-selected:bg-accent aria-selected:text-accent-foreground"
+            >
+              <LaptopIcon className="mr-2 size-4 shrink-0" />
+              <span className="flex-1">{messages.themes.system}</span>
             </CommandItem>
           </CommandGroup>
         </CommandList>

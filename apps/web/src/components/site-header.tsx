@@ -90,6 +90,8 @@ export async function SiteHeader() {
                 docs: t('words.docs'),
                 blog: t('words.blog'),
                 hooks: t('words.typed_hooks'),
+                ui: t('words.ui'),
+                utils: t('words.utils'),
                 search: t('search.search'),
                 noResultsFound: t('search.no_results_found'),
                 typeCommandOrSearch: t('search.type_command_or_search'),

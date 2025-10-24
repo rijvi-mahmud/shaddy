@@ -11,7 +11,7 @@ export async function SiteFooter() {
 
   return (
     <footer id="footer" className="container py-8 sm:py-12">
-      <div className="p-10 bg-secondary/40 rounded-2xl backdrop-blur-xs border border-border/50">
+      <div className="p-10 bg-secondary/10 rounded-2xl backdrop-blur-xs border border-border/50">
         <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-x-12 gap-y-8">
           <div className="col-span-full xl:col-span-2">
             <Logo />
