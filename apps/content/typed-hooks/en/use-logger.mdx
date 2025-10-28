@@ -1,0 +1,387 @@
+---
+title: useLogger
+description: console.log in a controlled way
+---
+
+`useLogger` is a powerful and highly customizable logging hook that provides a comprehensive solution for application logging and debugging. It offers multiple log levels, colored console output, timestamp formatting, environment-based filtering, and full Next.js compatibility with automatic server/client handling.
+
+This hook is perfect for debugging, monitoring user actions, tracking errors with stack traces, and maintaining clean, organized logs throughout your application development lifecycle in both client and server environments.
+
+<ComponentPreview
+  name="use-logger-example"
+  description="Simple logger with basic actions"
+/>
+
+### Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-logger
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="use-logger" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## API
+
+▸ **useLogger**(config?): `Logger`
+
+| Name   | Type         | Required | Description                          |
+| ------ | ------------ | -------- | ------------------------------------ |
+| config | LoggerConfig | No       | Configuration options for the logger |
+
+### LoggerConfig
+
+| Property                 | Type                                    | Default   | Description                              |
+| ------------------------ | --------------------------------------- | --------- | ---------------------------------------- |
+| level                    | LogLevel                                | DEBUG     | Minimum log level to display             |
+| enabled                  | boolean                                 | true      | Enable/disable logging                   |
+| showTimestamp            | boolean                                 | true      | Show timestamps in logs                  |
+| timestampFormat          | 'iso' \| 'locale' \| 'time' \| 'custom' | 'iso'     | Format for timestamps                    |
+| customTimestampFormatter | () => string                            | undefined | Custom timestamp formatter function      |
+| prefix                   | string                                  | undefined | Prefix for all log messages              |
+| colored                  | boolean                                 | true      | Enable colored output (browser only)     |
+| showStackTrace           | boolean                                 | true      | Enable stack traces for errors           |
+| customHandler            | (level, message, data?) => void         | undefined | Custom log handler                       |
+| devOnly                  | boolean                                 | false     | Only log in development (tree-shakeable) |
+| groupName                | string                                  | undefined | Group related logs together              |
+
+### LogLevel
+
+```typescript
+enum LogLevel {
+  DEBUG = 0,
+  INFO = 1,
+  WARN = 2,
+  ERROR = 3,
+  NONE = 4,
+}
+```
+
+### Returns: Logger
+
+The hook returns an object with the following methods:
+
+| Method  | Signature                                                          | Description                          |
+| ------- | ------------------------------------------------------------------ | ------------------------------------ |
+| debug   | (message: string, ...params: any[]) => void                        | Log debug messages                   |
+| info    | (message: string, ...params: any[]) => void                        | Log informational messages           |
+| warn    | (message: string, ...params: any[]) => void                        | Log warning messages                 |
+| error   | (message: string, ...params: any[]) => void                        | Log error messages with stack traces |
+| success | (message: string, ...params: any[]) => void                        | Log success messages (colored green) |
+| table   | (data: any, columns?: string[]) => void                            | Display data in table format         |
+| group   | (label: string, callback: () => void, collapsed?: boolean) => void | Group related logs                   |
+| time    | (label: string) => void                                            | Start a timer                        |
+| timeEnd | (label: string) => void                                            | End a timer and log duration         |
+| assert  | (condition: boolean, message: string, ...params: any[]) => void    | Conditional logging                  |
+| trace   | (message: string, ...params: any[]) => void                        | Log with stack trace                 |
+| clear   | () => void                                                         | Clear console                        |
+| config  | LoggerConfig                                                       | Current logger configuration         |
+
+## Usage
+
+### Basic Usage
+
+```tsx
+import { useLogger } from "@/hooks/use-logger";
+
+function MyComponent() {
+  const logger = useLogger();
+
+  const handleClick = () => {
+    logger.info("Button clicked");
+  };
+
+  return <button onClick={handleClick}>Click me</button>;
+}
+```
+
+### With Custom Configuration
+
+```tsx
+import { useLogger, LogLevel } from "@/hooks/use-logger";
+
+function MyComponent() {
+  const logger = useLogger({
+    level: LogLevel.INFO,
+    prefix: "MyApp",
+    colored: true,
+    showTimestamp: true,
+    timestampFormat: "locale",
+  });
+
+  logger.info("Component mounted");
+
+  return <div>My Component</div>;
+}
+```
+
+### Development Only
+
+```tsx
+import { useLogger } from "@/hooks/use-logger";
+
+function MyComponent() {
+  // Logger will not execute in production when devOnly is true
+  const logger = useLogger({ devOnly: true });
+
+  logger.debug("Debug info", { data: "some data" });
+
+  return <div>My Component</div>;
+}
+```
+
+### Error Logging with Stack Traces
+
+```tsx
+import { useLogger } from "@/hooks/use-logger";
+
+function MyComponent() {
+  const logger = useLogger({ showStackTrace: true });
+
+  const handleError = () => {
+    try {
+      // Some operation
+      throw new Error("Something went wrong");
+    } catch (error) {
+      logger.error("Error occurred", error);
+    }
+  };
+
+  return <button onClick={handleError}>Trigger Error</button>;
+}
+```
+
+### Performance Measurement
+
+```tsx
+import { useLogger } from "@/hooks/use-logger";
+
+function MyComponent() {
+  const logger = useLogger();
+
+  const fetchData = async () => {
+    logger.time("Data Fetch");
+
+    await fetch("/api/data");
+
+    logger.timeEnd("Data Fetch");
+  };
+
+  return <button onClick={fetchData}>Fetch Data</button>;
+}
+```
+
+### Grouped Logs
+
+```tsx
+import { useLogger } from "@/hooks/use-logger";
+
+function MyComponent() {
+  const logger = useLogger();
+
+  const processUser = () => {
+    logger.group("User Processing", () => {
+      logger.info("Validating user");
+      logger.info("Saving to database");
+      logger.success("User processed successfully");
+    });
+  };
+
+  return <button onClick={processUser}>Process User</button>;
+}
+```
+
+### Table Logging
+
+```tsx
+import { useLogger } from "@/hooks/use-logger";
+
+function MyComponent() {
+  const logger = useLogger();
+
+  const showUsers = () => {
+    const users = [
+      { id: 1, name: "John Doe", role: "Admin" },
+      { id: 2, name: "Jane Smith", role: "User" },
+    ];
+
+    logger.table(users);
+  };
+
+  return <button onClick={showUsers}>Show Users</button>;
+}
+```
+
+### Custom Log Handler
+
+```tsx
+import { useLogger } from "@/hooks/use-logger";
+
+function MyComponent() {
+  const logger = useLogger({
+    customHandler: (level, message, data) => {
+      // Send logs to external service
+      fetch("/api/logs", {
+        method: "POST",
+        body: JSON.stringify({ level, message, data }),
+      });
+    },
+  });
+
+  logger.info("Custom logged message");
+
+  return <div>My Component</div>;
+}
+```
+
+### Different Log Levels
+
+```tsx
+import { useLogger, LogLevel } from "@/hooks/use-logger";
+
+function MyComponent() {
+  const logger = useLogger({ level: LogLevel.WARN });
+
+  // Won't be logged (below WARN level)
+  logger.debug("Debug message");
+  logger.info("Info message");
+
+  // Will be logged
+  logger.warn("Warning message");
+  logger.error("Error message");
+
+  return <div>My Component</div>;
+}
+```
+
+### Server-Side Logging (Next.js)
+
+```tsx
+import { useLogger } from "@/hooks/use-logger";
+
+// Works in Server Components
+async function ServerComponent() {
+  const logger = useLogger({ prefix: "Server" });
+
+  // Logs appear in terminal/console
+  logger.info("Rendering server component");
+
+  const data = await fetchData();
+  logger.success("Data fetched successfully", { count: data.length });
+
+  return <div>Data loaded</div>;
+}
+```
+
+### Server-Side with Custom Handler
+
+```tsx
+import { useLogger } from "@/hooks/use-logger";
+import fs from "fs";
+
+async function ServerComponent() {
+  const logger = useLogger({
+    prefix: "API",
+    customHandler: (level, message, data) => {
+      // Log to file on server
+      const logEntry = `[${level}] ${message} ${JSON.stringify(data)}\n`;
+      fs.appendFileSync("./logs/server.log", logEntry);
+    },
+  });
+
+  logger.info("Processing request");
+
+  return <div>Request processed</div>;
+}
+```
+
+## Features
+
+### 🎨 Colored Output
+
+Browser console logs are automatically colored for better visual distinction (client-side only):
+
+- **Debug**: Indigo
+- **Info**: Blue
+- **Warn**: Amber
+- **Error**: Red
+- **Success**: Green
+
+### ⏱️ Flexible Timestamps
+
+Multiple timestamp formats available:
+
+- **ISO**: `2025-10-29T10:30:00.000Z`
+- **Locale**: `10/29/2025, 10:30:00 AM`
+- **Time**: `10:30:00 AM`
+- **Custom**: Provide your own formatter
+
+### 🚀 Next.js Compatible
+
+Automatically handles server-side rendering (SSR) and client-side rendering (CSR):
+
+- Works in both server and client components
+- Colored output only on client-side
+- `console.table` gracefully degrades on server
+- Custom handlers work on both environments
+
+### 🚫 Development-Only Logging
+
+When `devOnly: true` is set, the logger will not execute in production environments, helping keep production builds clean.
+
+### 📊 Structured Logging
+
+Support for table display, grouped logs, and performance timers for comprehensive debugging.
+
+### 🔍 Stack Traces
+
+Automatic stack trace capture for error logs helps identify the source of issues quickly.
+
+## Best Practices
+
+1. **Use appropriate log levels**: Reserve `error` for actual errors, `warn` for warnings, `info` for general information, and `debug` for detailed debugging.
+
+2. **Enable devOnly in production**: Set `devOnly: true` to prevent logging from executing in production builds.
+
+3. **Use prefixes**: Add a prefix to identify which part of your application is logging.
+
+4. **Leverage custom handlers**: Send important logs to monitoring services like Sentry or LogRocket. Custom handlers work on both server and client.
+
+5. **Group related logs**: Use `group()` to organize related log messages together.
+
+6. **Server-side logging**: On the server, logs appear in your terminal/console. On the client, they appear in the browser console.
+
+## Notes
+
+- **Next.js Compatible**: Works in both server and client components without requiring `'use client'` directive
+- **Server-side behavior**: On server, colored output is disabled and `console.table` falls back to `console.log`
+- **Client-side behavior**: Full featured with colors, tables, and all console APIs
+- Colors only work in browser environments
+- Stack traces are only shown for Error objects
+- Performance timers use the native `console.time` API
+- When `devOnly: true`, logs will not execute in production but the code is still included in the bundle
+- Custom handlers allow server-side logging to external services or files

@@ -117,11 +117,6 @@ export const typedHooksConfig: DocsConfig = {
             en: 'useLocalStorage',
             pt: 'useLocalStorage',
           },
-
-          label: {
-            en: 'New',
-            pt: 'Novo',
-          },
           items: [],
         },
         {
@@ -129,6 +124,14 @@ export const typedHooksConfig: DocsConfig = {
           title: {
             en: 'useSessionStorage',
             pt: 'useSessionStorage',
+          },
+          items: [],
+        },
+        {
+          href: '/typed-hooks/use-logger',
+          title: {
+            en: 'useLogger',
+            pt: 'useLogger',
           },
 
           label: {

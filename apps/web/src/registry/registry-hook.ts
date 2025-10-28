@@ -144,4 +144,17 @@ export const hook: Registry['items'] = [
     dependencies: [],
     devDependencies: [],
   },
+  {
+    name: 'use-logger',
+    type: 'registry:hook',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'hooks/use-logger.ts',
+        type: 'registry:hook',
+      },
+    ],
+    dependencies: [],
+    devDependencies: [],
+  },
 ]
