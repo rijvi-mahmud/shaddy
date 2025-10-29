@@ -55,19 +55,19 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-logger
 
 ### LoggerConfig
 
-| Property                 | Type                                    | Default   | Description                              |
-| ------------------------ | --------------------------------------- | --------- | ---------------------------------------- |
-| level                    | LogLevel                                | DEBUG     | Minimum log level to display             |
-| enabled                  | boolean                                 | true      | Enable/disable logging                   |
-| showTimestamp            | boolean                                 | true      | Show timestamps in logs                  |
-| timestampFormat          | 'iso' \| 'locale' \| 'time' \| 'custom' | 'iso'     | Format for timestamps                    |
-| customTimestampFormatter | () => string                            | undefined | Custom timestamp formatter function      |
-| prefix                   | string                                  | undefined | Prefix for all log messages              |
-| colored                  | boolean                                 | true      | Enable colored output (browser only)     |
-| showStackTrace           | boolean                                 | true      | Enable stack traces for errors           |
-| customHandler            | (level, message, data?) => void         | undefined | Custom log handler                       |
-| devOnly                  | boolean                                 | false     | Only log in development (tree-shakeable) |
-| groupName                | string                                  | undefined | Group related logs together              |
+| Property                 | Type                                          | Default   | Description                              |
+| ------------------------ | --------------------------------------------- | --------- | ---------------------------------------- |
+| level                    | LogLevel                                      | DEBUG     | Minimum log level to display             |
+| enabled                  | boolean                                       | true      | Enable/disable logging                   |
+| showTimestamp            | boolean                                       | true      | Show timestamps in logs                  |
+| timestampFormat          | 'iso' \| 'locale' \| 'time' \| 'custom'       | 'iso'     | Format for timestamps                    |
+| customTimestampFormatter | () => string                                  | undefined | Custom timestamp formatter function      |
+| prefix                   | string                                        | undefined | Prefix for all log messages              |
+| colored                  | boolean                                       | true      | Enable colored output (browser only)     |
+| showStackTrace           | boolean                                       | true      | Enable stack traces for errors           |
+| customHandler            | &lt;T&gt;(level, message, data?: T[]) => void | undefined | Custom log handler with generic types    |
+| devOnly                  | boolean                                       | false     | Only log in development (tree-shakeable) |
+| groupName                | string                                        | undefined | Group related logs together              |
 
 ### LogLevel
 
@@ -85,21 +85,21 @@ enum LogLevel {
 
 The hook returns an object with the following methods:
 
-| Method  | Signature                                                          | Description                          |
-| ------- | ------------------------------------------------------------------ | ------------------------------------ |
-| debug   | (message: string, ...params: any[]) => void                        | Log debug messages                   |
-| info    | (message: string, ...params: any[]) => void                        | Log informational messages           |
-| warn    | (message: string, ...params: any[]) => void                        | Log warning messages                 |
-| error   | (message: string, ...params: any[]) => void                        | Log error messages with stack traces |
-| success | (message: string, ...params: any[]) => void                        | Log success messages (colored green) |
-| table   | (data: any, columns?: string[]) => void                            | Display data in table format         |
-| group   | (label: string, callback: () => void, collapsed?: boolean) => void | Group related logs                   |
-| time    | (label: string) => void                                            | Start a timer                        |
-| timeEnd | (label: string) => void                                            | End a timer and log duration         |
-| assert  | (condition: boolean, message: string, ...params: any[]) => void    | Conditional logging                  |
-| trace   | (message: string, ...params: any[]) => void                        | Log with stack trace                 |
-| clear   | () => void                                                         | Clear console                        |
-| config  | LoggerConfig                                                       | Current logger configuration         |
+| Method  | Signature                                                              | Description                          |
+| ------- | ---------------------------------------------------------------------- | ------------------------------------ |
+| debug   | &lt;T&gt;(message: string, ...params: T[]) => void                     | Log debug messages                   |
+| info    | &lt;T&gt;(message: string, ...params: T[]) => void                     | Log informational messages           |
+| warn    | &lt;T&gt;(message: string, ...params: T[]) => void                     | Log warning messages                 |
+| error   | &lt;T&gt;(message: string, ...params: T[]) => void                     | Log error messages with stack traces |
+| success | &lt;T&gt;(message: string, ...params: T[]) => void                     | Log success messages (colored green) |
+| table   | (data: unknown, columns?: string[]) => void                            | Display data in table format         |
+| group   | (label: string, callback: () => void, collapsed?: boolean) => void     | Group related logs                   |
+| time    | (label: string) => void                                                | Start a timer                        |
+| timeEnd | (label: string) => void                                                | End a timer and log duration         |
+| assert  | &lt;T&gt;(condition: boolean, message: string, ...params: T[]) => void | Conditional logging                  |
+| trace   | &lt;T&gt;(message: string, ...params: T[]) => void                     | Log with stack trace                 |
+| clear   | () => void                                                             | Clear console                        |
+| config  | LoggerConfig                                                           | Current logger configuration         |
 
 ## Usage
 
@@ -278,6 +278,41 @@ function MyComponent() {
 }
 ```
 
+### Type-Safe Logging
+
+For TypeScript projects, you can specify types for better IntelliSense and type checking:
+
+```tsx
+import { useLogger } from "@/hooks/use-logger";
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+interface ApiError {
+  code: string;
+  message: string;
+}
+
+function MyComponent() {
+  const logger = useLogger();
+
+  const user: User = { id: 1, name: "John", email: "john@example.com" };
+
+  // Type-safe logging with generics
+  logger.info<User>("User logged in", user);
+  logger.debug<User>("User details", user);
+
+  // Type-safe error logging
+  const apiError: ApiError = { code: "ERR_001", message: "API failed" };
+  logger.error<ApiError>("API Error", apiError);
+
+  return <div>My Component</div>;
+}
+```
+
 ### Server-Side Logging (Next.js)
 
 ```tsx
@@ -321,7 +356,7 @@ async function ServerComponent() {
 
 ## Features
 
-### 🎨 Colored Output
+### Colored Output
 
 Browser console logs are automatically colored for better visual distinction (client-side only):
 
@@ -331,7 +366,7 @@ Browser console logs are automatically colored for better visual distinction (cl
 - **Error**: Red
 - **Success**: Green
 
-### ⏱️ Flexible Timestamps
+### Flexible Timestamps
 
 Multiple timestamp formats available:
 
@@ -340,7 +375,7 @@ Multiple timestamp formats available:
 - **Time**: `10:30:00 AM`
 - **Custom**: Provide your own formatter
 
-### 🚀 Next.js Compatible
+### Next.js Compatible
 
 Automatically handles server-side rendering (SSR) and client-side rendering (CSR):
 
@@ -349,15 +384,15 @@ Automatically handles server-side rendering (SSR) and client-side rendering (CSR
 - `console.table` gracefully degrades on server
 - Custom handlers work on both environments
 
-### 🚫 Development-Only Logging
+### Development-Only Logging
 
 When `devOnly: true` is set, the logger will not execute in production environments, helping keep production builds clean.
 
-### 📊 Structured Logging
+### Structured Logging
 
 Support for table display, grouped logs, and performance timers for comprehensive debugging.
 
-### 🔍 Stack Traces
+### Stack Traces
 
 Automatic stack trace capture for error logs helps identify the source of issues quickly.
 
@@ -374,6 +409,8 @@ Automatic stack trace capture for error logs helps identify the source of issues
 5. **Group related logs**: Use `group()` to organize related log messages together.
 
 6. **Server-side logging**: On the server, logs appear in your terminal/console. On the client, they appear in the browser console.
+
+7. **Type safety (optional)**: For TypeScript projects, use generic types for better IntelliSense: `logger.info<User>("msg", userData)`
 
 ## Notes
 

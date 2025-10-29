@@ -40,7 +40,11 @@ export interface LoggerConfig {
   /** Enable stack traces for errors */
   showStackTrace?: boolean
   /** Custom log handler */
-  customHandler?: (level: string, message: string, data?: any[]) => void
+  customHandler?: <T = unknown>(
+    level: string,
+    message: string,
+    data?: T[]
+  ) => void
   /** Environment-based filtering (only log in development) */
   devOnly?: boolean
   /** Group related logs */
@@ -147,10 +151,10 @@ export const useLogger = (config: LoggerConfig = {}) => {
 
   // Colored console output
   const logWithColor = useCallback(
-    (
+    <T = unknown>(
       level: keyof typeof LOG_COLORS,
       message: string,
-      ...optionalParams: any[]
+      ...optionalParams: T[]
     ) => {
       if (mergedConfig.colored && isBrowser) {
         console.log(
@@ -167,11 +171,11 @@ export const useLogger = (config: LoggerConfig = {}) => {
 
   // Core logging function
   const log = useCallback(
-    (
+    <T = unknown>(
       level: LogLevel,
       levelName: string,
       message: string,
-      ...optionalParams: any[]
+      ...optionalParams: T[]
     ) => {
       if (!shouldLog(level)) return
 
@@ -226,35 +230,35 @@ export const useLogger = (config: LoggerConfig = {}) => {
 
   // Logger methods
   const debug = useCallback(
-    (message: string, ...optionalParams: any[]) => {
+    <T = unknown>(message: string, ...optionalParams: T[]) => {
       log(LogLevel.DEBUG, 'debug', message, ...optionalParams)
     },
     [log]
   )
 
   const info = useCallback(
-    (message: string, ...optionalParams: any[]) => {
+    <T = unknown>(message: string, ...optionalParams: T[]) => {
       log(LogLevel.INFO, 'info', message, ...optionalParams)
     },
     [log]
   )
 
   const warn = useCallback(
-    (message: string, ...optionalParams: any[]) => {
+    <T = unknown>(message: string, ...optionalParams: T[]) => {
       log(LogLevel.WARN, 'warn', message, ...optionalParams)
     },
     [log]
   )
 
   const error = useCallback(
-    (message: string, ...optionalParams: any[]) => {
+    <T = unknown>(message: string, ...optionalParams: T[]) => {
       log(LogLevel.ERROR, 'error', message, ...optionalParams)
     },
     [log]
   )
 
   const success = useCallback(
-    (message: string, ...optionalParams: any[]) => {
+    <T = unknown>(message: string, ...optionalParams: T[]) => {
       if (!shouldLog(LogLevel.INFO)) return
 
       if (mergedConfig.customHandler) {
@@ -281,7 +285,7 @@ export const useLogger = (config: LoggerConfig = {}) => {
 
   // Table logging for structured data
   const table = useCallback(
-    (data: any, columns?: string[]) => {
+    (data: unknown, columns?: string[]) => {
       if (!shouldLog(LogLevel.INFO)) return
 
       // console.table doesn't work well in Node.js, skip on server
@@ -339,7 +343,11 @@ export const useLogger = (config: LoggerConfig = {}) => {
 
   // Assert logging
   const assert = useCallback(
-    (condition: boolean, message: string, ...optionalParams: any[]) => {
+    <T = unknown>(
+      condition: boolean,
+      message: string,
+      ...optionalParams: T[]
+    ) => {
       if (!shouldLog(LogLevel.ERROR)) return
       console.assert(
         condition,
@@ -352,7 +360,7 @@ export const useLogger = (config: LoggerConfig = {}) => {
 
   // Trace logging
   const trace = useCallback(
-    (message: string, ...optionalParams: any[]) => {
+    <T = unknown>(message: string, ...optionalParams: T[]) => {
       if (!shouldLog(LogLevel.DEBUG)) return
       console.trace(formatMessage('trace', message), ...optionalParams)
     },
