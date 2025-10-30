@@ -10,9 +10,24 @@ Visit https://shaddy-docs.vercel.app to view the documentation.
 
 ## MCP Server
 
-Shaddy includes a Model Context Protocol (MCP) server that provides AI agents with intelligent access to the project codebase. This enables better context understanding for AI assistants like Claude, VS Code Copilot, Windsurf, and other MCP-compatible tools.
+Shaddy provides a **public MCP (Model Context Protocol) server** that allows developers and AI agents worldwide to explore the Shaddy component library.
 
-For setup instructions, see [MCP_SETUP.md](./MCP_SETUP.md).
+**Live Endpoint:** `https://shaddy-docs.vercel.app/api/mcp`
+
+The MCP server exposes:
+- 📦 Complete component and hook registry
+- 📂 Project file structure
+- 🔍 Code search across the codebase
+- 📖 Source code reading
+- 🌐 Publicly accessible via HTTP
+
+Perfect for:
+- AI assistants (Claude, ChatGPT, etc.)
+- Developer tools and IDEs
+- Custom integrations
+- Documentation and discovery
+
+For detailed usage instructions, see [MCP_SETUP.md](./MCP_SETUP.md).
 
 ## Contributing
 

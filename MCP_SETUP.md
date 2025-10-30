@@ -1,41 +1,81 @@
-# MCP Server Setup Guide
+# Shaddy MCP Server - Developer Guide
 
-This project includes a Model Context Protocol (MCP) server that exposes project context to AI agents. This allows AI assistants to explore, read, and search the codebase.
+The Shaddy project provides a **public MCP (Model Context Protocol) server** that allows AI agents and developers worldwide to explore and interact with the Shaddy component library.
 
 ## What is MCP?
 
-Model Context Protocol (MCP) is an open standard for connecting AI assistants to external data sources and tools. It allows AI agents to access your project's codebase intelligently.
+Model Context Protocol (MCP) is an open standard that allows AI assistants to connect to external data sources and tools. The Shaddy MCP server exposes the project's codebase, component registry, and documentation to any AI agent that supports MCP.
+
+## Public Endpoint
+
+**Production URL:** `https://shaddy-docs.vercel.app/api/mcp`
+
+This endpoint is publicly accessible and provides read-only access to:
+- The deployed Shaddy codebase
+- Component and hook registry
+- Project file structure
+- Code search capabilities
 
 ## Available Tools
 
-The MCP server provides the following tools:
+The MCP server provides 5 powerful tools:
 
-1. **list_files** - List files in the project with optional glob patterns
-2. **read_file** - Read the contents of any file in the project
-3. **search_code** - Search for code patterns across the project
-4. **get_project_structure** - Get the directory structure of the project
-5. **get_registry** - Get the Shaddy component/hook registry with metadata, dependencies, and file paths (can filter by category: hooks, components, utilities)
+### 1. **list_files**
+List files in the deployed project with optional glob pattern filtering.
 
-## Setup Options
+```json
+{
+  "directory": "apps/web/src/components",
+  "pattern": "**/*.tsx"
+}
+```
 
-There are two ways to connect to the MCP server:
+### 2. **read_file**
+Read the contents of any file in the deployed project.
 
-### Option 1: HTTP/SSE Endpoint (For Production/Remote Access)
+```json
+{
+  "path": "apps/web/src/lib/mcp/server.ts"
+}
+```
 
-The MCP server is exposed as a Next.js API route and can be accessed over HTTP using Server-Sent Events (SSE).
+### 3. **search_code**
+Search for code patterns across the project with regex support.
 
-**Production Endpoint**: `https://shaddy-docs.vercel.app/api/mcp`
+```json
+{
+  "query": "useState",
+  "filePattern": "**/*.tsx",
+  "caseSensitive": false
+}
+```
 
-This method works for:
+### 4. **get_project_structure**
+Get the directory tree structure of the project.
 
-- Web-based AI clients
-- Custom integrations
-- Remote access to your project context
+```json
+{
+  "depth": 3
+}
+```
 
-#### Testing the Production Endpoint
+### 5. **get_registry**
+Get the Shaddy component/hook registry with metadata, dependencies, and file paths.
+
+```json
+{
+  "category": "hooks"
+}
+```
+
+Categories: `all`, `hooks`, `components`, `utilities`
+
+## Usage Examples
+
+### Testing with cURL
 
 ```bash
-# Get server info (shows available tools)
+# Get server information
 curl https://shaddy-docs.vercel.app/api/mcp
 
 # List all available tools
@@ -47,7 +87,7 @@ curl -X POST https://shaddy-docs.vercel.app/api/mcp \
     "id": 1
   }'
 
-# Get the component registry
+# Get all hooks from the registry
 curl -X POST https://shaddy-docs.vercel.app/api/mcp \
   -H "Content-Type: application/json" \
   -d '{
@@ -56,264 +96,241 @@ curl -X POST https://shaddy-docs.vercel.app/api/mcp \
     "params": {
       "name": "get_registry",
       "arguments": {
-        "category": "all"
+        "category": "hooks"
       }
     },
     "id": 2
   }'
+
+# Search for a specific hook
+curl -X POST https://shaddy-docs.vercel.app/api/mcp \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "method": "tools/call",
+    "params": {
+      "name": "search_code",
+      "arguments": {
+        "query": "useBoolean",
+        "filePattern": "**/*.ts"
+      }
+    },
+    "id": 3
+  }'
 ```
 
-#### Using Production Endpoint with VS Code Extensions
+### Using with AI Assistants
 
-For **Cline** or other MCP-supporting VS Code extensions, you can connect to the production endpoint:
+#### Claude Desktop
+
+Add to your Claude Desktop configuration:
+
+**macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+**Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+**Linux:** `~/.config/Claude/claude_desktop_config.json`
 
 ```json
 {
-  "cline.mcpServers": {
-    "shaddy-production": {
-      "command": "pnpm",
-      "args": [
-        "--dir",
-        "/home/rijvi/Desktop/WorkSpace/Rijvi/shaddy/apps/web",
-        "mcp:http"
-      ],
-      "env": {
-        "MCP_ENDPOINT": "https://shaddy-docs.vercel.app/api/mcp"
+  "mcpServers": {
+    "shaddy": {
+      "url": "https://shaddy-docs.vercel.app/api/mcp",
+      "transport": "http"
+    }
+  }
+}
+```
+
+#### Web-Based AI Tools
+
+Any web-based AI tool that supports MCP can connect to:
+```
+https://shaddy-docs.vercel.app/api/mcp
+```
+
+Use POST requests with JSON-RPC 2.0 format.
+
+### Integration Examples
+
+#### JavaScript/TypeScript
+
+```typescript
+async function queryShaddyMCP(method: string, params?: any) {
+  const response = await fetch('https://shaddy-docs.vercel.app/api/mcp', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      method,
+      params,
+      id: Date.now(),
+    }),
+  });
+
+  const reader = response.body!.getReader();
+  const decoder = new TextDecoder();
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value);
+    const lines = chunk.split('\n');
+
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        const data = JSON.parse(line.slice(6));
+        console.log(data);
       }
     }
   }
 }
+
+// Example: Get all components
+await queryShaddyMCP('tools/call', {
+  name: 'get_registry',
+  arguments: { category: 'components' }
+});
 ```
 
-This uses a bridge client that connects stdio (used by VS Code extensions) to your production HTTP endpoint.
+#### Python
 
-### Option 2: Stdio Transport (For Desktop Clients)
+```python
+import requests
+import json
 
-For desktop applications like Claude Desktop, VS Code, or Windsurf, use the stdio transport.
+def query_shaddy_mcp(method, params=None):
+    url = "https://shaddy-docs.vercel.app/api/mcp"
+    payload = {
+        "jsonrpc": "2.0",
+        "method": method,
+        "params": params,
+        "id": 1
+    }
 
-#### Claude Desktop
+    response = requests.post(url, json=payload, stream=True)
 
-Add this to your Claude Desktop configuration file:
+    for line in response.iter_lines():
+        if line and line.startswith(b'data: '):
+            data = json.loads(line[6:])
+            print(data)
 
-**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
-**Linux**: `~/.config/Claude/claude_desktop_config.json`
+# Example: List TypeScript files
+query_shaddy_mcp('tools/call', {
+    'name': 'list_files',
+    'arguments': {'pattern': '**/*.ts'}
+})
+```
+
+## Use Cases
+
+### For Developers
+
+- **Explore Components:** Browse available hooks and UI components
+- **Code Examples:** Search for implementation patterns and examples
+- **Documentation:** Read source code and understand component APIs
+- **Integration:** Learn how to use Shaddy components in your project
+
+### For AI Agents
+
+- **Context-Aware Assistance:** Provide accurate help based on actual Shaddy code
+- **Code Generation:** Generate code that matches Shaddy patterns
+- **Documentation:** Answer questions about Shaddy components
+- **Discovery:** Help developers find the right components for their needs
+
+## Technical Details
+
+### Architecture
+
+- **Protocol:** JSON-RPC 2.0 over HTTP
+- **Transport:** Server-Sent Events (SSE)
+- **Runtime:** Next.js API Routes on Vercel
+- **Timeout:** 60 seconds per request
+
+### Security
+
+- **Read-Only Access:** The server provides only read access to the deployed codebase
+- **Filtered Paths:** Sensitive directories (`node_modules`, `.git`, etc.) are excluded
+- **Path Validation:** All file paths are validated to prevent directory traversal
+- **Public Data:** Only deployed, public project files are accessible
+
+### Limitations
+
+- **Deployed Files Only:** Access is limited to files in the Vercel deployment
+- **No Write Access:** The server is read-only
+- **Rate Limits:** Subject to Vercel's serverless function limits
+- **Timeout:** Long-running operations timeout after 60 seconds
+
+## API Reference
+
+### JSON-RPC Format
+
+All requests follow JSON-RPC 2.0:
 
 ```json
 {
-  "mcpServers": {
-    "shaddy-project": {
-      "command": "pnpm",
-      "args": ["--dir", "/path/to/shaddy/apps/web", "mcp:server"]
-    }
-  }
+  "jsonrpc": "2.0",
+  "method": "tools/list" | "tools/call",
+  "params": { ... },
+  "id": number
 }
 ```
 
-Replace `/path/to/shaddy/apps/web` with the actual path to your project's web app directory.
+### Response Format (SSE)
 
-#### VS Code / Cursor / Windsurf
+```
+data: {"jsonrpc":"2.0","result":{...},"id":1}
+```
 
-For VS Code-based editors with MCP support, add to your settings.json:
+### Error Response
 
 ```json
 {
-  "mcp.servers": {
-    "shaddy-project": {
-      "command": "pnpm",
-      "args": ["--dir", "/path/to/shaddy/apps/web", "mcp:server"],
-      "cwd": "/path/to/shaddy"
-    }
-  }
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32600,
+    "message": "Invalid Request"
+  },
+  "id": null
 }
 ```
-
-#### Cline (VS Code Extension)
-
-If you're using the Cline extension, add this to your Cline settings:
-
-```json
-{
-  "mcpServers": {
-    "shaddy-project": {
-      "command": "pnpm",
-      "args": ["--dir", "/path/to/shaddy/apps/web", "mcp:server"]
-    }
-  }
-}
-```
-
-## Running the MCP Server Locally
-
-### Development Mode
-
-```bash
-cd apps/web
-pnpm mcp:server
-```
-
-The server will start in stdio mode and communicate via stdin/stdout.
-
-### Testing with MCP Inspector
-
-You can test the MCP server using the MCP Inspector tool:
-
-```bash
-npx @modelcontextprotocol/inspector pnpm --dir /path/to/shaddy/apps/web mcp:server
-```
-
-This will open a web interface where you can test all the available tools.
-
-## Available Commands
-
-```bash
-# Run the MCP server (stdio mode)
-pnpm mcp:server
-
-# Start Next.js dev server (includes HTTP MCP endpoint)
-pnpm dev
-
-# Build the project
-pnpm build
-
-# Start production server (includes HTTP MCP endpoint)
-pnpm start
-```
-
-## Example Usage
-
-Once connected, you can use the MCP tools through your AI assistant:
-
-```
-# List all TypeScript files
-list_files(pattern="**/*.ts")
-
-# Read a specific file
-read_file(path="apps/web/src/lib/mcp/server.ts")
-
-# Search for a function
-search_code(query="createMCPServer", filePattern="**/*.ts")
-
-# Get project structure
-get_project_structure(depth=3)
-
-# Get all available components and hooks
-get_registry(category="all")
-
-# Get only hooks
-get_registry(category="hooks")
-
-# Get only UI components
-get_registry(category="components")
-```
-
-## Security Notes
-
-- The MCP server only provides read access to the project files
-- It filters out sensitive directories like `node_modules`, `.next`, `.git`
-- All file paths are validated to prevent directory traversal attacks
-- For HTTP endpoint, consider adding authentication for production use
-
-## Deployment
-
-When deployed to Vercel:
-
-1. The HTTP endpoint will be automatically available at `/api/mcp`
-2. The function has a 60-second timeout configured in `vercel.json`
-3. The server operates in serverless mode on Vercel
 
 ## Troubleshooting
 
-### "Module not found" errors
+### Connection Issues
 
-Make sure you've installed dependencies:
+**Problem:** Cannot connect to the endpoint
+**Solution:** Verify the URL is correct: `https://shaddy-docs.vercel.app/api/mcp`
 
-```bash
-pnpm install
-```
+**Problem:** Request timeout
+**Solution:** Queries that scan too many files may timeout. Use more specific patterns.
 
-### "Cannot find module" when running mcp:server
+### Query Issues
 
-Ensure you're running the command from the `apps/web` directory or using the `--dir` flag.
+**Problem:** No results from search
+**Solution:** Check your regex pattern and file pattern. Try broader patterns first.
 
-### HTTP endpoint not working
+**Problem:** Cannot read file
+**Solution:** Ensure the file path is relative to the project root and exists in the deployment.
 
-- Check that your Next.js app is running (`pnpm dev` or deployed)
-- Verify the endpoint URL is correct
-- Check browser console for CORS or network errors
+## Support & Resources
 
-### Stdio mode not connecting
-
-- Verify the path in your MCP client configuration is correct
-- Ensure pnpm is installed and in your PATH
-- Try running the command manually to see error messages
+- **MCP Documentation:** [modelcontextprotocol.io](https://modelcontextprotocol.io)
+- **Shaddy Documentation:** [shaddy-docs.vercel.app](https://shaddy-docs.vercel.app)
+- **GitHub Issues:** [github.com/yourusername/shaddy/issues](https://github.com/yourusername/shaddy/issues)
+- **MCP SDK:** [github.com/modelcontextprotocol/sdk](https://github.com/modelcontextprotocol/sdk)
 
 ## Contributing
 
 To add new tools to the MCP server:
 
 1. Define the tool schema in `apps/web/src/lib/mcp/server.ts`
-2. Add the tool to the `tools` array
-3. Implement the handler in the `CallToolRequestSchema` handler
+2. Add the tool to the `tools` array with proper JSON Schema
+3. Implement the handler in the `CallToolRequestSchema` switch case
 4. Update this documentation
+5. Deploy to Vercel
 
-## Quick Start Summary
+---
 
-### For VS Code (using Cline extension):
+**Made with ❤️ by the Shaddy team**
 
-**Production (connects to Vercel deployment):**
-
-```json
-{
-  "cline.mcpServers": {
-    "shaddy-production": {
-      "command": "pnpm",
-      "args": [
-        "--dir",
-        "/home/rijvi/Desktop/WorkSpace/Rijvi/shaddy/apps/web",
-        "mcp:http"
-      ],
-      "env": {
-        "MCP_ENDPOINT": "https://shaddy-docs.vercel.app/api/mcp"
-      }
-    }
-  }
-}
-```
-
-**Local (reads local files directly):**
-
-```json
-{
-  "cline.mcpServers": {
-    "shaddy-local": {
-      "command": "pnpm",
-      "args": [
-        "--dir",
-        "/home/rijvi/Desktop/WorkSpace/Rijvi/shaddy/apps/web",
-        "mcp:server"
-      ]
-    }
-  }
-}
-```
-
-### For Other Tools:
-
-**Production HTTP Endpoint:**
-
-```
-POST https://shaddy-docs.vercel.app/api/mcp
-```
-
-**Test it:**
-
-```bash
-curl https://shaddy-docs.vercel.app/api/mcp
-```
-
-## Resources
-
-- [MCP Documentation](https://modelcontextprotocol.io)
-- [MCP SDK GitHub](https://github.com/modelcontextprotocol/sdk)
-- [Claude Desktop MCP Guide](https://modelcontextprotocol.io/docs/tools/claude-desktop)
+Explore the power of AI-assisted component development!
