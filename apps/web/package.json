@@ -15,7 +15,9 @@
     "registry:build": "tsx ./src/scripts/build-registry.ts && prettier --config .prettierrc --log-level silent --write \"./src/registry/**/*.{ts,tsx,mdx}\" --cache",
     "build:registry:watch": "tsx --watch ./src/scripts/build-registry.ts && prettier --config .prettierrc --log-level silent --write \"./src/registry/**/*.{ts,tsx,mdx}\" --cache",
     "clean": "rimraf .next .contentlayer .turbo node_modules",
-    "clean:cache": "rimraf .next .turbo"
+    "clean:cache": "rimraf .next .turbo",
+    "mcp:server": "tsx ./src/bin/mcp-server.ts",
+    "mcp:http": "tsx ./src/bin/mcp-http-client.ts"
   },
   "engines": {
     "node": ">=20"
@@ -23,6 +25,7 @@
   "dependencies": {
     "@emotion/is-prop-valid": "^1.3.0",
     "@hookform/resolvers": "^5.2.1",
+    "@modelcontextprotocol/sdk": "^1.20.2",
     "@next/third-parties": "^15.3.3",
     "@radix-ui/react-accordion": "^1.2.2",
     "@radix-ui/react-alert-dialog": "^1.1.5",
@@ -65,6 +68,7 @@
     "feed": "^4.2.2",
     "framer-motion": "^11.18.2",
     "geist": "^1.3.1",
+    "glob": "^11.0.3",
     "input-otp": "^1.4.2",
     "libphonenumber-js": "^1.12.12",
     "lucide-react": "0.414.0",

@@ -8,6 +8,12 @@ Shaddy is built on top of Next.js and shadcn/ui using TypeScript. Our goal is to
 
 Visit https://shaddy-docs.vercel.app to view the documentation.
 
+## MCP Server
+
+Shaddy includes a Model Context Protocol (MCP) server that provides AI agents with intelligent access to the project codebase. This enables better context understanding for AI assistants like Claude, VS Code Copilot, Windsurf, and other MCP-compatible tools.
+
+For setup instructions, see [MCP_SETUP.md](./MCP_SETUP.md).
+
 ## Contributing
 
 Please read the [contributing guide](./CONTRIBUTING.md).
