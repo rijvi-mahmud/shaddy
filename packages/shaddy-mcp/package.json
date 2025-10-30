@@ -1,0 +1,43 @@
+{
+  "name": "shaddy-mcp",
+  "version": "1.0.0",
+  "description": "MCP client for Shaddy component library - connects AI agents to the Shaddy registry",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "shaddy-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "pnpm build"
+  },
+  "keywords": [
+    "shaddy",
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "components",
+    "registry"
+  ],
+  "author": "Shaddy Team",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/shaddy.git",
+    "directory": "packages/shaddy-mcp"
+  },
+  "homepage": "https://shaddy-docs.vercel.app"
+}

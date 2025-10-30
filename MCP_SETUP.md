@@ -1,84 +1,272 @@
-# Shaddy MCP Server - Developer Guide
+# Shaddy MCP Server - Quick Start Guide
 
-The Shaddy project provides a **public MCP (Model Context Protocol) server** that allows AI agents and developers worldwide to explore and interact with the Shaddy component library.
+Connect any AI agent to explore the Shaddy component library using Model Context Protocol (MCP).
 
 ## What is MCP?
 
-Model Context Protocol (MCP) is an open standard that allows AI assistants to connect to external data sources and tools. The Shaddy MCP server exposes the project's codebase, component registry, and documentation to any AI agent that supports MCP.
+[Model Context Protocol (MCP)](https://modelcontextprotocol.io) is an open standard that allows AI assistants to connect to external data sources. The Shaddy MCP server lets AI agents explore components, hooks, and code from the Shaddy library.
 
-## Public Endpoint
+## Quick Start
 
-**Production URL:** `https://shaddy-docs.vercel.app/api/mcp`
+Choose your AI client and add the configuration below. All clients use the **same command**:
 
-This endpoint is publicly accessible and provides read-only access to:
-- The deployed Shaddy codebase
-- Component and hook registry
-- Project file structure
-- Code search capabilities
+```bash
+npx shaddy-mcp
+```
+
+### Claude Code
+
+Add to `.mcp.json` in your project root:
+
+```json
+{
+  "mcpServers": {
+    "shaddy": {
+      "command": "npx",
+      "args": ["shaddy-mcp"]
+    }
+  }
+}
+```
+
+Restart Claude Code and run `/mcp` to verify the connection.
+
+### Cursor
+
+Add to `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "shaddy": {
+      "command": "npx",
+      "args": ["shaddy-mcp"]
+    }
+  }
+}
+```
+
+Enable the shaddy server in Cursor Settings.
+
+### VS Code (with GitHub Copilot)
+
+Add to `.vscode/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "shaddy": {
+      "command": "npx",
+      "args": ["shaddy-mcp"]
+    }
+  }
+}
+```
+
+Open `.vscode/mcp.json` and click **Start** next to the shaddy server.
+
+### Codex
+
+Add to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.shaddy]
+command = "npx"
+args = ["@shaddy/mcp"]
+```
+
+Restart Codex to load the server.
+
+---
 
 ## Available Tools
 
-The MCP server provides 5 powerful tools:
+Once connected, your AI assistant can use these tools:
 
-### 1. **list_files**
-List files in the deployed project with optional glob pattern filtering.
+### 1. **get_registry**
+Browse all Shaddy components, hooks, and utilities.
+
+**Example prompts:**
+- "Show me all available hooks in Shaddy"
+- "What components are in the Shaddy registry?"
+- "List all form components"
+
+### 2. **search_code**
+Search for patterns across the codebase.
+
+**Example prompts:**
+- "Find the useLocalStorage implementation"
+- "Search for form validation examples"
+- "Show me how to use the Button component"
+
+### 3. **read_file**
+Read source code from the project.
+
+**Example prompts:**
+- "Show me the useBoolean hook source code"
+- "Read the form component implementation"
+
+### 4. **list_files**
+List files with optional filtering.
+
+**Example prompts:**
+- "List all TypeScript files"
+- "Show me files in the hooks directory"
+
+### 5. **get_project_structure**
+View the directory structure.
+
+**Example prompts:**
+- "Show me the project structure"
+- "What's in the components directory?"
+
+---
+
+## Example Prompts
+
+Try these with your AI assistant:
+
+### Discovery
+- "What hooks are available in Shaddy?"
+- "Show me all form field components"
+- "List all UI components in the registry"
+
+### Implementation Help
+- "How do I use the useDebounce hook?"
+- "Show me an example of the DatePicker component"
+- "What props does the Button component accept?"
+
+### Code Search
+- "Find examples of form validation"
+- "Search for useState usage in hooks"
+- "Show me how to handle form submission"
+
+### Architecture
+- "Show me the project structure"
+- "What's in the form components directory?"
+- "List all hook files"
+
+---
+
+## How It Works
+
+```
+┌─────────────────┐       stdin/stdout       ┌────────────────┐
+│  Your AI Client │ ◄────────────────────► │  @shaddy/mcp   │
+│ (Claude, Cursor)│                         │   (npm pkg)    │
+└─────────────────┘                         └────────────────┘
+                                                     │
+                                                     │ HTTP/SSE
+                                                     ▼
+                                            ┌─────────────────┐
+                                            │   Vercel Edge   │
+                                            │  MCP Endpoint   │
+                                            └─────────────────┘
+                                                     │
+                                                     │
+                                                     ▼
+                                            ┌─────────────────┐
+                                            │ Shaddy Registry │
+                                            │   Components    │
+                                            │      Hooks      │
+                                            │    Utilities    │
+                                            └─────────────────┘
+```
+
+1. **AI Client** sends requests via stdio (standard input/output)
+2. **@shaddy/mcp** bridges stdio to HTTP
+3. **Production Endpoint** processes requests from Vercel
+4. **Registry Data** is returned to your AI assistant
+
+---
+
+## Advanced Configuration
+
+### Custom Endpoint
+
+To use a different endpoint (self-hosted, staging, etc.):
 
 ```json
 {
-  "directory": "apps/web/src/components",
-  "pattern": "**/*.tsx"
+  "mcpServers": {
+    "shaddy": {
+      "command": "npx",
+      "args": ["shaddy-mcp"],
+      "env": {
+        "SHADDY_MCP_ENDPOINT": "https://your-endpoint.com/api/mcp"
+      }
+    }
+  }
 }
 ```
 
-### 2. **read_file**
-Read the contents of any file in the deployed project.
+### Local Development
+
+To test with a local server:
 
 ```json
 {
-  "path": "apps/web/src/lib/mcp/server.ts"
+  "mcpServers": {
+    "shaddy-local": {
+      "command": "npx",
+      "args": ["shaddy-mcp"],
+      "env": {
+        "SHADDY_MCP_ENDPOINT": "http://localhost:3000/api/mcp"
+      }
+    }
+  }
 }
 ```
 
-### 3. **search_code**
-Search for code patterns across the project with regex support.
+---
 
-```json
-{
-  "query": "useState",
-  "filePattern": "**/*.tsx",
-  "caseSensitive": false
-}
-```
+## Troubleshooting
 
-### 4. **get_project_structure**
-Get the directory tree structure of the project.
+### "Command not found" or "Module not found"
 
-```json
-{
-  "depth": 3
-}
-```
+The first time `npx shaddy-mcp` runs, it downloads the package. If this fails:
 
-### 5. **get_registry**
-Get the Shaddy component/hook registry with metadata, dependencies, and file paths.
+1. Check your internet connection
+2. Try: `npx clear-npx-cache`
+3. Manually install: `npm install -g shaddy-mcp`
 
-```json
-{
-  "category": "hooks"
-}
-```
+### MCP Server Not Responding
 
-Categories: `all`, `hooks`, `components`, `utilities`
+1. **Restart your AI client** after adding configuration
+2. **Check logs** (in Cursor: View → Output → MCP: project-*)
+3. **Verify the config file exists** in the correct location
+4. **Test the endpoint** manually:
+   ```bash
+   curl https://shaddy-docs.vercel.app/api/mcp
+   ```
 
-## Usage Examples
+### Connection Timeout
 
-### Testing with cURL
+The production endpoint has a 60-second timeout. If queries timeout:
+
+1. Use more specific search patterns
+2. Narrow file patterns (e.g., `**/*.tsx` instead of `**/*`)
+3. Break large queries into smaller ones
+
+### No Tools Available
+
+If you see "No tools or prompts":
+
+1. Clear npx cache: `npx clear-npx-cache`
+2. Re-enable the server in your client settings
+3. Check that `@shaddy/mcp` package is published and accessible
+
+---
+
+## Direct API Access
+
+You can also query the endpoint directly without MCP:
 
 ```bash
-# Get server information
+# Get server info
 curl https://shaddy-docs.vercel.app/api/mcp
 
-# List all available tools
+# List tools
 curl -X POST https://shaddy-docs.vercel.app/api/mcp \
   -H "Content-Type: application/json" \
   -d '{
@@ -87,7 +275,7 @@ curl -X POST https://shaddy-docs.vercel.app/api/mcp \
     "id": 1
   }'
 
-# Get all hooks from the registry
+# Get all hooks
 curl -X POST https://shaddy-docs.vercel.app/api/mcp \
   -H "Content-Type: application/json" \
   -d '{
@@ -95,242 +283,95 @@ curl -X POST https://shaddy-docs.vercel.app/api/mcp \
     "method": "tools/call",
     "params": {
       "name": "get_registry",
-      "arguments": {
-        "category": "hooks"
-      }
+      "arguments": { "category": "hooks" }
     },
     "id": 2
   }'
-
-# Search for a specific hook
-curl -X POST https://shaddy-docs.vercel.app/api/mcp \
-  -H "Content-Type: application/json" \
-  -d '{
-    "jsonrpc": "2.0",
-    "method": "tools/call",
-    "params": {
-      "name": "search_code",
-      "arguments": {
-        "query": "useBoolean",
-        "filePattern": "**/*.ts"
-      }
-    },
-    "id": 3
-  }'
 ```
 
-### Using with AI Assistants
+---
 
-#### Claude Desktop
+## Integration Examples
 
-Add to your Claude Desktop configuration:
-
-**macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
-**Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
-**Linux:** `~/.config/Claude/claude_desktop_config.json`
-
-```json
-{
-  "mcpServers": {
-    "shaddy": {
-      "url": "https://shaddy-docs.vercel.app/api/mcp",
-      "transport": "http"
-    }
-  }
-}
-```
-
-#### Web-Based AI Tools
-
-Any web-based AI tool that supports MCP can connect to:
-```
-https://shaddy-docs.vercel.app/api/mcp
-```
-
-Use POST requests with JSON-RPC 2.0 format.
-
-### Integration Examples
-
-#### JavaScript/TypeScript
+### JavaScript/TypeScript
 
 ```typescript
-async function queryShaddyMCP(method: string, params?: any) {
-  const response = await fetch('https://shaddy-docs.vercel.app/api/mcp', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      jsonrpc: '2.0',
-      method,
-      params,
-      id: Date.now(),
-    }),
-  });
+import { spawn } from 'child_process'
 
-  const reader = response.body!.getReader();
-  const decoder = new TextDecoder();
+const mcp = spawn('npx', ['@shaddy/mcp'])
 
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
+// Send request
+mcp.stdin.write(JSON.stringify({
+  jsonrpc: '2.0',
+  method: 'tools/call',
+  params: {
+    name: 'get_registry',
+    arguments: { category: 'all' }
+  },
+  id: 1
+}) + '\n')
 
-    const chunk = decoder.decode(value);
-    const lines = chunk.split('\n');
-
-    for (const line of lines) {
-      if (line.startsWith('data: ')) {
-        const data = JSON.parse(line.slice(6));
-        console.log(data);
-      }
-    }
-  }
-}
-
-// Example: Get all components
-await queryShaddyMCP('tools/call', {
-  name: 'get_registry',
-  arguments: { category: 'components' }
-});
-```
-
-#### Python
-
-```python
-import requests
-import json
-
-def query_shaddy_mcp(method, params=None):
-    url = "https://shaddy-docs.vercel.app/api/mcp"
-    payload = {
-        "jsonrpc": "2.0",
-        "method": method,
-        "params": params,
-        "id": 1
-    }
-
-    response = requests.post(url, json=payload, stream=True)
-
-    for line in response.iter_lines():
-        if line and line.startswith(b'data: '):
-            data = json.loads(line[6:])
-            print(data)
-
-# Example: List TypeScript files
-query_shaddy_mcp('tools/call', {
-    'name': 'list_files',
-    'arguments': {'pattern': '**/*.ts'}
+// Read response
+mcp.stdout.on('data', (data) => {
+  const response = JSON.parse(data.toString())
+  console.log(response)
 })
 ```
 
-## Use Cases
+### Python
 
-### For Developers
+```python
+import subprocess
+import json
 
-- **Explore Components:** Browse available hooks and UI components
-- **Code Examples:** Search for implementation patterns and examples
-- **Documentation:** Read source code and understand component APIs
-- **Integration:** Learn how to use Shaddy components in your project
+mcp = subprocess.Popen(
+    ['npx', '@shaddy/mcp'],
+    stdin=subprocess.PIPE,
+    stdout=subprocess.PIPE,
+    text=True
+)
 
-### For AI Agents
-
-- **Context-Aware Assistance:** Provide accurate help based on actual Shaddy code
-- **Code Generation:** Generate code that matches Shaddy patterns
-- **Documentation:** Answer questions about Shaddy components
-- **Discovery:** Help developers find the right components for their needs
-
-## Technical Details
-
-### Architecture
-
-- **Protocol:** JSON-RPC 2.0 over HTTP
-- **Transport:** Server-Sent Events (SSE)
-- **Runtime:** Next.js API Routes on Vercel
-- **Timeout:** 60 seconds per request
-
-### Security
-
-- **Read-Only Access:** The server provides only read access to the deployed codebase
-- **Filtered Paths:** Sensitive directories (`node_modules`, `.git`, etc.) are excluded
-- **Path Validation:** All file paths are validated to prevent directory traversal
-- **Public Data:** Only deployed, public project files are accessible
-
-### Limitations
-
-- **Deployed Files Only:** Access is limited to files in the Vercel deployment
-- **No Write Access:** The server is read-only
-- **Rate Limits:** Subject to Vercel's serverless function limits
-- **Timeout:** Long-running operations timeout after 60 seconds
-
-## API Reference
-
-### JSON-RPC Format
-
-All requests follow JSON-RPC 2.0:
-
-```json
-{
-  "jsonrpc": "2.0",
-  "method": "tools/list" | "tools/call",
-  "params": { ... },
-  "id": number
+# Send request
+request = {
+    'jsonrpc': '2.0',
+    'method': 'tools/call',
+    'params': {
+        'name': 'get_registry',
+        'arguments': {'category': 'all'}
+    },
+    'id': 1
 }
+
+mcp.stdin.write(json.dumps(request) + '\n')
+mcp.stdin.flush()
+
+# Read response
+response = json.loads(mcp.stdout.readline())
+print(response)
 ```
 
-### Response Format (SSE)
+---
 
-```
-data: {"jsonrpc":"2.0","result":{...},"id":1}
-```
+## Resources
 
-### Error Response
+- **Production Endpoint:** `https://shaddy-docs.vercel.app/api/mcp`
+- **Package:** [shaddy-mcp on npm](https://www.npmjs.com/package/shaddy-mcp)
+- **Documentation:** [shaddy-docs.vercel.app](https://shaddy-docs.vercel.app)
+- **MCP Specification:** [modelcontextprotocol.io](https://modelcontextprotocol.io)
+- **GitHub:** [github.com/yourusername/shaddy](https://github.com/yourusername/shaddy)
 
-```json
-{
-  "jsonrpc": "2.0",
-  "error": {
-    "code": -32600,
-    "message": "Invalid Request"
-  },
-  "id": null
-}
-```
+---
 
-## Troubleshooting
+## Support
 
-### Connection Issues
+Having issues? We're here to help:
 
-**Problem:** Cannot connect to the endpoint
-**Solution:** Verify the URL is correct: `https://shaddy-docs.vercel.app/api/mcp`
-
-**Problem:** Request timeout
-**Solution:** Queries that scan too many files may timeout. Use more specific patterns.
-
-### Query Issues
-
-**Problem:** No results from search
-**Solution:** Check your regex pattern and file pattern. Try broader patterns first.
-
-**Problem:** Cannot read file
-**Solution:** Ensure the file path is relative to the project root and exists in the deployment.
-
-## Support & Resources
-
-- **MCP Documentation:** [modelcontextprotocol.io](https://modelcontextprotocol.io)
-- **Shaddy Documentation:** [shaddy-docs.vercel.app](https://shaddy-docs.vercel.app)
-- **GitHub Issues:** [github.com/yourusername/shaddy/issues](https://github.com/yourusername/shaddy/issues)
-- **MCP SDK:** [github.com/modelcontextprotocol/sdk](https://github.com/modelcontextprotocol/sdk)
-
-## Contributing
-
-To add new tools to the MCP server:
-
-1. Define the tool schema in `apps/web/src/lib/mcp/server.ts`
-2. Add the tool to the `tools` array with proper JSON Schema
-3. Implement the handler in the `CallToolRequestSchema` switch case
-4. Update this documentation
-5. Deploy to Vercel
+- **GitHub Issues:** [Report a bug or request a feature](https://github.com/yourusername/shaddy/issues)
+- **Documentation:** [Complete guides and tutorials](https://shaddy-docs.vercel.app)
+- **MCP Docs:** [Learn more about MCP](https://modelcontextprotocol.io)
 
 ---
 
 **Made with ❤️ by the Shaddy team**
 
-Explore the power of AI-assisted component development!
+Explore components with AI assistance!
