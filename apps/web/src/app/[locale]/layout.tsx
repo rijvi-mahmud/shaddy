@@ -119,7 +119,7 @@ export default async function RootLayout({ children, params }: AppLayoutProps) {
   setRequestLocale(locale)
 
   return (
-    <html lang={locale || defaultLocale} suppressHydrationWarning>
+    <html lang={locale || defaultLocale}>
       <head>
         <meta name="theme-color" content="#181423" />
       </head>
@@ -131,20 +131,18 @@ export default async function RootLayout({ children, params }: AppLayoutProps) {
           fontSans.className
         )}
       >
-        <NextIntlClientProvider locale={locale || defaultLocale} messages={{}}>
+        <NextIntlClientProvider locale={locale || defaultLocale}>
           <ThemeProvider
             enableSystem
             attribute="class"
             defaultTheme="dark"
             disableTransitionOnChange
           >
-            <div className="relative z-10 flex min-h-screen flex-col">
-              <SiteHeader />
+            <SiteHeader />
 
-              <main className="flex-1">{children}</main>
+            <main className="flex-1">{children}</main>
 
-              <SiteFooter />
-            </div>
+            <SiteFooter />
           </ThemeProvider>
         </NextIntlClientProvider>
         <Analytics />

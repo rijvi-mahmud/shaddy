@@ -38,6 +38,7 @@ import { useUtilsConfig } from '@/lib/shaddy/hooks/use-utils-config'
 import { getObjectValueByLocale } from '@/lib/shaddy/utils/locale'
 import { allBlogs } from 'contentlayer/generated'
 import { useFormConfig } from '@/lib/shaddy/hooks/use-form-config'
+import { useReactPatternsConfig } from '@/lib/shaddy/hooks/use-react-patterns-config'
 
 interface CommandMenuProps extends AlertDialogProps {
   messages: {
@@ -47,6 +48,7 @@ interface CommandMenuProps extends AlertDialogProps {
     form: string
     ui: string
     utils: string
+    reactPatterns: string
     search: string
     noResultsFound: string
     searchDocumentation: string
@@ -70,6 +72,7 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
   const formConfig = useFormConfig()
   const uiConfig = useUiConfig()
   const utilsConfig = useUtilsConfig()
+  const reactPatternsConfig = useReactPatternsConfig()
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -130,6 +133,7 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
       ...formConfig.form.mainNav,
       ...uiConfig.ui.mainNav,
       ...utilsConfig.utils.mainNav,
+      ...reactPatternsConfig.reactPatterns.mainNav,
     ]
       .filter((navItem) => !navItem.external && navItem.href)
       .map((item) => ({
@@ -158,6 +162,15 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
       flattenNavItems(group.items, utilsConfig.currentLocale, messages.utils)
     )
 
+    const reactPatternsItems =
+      reactPatternsConfig.reactPatterns.sidebarNav.flatMap((group) =>
+        flattenNavItems(
+          group.items,
+          reactPatternsConfig.currentLocale,
+          messages.reactPatterns
+        )
+      )
+
     // const blogItems = allBlogs
     //   .filter((post) => {
     //     const [postLocale] = post.slugAsParams.split('/')
@@ -182,8 +195,17 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
       form: formItems,
       ui: uiItems,
       utils: utilsItems,
+      reactPatterns: reactPatternsItems,
     }
-  }, [hooksConfig, formConfig, uiConfig, utilsConfig, locale, messages])
+  }, [
+    hooksConfig,
+    formConfig,
+    uiConfig,
+    utilsConfig,
+    reactPatternsConfig,
+    locale,
+    messages,
+  ])
 
   return (
     <>
@@ -323,6 +345,24 @@ export function CommandMenu({ messages, ...props }: CommandMenuProps) {
 
           <CommandGroup heading={messages.utils}>
             {allSearchableItems.utils.map((item) => (
+              <CommandItem
+                key={item.href}
+                value={`${item.title} (${item.group})`}
+                onSelect={() => runCommand(() => router.push(item.href!))}
+                className="cursor-pointer aria-selected:bg-accent aria-selected:text-accent-foreground"
+              >
+                <div className="mr-2 flex size-4 shrink-0 items-center justify-center">
+                  <CircleIcon className="size-3" />
+                </div>
+                <span className="flex-1 truncate">{item.title}</span>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+
+          <CommandSeparator className="my-1.5" />
+
+          <CommandGroup heading={messages.reactPatterns}>
+            {allSearchableItems.reactPatterns.map((item) => (
               <CommandItem
                 key={item.href}
                 value={`${item.title} (${item.group})`}

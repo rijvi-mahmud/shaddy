@@ -19,6 +19,9 @@ import { usePathname } from '@/navigation'
 import { Button } from './ui/button'
 import { useTypedHooksConfig } from '@/lib/shaddy/hooks/use-typed-hooks-config'
 import { useFormConfig } from '@/lib/shaddy/hooks/use-form-config'
+import { useUiConfig } from '@/lib/shaddy/hooks/use-ui-config'
+import { useUtilsConfig } from '@/lib/shaddy/hooks/use-utils-config'
+import { useReactPatternsConfig } from '@/lib/shaddy/hooks/use-react-patterns-config'
 
 interface MobileNavProps {
   menuLinks: JSX.Element
@@ -57,12 +60,20 @@ export function MobileNav({ messages, menuLinks }: MobileNavProps) {
   const pathname = usePathname()
   const hooksConfig = useTypedHooksConfig()
   const formConfig = useFormConfig()
-  // Add more configs as needed
+  const uiConfig = useUiConfig()
+  const utilsConfig = useUtilsConfig()
+  const reactPatternsConfig = useReactPatternsConfig()
 
   const [open, setOpen] = useState(false)
 
   // Define your sections in an array
   const sections = [
+    {
+      mainNav: uiConfig.ui.mainNav,
+      sidebarNav: uiConfig.ui.sidebarNav,
+      locale: uiConfig.currentLocale,
+      showSidebar: pathname.startsWith('/ui'),
+    },
     {
       mainNav: hooksConfig.hooks.mainNav,
       sidebarNav: hooksConfig.hooks.sidebarNav,
@@ -75,7 +86,18 @@ export function MobileNav({ messages, menuLinks }: MobileNavProps) {
       locale: formConfig.currentLocale,
       showSidebar: pathname.startsWith('/form'),
     },
-    // Add more sections here if needed
+    {
+      mainNav: utilsConfig.utils.mainNav,
+      sidebarNav: utilsConfig.utils.sidebarNav,
+      locale: utilsConfig.currentLocale,
+      showSidebar: pathname.startsWith('/utils'),
+    },
+    {
+      mainNav: reactPatternsConfig.reactPatterns.mainNav,
+      sidebarNav: reactPatternsConfig.reactPatterns.sidebarNav,
+      locale: reactPatternsConfig.currentLocale,
+      showSidebar: pathname.startsWith('/react-patterns'),
+    },
   ]
 
   return (

@@ -1,0 +1,177 @@
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { allReactPatterns } from 'contentlayer/generated'
+
+import type { LocaleOptions } from '@/lib/shaddy/types/i18n'
+import type { Metadata } from 'next'
+import type { DocParams } from '@/lib/shaddy/types/docs'
+
+import '@/styles/mdx.css'
+
+import { DashboardTableOfContents } from '@/components/docs/toc'
+import { DocumentNotFound } from '@/components/docs/not-found'
+import { getTableOfContents } from '@/lib/shaddy/utils/toc'
+import { DocBreadcrumb } from '@/components/docs/breadcrumb'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { DocPageProps } from '@/lib/shaddy/types/docs'
+import { DocHeading } from '@/components/docs/heading'
+import { DocsPager } from '@/components/docs/pager'
+import { DocLinks } from '@/components/docs/links'
+import { defaultLocale } from '@/config/i18n'
+import { Mdx } from '@/components/docs/mdx'
+import { siteConfig } from '@/config/site'
+import { absoluteUrl } from '@/lib/utils'
+import { getDocFromParams } from '@/lib/shaddy/utils/doc'
+import { reactPatternsConfig } from '@/config/react-patterns'
+import { BuyMeCoffee } from '@/components/ui/bmc'
+import { ProductHuntBadge } from '@/components/ui/product-hunt-badge'
+
+export const dynamicParams = true
+
+export async function generateMetadata({
+  params,
+}: DocPageProps): Promise<Metadata> {
+  const { locale } = await params
+
+  setRequestLocale(locale || defaultLocale)
+
+  const doc = await getDocFromParams({ params, data: allReactPatterns })
+
+  if (!doc) {
+    return {}
+  }
+
+  const [, ...docSlugList] = doc.slugAsParams.split('/')
+  const docSlug = docSlugList.join('/') || ''
+
+  return {
+    title: doc.title,
+    description: doc.description,
+
+    openGraph: {
+      type: 'article',
+      title: doc.title,
+      url: absoluteUrl(`/${locale}/react-patterns/${docSlug}`),
+      description: doc.description,
+
+      images: [
+        {
+          ...siteConfig.og.size,
+          url: siteConfig.og.image,
+          alt: siteConfig.name,
+        },
+      ],
+    },
+
+    twitter: {
+      card: 'summary_large_image',
+      title: doc.title,
+      description: doc.description,
+      images: [siteConfig.og.image],
+      creator: siteConfig.links.twitter.username,
+    },
+  }
+}
+
+export async function generateStaticParams(): Promise<DocParams[]> {
+  const docs = allReactPatterns.map((doc) => {
+    const [locale, ...slugs] = doc.slugAsParams.split('/')
+
+    return {
+      slug: slugs,
+      locale: locale as LocaleOptions,
+    }
+  })
+
+  return docs
+}
+
+export default async function DocPage({ params }: DocPageProps) {
+  const { locale } = await params
+  setRequestLocale(locale || defaultLocale)
+
+  const doc = await getDocFromParams({ params, data: allReactPatterns })
+  const t = await getTranslations('react-patterns')
+
+  if (!doc) {
+    return (
+      <DocumentNotFound
+        messages={{
+          title: t('not_found.title'),
+          description: t('not_found.description'),
+        }}
+      />
+    )
+  }
+
+  const toc = await getTableOfContents(doc.body.raw)
+
+  // Get the current page URL
+  const [, ...docSlugList] = doc.slugAsParams.split('/')
+  const docSlug = docSlugList.join('/') || ''
+  const pageUrl = absoluteUrl(`/${locale}/react-patterns/${docSlug}`)
+
+  return (
+    <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_240px] min-h-svh">
+      <div className="mx-auto w-full min-w-0 max-w-4xl">
+        <DocBreadcrumb
+          docsConfig={reactPatternsConfig}
+          rootPath="react-patterns"
+          doc={doc}
+          messages={{
+            docs: t('docs'),
+          }}
+        />
+
+        <div className="pb-8">
+          <DocHeading
+            title={doc.title}
+            description={doc.description}
+            notAvailable={doc.notAvailable}
+            locale={locale}
+            rawContent={doc.body.raw}
+            pageUrl={pageUrl}
+          />
+
+          <DocLinks links={doc.links} />
+        </div>
+
+        <div className="pb-12">
+          <Mdx code={doc.body.code} />
+        </div>
+
+        <div>
+          <DocsPager
+            doc={doc}
+            locale={locale}
+            config={reactPatternsConfig}
+            slugFor="react-patterns"
+          />
+        </div>
+      </div>
+
+      {doc.toc && (
+        <div className="hidden text-sm xl:block">
+          <div className="sticky top-16 -mt-10 pt-4">
+            <ScrollArea>
+              <div className="sticky top-16 -mt-10 h-fit py-12">
+                <DashboardTableOfContents
+                  toc={toc}
+                  sourceFilePath={doc._raw.sourceFilePath}
+                  messages={{
+                    onThisPage: t('on_this_page'),
+                    editPageOnGitHub: t('edit_page_on_github'),
+                    startDiscussionOnGitHub: t('start_discussion_on_github'),
+                  }}
+                />
+              </div>
+            </ScrollArea>
+            <div>
+              <ProductHuntBadge mode="dark" />
+              <BuyMeCoffee className="text-2xl" />
+            </div>
+          </div>
+        </div>
+      )}
+    </main>
+  )
+}

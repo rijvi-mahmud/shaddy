@@ -173,6 +173,10 @@ export const TypedHooks = createCommonDocType(
   'typed-hooks/**/*.mdx'
 )
 export const Form = createCommonDocType('Form', 'form/**/*.mdx')
+export const ReactPatterns = createCommonDocType(
+  'ReactPatterns',
+  'react-patterns/**/*.mdx'
+)
 export const UI = createCommonDocType('UI', 'ui/**/*.mdx')
 export const Utils = createCommonDocType('Utils', 'utils/**/*.mdx')
 
@@ -229,9 +233,17 @@ export const Blog = defineDocumentType(() => ({
 }))
 
 export default makeSource({
-  documentTypes: [Doc, Blog, TypedHooks, Utils, Form, UI],
+  documentTypes: [Doc, Blog, TypedHooks, Utils, Form, ReactPatterns, UI],
   contentDirPath: '../content',
-  contentDirInclude: ['docs', 'blog', 'typed-hooks', 'utils', 'form', 'ui'],
+  contentDirInclude: [
+    'docs',
+    'blog',
+    'typed-hooks',
+    'utils',
+    'form',
+    'react-patterns',
+    'ui',
+  ],
   mdx: {
     remarkPlugins: [remarkGfm, codeImport],
 

@@ -13,7 +13,7 @@ import { siteConfig } from '@/config/site'
 import { I18nToggle } from './i18n-toggle'
 import { Link } from '@/navigation'
 import { cn } from '@/lib/utils'
-import { SiteHeaderClientWrapper } from './site-header-client-wrapper'
+import { AnnouncementBanner } from '@/components/announcement-banner'
 
 const CommandMenu = dynamic(() =>
   import('@/components/command-menu').then((mod) => mod.CommandMenu)
@@ -60,8 +60,23 @@ export async function SiteHeader() {
   const t = await getTranslations('site')
 
   return (
-    <SiteHeaderClientWrapper>
-      <div className="container flex h-14 max-w-(--breakpoint-2xl) items-center">
+    <>
+      <AnnouncementBanner
+        message="Hiring? Remote Frontend/Full Stack Dev | 3+ years React/Next.js/NodeJs | Startup & Team Lead experience | AI Engineering | Open to freelance & full-time"
+        ctas={[
+          {
+            text: 'LinkedIn',
+            href: 'https://www.linkedin.com/in/rijvi-mahmud/',
+          },
+          {
+            text: 'Portfolio',
+            href: 'https://rijvi-mahmud-portfolio.vercel.app/',
+          },
+        ]}
+        variant="gradient"
+        storageKey="hiring-banner-nov-2024"
+      />
+      <div className="container flex h-14 max-w-(--breakpoint-2xl) items-center top-0 z-50 w-full backdrop-blur-sm sticky top-0">
         <MainNav
           messages={{
             docs: t('words.docs'),
@@ -71,6 +86,8 @@ export async function SiteHeader() {
             form: t('words.form'),
             ui: t('words.ui'),
             utils: t('words.utils'),
+            resources: t('words.resources'),
+            react_patterns: t('words.react_patterns'),
           }}
         />
 
@@ -92,6 +109,7 @@ export async function SiteHeader() {
                 hooks: t('words.typed_hooks'),
                 ui: t('words.ui'),
                 utils: t('words.utils'),
+                reactPatterns: t('words.react_patterns'),
                 search: t('search.search'),
                 noResultsFound: t('search.no_results_found'),
                 typeCommandOrSearch: t('search.type_command_or_search'),
@@ -135,7 +153,7 @@ export async function SiteHeader() {
           </nav>
         </div>
       </div>
-    </SiteHeaderClientWrapper>
+    </>
   )
 }
 

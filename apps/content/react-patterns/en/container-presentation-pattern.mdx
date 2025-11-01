@@ -1,0 +1,410 @@
+---
+title: Container-Presentation Pattern
+description: Learn how to separate business logic from UI rendering using the Container-Presentation pattern in React.
+---
+
+### Introduction
+
+The Container-Presentation pattern (also known as Smart-Dumb or Stateful-Stateless pattern) is a design pattern that separates components into two categories: containers that handle logic and state, and presentational components that handle rendering UI. This separation of concerns makes your code more maintainable, testable, and reusable.
+
+### The Problem
+
+In React applications, components often mix business logic with UI rendering. This tight coupling makes components harder to test, reuse, and maintain. When a component handles data fetching, state management, side effects, and UI rendering all at once, it becomes difficult to modify one aspect without affecting others.
+
+### The Solution
+
+The Container-Presentation pattern solves this by splitting components into:
+
+- **Container Components**: Handle logic, state management, data fetching, and side effects
+- **Presentational Components**: Focus solely on rendering UI based on props
+
+### Container Components
+
+Container components are responsible for:
+
+- Managing state
+- Fetching data from APIs
+- Handling business logic
+- Managing side effects
+- Connecting to global state (Context, Redux, etc.)
+
+```tsx
+// UserListContainer.tsx
+import { useState, useEffect } from "react";
+import { UserList } from "./UserList";
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+export function UserListContainer() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch("/api/users");
+      const data = await response.json();
+      setUsers(data);
+    } catch (err) {
+      setError("Failed to fetch users");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteUser = async (id: number) => {
+    try {
+      await fetch(`/api/users/${id}`, { method: "DELETE" });
+      setUsers(users.filter((user) => user.id !== id));
+    } catch (err) {
+      setError("Failed to delete user");
+    }
+  };
+
+  return (
+    <UserList
+      users={users}
+      loading={loading}
+      error={error}
+      onDeleteUser={handleDeleteUser}
+    />
+  );
+}
+```
+
+### Presentational Components
+
+Presentational components are responsible for:
+
+- Rendering UI elements
+- Receiving data via props
+- Calling callbacks passed via props
+- Focusing on visual presentation
+
+```tsx
+// UserList.tsx
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+interface UserListProps {
+  users: User[];
+  loading: boolean;
+  error: string | null;
+  onDeleteUser: (id: number) => void;
+}
+
+export function UserList({
+  users,
+  loading,
+  error,
+  onDeleteUser,
+}: UserListProps) {
+  if (loading) {
+    return <div className="text-center p-4">Loading users...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500 p-4">{error}</div>;
+  }
+
+  return (
+    <div className="space-y-4">
+      <h2 className="text-2xl font-bold">Users</h2>
+      <ul className="divide-y divide-gray-200">
+        {users.map((user) => (
+          <li key={user.id} className="py-4 flex justify-between items-center">
+            <div>
+              <p className="font-medium">{user.name}</p>
+              <p className="text-gray-600">{user.email}</p>
+            </div>
+            <button
+              onClick={() => onDeleteUser(user.id)}
+              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+            >
+              Delete
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+### Real-World Example: Multiple UI Components
+
+In production applications, you often need to render multiple UI components using the same data. The container pattern excels here:
+
+```tsx
+// DashboardContainer.tsx
+import { useState, useEffect } from 'react'
+import { UserList } from './UserList'
+import { UserStats } from './UserStats'
+import { UserFilter } from './UserFilter'
+
+interface User {
+  id: number
+  name: string
+  email: string
+  status: 'active' | 'inactive'
+  joinedAt: string
+}
+
+export function DashboardContainer() {
+  const [users, setUsers] = useState<User[]>([])
+  const [loading, setLoading] = useState(true)
+  const [filter, setFilter] = useState<'all' | 'active' | 'inactive'>('all')
+
+  useEffect(() => {
+    fetchUsers()
+  }, [])
+
+  const fetchUsers = async () => {
+    try {
+      setLoading(true)
+      const response = await fetch('/api/users')
+      const data = await response.json()
+      setUsers(data)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const filteredUsers = users.filter((user) => {
+    if (filter === 'all') return true
+    return user.status === filter
+  })
+
+  const stats = {
+    total: users.length,
+    active: users.filter((u) => u.status === 'active').length,
+    inactive: users.filter((u) => u.status === 'inactive').length,
+  }
+
+  const handleStatusChange = async (userId: number, status: string) => {
+    await fetch(`/api/users/${userId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    })
+    fetchUsers()
+  }
+
+  return (
+    <div className="space-y-6">
+      <UserStats stats={stats} />
+      <UserFilter currentFilter={filter} onFilterChange={setFilter} />
+      <UserList
+        users={filteredUsers}
+        loading={loading}
+        onStatusChange={handleStatusChange}
+      />
+    </div>
+  )
+}
+```
+
+Now each presentational component focuses on its specific UI concern:
+
+```tsx
+// UserStats.tsx
+interface UserStatsProps {
+  stats: {
+    total: number
+    active: number
+    inactive: number
+  }
+}
+
+export function UserStats({ stats }: UserStatsProps) {
+  return (
+    <div className="grid grid-cols-3 gap-4">
+      <div className="p-4 border rounded">
+        <div className="text-2xl font-bold">{stats.total}</div>
+        <div className="text-gray-600">Total Users</div>
+      </div>
+      <div className="p-4 border rounded">
+        <div className="text-2xl font-bold text-green-600">{stats.active}</div>
+        <div className="text-gray-600">Active</div>
+      </div>
+      <div className="p-4 border rounded">
+        <div className="text-2xl font-bold text-red-600">{stats.inactive}</div>
+        <div className="text-gray-600">Inactive</div>
+      </div>
+    </div>
+  )
+}
+```
+
+```tsx
+// UserFilter.tsx
+interface UserFilterProps {
+  currentFilter: 'all' | 'active' | 'inactive'
+  onFilterChange: (filter: 'all' | 'active' | 'inactive') => void
+}
+
+export function UserFilter({ currentFilter, onFilterChange }: UserFilterProps) {
+  return (
+    <div className="flex gap-2">
+      {['all', 'active', 'inactive'].map((filter) => (
+        <button
+          key={filter}
+          onClick={() => onFilterChange(filter as any)}
+          className={`px-4 py-2 rounded ${
+            currentFilter === filter
+              ? 'bg-blue-500 text-white'
+              : 'bg-gray-200'
+          }`}
+        >
+          {filter.charAt(0).toUpperCase() + filter.slice(1)}
+        </button>
+      ))}
+    </div>
+  )
+}
+```
+
+### Benefits
+
+**Separation of Concerns**: Logic and UI are clearly separated, making code easier to understand and modify.
+
+**Reusability**: Presentational components can be reused with different data sources by wrapping them in different containers.
+
+**Testability**: Presentational components are easy to test (just test props rendering), while container logic can be tested separately.
+
+**Team Collaboration**: Designers can work on presentational components while developers handle containers.
+
+**Performance**: Easier to optimize presentational components with `React.memo` since they're pure and prop-driven.
+
+### When to Use
+
+Use the Container-Presentation pattern when:
+
+- Components mix significant business logic with UI rendering
+- You need to reuse the same UI with different data sources
+- You want to improve testability by separating concerns
+- Multiple team members work on the same feature
+- You have complex state management or data fetching logic
+
+### When Not to Use
+
+Avoid this pattern when:
+
+- Components are simple and don't have complex logic
+- You only need to render a single UI component (no need to share data across multiple components)
+- The overhead of creating multiple files isn't justified
+- The component is unlikely to be reused or composed with other components
+- Rapid prototyping where the separation overhead slows development
+
+### Combining with Custom Hooks
+
+You can use custom hooks inside container components to organize logic better. This keeps containers clean while extracting reusable logic:
+
+```tsx
+// hooks/useUserData.ts
+import { useState, useEffect } from 'react'
+
+export function useUserData() {
+  const [users, setUsers] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/users')
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data)
+        setLoading(false)
+      })
+  }, [])
+
+  return { users, loading, setUsers }
+}
+```
+
+```tsx
+// hooks/useUserActions.ts
+export function useUserActions(users, setUsers) {
+  const deleteUser = async (id: number) => {
+    await fetch(`/api/users/${id}`, { method: 'DELETE' })
+    setUsers(users.filter((user) => user.id !== id))
+  }
+
+  const updateUser = async (id: number, data: any) => {
+    await fetch(`/api/users/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    })
+    // Refresh users
+  }
+
+  return { deleteUser, updateUser }
+}
+```
+
+```tsx
+// DashboardContainer.tsx
+import { useUserData } from './hooks/useUserData'
+import { useUserActions } from './hooks/useUserActions'
+import { UserList } from './UserList'
+import { UserStats } from './UserStats'
+
+export function DashboardContainer() {
+  const { users, loading, setUsers } = useUserData()
+  const { deleteUser, updateUser } = useUserActions(users, setUsers)
+
+  const stats = {
+    total: users.length,
+    active: users.filter((u) => u.status === 'active').length,
+  }
+
+  return (
+    <div className="space-y-6">
+      <UserStats stats={stats} />
+      <UserList
+        users={users}
+        loading={loading}
+        onDelete={deleteUser}
+        onUpdate={updateUser}
+      />
+    </div>
+  )
+}
+```
+
+This approach gives you the best of both worlds:
+- **Custom hooks** organize and extract reusable logic (data fetching, actions)
+- **Container component** orchestrates multiple presentational components with shared data
+- **Presentational components** remain pure and focused on UI
+
+### Best Practices
+
+1. **Keep presentational components pure**: They should only depend on props, no side effects
+2. **Use TypeScript**: Define clear interfaces for props to ensure type safety
+3. **One container, multiple presentational components**: Use containers to orchestrate multiple UI components that need the same data
+4. **Use custom hooks in containers**: Extract data fetching and interaction logic into custom hooks to keep containers clean
+5. **Don't overdo it**: Not every component needs this pattern - simple components can handle their own logic
+6. **Colocate related files**: Keep container and presentation components in the same directory
+7. **Name consistently**: Use clear naming conventions (e.g., `UserListContainer` and `UserList`)
+8. **Keep containers thin**: Containers should orchestrate, not implement complex business logic - use hooks for that
+9. **Make presentational components flexible**: Accept callbacks and data via props to maximize reusability
+
+### Real-World Use Cases
+
+This pattern shines in scenarios like:
+
+- **Dashboards**: One container fetches data and passes it to multiple chart, table, and stat components
+- **Form wizards**: Container manages step state and validation, presentational components render each step
+- **Data tables**: Container handles sorting, filtering, pagination; table component handles rendering
+- **Admin panels**: Container manages CRUD operations, multiple presentational components display different views of the same data
+- **E-commerce product pages**: Container fetches product data, multiple presentational components show gallery, details, reviews, recommendations

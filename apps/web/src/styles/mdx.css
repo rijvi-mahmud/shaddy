@@ -55,10 +55,13 @@
 pre {
   overflow-x: auto;
   padding: 1rem 0;
+  background-color: #18181b !important;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border) / 0.3);
 }
 
 pre [data-line] {
-  padding: 0 0.5rem;
+  padding: 0 1rem;
 }
 
 .light p > code,
@@ -111,7 +114,8 @@ code[data-line-numbers] > [data-line]::before {
 }
 
 [data-highlighted-line] {
-  background: rgba(44, 44, 48);
+  background: rgba(39, 39, 42, 0.5);
+  border-left: 2px solid #60a5fa;
 }
 
 [data-rehype-pretty-code-title] {
@@ -123,17 +127,19 @@ code[data-line-numbers] > [data-line]::before {
 }
 
 [data-rehype-pretty-code-fragment] {
-  @apply relative text-white;
+  @apply relative;
 }
 
 [data-rehype-pretty-code-fragment] code {
   @apply grid min-w-full break-words rounded-none border-0 bg-transparent p-0;
   counter-reset: line;
   box-decoration-break: clone;
+  font-size: 14px;
+  line-height: 1.7;
 }
 
 [data-rehype-pretty-code-fragment] .line {
-  @apply px-4 min-h-[1rem] py-0.5 w-full inline-block;
+  @apply px-4 min-h-[1.5rem] py-0 w-full inline-block;
 }
 
 [data-rehype-pretty-code-fragment] [data-line-numbers] .line {
@@ -141,17 +147,19 @@ code[data-line-numbers] > [data-line]::before {
 }
 
 [data-rehype-pretty-code-fragment] [data-line-numbers] > .line::before {
-  @apply text-zinc-50/40 text-xs;
   counter-increment: line;
   content: counter(line);
   display: inline-block;
   width: 1.8rem;
   margin-right: 1.4rem;
   text-align: right;
+  color: #3f3f46;
+  font-size: 13px;
 }
 
 [data-rehype-pretty-code-fragment] .line--highlighted {
-  @apply bg-zinc-700/50;
+  background: rgba(39, 39, 42, 0.5);
+  border-left: 2px solid #60a5fa;
 }
 
 [data-rehype-pretty-code-fragment] .line-highlighted span {
@@ -159,11 +167,13 @@ code[data-line-numbers] > [data-line]::before {
 }
 
 [data-rehype-pretty-code-fragment] .word--highlighted {
-  @apply rounded-md bg-zinc-700/50 border-zinc-700/70 p-1;
+  @apply rounded-md p-1;
+  background: rgba(96, 165, 250, 0.2);
+  border: 1px solid rgba(96, 165, 250, 0.3);
 }
 
 .dark [data-rehype-pretty-code-fragment] .word--highlighted {
-  @apply bg-zinc-900;
+  background: rgba(96, 165, 250, 0.15);
 }
 
 [data-highlighted-chars] {
