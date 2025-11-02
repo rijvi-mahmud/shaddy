@@ -134,7 +134,9 @@ export function SponsorPageClient() {
                     <div
                       className={`inline-flex p-3 rounded-xl ${tier.bgColor} transition-transform duration-300 ease-out group-hover:scale-110`}
                     >
-                      <Icon className={`h-6 w-6 ${tier.color} transition-all duration-300`} />
+                      <Icon
+                        className={`h-6 w-6 ${tier.color} transition-all duration-300`}
+                      />
                     </div>
 
                     <div>
@@ -157,12 +159,13 @@ export function SponsorPageClient() {
                         key={idx}
                         className="flex items-start gap-2 text-sm text-muted-foreground transition-all duration-300 group-hover:text-foreground"
                         style={{
-                          transitionDelay: `${idx * 30}ms`
+                          transitionDelay: `${idx * 30}ms`,
                         }}
                       >
-                        <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5 transition-transform duration-300 group-hover:scale-110" 
+                        <CheckCircle2
+                          className="h-4 w-4 text-primary shrink-0 mt-0.5 transition-transform duration-300 group-hover:scale-110"
                           style={{
-                            transitionDelay: `${idx * 30}ms`
+                            transitionDelay: `${idx * 30}ms`,
                           }}
                         />
                         <span>{benefit}</span>
@@ -210,7 +213,9 @@ export function SponsorPageClient() {
                 <CardContent className="p-6">
                   <div className="flex flex-col items-center text-center space-y-4">
                     <div className="p-4 rounded-full bg-muted group-hover:bg-primary/10 transition-all duration-300 group-hover:scale-110">
-                      <Icon className={`h-6 w-6 ${link.color} transition-all duration-300`} />
+                      <Icon
+                        className={`h-6 w-6 ${link.color} transition-all duration-300`}
+                      />
                     </div>
 
                     <div className="space-y-2">

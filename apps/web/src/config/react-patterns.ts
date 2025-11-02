@@ -51,6 +51,22 @@ export const reactPatternsConfig: DocsConfig = {
           },
           items: [],
         },
+        {
+          href: '/react-patterns/hooks-pattern',
+          title: {
+            en: 'Hooks Pattern',
+            pt: 'Padrão de Hooks',
+          },
+          items: [],
+        },
+        {
+          href: '/react-patterns/compound-component-pattern',
+          title: {
+            en: 'Compound Component',
+            pt: 'Componente Composto',
+          },
+          items: [],
+        },
       ],
     },
   ],

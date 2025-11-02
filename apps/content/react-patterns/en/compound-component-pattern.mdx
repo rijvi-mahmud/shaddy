@@ -1,0 +1,782 @@
+---
+title: Compound Component Pattern
+description: Learn how to create flexible and intuitive component APIs using the Compound Component pattern in React.
+---
+
+### Introduction
+
+The Compound Component pattern is a design pattern that allows you to create components that work together to form a complete UI while maintaining a flexible and expressive API. Like HTML elements (`<select>` and `<option>`, `<table>`, `<tr>`, and `<td>`), compound components share implicit state and handle communication between parent and child components seamlessly. This pattern provides users of your components with an expressive and flexible API for building complex UIs.
+
+### The Problem
+
+When building complex UI components, you often face a trade-off between flexibility and simplicity. Creating a single component with many props leads to a bloated API that's hard to use and maintain. Passing dozens of configuration props becomes unwieldy, and you sacrifice flexibility because users can't easily rearrange or customize the component's internal structure.
+
+Consider a typical approach to building a dropdown menu:
+
+```tsx
+<Dropdown
+  trigger="Click me"
+  items={[
+    { label: 'Profile', onClick: handleProfile },
+    { label: 'Settings', onClick: handleSettings },
+    { label: 'Logout', onClick: handleLogout }
+  ]}
+  triggerClassName="btn-primary"
+  itemClassName="menu-item"
+/>
+```
+
+This approach has limitations:
+- Hard to customize individual items differently
+- Difficult to add icons, badges, or custom content
+- Props API becomes complex with many configuration options
+- Can't easily reorder or conditionally render items
+
+### The Solution
+
+The Compound Component pattern solves this by breaking the component into smaller sub-components that work together. Each sub-component handles a specific part of the UI, but they share state through React Context.
+
+```tsx
+<Dropdown>
+  <Dropdown.Trigger>Click me</Dropdown.Trigger>
+  <Dropdown.Menu>
+    <Dropdown.Item onClick={handleProfile}>
+      <UserIcon /> Profile
+    </Dropdown.Item>
+    <Dropdown.Item onClick={handleSettings}>
+      <SettingsIcon /> Settings
+    </Dropdown.Item>
+    <Dropdown.Divider />
+    <Dropdown.Item onClick={handleLogout} variant="danger">
+      <LogoutIcon /> Logout
+    </Dropdown.Item>
+  </Dropdown.Menu>
+</Dropdown>
+```
+
+This approach provides:
+- Clear, declarative API
+- Full control over structure and content
+- Easy customization of individual elements
+- Intuitive, HTML-like syntax
+
+### Basic Example: Accordion Component
+
+Let's build a simple accordion component to demonstrate the pattern:
+
+```tsx
+// components/Accordion.tsx
+import { createContext, useContext, useState, ReactNode } from 'react'
+
+// Create context for sharing state
+interface AccordionContextType {
+  openIndex: number | null
+  setOpenIndex: (index: number | null) => void
+}
+
+const AccordionContext = createContext<AccordionContextType | null>(null)
+
+// Hook to access accordion context
+function useAccordionContext() {
+  const context = useContext(AccordionContext)
+  if (!context) {
+    throw new Error('Accordion components must be used within Accordion')
+  }
+  return context
+}
+
+// Root Accordion component
+interface AccordionProps {
+  children: ReactNode
+  defaultIndex?: number | null
+}
+
+export function Accordion({ children, defaultIndex = null }: AccordionProps) {
+  const [openIndex, setOpenIndex] = useState<number | null>(defaultIndex)
+
+  return (
+    <AccordionContext.Provider value={{ openIndex, setOpenIndex }}>
+      <div className="border rounded-lg divide-y">{children}</div>
+    </AccordionContext.Provider>
+  )
+}
+
+// Accordion Item component
+interface AccordionItemProps {
+  children: ReactNode
+  index: number
+}
+
+function AccordionItem({ children, index }: AccordionItemProps) {
+  const { openIndex } = useAccordionContext()
+  const isOpen = openIndex === index
+
+  return (
+    <div className={`${isOpen ? 'bg-gray-50' : ''}`}>
+      {children}
+    </div>
+  )
+}
+
+// Accordion Trigger component
+interface AccordionTriggerProps {
+  children: ReactNode
+  index: number
+}
+
+function AccordionTrigger({ children, index }: AccordionTriggerProps) {
+  const { openIndex, setOpenIndex } = useAccordionContext()
+  const isOpen = openIndex === index
+
+  const handleToggle = () => {
+    setOpenIndex(isOpen ? null : index)
+  }
+
+  return (
+    <button
+      onClick={handleToggle}
+      className="w-full px-4 py-3 flex justify-between items-center text-left hover:bg-gray-100"
+    >
+      <span className="font-medium">{children}</span>
+      <span className={`transform transition-transform ${isOpen ? 'rotate-180' : ''}`}>
+        ¼
+      </span>
+    </button>
+  )
+}
+
+// Accordion Content component
+interface AccordionContentProps {
+  children: ReactNode
+  index: number
+}
+
+function AccordionContent({ children, index }: AccordionContentProps) {
+  const { openIndex } = useAccordionContext()
+  const isOpen = openIndex === index
+
+  if (!isOpen) return null
+
+  return (
+    <div className="px-4 py-3 text-gray-700">
+      {children}
+    </div>
+  )
+}
+
+// Attach sub-components to main component
+Accordion.Item = AccordionItem
+Accordion.Trigger = AccordionTrigger
+Accordion.Content = AccordionContent
+```
+
+Using the accordion:
+
+```tsx
+// App.tsx
+import { Accordion } from './components/Accordion'
+
+export function FAQSection() {
+  return (
+    <div className="max-w-2xl mx-auto p-6">
+      <h2 className="text-2xl font-bold mb-4">Frequently Asked Questions</h2>
+
+      <Accordion defaultIndex={0}>
+        <Accordion.Item index={0}>
+          <Accordion.Trigger index={0}>
+            What is the Compound Component pattern?
+          </Accordion.Trigger>
+          <Accordion.Content index={0}>
+            The Compound Component pattern is a React design pattern that allows
+            you to create components that work together to form a complete UI
+            while sharing implicit state.
+          </Accordion.Content>
+        </Accordion.Item>
+
+        <Accordion.Item index={1}>
+          <Accordion.Trigger index={1}>
+            When should I use this pattern?
+          </Accordion.Trigger>
+          <Accordion.Content index={1}>
+            Use this pattern when you need to create flexible, composable
+            components with complex internal state that need to communicate
+            with each other.
+          </Accordion.Content>
+        </Accordion.Item>
+
+        <Accordion.Item index={2}>
+          <Accordion.Trigger index={2}>
+            What are the benefits?
+          </Accordion.Trigger>
+          <Accordion.Content index={2}>
+            Benefits include better component composition, clearer APIs,
+            easier customization, and separation of concerns between
+            structure and behavior.
+          </Accordion.Content>
+        </Accordion.Item>
+      </Accordion>
+    </div>
+  )
+}
+```
+
+### Advanced Example: Tabs Component
+
+Let's build a more sophisticated tabs component with additional features:
+
+```tsx
+// components/Tabs.tsx
+import { createContext, useContext, useState, ReactNode } from 'react'
+
+interface TabsContextType {
+  activeTab: string
+  setActiveTab: (id: string) => void
+}
+
+const TabsContext = createContext<TabsContextType | null>(null)
+
+function useTabsContext() {
+  const context = useContext(TabsContext)
+  if (!context) {
+    throw new Error('Tabs components must be used within Tabs')
+  }
+  return context
+}
+
+// Root Tabs component
+interface TabsProps {
+  children: ReactNode
+  defaultTab?: string
+  onChange?: (tabId: string) => void
+}
+
+export function Tabs({ children, defaultTab, onChange }: TabsProps) {
+  const [activeTab, setActiveTab] = useState<string>(defaultTab || '')
+
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId)
+    onChange?.(tabId)
+  }
+
+  return (
+    <TabsContext.Provider value={{ activeTab, setActiveTab: handleTabChange }}>
+      <div className="w-full">{children}</div>
+    </TabsContext.Provider>
+  )
+}
+
+// TabList component
+interface TabListProps {
+  children: ReactNode
+  className?: string
+}
+
+function TabList({ children, className = '' }: TabListProps) {
+  return (
+    <div className={`flex border-b border-gray-200 ${className}`}>
+      {children}
+    </div>
+  )
+}
+
+// Tab component
+interface TabProps {
+  children: ReactNode
+  id: string
+  disabled?: boolean
+}
+
+function Tab({ children, id, disabled = false }: TabProps) {
+  const { activeTab, setActiveTab } = useTabsContext()
+  const isActive = activeTab === id
+
+  return (
+    <button
+      onClick={() => !disabled && setActiveTab(id)}
+      disabled={disabled}
+      className={`
+        px-4 py-2 font-medium transition-colors
+        ${isActive
+          ? 'border-b-2 border-blue-500 text-blue-600'
+          : 'text-gray-600 hover:text-gray-900'
+        }
+        ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+      `}
+    >
+      {children}
+    </button>
+  )
+}
+
+// TabPanels component
+interface TabPanelsProps {
+  children: ReactNode
+}
+
+function TabPanels({ children }: TabPanelsProps) {
+  return <div className="mt-4">{children}</div>
+}
+
+// TabPanel component
+interface TabPanelProps {
+  children: ReactNode
+  id: string
+}
+
+function TabPanel({ children, id }: TabPanelProps) {
+  const { activeTab } = useTabsContext()
+
+  if (activeTab !== id) return null
+
+  return <div className="animate-fadeIn">{children}</div>
+}
+
+// Attach sub-components
+Tabs.List = TabList
+Tabs.Tab = Tab
+Tabs.Panels = TabPanels
+Tabs.Panel = TabPanel
+```
+
+Using the tabs component:
+
+```tsx
+// Dashboard.tsx
+import { Tabs } from './components/Tabs'
+import { BarChart, Users, Settings } from 'lucide-react'
+
+export function Dashboard() {
+  return (
+    <div className="p-6">
+      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+
+      <Tabs defaultTab="overview" onChange={(tab) => console.log('Tab changed:', tab)}>
+        <Tabs.List>
+          <Tabs.Tab id="overview">
+            <BarChart className="w-4 h-4 mr-2 inline" />
+            Overview
+          </Tabs.Tab>
+          <Tabs.Tab id="users">
+            <Users className="w-4 h-4 mr-2 inline" />
+            Users
+          </Tabs.Tab>
+          <Tabs.Tab id="settings">
+            <Settings className="w-4 h-4 mr-2 inline" />
+            Settings
+          </Tabs.Tab>
+          <Tabs.Tab id="disabled" disabled>
+            Disabled Tab
+          </Tabs.Tab>
+        </Tabs.List>
+
+        <Tabs.Panels>
+          <Tabs.Panel id="overview">
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <h2 className="text-xl font-semibold mb-2">Overview</h2>
+              <p>Your dashboard overview content goes here.</p>
+            </div>
+          </Tabs.Panel>
+
+          <Tabs.Panel id="users">
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <h2 className="text-xl font-semibold mb-2">Users</h2>
+              <p>User management content goes here.</p>
+            </div>
+          </Tabs.Panel>
+
+          <Tabs.Panel id="settings">
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <h2 className="text-xl font-semibold mb-2">Settings</h2>
+              <p>Application settings go here.</p>
+            </div>
+          </Tabs.Panel>
+        </Tabs.Panels>
+      </Tabs>
+    </div>
+  )
+}
+```
+
+### Real-World Example: Modal with Multiple Sections
+
+Here's a complex modal component that demonstrates advanced composition:
+
+```tsx
+// components/Modal.tsx
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react'
+import { X } from 'lucide-react'
+
+interface ModalContextType {
+  isOpen: boolean
+  open: () => void
+  close: () => void
+}
+
+const ModalContext = createContext<ModalContextType | null>(null)
+
+function useModalContext() {
+  const context = useContext(ModalContext)
+  if (!context) {
+    throw new Error('Modal components must be used within Modal')
+  }
+  return context
+}
+
+// Root Modal component
+interface ModalProps {
+  children: ReactNode
+  defaultOpen?: boolean
+  onClose?: () => void
+}
+
+export function Modal({ children, defaultOpen = false, onClose }: ModalProps) {
+  const [isOpen, setIsOpen] = useState(defaultOpen)
+
+  const open = () => setIsOpen(true)
+  const close = () => {
+    setIsOpen(false)
+    onClose?.()
+  }
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isOpen])
+
+  return (
+    <ModalContext.Provider value={{ isOpen, open, close }}>
+      {children}
+    </ModalContext.Provider>
+  )
+}
+
+// Trigger component
+interface ModalTriggerProps {
+  children: ReactNode
+  asChild?: boolean
+}
+
+function ModalTrigger({ children }: ModalTriggerProps) {
+  const { open } = useModalContext()
+
+  return (
+    <button onClick={open} type="button">
+      {children}
+    </button>
+  )
+}
+
+// Content component
+interface ModalContentProps {
+  children: ReactNode
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+}
+
+function ModalContent({ children, size = 'md' }: ModalContentProps) {
+  const { isOpen, close } = useModalContext()
+
+  if (!isOpen) return null
+
+  const sizeClasses = {
+    sm: 'max-w-sm',
+    md: 'max-w-md',
+    lg: 'max-w-lg',
+    xl: 'max-w-xl',
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black bg-opacity-50"
+        onClick={close}
+      />
+
+      {/* Modal */}
+      <div className={`relative bg-white rounded-lg shadow-xl ${sizeClasses[size]} w-full mx-4`}>
+        {children}
+      </div>
+    </div>
+  )
+}
+
+// Header component
+interface ModalHeaderProps {
+  children: ReactNode
+}
+
+function ModalHeader({ children }: ModalHeaderProps) {
+  const { close } = useModalContext()
+
+  return (
+    <div className="flex items-center justify-between p-6 border-b">
+      <h2 className="text-xl font-semibold">{children}</h2>
+      <button
+        onClick={close}
+        className="text-gray-400 hover:text-gray-600 transition-colors"
+      >
+        <X className="w-5 h-5" />
+      </button>
+    </div>
+  )
+}
+
+// Body component
+interface ModalBodyProps {
+  children: ReactNode
+}
+
+function ModalBody({ children }: ModalBodyProps) {
+  return <div className="p-6">{children}</div>
+}
+
+// Footer component
+interface ModalFooterProps {
+  children: ReactNode
+}
+
+function ModalFooter({ children }: ModalFooterProps) {
+  return (
+    <div className="flex items-center justify-end gap-3 p-6 border-t bg-gray-50">
+      {children}
+    </div>
+  )
+}
+
+// Close button component
+interface ModalCloseProps {
+  children: ReactNode
+}
+
+function ModalClose({ children }: ModalCloseProps) {
+  const { close } = useModalContext()
+
+  return (
+    <button
+      onClick={close}
+      className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+    >
+      {children}
+    </button>
+  )
+}
+
+// Attach sub-components
+Modal.Trigger = ModalTrigger
+Modal.Content = ModalContent
+Modal.Header = ModalHeader
+Modal.Body = ModalBody
+Modal.Footer = ModalFooter
+Modal.Close = ModalClose
+```
+
+Using the modal:
+
+```tsx
+// ConfirmationDialog.tsx
+import { Modal } from './components/Modal'
+
+export function ConfirmationDialog() {
+  const handleConfirm = () => {
+    console.log('Confirmed!')
+  }
+
+  return (
+    <Modal>
+      <Modal.Trigger>
+        <button className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+          Delete Account
+        </button>
+      </Modal.Trigger>
+
+      <Modal.Content size="md">
+        <Modal.Header>Confirm Deletion</Modal.Header>
+
+        <Modal.Body>
+          <p className="text-gray-600">
+            Are you sure you want to delete your account? This action cannot be undone.
+            All your data will be permanently removed from our servers.
+          </p>
+          <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded">
+            <p className="text-sm text-yellow-800">
+                Warning: This will delete all your projects, files, and settings.
+            </p>
+          </div>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Modal.Close>Cancel</Modal.Close>
+          <button
+            onClick={handleConfirm}
+            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+          >
+            Delete Account
+          </button>
+        </Modal.Footer>
+      </Modal.Content>
+    </Modal>
+  )
+}
+```
+
+### Benefits
+
+**Flexible API**: Users can compose and arrange sub-components however they need without being constrained by a rigid prop structure.
+
+**Clear Separation**: Each sub-component has a single responsibility, making the code easier to understand and maintain.
+
+**Implicit State Sharing**: Context API enables sub-components to access shared state without prop drilling.
+
+**Better Developer Experience**: The declarative syntax is intuitive and resembles native HTML elements.
+
+**Easy Customization**: Users can add custom content, styles, or behavior to any part of the component.
+
+**Reduced Prop Complexity**: Instead of dozens of configuration props, you have a clean, compositional API.
+
+### When to Use
+
+Use the Compound Component pattern when:
+
+- Building UI components with multiple related parts (tabs, accordions, dropdowns, modals)
+- You need to provide users with flexibility in how they compose and arrange elements
+- Components need to share state but you want to avoid prop drilling
+- You want to create a more declarative, HTML-like API
+- The component has complex internal state that multiple parts need to access
+- You're building a component library and want to provide an intuitive API
+
+### When Not to Use
+
+Avoid this pattern when:
+
+- The component is simple and doesn't need sub-components
+- There's no shared state between parts
+- A simple props-based API is sufficient
+- You don't need flexibility in component composition
+- The added complexity doesn't provide value
+- Performance is critical and Context re-renders are a concern
+
+### Pattern Variations
+
+**1. Dot Notation (Recommended)**
+
+```tsx
+Accordion.Item = AccordionItem
+Accordion.Trigger = AccordionTrigger
+
+// Usage
+<Accordion>
+  <Accordion.Item>
+    <Accordion.Trigger />
+  </Accordion.Item>
+</Accordion>
+```
+
+**2. Named Exports**
+
+```tsx
+export { Accordion, AccordionItem, AccordionTrigger }
+
+// Usage
+<Accordion>
+  <AccordionItem>
+    <AccordionTrigger />
+  </AccordionItem>
+</Accordion>
+```
+
+**3. Cloning Elements (Advanced)**
+
+```tsx
+export function Accordion({ children }: AccordionProps) {
+  return (
+    <>
+      {React.Children.map(children, (child, index) => {
+        if (React.isValidElement(child)) {
+          return React.cloneElement(child, { index })
+        }
+        return child
+      })}
+    </>
+  )
+}
+```
+
+### Best Practices
+
+1. **Use Context for state sharing**: Don't rely on props to pass state between components
+2. **Create helper hooks**: Export custom hooks like `useAccordionContext` for accessing shared state
+3. **Validate context usage**: Throw helpful errors when sub-components are used outside their parent
+4. **Use TypeScript**: Define clear interfaces for context and component props
+5. **Provide sensible defaults**: Make components work with minimal configuration
+6. **Document the API**: Clearly document which sub-components are available and how they work together
+7. **Handle edge cases**: Consider what happens when components are used incorrectly
+8. **Keep sub-components focused**: Each sub-component should have a single, clear responsibility
+9. **Export everything needed**: Make sure users can import and use all necessary pieces
+10. **Consider accessibility**: Ensure keyboard navigation, ARIA attributes, and screen reader support
+
+### Combining with Other Patterns
+
+The Compound Component pattern works well with other patterns:
+
+**With Custom Hooks**:
+
+```tsx
+// Extract logic into a custom hook
+function useAccordion(defaultIndex?: number) {
+  const [openIndex, setOpenIndex] = useState<number | null>(defaultIndex ?? null)
+
+  const toggle = (index: number) => {
+    setOpenIndex(current => current === index ? null : index)
+  }
+
+  return { openIndex, toggle }
+}
+
+// Use in compound component
+function Accordion({ children, defaultIndex }: AccordionProps) {
+  const accordion = useAccordion(defaultIndex)
+
+  return (
+    <AccordionContext.Provider value={accordion}>
+      {children}
+    </AccordionContext.Provider>
+  )
+}
+```
+
+**With Render Props** (for advanced customization):
+
+```tsx
+<Accordion>
+  {({ openIndex }) => (
+    <>
+      <Accordion.Item index={0}>
+        <Accordion.Trigger index={0}>
+          Item 1 {openIndex === 0 ? '(Open)' : ''}
+        </Accordion.Trigger>
+        <Accordion.Content index={0}>Content 1</Accordion.Content>
+      </Accordion.Item>
+    </>
+  )}
+</Accordion>
+```
+
+### Real-World Use Cases
+
+This pattern is perfect for:
+
+- **Navigation Components**: Tabs, breadcrumbs, pagination, step indicators
+- **Disclosure Components**: Accordions, dropdowns, menus, tooltips, popovers
+- **Modal Dialogs**: Modals, alerts, drawers with header, body, and footer sections
+- **Form Components**: Form groups with labels, inputs, validation messages, and hints
+- **Card Components**: Cards with headers, bodies, footers, and actions
+- **List Components**: Lists with items, headers, footers, and separators
+- **Layout Components**: Grids, stacks, and containers with multiple configurable sections
+
+Popular UI libraries like Radix UI, Headless UI, and Chakra UI extensively use this pattern to provide flexible, accessible components.
