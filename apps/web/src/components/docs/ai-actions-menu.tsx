@@ -120,11 +120,11 @@ export function AIActionsMenu({
     (serviceId: string) => {
       const service = AI_SERVICES.find((s) => s.id === serviceId)
       if (service) {
-        const prompt = `Help me understand and use this documentation:\n\nPage URL: ${pageUrl}\n\nContent:\n${content}`
+        const prompt = `I'm looking at this shaddy-docs documentation: ${pageUrl}.\nHelp me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.`
         window.open(service.getUrl(prompt), '_blank', 'noopener,noreferrer')
       }
     },
-    [content, pageUrl]
+    [pageUrl]
   )
 
   return (
