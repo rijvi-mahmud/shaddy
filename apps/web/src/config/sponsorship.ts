@@ -30,7 +30,7 @@ export interface QuickLink {
 export const sponsorshipTiers: SponsorshipTier[] = [
   {
     name: 'Bronze',
-    price: '$50',
+    price: '$10',
     icon: Heart,
     color: 'text-orange-600 dark:text-orange-400',
     bgColor: 'bg-orange-50 dark:bg-orange-950/20',
@@ -39,13 +39,12 @@ export const sponsorshipTiers: SponsorshipTier[] = [
     benefits: [
       'Your name in our README',
       'Sponsor badge on profile',
-      'Early access to new features',
-      'Community discord access',
+      'Support open-source resource sharing',
     ],
   },
   {
     name: 'Silver',
-    price: '$100',
+    price: '$25',
     icon: Zap,
     color: 'text-slate-600 dark:text-slate-300',
     bgColor: 'bg-slate-50 dark:bg-slate-950/20',
@@ -62,7 +61,7 @@ export const sponsorshipTiers: SponsorshipTier[] = [
   },
   {
     name: 'Gold',
-    price: '$250',
+    price: '$50',
     icon: Trophy,
     color: 'text-yellow-600 dark:text-yellow-400',
     bgColor: 'bg-yellow-50 dark:bg-yellow-950/20',
@@ -79,7 +78,7 @@ export const sponsorshipTiers: SponsorshipTier[] = [
   },
   {
     name: 'Platinum',
-    price: '$500+',
+    price: '$100+',
     icon: Sparkles,
     color: 'text-purple-600 dark:text-purple-400',
     bgColor: 'bg-purple-50 dark:bg-purple-950/20',
@@ -91,7 +90,6 @@ export const sponsorshipTiers: SponsorshipTier[] = [
       'Custom development hours',
       'Private consulting sessions',
       'Influence project roadmap',
-      'Exclusive partnership status',
     ],
   },
 ]
@@ -115,10 +113,10 @@ export const quickLinks: QuickLink[] = [
 
 export const tierOptions = [
   { value: 'general', text: 'General Inquiry' },
-  { value: 'Bronze', text: 'Bronze - $50/month' },
-  { value: 'Silver', text: 'Silver - $100/month' },
-  { value: 'Gold', text: 'Gold - $250/month' },
-  { value: 'Platinum', text: 'Platinum - $500+/month' },
+  { value: 'Bronze', text: 'Bronze - $10/month' },
+  { value: 'Silver', text: 'Silver - $25/month' },
+  { value: 'Gold', text: 'Gold - $50/month' },
+  { value: 'Platinum', text: 'Platinum - $100+/month' },
 ]
 
 // Helper function to get tier data by name

@@ -108,16 +108,16 @@ export function SponsorPageClient() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 [&>*]:grid [&>*]:grid-rows-subgrid [&>*]:row-span-3">
           {sponsorshipTiers.map((tier) => {
             const Icon = tier.icon
             return (
               <Card
                 key={tier.name}
-                className={`relative group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 ${
+                className={`relative group transition-all duration-500 ease-out hover:shadow-2xl ${
                   tier.popular
                     ? 'border-primary shadow-lg ring-2 ring-primary/20'
-                    : 'border-border/50 hover:border-border'
+                    : 'border-border/50 hover:border-primary/30'
                 }`}
               >
                 {tier.popular && (
@@ -128,47 +128,57 @@ export function SponsorPageClient() {
                   </div>
                 )}
 
-                <CardContent className="p-6">
-                  <div className="space-y-6">
-                    <div className="space-y-4">
-                      <div
-                        className={`inline-flex p-3 rounded-xl ${tier.bgColor}`}
-                      >
-                        <Icon className={`h-6 w-6 ${tier.color}`} />
-                      </div>
-
-                      <div>
-                        <h3 className="text-2xl font-bold text-foreground mb-1">
-                          {tier.name}
-                        </h3>
-                        <p className="text-3xl font-extrabold text-foreground">
-                          {tier.price}
-                          <span className="text-sm font-normal text-muted-foreground">
-                            /month
-                          </span>
-                        </p>
-                      </div>
+                <CardContent className="p-6 grid grid-rows-subgrid row-span-3 gap-0">
+                  {/* Row 1: Header */}
+                  <div className="space-y-4 pb-6">
+                    <div
+                      className={`inline-flex p-3 rounded-xl ${tier.bgColor} transition-transform duration-300 ease-out group-hover:scale-110`}
+                    >
+                      <Icon className={`h-6 w-6 ${tier.color} transition-all duration-300`} />
                     </div>
 
-                    <ul className="space-y-3">
-                      {tier.benefits.map((benefit, idx) => (
-                        <li
-                          key={idx}
-                          className="flex items-start gap-2 text-sm text-muted-foreground"
-                        >
-                          <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                          <span>{benefit}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div>
+                      <h3 className="text-2xl font-bold text-foreground mb-1 transition-colors duration-300 group-hover:text-primary">
+                        {tier.name}
+                      </h3>
+                      <p className="text-3xl font-extrabold text-foreground transition-colors duration-300">
+                        {tier.price}
+                        <span className="text-sm font-normal text-muted-foreground">
+                          /month
+                        </span>
+                      </p>
+                    </div>
+                  </div>
 
+                  {/* Row 2: Benefits */}
+                  <ul className="space-y-3 pb-6">
+                    {tier.benefits.map((benefit, idx) => (
+                      <li
+                        key={idx}
+                        className="flex items-start gap-2 text-sm text-muted-foreground transition-all duration-300 group-hover:text-foreground"
+                        style={{
+                          transitionDelay: `${idx * 30}ms`
+                        }}
+                      >
+                        <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5 transition-transform duration-300 group-hover:scale-110" 
+                          style={{
+                            transitionDelay: `${idx * 30}ms`
+                          }}
+                        />
+                        <span>{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Row 3: Button */}
+                  <div className="mt-auto">
                     <Button
-                      className="w-full group-hover:scale-105 transition-transform"
+                      className="w-full transition-all duration-300 ease-out group-hover:shadow-lg"
                       variant={tier.popular ? 'default' : 'outline'}
                       onClick={() => handleTierSelect(tier.name)}
                     >
                       Choose {tier.name}
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>
                   </div>
                 </CardContent>
@@ -195,19 +205,19 @@ export function SponsorPageClient() {
             return (
               <Card
                 key={link.title}
-                className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-border/50 hover:border-border"
+                className="group transition-all duration-500 ease-out hover:shadow-2xl border-border/50 hover:border-primary/30"
               >
                 <CardContent className="p-6">
                   <div className="flex flex-col items-center text-center space-y-4">
-                    <div className="p-4 rounded-full bg-muted group-hover:bg-primary/10 transition-colors">
-                      <Icon className={`h-6 w-6 ${link.color}`} />
+                    <div className="p-4 rounded-full bg-muted group-hover:bg-primary/10 transition-all duration-300 group-hover:scale-110">
+                      <Icon className={`h-6 w-6 ${link.color} transition-all duration-300`} />
                     </div>
 
                     <div className="space-y-2">
-                      <h3 className="font-semibold text-foreground text-lg">
+                      <h3 className="font-semibold text-foreground text-lg transition-colors duration-300 group-hover:text-primary">
                         {link.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-muted-foreground transition-colors duration-300 group-hover:text-foreground">
                         {link.description}
                       </p>
                     </div>
@@ -215,7 +225,7 @@ export function SponsorPageClient() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                      className="w-full transition-all duration-300 ease-out group-hover:shadow-lg group-hover:border-primary group-hover:text-primary"
                       asChild
                     >
                       <a
@@ -225,7 +235,7 @@ export function SponsorPageClient() {
                         className="flex items-center gap-2"
                       >
                         Visit Platform
-                        <ExternalLink className="h-3 w-3" />
+                        <ExternalLink className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
                       </a>
                     </Button>
                   </div>
