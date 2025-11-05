@@ -1,0 +1,767 @@
+---
+title: Control Props Pattern
+description: Learn how to build flexible controlled components using the Control Props pattern to give users control over component state in React.
+---
+
+### Introduction
+
+The Control Props pattern (also known as Controlled Components pattern) is a design pattern that allows both the component and the parent component to control a component's state. This pattern provides flexibility by allowing components to be used in both controlled and uncontrolled modes, giving users the choice between managing state externally or letting the component handle it internally. It's similar to how HTML form inputs work with their `value` and `onChange` props.
+
+### The Problem
+
+When building reusable components, we often face a dilemma: should the component manage its own state (uncontrolled), or should the parent component manage it (controlled)? Each approach has trade-offs:
+
+**Uncontrolled only:**
+
+```tsx
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+// Problem: Parent can't control or access the count value
+<Counter />;
+```
+
+**Controlled only:**
+
+```tsx
+function Counter({ count, setCount }) {
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+// Problem: Parent MUST manage state, even for simple use cases
+<Counter count={count} setCount={setCount} />;
+```
+
+Problems:
+
+- Uncontrolled components can't be synchronized with external state
+- Controlled components require more boilerplate for simple use cases
+- Hard to switch between controlled and uncontrolled modes
+- Lack of flexibility for component consumers
+
+### The Solution
+
+The Control Props pattern combines both approaches, allowing components to work in either mode:
+
+```tsx
+// Uncontrolled mode - component manages its own state
+<Counter defaultValue={0} />
+
+// Controlled mode - parent manages state
+<Counter value={count} onChange={setCount} />
+
+// Hybrid mode - external control with callbacks
+<Counter defaultValue={0} onChange={(value) => console.log(value)} />
+```
+
+This approach provides:
+
+- Flexibility to use either controlled or uncontrolled mode
+- Simple API for basic use cases
+- Full control for advanced use cases
+- Familiar pattern from HTML inputs
+
+### Basic Example: Controlled Counter
+
+Let's build a counter component that supports both controlled and uncontrolled modes:
+
+```tsx
+// components/Counter.tsx
+import { useState } from "react";
+
+interface CounterProps {
+  value?: number;
+  defaultValue?: number;
+  onChange?: (value: number) => void;
+  min?: number;
+  max?: number;
+}
+
+export function Counter({
+  value: controlledValue,
+  defaultValue = 0,
+  onChange,
+  min = -Infinity,
+  max = Infinity,
+}: CounterProps) {
+  // Internal state for uncontrolled mode
+  const [internalValue, setInternalValue] = useState(defaultValue);
+
+  // Determine if component is controlled
+  const isControlled = controlledValue !== undefined;
+  const value = isControlled ? controlledValue : internalValue;
+
+  const handleChange = (newValue: number) => {
+    // Clamp value between min and max
+    const clampedValue = Math.max(min, Math.min(max, newValue));
+
+    // Update internal state if uncontrolled
+    if (!isControlled) {
+      setInternalValue(clampedValue);
+    }
+
+    // Call onChange callback if provided
+    onChange?.(clampedValue);
+  };
+
+  const increment = () => handleChange(value + 1);
+  const decrement = () => handleChange(value - 1);
+  const reset = () => handleChange(defaultValue);
+
+  return (
+    <div className="flex items-center gap-4 p-4 bg-white shadow rounded-lg">
+      <button
+        onClick={decrement}
+        disabled={value <= min}
+        className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        -
+      </button>
+
+      <span className="text-2xl font-bold min-w-[3ch] text-center">
+        {value}
+      </span>
+
+      <button
+        onClick={increment}
+        disabled={value >= max}
+        className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        +
+      </button>
+
+      <button
+        onClick={reset}
+        className="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600"
+      >
+        Reset
+      </button>
+    </div>
+  );
+}
+```
+
+Using the counter in different modes:
+
+```tsx
+// App.tsx
+import { useState } from "react";
+import { Counter } from "./components/Counter";
+
+export function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div className="p-8 space-y-6">
+      <div>
+        <h2 className="text-xl font-bold mb-2">Uncontrolled Counter</h2>
+        <p className="text-gray-600 mb-4">Component manages its own state</p>
+        <Counter defaultValue={0} min={0} max={10} />
+      </div>
+
+      <div>
+        <h2 className="text-xl font-bold mb-2">Controlled Counter</h2>
+        <p className="text-gray-600 mb-4">Parent manages state: {count}</p>
+        <Counter value={count} onChange={setCount} min={0} max={10} />
+      </div>
+
+      <div>
+        <h2 className="text-xl font-bold mb-2">Hybrid Counter</h2>
+        <p className="text-gray-600 mb-4">
+          Uncontrolled with change notifications
+        </p>
+        <Counter
+          defaultValue={5}
+          onChange={(value) => console.log("Count changed:", value)}
+        />
+      </div>
+    </div>
+  );
+}
+```
+
+### Advanced Example: Controlled Tabs
+
+Let's build a more sophisticated tabs component with controlled/uncontrolled support:
+
+```tsx
+// components/Tabs.tsx
+import { useState, ReactNode, createContext, useContext } from "react";
+
+interface TabsContextType {
+  activeTab: string;
+  setActiveTab: (id: string) => void;
+}
+
+const TabsContext = createContext<TabsContextType | null>(null);
+
+function useTabsContext() {
+  const context = useContext(TabsContext);
+  if (!context) {
+    throw new Error("Tabs components must be used within Tabs");
+  }
+  return context;
+}
+
+// Root Tabs component with control props
+interface TabsProps {
+  children: ReactNode;
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+}
+
+export function Tabs({
+  children,
+  value: controlledValue,
+  defaultValue,
+  onChange,
+}: TabsProps) {
+  const [internalValue, setInternalValue] = useState(defaultValue || "");
+
+  const isControlled = controlledValue !== undefined;
+  const activeTab = isControlled ? controlledValue : internalValue;
+
+  const handleChange = (newValue: string) => {
+    if (!isControlled) {
+      setInternalValue(newValue);
+    }
+    onChange?.(newValue);
+  };
+
+  return (
+    <TabsContext.Provider value={{ activeTab, setActiveTab: handleChange }}>
+      <div className="w-full">{children}</div>
+    </TabsContext.Provider>
+  );
+}
+
+// TabList component
+interface TabListProps {
+  children: ReactNode;
+  className?: string;
+}
+
+function TabList({ children, className = "" }: TabListProps) {
+  return (
+    <div className={`flex border-b border-gray-200 ${className}`}>
+      {children}
+    </div>
+  );
+}
+
+// Tab component
+interface TabProps {
+  children: ReactNode;
+  value: string;
+  disabled?: boolean;
+}
+
+function Tab({ children, value, disabled = false }: TabProps) {
+  const { activeTab, setActiveTab } = useTabsContext();
+  const isActive = activeTab === value;
+
+  return (
+    <button
+      onClick={() => !disabled && setActiveTab(value)}
+      disabled={disabled}
+      className={`
+        px-4 py-2 font-medium transition-colors
+        ${
+          isActive
+            ? "border-b-2 border-blue-500 text-blue-600"
+            : "text-gray-600 hover:text-gray-900"
+        }
+        ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+      `}
+    >
+      {children}
+    </button>
+  );
+}
+
+// TabPanels component
+interface TabPanelsProps {
+  children: ReactNode;
+}
+
+function TabPanels({ children }: TabPanelsProps) {
+  return <div className="mt-4">{children}</div>;
+}
+
+// TabPanel component
+interface TabPanelProps {
+  children: ReactNode;
+  value: string;
+}
+
+function TabPanel({ children, value }: TabPanelProps) {
+  const { activeTab } = useTabsContext();
+
+  if (activeTab !== value) return null;
+
+  return <div className="animate-fadeIn">{children}</div>;
+}
+
+// Attach sub-components
+Tabs.List = TabList;
+Tabs.Tab = Tab;
+Tabs.Panels = TabPanels;
+Tabs.Panel = TabPanel;
+```
+
+Using the tabs component:
+
+```tsx
+// Dashboard.tsx
+import { useState } from "react";
+import { Tabs } from "./components/Tabs";
+
+export function Dashboard() {
+  const [activeTab, setActiveTab] = useState("overview");
+
+  return (
+    <div className="p-6 space-y-8">
+      {/* Uncontrolled Tabs */}
+      <div>
+        <h2 className="text-2xl font-bold mb-4">Uncontrolled Tabs</h2>
+        <Tabs defaultValue="home">
+          <Tabs.List>
+            <Tabs.Tab value="home">Home</Tabs.Tab>
+            <Tabs.Tab value="profile">Profile</Tabs.Tab>
+            <Tabs.Tab value="settings">Settings</Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panels>
+            <Tabs.Panel value="home">
+              <div className="p-4 bg-gray-50 rounded">Home content</div>
+            </Tabs.Panel>
+            <Tabs.Panel value="profile">
+              <div className="p-4 bg-gray-50 rounded">Profile content</div>
+            </Tabs.Panel>
+            <Tabs.Panel value="settings">
+              <div className="p-4 bg-gray-50 rounded">Settings content</div>
+            </Tabs.Panel>
+          </Tabs.Panels>
+        </Tabs>
+      </div>
+
+      {/* Controlled Tabs */}
+      <div>
+        <h2 className="text-2xl font-bold mb-4">Controlled Tabs</h2>
+        <p className="text-gray-600 mb-4">Active: {activeTab}</p>
+
+        <Tabs value={activeTab} onChange={setActiveTab}>
+          <Tabs.List>
+            <Tabs.Tab value="overview">Overview</Tabs.Tab>
+            <Tabs.Tab value="analytics">Analytics</Tabs.Tab>
+            <Tabs.Tab value="reports">Reports</Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panels>
+            <Tabs.Panel value="overview">
+              <div className="p-4 bg-gray-50 rounded">Overview content</div>
+            </Tabs.Panel>
+            <Tabs.Panel value="analytics">
+              <div className="p-4 bg-gray-50 rounded">Analytics content</div>
+            </Tabs.Panel>
+            <Tabs.Panel value="reports">
+              <div className="p-4 bg-gray-50 rounded">Reports content</div>
+            </Tabs.Panel>
+          </Tabs.Panels>
+        </Tabs>
+
+        {/* External controls */}
+        <div className="mt-4 flex gap-2">
+          <button
+            onClick={() => setActiveTab("overview")}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Go to Overview
+          </button>
+          <button
+            onClick={() => setActiveTab("analytics")}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Go to Analytics
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+### Real-World Example: Controlled Modal
+
+Here's a practical modal component with controlled/uncontrolled support:
+
+```tsx
+// components/Modal.tsx
+import { useState, useEffect, ReactNode } from "react";
+import { X } from "lucide-react";
+
+interface ModalProps {
+  children: ReactNode;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  title?: string;
+  size?: "sm" | "md" | "lg" | "xl";
+}
+
+export function Modal({
+  children,
+  open: controlledOpen,
+  defaultOpen = false,
+  onOpenChange,
+  title,
+  size = "md",
+}: ModalProps) {
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+
+  const isControlled = controlledOpen !== undefined;
+  const isOpen = isControlled ? controlledOpen : internalOpen;
+
+  const handleOpenChange = (newOpen: boolean) => {
+    if (!isControlled) {
+      setInternalOpen(newOpen);
+    }
+    onOpenChange?.(newOpen);
+  };
+
+  const open = () => handleOpenChange(true);
+  const close = () => handleOpenChange(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  // Close on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        close();
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [isOpen]);
+
+  const sizeClasses = {
+    sm: "max-w-sm",
+    md: "max-w-md",
+    lg: "max-w-lg",
+    xl: "max-w-xl",
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black bg-opacity-50"
+        onClick={close}
+      />
+
+      {/* Modal */}
+      <div
+        className={`relative bg-white rounded-lg shadow-xl ${sizeClasses[size]} w-full mx-4`}
+      >
+        {/* Header */}
+        {title && (
+          <div className="flex items-center justify-between p-6 border-b">
+            <h2 className="text-xl font-semibold">{title}</h2>
+            <button
+              onClick={close}
+              className="text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        )}
+
+        {/* Body */}
+        <div className="p-6">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+// Trigger component for uncontrolled usage
+interface ModalTriggerProps {
+  children: (props: { open: () => void }) => ReactNode;
+}
+
+Modal.Trigger = function ModalTrigger({ children }: ModalTriggerProps) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      {children({ open: () => setOpen(true) })}
+      <Modal open={open} onOpenChange={setOpen}>
+        Modal Content
+      </Modal>
+    </>
+  );
+};
+```
+
+Using the modal:
+
+```tsx
+// App.tsx
+import { useState } from "react";
+import { Modal } from "./components/Modal";
+
+export function App() {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  return (
+    <div className="p-8 space-y-6">
+      {/* Uncontrolled Modal */}
+      <div>
+        <h2 className="text-xl font-bold mb-2">Uncontrolled Modal</h2>
+        <Modal defaultOpen={false} title="Welcome">
+          <p>This modal manages its own state.</p>
+          <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+            Action
+          </button>
+        </Modal>
+      </div>
+
+      {/* Controlled Modal */}
+      <div>
+        <h2 className="text-xl font-bold mb-2">Controlled Modal</h2>
+        <button
+          onClick={() => setModalOpen(true)}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Open Controlled Modal
+        </button>
+
+        <Modal
+          open={modalOpen}
+          onOpenChange={setModalOpen}
+          title="Controlled Modal"
+          size="lg"
+        >
+          <div>
+            <p className="mb-4">This modal is controlled by parent state.</p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setModalOpen(false)}
+                className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  console.log("Confirmed");
+                  setModalOpen(false);
+                }}
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </Modal>
+      </div>
+    </div>
+  );
+}
+```
+
+### Benefits
+
+**Flexibility**: Components work in both controlled and uncontrolled modes based on usage.
+
+**Familiar API**: Mirrors the behavior of native HTML form elements.
+
+**Progressive Enhancement**: Start simple (uncontrolled) and add control when needed.
+
+**External Synchronization**: Controlled mode allows synchronization with external state (URL, localStorage, etc.).
+
+**Testing**: Both modes can be tested independently.
+
+**Migration Path**: Easy to migrate from uncontrolled to controlled as requirements evolve.
+
+### When to Use
+
+Use the Control Props pattern when:
+
+- Building form components (inputs, selects, checkboxes)
+- Creating components that manage internal state but might need external control
+- We want to provide flexibility to component consumers
+- Components need to work in isolation or as part of larger state management
+- Building reusable component libraries
+- We need both simple and advanced use cases
+- Synchronization with external state (URL params, localStorage) might be needed
+
+### When Not to Use
+
+Avoid this pattern when:
+
+- The component will never need external control
+- State is always managed externally (always controlled)
+- The added complexity doesn't provide value
+- Simple prop-based API is sufficient
+- Performance overhead of checking control mode is a concern
+
+### Best Practices
+
+1. **Name props consistently**: Use `value`/`onChange` for controlled, `defaultValue` for uncontrolled
+2. **Don't switch modes**: Once controlled or uncontrolled, don't switch during component lifecycle
+3. **Warn in development**: Add warnings when invalid prop combinations are used
+4. **Document both modes**: Clearly document how to use controlled and uncontrolled modes
+5. **Provide TypeScript types**: Make it clear which props are for which mode
+6. **Handle edge cases**: Null/undefined values, missing callbacks, etc.
+7. **Controlled mode validation**: Ensure onChange is provided when value is provided
+8. **Default values**: Provide sensible defaults for uncontrolled mode
+9. **Memoization**: Consider memoizing change handlers to prevent unnecessary re-renders
+10. **Escape hatches**: Provide ref access for imperative operations
+
+### Controlled vs Uncontrolled Decision Tree
+
+```tsx
+// ❌ Don't switch between controlled and uncontrolled
+function BadExample({ value }: { value?: number }) {
+  const [count, setCount] = useState(0);
+
+  // This will cause bugs - switching between controlled/uncontrolled
+  return <Counter value={value ?? count} />;
+}
+
+// ✅ Choose one mode and stick with it
+function GoodExample({
+  value,
+  onChange,
+}: {
+  value?: number;
+  onChange?: (v: number) => void;
+}) {
+  // Either fully controlled
+  if (value !== undefined) {
+    return <Counter value={value} onChange={onChange!} />;
+  }
+
+  // Or fully uncontrolled
+  return <Counter defaultValue={0} onChange={onChange} />;
+}
+```
+
+### Development Warnings
+
+Add helpful warnings in development mode:
+
+```tsx
+function useControlWarnings(
+  componentName: string,
+  controlledValue: any,
+  onChange: any,
+) {
+  useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      const isControlled = controlledValue !== undefined;
+
+      if (isControlled && !onChange) {
+        console.warn(
+          `${componentName}: We provided a \`value\` prop without an \`onChange\` handler. ` +
+            `This will render a read-only component. ` +
+            `If we want it to be mutable, use \`defaultValue\`. ` +
+            `Otherwise, provide an \`onChange\` handler.`,
+        );
+      }
+    }
+  }, [componentName, controlledValue, onChange]);
+}
+
+// Usage in component
+function Counter({ value, defaultValue, onChange }: CounterProps) {
+  useControlWarnings("Counter", value, onChange);
+  // ... rest of implementation
+}
+```
+
+### Combining with Other Patterns
+
+**With Custom Hooks:**
+
+```tsx
+function useControllableState<T>(
+  controlledValue: T | undefined,
+  defaultValue: T,
+  onChange?: (value: T) => void,
+) {
+  const [internalValue, setInternalValue] = useState(defaultValue);
+  const isControlled = controlledValue !== undefined;
+  const value = isControlled ? controlledValue : internalValue;
+
+  const setValue = (newValue: T) => {
+    if (!isControlled) {
+      setInternalValue(newValue);
+    }
+    onChange?.(newValue);
+  };
+
+  return [value, setValue] as const;
+}
+
+// Usage
+function Counter({ value, defaultValue = 0, onChange }: CounterProps) {
+  const [count, setCount] = useControllableState(value, defaultValue, onChange);
+
+  return <button onClick={() => setCount(count + 1)}>Count: {count}</button>;
+}
+```
+
+**With Compound Components:**
+
+```tsx
+<Accordion value={activePanel} onChange={setActivePanel}>
+  <Accordion.Item value="panel1">
+    <Accordion.Trigger>Panel 1</Accordion.Trigger>
+    <Accordion.Content>Content 1</Accordion.Content>
+  </Accordion.Item>
+</Accordion>
+```
+
+### Real-World Use Cases
+
+This pattern is perfect for:
+
+- **Form Components**: Inputs, textareas, selects, checkboxes, radio buttons
+- **Toggle Components**: Switches, checkboxes, radio groups
+- **Disclosure Components**: Accordions, dropdowns, modals, tooltips
+- **Navigation**: Tabs, steppers, pagination
+- **Selection**: Multi-select, comboboxes, autocomplete
+- **Rich Text Editors**: Content editable areas with external state
+- **Date/Time Pickers**: Calendar and time selection components
+- **Sliders**: Range and value sliders
+- **Video/Audio Players**: Playback control with external state management
+- **Canvas/Drawing Tools**: External control over drawing state
+
+Popular libraries like React Hook Form, Downshift, Radix UI, and Headless UI extensively use the Control Props pattern to provide maximum flexibility to consumers.

@@ -2,6 +2,8 @@ import { existsSync, promises as fs } from 'fs'
 import { tmpdir } from 'os'
 import path from 'path'
 import { rimraf } from 'rimraf'
+import chalk from 'chalk'
+import ora from 'ora'
 
 import { Project, ScriptKind } from 'ts-morph'
 import { z } from 'zod'
@@ -76,7 +78,9 @@ export const Index: Record<string, any> = {
 
         if (invalidCategories.length > 0) {
           console.error(
-            `${item.name} has invalid categories: ${invalidCategories}`
+            chalk.red(
+              `❌ ${chalk.bold(item.name)} has invalid categories: ${chalk.yellow(invalidCategories.join(', '))}`
+            )
           )
           process.exit(1)
         }
@@ -407,23 +411,34 @@ async function buildStylesIndex() {
 }
 
 async function main() {
+  const spinner = ora({
+    text: chalk.cyan('Building registry...'),
+    spinner: 'dots',
+  }).start()
+
   try {
-    console.log('💽 Building registry...')
     const result = registrySchema.safeParse(registry)
 
     if (!result.success) {
-      console.error(result.error)
+      spinner.fail(chalk.red('Registry validation failed'))
+      console.error(chalk.red(result.error.message))
       process.exit(1)
     }
 
+    spinner.text = chalk.cyan('Building registry files...')
     await buildRegistry(result.data)
+
+    spinner.text = chalk.cyan('Building styles...')
     await buildStyles(result.data)
+
+    spinner.text = chalk.cyan('Building styles index...')
     await buildStylesIndex()
 
-    console.log('✅ Done!')
+    spinner.succeed(chalk.green('Registry built successfully! 🎉'))
     process.exit(0)
   } catch (error) {
-    console.error(error)
+    spinner.fail(chalk.red('Build failed'))
+    console.error(chalk.red('Error:'), error)
     process.exit(1)
   }
 }

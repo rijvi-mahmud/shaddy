@@ -1,0 +1,727 @@
+---
+title: Function Children Pattern
+description: Learn how to create flexible and dynamic components using the Function Children pattern (also known as Children as a Function) in React.
+---
+
+### Introduction
+
+The Function Children pattern, also known as Children as a Function or Function as Child Component (FaCC), is a specialized variant of the Render Props pattern where the `children` prop is a function instead of React elements. This pattern leverages React's flexibility with the `children` prop to create highly reusable and flexible components that can share logic while giving consumers complete control over rendering.
+
+### The Problem
+
+When building reusable components, we often face a dilemma: we want to share logic and state, but we also want to give consumers flexibility in how they render the UI. Traditional component composition with fixed children doesn't provide enough flexibility:
+
+```tsx
+function DataContainer({ data, children }) {
+  return (
+    <div className="data-container">
+      {children} {/* Children are static, can't access container's state */}
+    </div>
+  );
+}
+
+// Usage - children can't access data or loading state
+<DataContainer data={users}>
+  <div>How do I access the data here?</div>
+</DataContainer>;
+```
+
+Problems with this approach:
+
+- Children can't access parent component's state or data
+- Limited communication between parent and children
+- Can't dynamically render based on parent's state
+- Difficult to share behavior across different UIs
+
+### The Solution
+
+The Function Children pattern solves this by making `children` a function that receives state and methods from the parent:
+
+```tsx
+<DataContainer>
+  {({ data, loading, error }) => {
+    if (loading) return <Spinner />;
+    if (error) return <Error message={error.message} />;
+    return <UserList users={data} />;
+  }}
+</DataContainer>
+```
+
+This approach provides:
+
+- Direct access to parent component's state
+- Complete rendering control
+- Clear data flow from parent to children
+- Elegant and readable syntax
+
+### Basic Example: Toggle Component
+
+Let's build a simple toggle component to demonstrate the pattern:
+
+```tsx
+// components/Toggle.tsx
+import { useState, ReactNode } from "react";
+
+interface ToggleState {
+  on: boolean;
+  toggle: () => void;
+  setOn: (value: boolean) => void;
+}
+
+interface ToggleProps {
+  children: (state: ToggleState) => ReactNode;
+  initialState?: boolean;
+}
+
+export function Toggle({ children, initialState = false }: ToggleProps) {
+  const [on, setOn] = useState(initialState);
+
+  const toggle = () => setOn((prev) => !prev);
+
+  return <>{children({ on, toggle, setOn })}</>;
+}
+```
+
+Using the toggle component:
+
+```tsx
+// App.tsx
+import { Toggle } from "./components/Toggle";
+
+export function App() {
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-4">Toggle Demo</h1>
+
+      {/* Simple button toggle */}
+      <Toggle>
+        {({ on, toggle }) => (
+          <button
+            onClick={toggle}
+            className={`px-4 py-2 rounded ${
+              on ? "bg-green-500 text-white" : "bg-gray-300 text-gray-700"
+            }`}
+          >
+            {on ? "ON" : "OFF"}
+          </button>
+        )}
+      </Toggle>
+
+      {/* Toggle with controlled visibility */}
+      <div className="mt-4">
+        <Toggle>
+          {({ on, toggle }) => (
+            <div>
+              <button
+                onClick={toggle}
+                className="px-4 py-2 bg-blue-500 text-white rounded"
+              >
+                {on ? "Hide" : "Show"} Details
+              </button>
+              {on && (
+                <div className="mt-2 p-4 bg-blue-50 border border-blue-200 rounded">
+                  <p>This content is conditionally rendered!</p>
+                </div>
+              )}
+            </div>
+          )}
+        </Toggle>
+      </div>
+    </div>
+  );
+}
+```
+
+### Advanced Example: Async Data Loader
+
+Let's build a more sophisticated component for handling asynchronous operations:
+
+```tsx
+// components/AsyncLoader.tsx
+import { useState, useEffect, ReactNode } from "react";
+
+interface AsyncState<T> {
+  data: T | null;
+  loading: boolean;
+  error: Error | null;
+  reload: () => void;
+}
+
+interface AsyncLoaderProps<T> {
+  children: (state: AsyncState<T>) => ReactNode;
+  loadData: () => Promise<T>;
+  dependencies?: any[];
+}
+
+export function AsyncLoader<T>({
+  children,
+  loadData,
+  dependencies = [],
+}: AsyncLoaderProps<T>) {
+  const [data, setData] = useState<T | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+  const [reloadTrigger, setReloadTrigger] = useState(0);
+
+  const reload = () => setReloadTrigger((prev) => prev + 1);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const result = await loadData();
+
+        if (!cancelled) {
+          setData(result);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err : new Error("Unknown error"));
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [...dependencies, reloadTrigger]);
+
+  return <>{children({ data, loading, error, reload })}</>;
+}
+```
+
+Using the async loader:
+
+```tsx
+// UserDashboard.tsx
+import { AsyncLoader } from "./components/AsyncLoader";
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  stats: {
+    posts: number;
+    followers: number;
+    following: number;
+  };
+}
+
+async function fetchUserData(userId: number): Promise<User> {
+  const response = await fetch(`/api/users/${userId}`);
+  if (!response.ok) throw new Error("Failed to fetch user");
+  return response.json();
+}
+
+export function UserDashboard({ userId }: { userId: number }) {
+  return (
+    <div className="max-w-4xl mx-auto p-6">
+      <AsyncLoader
+        loadData={() => fetchUserData(userId)}
+        dependencies={[userId]}
+      >
+        {({ data, loading, error, reload }) => {
+          if (loading) {
+            return (
+              <div className="flex items-center justify-center h-64">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4" />
+                  <p className="text-gray-600">Loading user data...</p>
+                </div>
+              </div>
+            );
+          }
+
+          if (error) {
+            return (
+              <div className="p-6 bg-red-50 border border-red-200 rounded-lg">
+                <h3 className="text-lg font-semibold text-red-800 mb-2">
+                  Error
+                </h3>
+                <p className="text-red-600 mb-4">{error.message}</p>
+                <button
+                  onClick={reload}
+                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                >
+                  Try Again
+                </button>
+              </div>
+            );
+          }
+
+          if (!data) {
+            return (
+              <p className="text-center text-gray-500">No data available</p>
+            );
+          }
+
+          return (
+            <div className="bg-white shadow rounded-lg overflow-hidden">
+              <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white">
+                <h1 className="text-3xl font-bold">{data.name}</h1>
+                <p className="text-blue-100">{data.email}</p>
+              </div>
+
+              <div className="p-6">
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  <div className="text-center p-4 bg-gray-50 rounded">
+                    <p className="text-2xl font-bold text-gray-900">
+                      {data.stats.posts}
+                    </p>
+                    <p className="text-sm text-gray-600">Posts</p>
+                  </div>
+                  <div className="text-center p-4 bg-gray-50 rounded">
+                    <p className="text-2xl font-bold text-gray-900">
+                      {data.stats.followers}
+                    </p>
+                    <p className="text-sm text-gray-600">Followers</p>
+                  </div>
+                  <div className="text-center p-4 bg-gray-50 rounded">
+                    <p className="text-2xl font-bold text-gray-900">
+                      {data.stats.following}
+                    </p>
+                    <p className="text-sm text-gray-600">Following</p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={reload}
+                  className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  Refresh Data
+                </button>
+              </div>
+            </div>
+          );
+        }}
+      </AsyncLoader>
+    </div>
+  );
+}
+```
+
+### Real-World Example: List with Filtering and Sorting
+
+Here's a practical list component with filtering and sorting capabilities:
+
+```tsx
+// components/SmartList.tsx
+import { useState, useMemo, ReactNode } from "react";
+
+type SortDirection = "asc" | "desc";
+
+interface SmartListState<T> {
+  items: T[];
+  filteredItems: T[];
+  sortedItems: T[];
+  filter: string;
+  setFilter: (filter: string) => void;
+  sortBy: string | null;
+  sortDirection: SortDirection;
+  setSorting: (key: string) => void;
+  clearFilter: () => void;
+  count: number;
+  isEmpty: boolean;
+}
+
+interface SmartListProps<T> {
+  children: (state: SmartListState<T>) => ReactNode;
+  items: T[];
+  filterFn?: (item: T, filter: string) => boolean;
+  sortFn?: (a: T, b: T, key: string) => number;
+}
+
+export function SmartList<T>({
+  children,
+  items,
+  filterFn,
+  sortFn,
+}: SmartListProps<T>) {
+  const [filter, setFilter] = useState("");
+  const [sortBy, setSortBy] = useState<string | null>(null);
+  const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+
+  const filteredItems = useMemo(() => {
+    if (!filter || !filterFn) return items;
+    return items.filter((item) => filterFn(item, filter));
+  }, [items, filter, filterFn]);
+
+  const sortedItems = useMemo(() => {
+    if (!sortBy || !sortFn) return filteredItems;
+
+    const sorted = [...filteredItems].sort((a, b) => {
+      const result = sortFn(a, b, sortBy);
+      return sortDirection === "asc" ? result : -result;
+    });
+
+    return sorted;
+  }, [filteredItems, sortBy, sortDirection, sortFn]);
+
+  const handleSetSorting = (key: string) => {
+    if (sortBy === key) {
+      setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortBy(key);
+      setSortDirection("asc");
+    }
+  };
+
+  const clearFilter = () => setFilter("");
+
+  return (
+    <>
+      {children({
+        items,
+        filteredItems,
+        sortedItems,
+        filter,
+        setFilter,
+        sortBy,
+        sortDirection,
+        setSorting: handleSetSorting,
+        clearFilter,
+        count: sortedItems.length,
+        isEmpty: sortedItems.length === 0,
+      })}
+    </>
+  );
+}
+```
+
+Using the smart list:
+
+```tsx
+// ProductList.tsx
+import { SmartList } from "./components/SmartList";
+import { Search, ArrowUpDown } from "lucide-react";
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+  inStock: boolean;
+}
+
+const products: Product[] = [
+  { id: 1, name: "Laptop", price: 999, category: "Electronics", inStock: true },
+  { id: 2, name: "Mouse", price: 25, category: "Electronics", inStock: true },
+  {
+    id: 3,
+    name: "Keyboard",
+    price: 75,
+    category: "Electronics",
+    inStock: false,
+  },
+  {
+    id: 4,
+    name: "Monitor",
+    price: 299,
+    category: "Electronics",
+    inStock: true,
+  },
+  { id: 5, name: "Desk", price: 450, category: "Furniture", inStock: true },
+];
+
+export function ProductList() {
+  const filterProducts = (product: Product, filter: string) => {
+    const searchTerm = filter.toLowerCase();
+    return (
+      product.name.toLowerCase().includes(searchTerm) ||
+      product.category.toLowerCase().includes(searchTerm)
+    );
+  };
+
+  const sortProducts = (a: Product, b: Product, key: string) => {
+    if (key === "name") return a.name.localeCompare(b.name);
+    if (key === "price") return a.price - b.price;
+    if (key === "category") return a.category.localeCompare(b.category);
+    return 0;
+  };
+
+  return (
+    <div className="max-w-6xl mx-auto p-6">
+      <h1 className="text-3xl font-bold mb-6">Product Catalog</h1>
+
+      <SmartList
+        items={products}
+        filterFn={filterProducts}
+        sortFn={sortProducts}
+      >
+        {({
+          sortedItems,
+          filter,
+          setFilter,
+          setSorting,
+          sortBy,
+          sortDirection,
+          count,
+          isEmpty,
+        }) => (
+          <div>
+            {/* Search Bar */}
+            <div className="mb-6 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+                placeholder="Search products..."
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+
+            {/* Results Count */}
+            <p className="text-sm text-gray-600 mb-4">
+              Showing {count} {count === 1 ? "product" : "products"}
+            </p>
+
+            {/* Product Table */}
+            <div className="bg-white shadow rounded-lg overflow-hidden">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b">
+                  <tr>
+                    <th
+                      onClick={() => setSorting("name")}
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                    >
+                      <div className="flex items-center gap-2">
+                        Name
+                        {sortBy === "name" && (
+                          <ArrowUpDown
+                            className={`w-4 h-4 ${sortDirection === "desc" ? "rotate-180" : ""}`}
+                          />
+                        )}
+                      </div>
+                    </th>
+                    <th
+                      onClick={() => setSorting("price")}
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                    >
+                      <div className="flex items-center gap-2">
+                        Price
+                        {sortBy === "price" && (
+                          <ArrowUpDown
+                            className={`w-4 h-4 ${sortDirection === "desc" ? "rotate-180" : ""}`}
+                          />
+                        )}
+                      </div>
+                    </th>
+                    <th
+                      onClick={() => setSorting("category")}
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                    >
+                      <div className="flex items-center gap-2">
+                        Category
+                        {sortBy === "category" && (
+                          <ArrowUpDown
+                            className={`w-4 h-4 ${sortDirection === "desc" ? "rotate-180" : ""}`}
+                          />
+                        )}
+                      </div>
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {isEmpty ? (
+                    <tr>
+                      <td
+                        colSpan={4}
+                        className="px-6 py-8 text-center text-gray-500"
+                      >
+                        No products found
+                      </td>
+                    </tr>
+                  ) : (
+                    sortedItems.map((product) => (
+                      <tr key={product.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
+                          {product.name}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-gray-700">
+                          ${product.price}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-gray-700">
+                          {product.category}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span
+                            className={`px-2 py-1 text-xs font-medium rounded-full ${
+                              product.inStock
+                                ? "bg-green-100 text-green-800"
+                                : "bg-red-100 text-red-800"
+                            }`}
+                          >
+                            {product.inStock ? "In Stock" : "Out of Stock"}
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </SmartList>
+    </div>
+  );
+}
+```
+
+### Benefits
+
+**Explicit Data Flow**: Function signature clearly shows what data is available to children.
+
+**Complete Rendering Control**: Consumers decide exactly how to render based on the provided state.
+
+**Type Safety**: TypeScript provides excellent type inference for function parameters.
+
+**Readability**: The pattern is self-documenting - we can see what data is available at the call site.
+
+**Flexibility**: Easy to conditionally render different UI based on state.
+
+**Composability**: Can nest multiple function children components naturally.
+
+**Testing**: Logic and presentation are cleanly separated for easier testing.
+
+### When to Use
+
+Use the Function Children pattern when:
+
+- We need to share stateful logic with complete rendering flexibility
+- We want to expose multiple values and methods to consumers
+- We're building utility components (data fetching, state management, etc.)
+- Children need direct access to parent component state
+- We want a declarative API with clear data flow
+- We prefer explicit prop types over implicit context
+- We're building reusable library components
+
+### When Not to Use
+
+Avoid this pattern when:
+
+- A custom hook would be simpler and cleaner
+- Children don't need access to parent state
+- The function creates performance issues from constant re-creation
+- The nesting gets too deep (callback hell)
+- Static children are sufficient
+- We're using React 16.8+ and hooks solve our use case better
+
+### Best Practices
+
+1. **Use TypeScript**: Define clear types for the function parameters
+2. **Keep functions pure**: Avoid side effects in the children function
+3. **Memoize when needed**: Use `useCallback` for complex children functions
+4. **Provide sensible defaults**: Make components work with minimal setup
+5. **Handle all states**: Loading, error, empty, and success states
+6. **Clear parameter names**: Use descriptive names in the function signature
+7. **Document the API**: Clearly document what parameters are provided
+8. **Performance optimization**: Consider memoization to prevent unnecessary re-renders
+9. **Avoid deep nesting**: Don't nest too many function children components
+10. **Error boundaries**: Wrap components in error boundaries for better error handling
+
+### Function Children vs Custom Hooks
+
+Modern React often favors custom hooks, but function children still have their place:
+
+**Function Children:**
+
+```tsx
+<Toggle>
+  {({ on, toggle }) => <button onClick={toggle}>{on ? "ON" : "OFF"}</button>}
+</Toggle>
+```
+
+**Custom Hook:**
+
+```tsx
+function useToggle(initial = false) {
+  const [on, setOn] = useState(initial);
+  const toggle = () => setOn((prev) => !prev);
+  return { on, toggle, setOn };
+}
+
+function App() {
+  const { on, toggle } = useToggle();
+  return <button onClick={toggle}>{on ? "ON" : "OFF"}</button>;
+}
+```
+
+**Choose Function Children when:**
+
+- We need declarative, component-based API
+- Building component libraries with JSX-first approach
+- Providing render flexibility is important
+- We want to control component tree structure
+
+**Choose Hooks when:**
+
+- Building application code
+- Logic reuse without rendering concerns
+- Better composition and readability needed
+- Avoiding render prop nesting
+
+### Combining with Other Patterns
+
+**With Compound Components:**
+
+```tsx
+<DataTable>
+  {({ data, sortColumn, sortDirection }) => (
+    <>
+      <DataTable.Header>
+        <DataTable.Column sort="name" active={sortColumn === "name"}>
+          Name
+        </DataTable.Column>
+        <DataTable.Column sort="age" active={sortColumn === "age"}>
+          Age
+        </DataTable.Column>
+      </DataTable.Header>
+      <DataTable.Body>
+        {data.map((row) => (
+          <DataTable.Row key={row.id} data={row} />
+        ))}
+      </DataTable.Body>
+    </>
+  )}
+</DataTable>
+```
+
+**With Context API:**
+
+```tsx
+<ThemeProvider>
+  {({ theme, setTheme }) => <App theme={theme} onThemeChange={setTheme} />}
+</ThemeProvider>
+```
+
+### Real-World Use Cases
+
+This pattern excels in:
+
+- **Data Management**: Async data loading, caching, pagination, infinite scroll
+- **State Management**: Form state, wizard steps, multi-step flows
+- **UI State**: Toggles, dropdowns, modals, tooltips, popovers
+- **Media Queries**: Responsive rendering based on viewport size
+- **Timers**: Countdowns, intervals, debouncing, throttling
+- **Geolocation**: Location tracking with custom rendering
+- **Intersection Observer**: Lazy loading, visibility tracking, scroll animations
+- **WebSocket**: Real-time data with custom rendering logic
+- **Feature Flags**: Conditional rendering based on feature availability
+- **A/B Testing**: Variant rendering with experiment tracking
+
+The Function Children pattern remains valuable for component libraries and situations where declarative, component-based APIs provide better developer experience than hooks alone.

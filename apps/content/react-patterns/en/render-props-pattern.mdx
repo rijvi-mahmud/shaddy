@@ -1,0 +1,719 @@
+---
+title: Render Props Pattern
+description: Learn how to share component logic and create flexible, reusable components using the Render Props pattern in React.
+---
+
+### Introduction
+
+The Render Props pattern is a technique for sharing code between React components using a prop whose value is a function. A component with a render prop takes a function that returns a React element and calls it instead of implementing its own render logic. This pattern provides a powerful way to share stateful logic and behavior between components while giving consumers full control over what gets rendered.
+
+### The Problem
+
+When building React applications, we often need to share the same stateful logic across multiple components, but they need to render different UI. Traditional approaches like Higher-Order Components (HOCs) or simple component composition can lead to issues:
+
+Consider a mouse tracking feature needed in different parts of our app:
+
+```tsx
+function MouseTrackerA() {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  return (
+    <div>
+      The mouse is at ({position.x}, {position.y})
+    </div>
+  );
+}
+
+function MouseTrackerB() {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  return <img src="cursor.png" style={{ left: position.x, top: position.y }} />;
+}
+```
+
+Problems with this approach:
+
+- Duplicate logic across components
+- Difficult to maintain and update
+- Can't easily reuse the mouse tracking logic
+- Tight coupling between logic and presentation
+
+### The Solution
+
+The Render Props pattern solves this by extracting the shared logic into a component that accepts a function prop, which determines what to render:
+
+```tsx
+<MouseTracker>
+  {({ x, y }) => (
+    <div>The mouse is at ({x}, {y})</div>
+  )}
+</MouseTracker>
+
+<MouseTracker>
+  {({ x, y }) => (
+    <img src="cursor.png" style={{ left: x, top: y }} />
+  )}
+</MouseTracker>
+```
+
+This approach provides:
+
+- Reusable stateful logic
+- Complete control over rendering
+- Clear separation of concerns
+- Flexible component composition
+
+### Basic Example: Mouse Tracker
+
+Let's build a mouse tracker component to demonstrate the pattern:
+
+```tsx
+// components/MouseTracker.tsx
+import { useState, useEffect, ReactNode } from "react";
+
+interface MousePosition {
+  x: number;
+  y: number;
+}
+
+interface MouseTrackerProps {
+  render: (position: MousePosition) => ReactNode;
+}
+
+export function MouseTracker({ render }: MouseTrackerProps) {
+  const [position, setPosition] = useState<MousePosition>({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  return <>{render(position)}</>;
+}
+```
+
+Using the mouse tracker:
+
+```tsx
+// App.tsx
+import { MouseTracker } from "./components/MouseTracker";
+
+export function App() {
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-4">Mouse Position Demo</h1>
+
+      {/* Simple text display */}
+      <MouseTracker
+        render={({ x, y }) => (
+          <p className="mb-4">
+            The mouse is at{" "}
+            <strong>
+              ({x}, {y})
+            </strong>
+          </p>
+        )}
+      />
+
+      {/* Visual cursor follower */}
+      <MouseTracker
+        render={({ x, y }) => (
+          <div
+            className="fixed w-4 h-4 bg-blue-500 rounded-full pointer-events-none"
+            style={{
+              left: x - 8,
+              top: y - 8,
+              transform: "translate(0, 0)",
+            }}
+          />
+        )}
+      />
+    </div>
+  );
+}
+```
+
+### Children as Function Variant
+
+A popular variant uses the `children` prop instead of a dedicated `render` prop:
+
+```tsx
+// components/MouseTracker.tsx
+import { useState, useEffect, ReactNode } from "react";
+
+interface MousePosition {
+  x: number;
+  y: number;
+}
+
+interface MouseTrackerProps {
+  children: (position: MousePosition) => ReactNode;
+}
+
+export function MouseTracker({ children }: MouseTrackerProps) {
+  const [position, setPosition] = useState<MousePosition>({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  return <>{children(position)}</>;
+}
+```
+
+Usage with children:
+
+```tsx
+<MouseTracker>
+  {({ x, y }) => (
+    <p>
+      Mouse at ({x}, {y})
+    </p>
+  )}
+</MouseTracker>
+```
+
+### Advanced Example: Data Fetcher
+
+Let's build a more sophisticated component for fetching data:
+
+```tsx
+// components/DataFetcher.tsx
+import { useState, useEffect, ReactNode } from "react";
+
+interface FetchState<T> {
+  data: T | null;
+  loading: boolean;
+  error: Error | null;
+  refetch: () => void;
+}
+
+interface DataFetcherProps<T> {
+  url: string;
+  children: (state: FetchState<T>) => ReactNode;
+  options?: RequestInit;
+}
+
+export function DataFetcher<T>({
+  url,
+  children,
+  options,
+}: DataFetcherProps<T>) {
+  const [data, setData] = useState<T | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+  const [refetchTrigger, setRefetchTrigger] = useState(0);
+
+  const refetch = () => setRefetchTrigger((prev) => prev + 1);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch(url, options);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const json = await response.json();
+
+        if (!cancelled) {
+          setData(json);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err : new Error("An error occurred"));
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [url, refetchTrigger]);
+
+  return <>{children({ data, loading, error, refetch })}</>;
+}
+```
+
+Using the data fetcher:
+
+```tsx
+// UserProfile.tsx
+import { DataFetcher } from "./components/DataFetcher";
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  avatar: string;
+}
+
+export function UserProfile({ userId }: { userId: number }) {
+  return (
+    <DataFetcher<User> url={`/api/users/${userId}`}>
+      {({ data, loading, error, refetch }) => {
+        if (loading) {
+          return (
+            <div className="flex items-center justify-center p-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500" />
+            </div>
+          );
+        }
+
+        if (error) {
+          return (
+            <div className="p-4 bg-red-50 border border-red-200 rounded">
+              <p className="text-red-800">Error: {error.message}</p>
+              <button
+                onClick={refetch}
+                className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              >
+                Retry
+              </button>
+            </div>
+          );
+        }
+
+        if (!data) {
+          return <p>No user found</p>;
+        }
+
+        return (
+          <div className="bg-white shadow rounded-lg p-6">
+            <div className="flex items-center gap-4">
+              <img
+                src={data.avatar}
+                alt={data.name}
+                className="w-16 h-16 rounded-full"
+              />
+              <div>
+                <h2 className="text-xl font-bold">{data.name}</h2>
+                <p className="text-gray-600">{data.email}</p>
+              </div>
+            </div>
+            <button
+              onClick={refetch}
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Refresh
+            </button>
+          </div>
+        );
+      }}
+    </DataFetcher>
+  );
+}
+```
+
+### Real-World Example: Form Field with Validation
+
+Here's a practical form field component with validation:
+
+```tsx
+// components/FormField.tsx
+import { useState, ReactNode, ChangeEvent } from "react";
+
+interface ValidationResult {
+  isValid: boolean;
+  error?: string;
+}
+
+interface FieldState {
+  value: string;
+  error: string | null;
+  touched: boolean;
+  isValid: boolean;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur: () => void;
+  reset: () => void;
+}
+
+interface FormFieldProps {
+  name: string;
+  initialValue?: string;
+  validate?: (value: string) => ValidationResult;
+  children: (state: FieldState) => ReactNode;
+}
+
+export function FormField({
+  name,
+  initialValue = "",
+  validate,
+  children,
+}: FormFieldProps) {
+  const [value, setValue] = useState(initialValue);
+  const [error, setError] = useState<string | null>(null);
+  const [touched, setTouched] = useState(false);
+
+  const validateValue = (val: string): boolean => {
+    if (!validate) return true;
+
+    const result = validate(val);
+    setError(result.isValid ? null : result.error || "Invalid input");
+    return result.isValid;
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setValue(newValue);
+    if (touched) {
+      validateValue(newValue);
+    }
+  };
+
+  const handleBlur = () => {
+    setTouched(true);
+    validateValue(value);
+  };
+
+  const reset = () => {
+    setValue(initialValue);
+    setError(null);
+    setTouched(false);
+  };
+
+  return (
+    <>
+      {children({
+        value,
+        error,
+        touched,
+        isValid: error === null,
+        onChange: handleChange,
+        onBlur: handleBlur,
+        reset,
+      })}
+    </>
+  );
+}
+```
+
+Using the form field:
+
+```tsx
+// LoginForm.tsx
+import { FormField } from "./components/FormField";
+
+export function LoginForm() {
+  const validateEmail = (value: string) => {
+    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    return {
+      isValid,
+      error: isValid ? undefined : "Please enter a valid email address",
+    };
+  };
+
+  const validatePassword = (value: string) => {
+    const isValid = value.length >= 8;
+    return {
+      isValid,
+      error: isValid ? undefined : "Password must be at least 8 characters",
+    };
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form submitted");
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-6 space-y-4">
+      <h2 className="text-2xl font-bold mb-6">Login</h2>
+
+      <FormField name="email" validate={validateEmail}>
+        {({ value, error, touched, onChange, onBlur }) => (
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium mb-1">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={value}
+              onChange={onChange}
+              onBlur={onBlur}
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                touched && error
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
+              }`}
+            />
+            {touched && error && (
+              <p className="mt-1 text-sm text-red-600">{error}</p>
+            )}
+          </div>
+        )}
+      </FormField>
+
+      <FormField name="password" validate={validatePassword}>
+        {({ value, error, touched, onChange, onBlur }) => (
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium mb-1"
+            >
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              value={value}
+              onChange={onChange}
+              onBlur={onBlur}
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                touched && error
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
+              }`}
+            />
+            {touched && error && (
+              <p className="mt-1 text-sm text-red-600">{error}</p>
+            )}
+          </div>
+        )}
+      </FormField>
+
+      <button
+        type="submit"
+        className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+      >
+        Login
+      </button>
+    </form>
+  );
+}
+```
+
+### Benefits
+
+**Logic Reusability**: Extract and reuse stateful logic across different components without duplication.
+
+**Render Flexibility**: Consumers have complete control over what gets rendered based on the provided state.
+
+**Explicit Dependencies**: Props make it clear what data is being used and passed around.
+
+**Type Safety**: Works excellently with TypeScript, providing full type inference for render function parameters.
+
+**Composability**: Can easily compose multiple render prop components together.
+
+**Testing**: Logic and presentation are separated, making both easier to test independently.
+
+### When to Use
+
+Use the Render Props pattern when:
+
+- We need to share stateful logic between components
+- Different components need the same behavior but different UI
+- We want to give consumers full control over rendering
+- We're building reusable utility components (data fetching, mouse tracking, etc.)
+- We need to expose complex state and behavior to consumers
+- We want to avoid HOC wrapper hell
+- Type safety and explicit props are important
+
+### When Not to Use
+
+Avoid this pattern when:
+
+- The logic is simple enough for a custom hook (prefer hooks in modern React)
+- We don't need to share logic across components
+- The component doesn't manage complex state
+- We're using React 16.8+ and hooks solve our problem more elegantly
+- Performance is critical and the render function creates new components on each render
+- The render function is too complex and hard to read
+
+### Pattern Variations
+
+**1. Named Render Prop**
+
+```tsx
+<DataFetcher
+  url="/api/users"
+  render={({ data, loading }) => (
+    // Render UI
+  )}
+/>
+```
+
+**2. Children as Function**
+
+```tsx
+<DataFetcher url="/api/users">
+  {({ data, loading }) => (
+    // Render UI
+  )}
+</DataFetcher>
+```
+
+**3. Multiple Render Props**
+
+```tsx
+<Component
+  renderHeader={(data) => <Header {...data} />}
+  renderBody={(data) => <Body {...data} />}
+  renderFooter={(data) => <Footer {...data} />}
+/>
+```
+
+**4. Render Props with Slots**
+
+```tsx
+<DataFetcher
+  url="/api/users"
+  loading={<Spinner />}
+  error={(err) => <ErrorMessage error={err} />}
+>
+  {(data) => <UserList users={data} />}
+</DataFetcher>
+```
+
+### Best Practices
+
+1. **Use TypeScript**: Define clear types for render function parameters
+2. **Keep render functions pure**: Avoid side effects inside render functions
+3. **Consider custom hooks**: For simple logic, hooks are often cleaner
+4. **Memoize render functions**: Prevent unnecessary re-renders with `useCallback`
+5. **Provide good defaults**: Make components work with minimal configuration
+6. **Handle edge cases**: Loading states, errors, empty data, etc.
+7. **Document expected parameters**: Clearly document what the render function receives
+8. **Avoid deep nesting**: Too many render props can lead to callback hell
+9. **Use descriptive names**: Name render props clearly (e.g., `renderItem` instead of just `render`)
+10. **Performance optimization**: Be mindful of creating new functions on each render
+
+### Render Props vs Custom Hooks
+
+Modern React favors custom hooks for sharing logic:
+
+**Render Props:**
+
+```tsx
+<MouseTracker>
+  {({ x, y }) => (
+    <div>
+      Mouse at ({x}, {y})
+    </div>
+  )}
+</MouseTracker>
+```
+
+**Custom Hook:**
+
+```tsx
+function useMousePosition() {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  return position;
+}
+
+// Usage
+function App() {
+  const { x, y } = useMousePosition();
+  return (
+    <div>
+      Mouse at ({x}, {y})
+    </div>
+  );
+}
+```
+
+**When to choose Render Props over Hooks:**
+
+- We need to render something (hooks can't return JSX directly)
+- We want to provide render flexibility to consumers
+- We're building a component library with a declarative API
+- We need to control the component tree structure
+
+**When to choose Hooks over Render Props:**
+
+- We only need to share stateful logic, not rendering
+- We want cleaner, more readable code
+- We want better composition of multiple behaviors
+- We're building application code (not a library)
+
+### Combining with Other Patterns
+
+**With Compound Components:**
+
+```tsx
+<DataFetcher url="/api/users">
+  {({ data, loading, error }) => (
+    <UserList>
+      <UserList.Header>Users</UserList.Header>
+      <UserList.Body>
+        {data?.map((user) => <UserList.Item key={user.id} user={user} />)}
+      </UserList.Body>
+    </UserList>
+  )}
+</DataFetcher>
+```
+
+**With Higher-Order Components:**
+
+```tsx
+const withMousePosition = (Component) => (props) => (
+  <MouseTracker>
+    {(position) => <Component {...props} mousePosition={position} />}
+  </MouseTracker>
+);
+```
+
+### Real-World Use Cases
+
+This pattern is perfect for:
+
+- **Data Fetching**: API calls, GraphQL queries, real-time data subscriptions
+- **Event Tracking**: Mouse position, scroll position, window size, geolocation
+- **Form Management**: Field validation, form state, dirty checking
+- **Animation**: Controlled animations, transitions, physics simulations
+- **Feature Toggles**: Conditional rendering based on feature flags
+- **Permission Management**: Role-based rendering, access control
+- **Media Queries**: Responsive rendering based on screen size
+- **Intersection Observers**: Lazy loading, infinite scroll, visibility tracking
+- **Local Storage**: Syncing component state with localStorage or sessionStorage
+- **Timers**: Countdowns, intervals, time-based UI updates
+
+While custom hooks are now preferred for many use cases, render props remain valuable for components that need to control what gets rendered while sharing complex stateful logic.

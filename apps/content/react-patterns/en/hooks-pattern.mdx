@@ -5,9 +5,9 @@ description: Learn how to encapsulate and reuse stateful logic across components
 
 ### Introduction
 
-The Hooks Pattern is a design pattern that allows you to extract and reuse stateful logic from components without changing your component hierarchy. By creating custom hooks, you can share logic between components while keeping them clean and focused on rendering UI. This pattern emerged with React 16.8 and has become essential for modern React development.
+The Hooks Pattern is a design pattern that allows us to extract and reuse stateful logic from components without changing our component hierarchy. By creating custom hooks, we can share logic between components while keeping them clean and focused on rendering UI. This pattern emerged with React 16.8 and has become essential for modern React development.
 
-> **Quick Start**: If you're looking for production-ready hooks to use in your projects, check out our [Typed Hooks](/typed-hooks) collection—a library of fully typed, reusable React hooks for common use cases like data fetching, form handling, localStorage management, and more.
+> **Quick Start**: If we're looking for production-ready hooks to use in our projects, check out our [Typed Hooks](/typed-hooks) collection—a library of fully typed, reusable React hooks for common use cases like data fetching, form handling, localStorage management, and more.
 
 ### The Problem
 
@@ -15,7 +15,7 @@ In React applications, components often duplicate stateful logic like data fetch
 
 ### The Solution
 
-Custom hooks solve this by allowing you to extract stateful logic into reusable functions. A custom hook is simply a JavaScript function that:
+Custom hooks solve this by allowing us to extract stateful logic into reusable functions. A custom hook is simply a JavaScript function that:
 
 - Starts with the word "use" (e.g., `useFormValidation`, `useFetch`)
 - Can call other hooks (useState, useEffect, etc.)
@@ -28,24 +28,24 @@ Here's a simple custom hook for managing form input:
 
 ```tsx
 // hooks/useInput.ts
-import { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent } from "react";
 
-export function useInput(initialValue: string = '') {
-  const [value, setValue] = useState(initialValue)
+export function useInput(initialValue: string = "") {
+  const [value, setValue] = useState(initialValue);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
-  }
+    setValue(e.target.value);
+  };
 
   const reset = () => {
-    setValue(initialValue)
-  }
+    setValue(initialValue);
+  };
 
   return {
     value,
     onChange: handleChange,
     reset,
-  }
+  };
 }
 ```
 
@@ -53,19 +53,19 @@ Using the hook in a component:
 
 ```tsx
 // LoginForm.tsx
-import { useInput } from './hooks/useInput'
+import { useInput } from "./hooks/useInput";
 
 export function LoginForm() {
-  const email = useInput('')
-  const password = useInput('')
+  const email = useInput("");
+  const password = useInput("");
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log('Email:', email.value)
-    console.log('Password:', password.value)
-    email.reset()
-    password.reset()
-  }
+    e.preventDefault();
+    console.log("Email:", email.value);
+    console.log("Password:", password.value);
+    email.reset();
+    password.reset();
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -88,7 +88,7 @@ export function LoginForm() {
         Login
       </button>
     </form>
-  )
+  );
 }
 ```
 
@@ -98,42 +98,42 @@ One of the most common use cases for custom hooks is data fetching:
 
 ```tsx
 // hooks/useFetch.ts
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 
 interface UseFetchResult<T> {
-  data: T | null
-  loading: boolean
-  error: string | null
-  refetch: () => void
+  data: T | null;
+  loading: boolean;
+  error: string | null;
+  refetch: () => void;
 }
 
 export function useFetch<T>(url: string): UseFetchResult<T> {
-  const [data, setData] = useState<T | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [data, setData] = useState<T | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchData = async () => {
     try {
-      setLoading(true)
-      setError(null)
-      const response = await fetch(url)
+      setLoading(true);
+      setError(null);
+      const response = await fetch(url);
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const result = await response.json()
-      setData(result)
+      const result = await response.json();
+      setData(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred')
+      setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchData()
-  }, [url])
+    fetchData();
+  }, [url]);
 
-  return { data, loading, error, refetch: fetchData }
+  return { data, loading, error, refetch: fetchData };
 }
 ```
 
@@ -141,22 +141,25 @@ Using the fetch hook:
 
 ```tsx
 // UserProfile.tsx
-import { useFetch } from './hooks/useFetch'
+import { useFetch } from "./hooks/useFetch";
 
 interface User {
-  id: number
-  name: string
-  email: string
-  avatar: string
+  id: number;
+  name: string;
+  email: string;
+  avatar: string;
 }
 
 export function UserProfile({ userId }: { userId: number }) {
-  const { data: user, loading, error, refetch } = useFetch<User>(
-    `/api/users/${userId}`
-  )
+  const {
+    data: user,
+    loading,
+    error,
+    refetch,
+  } = useFetch<User>(`/api/users/${userId}`);
 
   if (loading) {
-    return <div className="text-center p-4">Loading user...</div>
+    return <div className="text-center p-4">Loading user...</div>;
   }
 
   if (error) {
@@ -170,11 +173,11 @@ export function UserProfile({ userId }: { userId: number }) {
           Retry
         </button>
       </div>
-    )
+    );
   }
 
   if (!user) {
-    return <div className="p-4">No user found</div>
+    return <div className="p-4">No user found</div>;
   }
 
   return (
@@ -187,7 +190,7 @@ export function UserProfile({ userId }: { userId: number }) {
       <h2 className="text-2xl font-bold">{user.name}</h2>
       <p className="text-gray-600">{user.email}</p>
     </div>
-  )
+  );
 }
 ```
 
@@ -328,22 +331,22 @@ Using the validation hook:
 
 ```tsx
 // RegistrationForm.tsx
-import { useFormValidation } from './hooks/useFormValidation'
+import { useFormValidation } from "./hooks/useFormValidation";
 
 interface RegistrationFormData {
-  username: string
-  email: string
-  password: string
-  confirmPassword: string
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }
 
 export function RegistrationForm() {
   const form = useFormValidation<RegistrationFormData>(
     {
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
     },
     {
       username: {
@@ -364,26 +367,29 @@ export function RegistrationForm() {
         custom: (value) => {
           return value === form.values.password
             ? null
-            : 'Passwords do not match'
+            : "Passwords do not match";
         },
       },
-    }
-  )
+    },
+  );
 
   const handleRegistration = (values: RegistrationFormData) => {
-    console.log('Registration data:', values)
-    form.reset()
-  }
+    console.log("Registration data:", values);
+    form.reset();
+  };
 
   return (
-    <form onSubmit={form.handleSubmit(handleRegistration)} className="space-y-4">
+    <form
+      onSubmit={form.handleSubmit(handleRegistration)}
+      className="space-y-4"
+    >
       <div>
         <input
           type="text"
           placeholder="Username"
           value={form.values.username}
-          onChange={form.handleChange('username')}
-          onBlur={form.handleBlur('username')}
+          onChange={form.handleChange("username")}
+          onBlur={form.handleBlur("username")}
           className="w-full px-4 py-2 border rounded"
         />
         {form.touched.username && form.errors.username && (
@@ -396,8 +402,8 @@ export function RegistrationForm() {
           type="email"
           placeholder="Email"
           value={form.values.email}
-          onChange={form.handleChange('email')}
-          onBlur={form.handleBlur('email')}
+          onChange={form.handleChange("email")}
+          onBlur={form.handleBlur("email")}
           className="w-full px-4 py-2 border rounded"
         />
         {form.touched.email && form.errors.email && (
@@ -410,8 +416,8 @@ export function RegistrationForm() {
           type="password"
           placeholder="Password"
           value={form.values.password}
-          onChange={form.handleChange('password')}
-          onBlur={form.handleBlur('password')}
+          onChange={form.handleChange("password")}
+          onBlur={form.handleBlur("password")}
           className="w-full px-4 py-2 border rounded"
         />
         {form.touched.password && form.errors.password && (
@@ -424,8 +430,8 @@ export function RegistrationForm() {
           type="password"
           placeholder="Confirm Password"
           value={form.values.confirmPassword}
-          onChange={form.handleChange('confirmPassword')}
-          onBlur={form.handleBlur('confirmPassword')}
+          onChange={form.handleChange("confirmPassword")}
+          onBlur={form.handleBlur("confirmPassword")}
           className="w-full px-4 py-2 border rounded"
         />
         {form.touched.confirmPassword && form.errors.confirmPassword && (
@@ -443,7 +449,7 @@ export function RegistrationForm() {
         Register
       </button>
     </form>
-  )
+  );
 }
 ```
 
@@ -453,27 +459,27 @@ Custom hooks can be composed together to build complex functionality. Here's an 
 
 ```tsx
 // hooks/useLocalStorage.ts
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 
 export function useLocalStorage<T>(key: string, initialValue: T) {
   const [value, setValue] = useState<T>(() => {
     try {
-      const item = window.localStorage.getItem(key)
-      return item ? JSON.parse(item) : initialValue
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
     } catch (error) {
-      return initialValue
+      return initialValue;
     }
-  })
+  });
 
   useEffect(() => {
     try {
-      window.localStorage.setItem(key, JSON.stringify(value))
+      window.localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
-      console.error('Error saving to localStorage:', error)
+      console.error("Error saving to localStorage:", error);
     }
-  }, [key, value])
+  }, [key, value]);
 
-  return [value, setValue] as const
+  return [value, setValue] as const;
 }
 ```
 
@@ -481,41 +487,41 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
 
 ```tsx
 // hooks/useTheme.ts
-import { useLocalStorage } from './useLocalStorage'
-import { useEffect } from 'react'
+import { useLocalStorage } from "./useLocalStorage";
+import { useEffect } from "react";
 
-type Theme = 'light' | 'dark'
+type Theme = "light" | "dark";
 
 export function useTheme() {
-  const [theme, setTheme] = useLocalStorage<Theme>('theme', 'light')
+  const [theme, setTheme] = useLocalStorage<Theme>("theme", "light");
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark')
-  }, [theme])
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
-  }
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
 
-  return { theme, setTheme, toggleTheme }
+  return { theme, setTheme, toggleTheme };
 }
 ```
 
 ```tsx
 // ThemeToggle.tsx
-import { useTheme } from './hooks/useTheme'
+import { useTheme } from "./hooks/useTheme";
 
 export function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme()
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <button
       onClick={toggleTheme}
       className="px-4 py-2 bg-gray-200 dark:bg-gray-800 rounded"
     >
-      {theme === 'light' ? '< Dark Mode' : '  Light Mode'}
+      {theme === "light" ? "< Dark Mode" : "  Light Mode"}
     </button>
-  )
+  );
 }
 ```
 
@@ -537,12 +543,12 @@ export function ThemeToggle() {
 
 Use custom hooks when:
 
-- You have stateful logic used in multiple components
+- We have stateful logic used in multiple components
 - Components have complex logic that can be extracted and reused
-- You want to share behavior without adding wrapper components
-- You need to test stateful logic independently from UI
+- We want to share behavior without adding wrapper components
+- We need to test stateful logic independently from UI
 - Multiple components need to interact with the same external system (API, localStorage, etc.)
-- You want to organize related logic together (data + actions)
+- We want to organize related logic together (data + actions)
 
 ### When Not to Use
 
@@ -551,7 +557,7 @@ Avoid custom hooks when:
 - The logic is only used in a single component
 - The abstraction makes the code harder to understand
 - The hook would have too many parameters or return too many values
-- You're simply wrapping a single built-in hook without adding value
+- We're simply wrapping a single built-in hook without adding value
 - The logic is purely synchronous and stateless (use regular functions instead)
 
 ### Hook Composition Patterns
@@ -560,13 +566,13 @@ Avoid custom hooks when:
 
 ```tsx
 function useCounter(initialValue = 0) {
-  const [count, setCount] = useState(initialValue)
+  const [count, setCount] = useState(initialValue);
 
-  const increment = () => setCount(c => c + 1)
-  const decrement = () => setCount(c => c - 1)
-  const reset = () => setCount(initialValue)
+  const increment = () => setCount((c) => c + 1);
+  const decrement = () => setCount((c) => c - 1);
+  const reset = () => setCount(initialValue);
 
-  return { count, increment, decrement, reset }
+  return { count, increment, decrement, reset };
 }
 ```
 
@@ -574,23 +580,23 @@ function useCounter(initialValue = 0) {
 
 ```tsx
 function usePagination<T>(items: T[], config = { itemsPerPage: 10 }) {
-  const [currentPage, setCurrentPage] = useState(1)
-  const { itemsPerPage } = config
+  const [currentPage, setCurrentPage] = useState(1);
+  const { itemsPerPage } = config;
 
-  const totalPages = Math.ceil(items.length / itemsPerPage)
+  const totalPages = Math.ceil(items.length / itemsPerPage);
   const currentItems = items.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  )
+    currentPage * itemsPerPage,
+  );
 
   return {
     currentItems,
     currentPage,
     totalPages,
-    nextPage: () => setCurrentPage(p => Math.min(p + 1, totalPages)),
-    prevPage: () => setCurrentPage(p => Math.max(p - 1, 1)),
+    nextPage: () => setCurrentPage((p) => Math.min(p + 1, totalPages)),
+    prevPage: () => setCurrentPage((p) => Math.max(p - 1, 1)),
     goToPage: setCurrentPage,
-  }
+  };
 }
 ```
 
@@ -601,13 +607,13 @@ function useClickOutside(ref: RefObject<HTMLElement>, callback: () => void) {
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
-        callback()
+        callback();
       }
-    }
+    };
 
-    document.addEventListener('mousedown', handleClick)
-    return () => document.removeEventListener('mousedown', handleClick)
-  }, [ref, callback])
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [ref, callback]);
 }
 ```
 
@@ -617,12 +623,12 @@ function useClickOutside(ref: RefObject<HTMLElement>, callback: () => void) {
 2. **Keep hooks focused**: Each hook should have a single responsibility
 3. **Return objects for flexibility**: Return objects instead of arrays when returning multiple values (unless order is important)
 4. **Use TypeScript**: Define clear types for parameters and return values
-5. **Document your hooks**: Add JSDoc comments explaining parameters, return values, and usage
+5. **Document our hooks**: Add JSDoc comments explaining parameters, return values, and usage
 6. **Handle cleanup**: Always clean up side effects in useEffect return functions
 7. **Memoize callbacks**: Use useCallback for functions returned from hooks
 8. **Make hooks configurable**: Accept options objects for flexibility
 9. **Test hooks thoroughly**: Write unit tests for custom hooks
-10. **Don't call hooks conditionally**: Always call hooks at the top level of your component
+10. **Don't call hooks conditionally**: Always call hooks at the top level of our component
 
 ### Real-World Use Cases
 
@@ -643,7 +649,7 @@ Custom hooks are perfect for:
 
 ### Explore Production-Ready Hooks
 
-Rather than building every hook from scratch, you can leverage our **[Typed Hooks](/typed-hooks)** collection—a library of fully typed, battle-tested React hooks built with TypeScript. These hooks are ready to use in production and cover common use cases:
+Rather than building every hook from scratch, we can leverage our **[Typed Hooks](/typed-hooks)** collection—a library of fully typed, battle-tested React hooks built with TypeScript. These hooks are ready to use in production and cover common use cases:
 
 - **[useLocalStorage](/typed-hooks/use-local-storage)**: Manage localStorage with automatic JSON serialization and cross-tab sync
 - **[useDebounce](/typed-hooks/use-debounce)**: Delay value updates for search inputs and performance optimization
@@ -656,4 +662,4 @@ Rather than building every hook from scratch, you can leverage our **[Typed Hook
 - **[useClipboardCopy](/typed-hooks/use-clipboard-copy)**: Copy text to clipboard with status feedback
 - **[useLogger](/typed-hooks/use-logger)**: Type-safe logging with customizable handlers
 
-Each hook includes comprehensive documentation, TypeScript support, examples, and follows React best practices. Visit our [Typed Hooks documentation](/typed-hooks) to explore the full collection and start using them in your projects today.
+Each hook includes comprehensive documentation, TypeScript support, examples, and follows React best practices. Visit our [Typed Hooks documentation](/typed-hooks) to explore the full collection and start using them in our projects today.

@@ -5,7 +5,7 @@ description: Learn how to separate business logic from UI rendering using the Co
 
 ### Introduction
 
-The Container-Presentation pattern (also known as Smart-Dumb or Stateful-Stateless pattern) is a design pattern that separates components into two categories: containers that handle logic and state, and presentational components that handle rendering UI. This separation of concerns makes your code more maintainable, testable, and reusable.
+The Container-Presentation pattern (also known as Smart-Dumb or Stateful-Stateless pattern) is a design pattern that separates components into two categories: containers that handle logic and state, and presentational components that handle rendering UI. This separation of concerns makes our code more maintainable, testable, and reusable.
 
 ### The Problem
 
@@ -145,61 +145,61 @@ export function UserList({
 
 ### Real-World Example: Multiple UI Components
 
-In production applications, you often need to render multiple UI components using the same data. The container pattern excels here:
+In production applications, we often need to render multiple UI components using the same data. The container pattern excels here:
 
 ```tsx
 // DashboardContainer.tsx
-import { useState, useEffect } from 'react'
-import { UserList } from './UserList'
-import { UserStats } from './UserStats'
-import { UserFilter } from './UserFilter'
+import { useState, useEffect } from "react";
+import { UserList } from "./UserList";
+import { UserStats } from "./UserStats";
+import { UserFilter } from "./UserFilter";
 
 interface User {
-  id: number
-  name: string
-  email: string
-  status: 'active' | 'inactive'
-  joinedAt: string
+  id: number;
+  name: string;
+  email: string;
+  status: "active" | "inactive";
+  joinedAt: string;
 }
 
 export function DashboardContainer() {
-  const [users, setUsers] = useState<User[]>([])
-  const [loading, setLoading] = useState(true)
-  const [filter, setFilter] = useState<'all' | 'active' | 'inactive'>('all')
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<"all" | "active" | "inactive">("all");
 
   useEffect(() => {
-    fetchUsers()
-  }, [])
+    fetchUsers();
+  }, []);
 
   const fetchUsers = async () => {
     try {
-      setLoading(true)
-      const response = await fetch('/api/users')
-      const data = await response.json()
-      setUsers(data)
+      setLoading(true);
+      const response = await fetch("/api/users");
+      const data = await response.json();
+      setUsers(data);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const filteredUsers = users.filter((user) => {
-    if (filter === 'all') return true
-    return user.status === filter
-  })
+    if (filter === "all") return true;
+    return user.status === filter;
+  });
 
   const stats = {
     total: users.length,
-    active: users.filter((u) => u.status === 'active').length,
-    inactive: users.filter((u) => u.status === 'inactive').length,
-  }
+    active: users.filter((u) => u.status === "active").length,
+    inactive: users.filter((u) => u.status === "inactive").length,
+  };
 
   const handleStatusChange = async (userId: number, status: string) => {
     await fetch(`/api/users/${userId}`, {
-      method: 'PATCH',
+      method: "PATCH",
       body: JSON.stringify({ status }),
-    })
-    fetchUsers()
-  }
+    });
+    fetchUsers();
+  };
 
   return (
     <div className="space-y-6">
@@ -211,7 +211,7 @@ export function DashboardContainer() {
         onStatusChange={handleStatusChange}
       />
     </div>
-  )
+  );
 }
 ```
 
@@ -221,10 +221,10 @@ Now each presentational component focuses on its specific UI concern:
 // UserStats.tsx
 interface UserStatsProps {
   stats: {
-    total: number
-    active: number
-    inactive: number
-  }
+    total: number;
+    active: number;
+    inactive: number;
+  };
 }
 
 export function UserStats({ stats }: UserStatsProps) {
@@ -243,35 +243,33 @@ export function UserStats({ stats }: UserStatsProps) {
         <div className="text-gray-600">Inactive</div>
       </div>
     </div>
-  )
+  );
 }
 ```
 
 ```tsx
 // UserFilter.tsx
 interface UserFilterProps {
-  currentFilter: 'all' | 'active' | 'inactive'
-  onFilterChange: (filter: 'all' | 'active' | 'inactive') => void
+  currentFilter: "all" | "active" | "inactive";
+  onFilterChange: (filter: "all" | "active" | "inactive") => void;
 }
 
 export function UserFilter({ currentFilter, onFilterChange }: UserFilterProps) {
   return (
     <div className="flex gap-2">
-      {['all', 'active', 'inactive'].map((filter) => (
+      {["all", "active", "inactive"].map((filter) => (
         <button
           key={filter}
           onClick={() => onFilterChange(filter as any)}
           className={`px-4 py-2 rounded ${
-            currentFilter === filter
-              ? 'bg-blue-500 text-white'
-              : 'bg-gray-200'
+            currentFilter === filter ? "bg-blue-500 text-white" : "bg-gray-200"
           }`}
         >
           {filter.charAt(0).toUpperCase() + filter.slice(1)}
         </button>
       ))}
     </div>
-  )
+  );
 }
 ```
 
@@ -292,43 +290,43 @@ export function UserFilter({ currentFilter, onFilterChange }: UserFilterProps) {
 Use the Container-Presentation pattern when:
 
 - Components mix significant business logic with UI rendering
-- You need to reuse the same UI with different data sources
-- You want to improve testability by separating concerns
+- We need to reuse the same UI with different data sources
+- We want to improve testability by separating concerns
 - Multiple team members work on the same feature
-- You have complex state management or data fetching logic
+- We have complex state management or data fetching logic
 
 ### When Not to Use
 
 Avoid this pattern when:
 
 - Components are simple and don't have complex logic
-- You only need to render a single UI component (no need to share data across multiple components)
+- We only need to render a single UI component (no need to share data across multiple components)
 - The overhead of creating multiple files isn't justified
 - The component is unlikely to be reused or composed with other components
 - Rapid prototyping where the separation overhead slows development
 
 ### Combining with Custom Hooks
 
-You can use custom hooks inside container components to organize logic better. This keeps containers clean while extracting reusable logic:
+We can use custom hooks inside container components to organize logic better. This keeps containers clean while extracting reusable logic:
 
 ```tsx
 // hooks/useUserData.ts
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 
 export function useUserData() {
-  const [users, setUsers] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/users')
+    fetch("/api/users")
       .then((res) => res.json())
       .then((data) => {
-        setUsers(data)
-        setLoading(false)
-      })
-  }, [])
+        setUsers(data);
+        setLoading(false);
+      });
+  }, []);
 
-  return { users, loading, setUsers }
+  return { users, loading, setUsers };
 }
 ```
 
@@ -336,37 +334,37 @@ export function useUserData() {
 // hooks/useUserActions.ts
 export function useUserActions(users, setUsers) {
   const deleteUser = async (id: number) => {
-    await fetch(`/api/users/${id}`, { method: 'DELETE' })
-    setUsers(users.filter((user) => user.id !== id))
-  }
+    await fetch(`/api/users/${id}`, { method: "DELETE" });
+    setUsers(users.filter((user) => user.id !== id));
+  };
 
   const updateUser = async (id: number, data: any) => {
     await fetch(`/api/users/${id}`, {
-      method: 'PATCH',
+      method: "PATCH",
       body: JSON.stringify(data),
-    })
+    });
     // Refresh users
-  }
+  };
 
-  return { deleteUser, updateUser }
+  return { deleteUser, updateUser };
 }
 ```
 
 ```tsx
 // DashboardContainer.tsx
-import { useUserData } from './hooks/useUserData'
-import { useUserActions } from './hooks/useUserActions'
-import { UserList } from './UserList'
-import { UserStats } from './UserStats'
+import { useUserData } from "./hooks/useUserData";
+import { useUserActions } from "./hooks/useUserActions";
+import { UserList } from "./UserList";
+import { UserStats } from "./UserStats";
 
 export function DashboardContainer() {
-  const { users, loading, setUsers } = useUserData()
-  const { deleteUser, updateUser } = useUserActions(users, setUsers)
+  const { users, loading, setUsers } = useUserData();
+  const { deleteUser, updateUser } = useUserActions(users, setUsers);
 
   const stats = {
     total: users.length,
-    active: users.filter((u) => u.status === 'active').length,
-  }
+    active: users.filter((u) => u.status === "active").length,
+  };
 
   return (
     <div className="space-y-6">
@@ -378,11 +376,12 @@ export function DashboardContainer() {
         onUpdate={updateUser}
       />
     </div>
-  )
+  );
 }
 ```
 
-This approach gives you the best of both worlds:
+This approach gives us the best of both worlds:
+
 - **Custom hooks** organize and extract reusable logic (data fetching, actions)
 - **Container component** orchestrates multiple presentational components with shared data
 - **Presentational components** remain pure and focused on UI

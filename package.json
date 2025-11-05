@@ -25,8 +25,5 @@
   "engines": {
     "node": ">=20"
   },
-  "engineStrict": true,
-  "dependencies": {
-    "next": "14.2.5"
-  }
+  "engineStrict": true
 }

@@ -67,6 +67,30 @@ export const reactPatternsConfig: DocsConfig = {
           },
           items: [],
         },
+        {
+          href: '/react-patterns/render-props-pattern',
+          title: {
+            en: 'Render Props',
+            pt: 'Render Props',
+          },
+          items: [],
+        },
+        {
+          href: '/react-patterns/function-children-pattern',
+          title: {
+            en: 'Function Children',
+            pt: 'Function Children',
+          },
+          items: [],
+        },
+        {
+          href: '/react-patterns/control-props-pattern',
+          title: {
+            en: 'Control Props',
+            pt: 'Control Props',
+          },
+          items: [],
+        },
       ],
     },
   ],
