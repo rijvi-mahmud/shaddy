@@ -5,42 +5,12 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ExternalLink, Github } from 'lucide-react'
+import {
+  GitHubContributor,
+  fetchGitHubContributors,
+} from '@/lib/shaddy/api/github'
 
-interface Contributor {
-  id: number
-  login: string
-  avatar_url: string
-  html_url: string
-  contributions: number
-}
-
-async function getContributors(): Promise<Contributor[]> {
-  const repo = 'shaddy'
-  const owner = 'rijvi-mahmud'
-
-  try {
-    const response = await fetch(
-      `https://api.github.com/repos/${owner}/${repo}/contributors`,
-      {
-        next: { revalidate: 60 * 60 * 24 * 30 },
-        headers: {
-          Accept: 'application/vnd.github.v3+json',
-        },
-      }
-    )
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch contributors')
-    }
-
-    return response.json()
-  } catch (error) {
-    console.error('Error fetching contributors:', error)
-    return []
-  }
-}
-
-function ContributorCard({ contributor }: { contributor: Contributor }) {
+function ContributorCard({ contributor }: { contributor: GitHubContributor }) {
   return (
     <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-border/50 hover:border-border">
       <CardContent className="p-6">
@@ -96,7 +66,7 @@ function ContributorCard({ contributor }: { contributor: Contributor }) {
 }
 
 async function ContributorsList() {
-  const contributors = await getContributors()
+  const contributors = await fetchGitHubContributors()
 
   if (contributors.length === 0) {
     return (

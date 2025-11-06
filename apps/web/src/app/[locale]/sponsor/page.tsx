@@ -1,45 +1,7 @@
 import { Suspense } from 'react'
 import { SponsorPageClient } from './sponsor-client'
 import { Heart, Users, Github } from 'lucide-react'
-
-interface GitHubStats {
-  stars: number
-  forks: number
-  watchers: number
-}
-
-async function getGitHubStats(): Promise<GitHubStats> {
-  try {
-    const response = await fetch(
-      'https://api.github.com/repos/rijvi-mahmud/shaddy',
-      {
-        next: { revalidate: 3600 }, // Cache for 1 hour
-        headers: {
-          Accept: 'application/vnd.github.v3+json',
-        },
-      }
-    )
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch GitHub stats')
-    }
-
-    const data = await response.json()
-
-    return {
-      stars: data.stargazers_count || 0,
-      forks: data.forks_count || 0,
-      watchers: data.subscribers_count || 0,
-    }
-  } catch (error) {
-    console.error('Error fetching GitHub stats:', error)
-    return {
-      stars: 0,
-      forks: 0,
-      watchers: 0,
-    }
-  }
-}
+import { fetchGitHubRepoStats } from '@/lib/shaddy/api/github'
 
 function StatsSkeleton() {
   return (
@@ -61,7 +23,7 @@ function StatsSkeleton() {
 }
 
 async function StatsDisplay() {
-  const stats = await getGitHubStats()
+  const stats = await fetchGitHubRepoStats()
 
   return (
     <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
