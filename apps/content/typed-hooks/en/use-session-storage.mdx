@@ -4,14 +4,14 @@ description: A React hook for managing sessionStorage with automatic JSON serial
 links:
   links:
     {
-      "useEventListener": "https://shaddy-omega.vercel.app/typed-hooks/use-event-listener",
+      "useEventListener": "{baseUrl}/typed-hooks/use-event-listener",
       "StorageEvent": "https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event",
     }
 ---
 
 `useSessionStorage` is a powerful React hook that provides a seamless interface for managing browser sessionStorage with full TypeScript support. It automatically handles JSON serialization/deserialization, provides type safety, and includes cross-tab synchronization to keep data consistent across multiple browser tabs.
 
-The hook supports complex data types including objects, arrays, and primitive values. It also provides custom serialization options for advanced use cases like Date objects, includes error handling capabilities, and automatically syncs changes across browser tabs using the `storage` event. This hook uses our own custom hook [useEventListener](https://shaddy-omega.vercel.app/typed-hooks/use-event-listener) to listen for storage changes across tabs.
+The hook supports complex data types including objects, arrays, and primitive values. It also provides custom serialization options for advanced use cases like Date objects, includes error handling capabilities, and automatically syncs changes across browser tabs using the `storage` event. This hook uses our own custom hook [useEventListener]({baseUrl}/typed-hooks/use-event-listener) to listen for storage changes across tabs.
 
 A simple example demonstrating primitive value storage with automatic persistence:
 
@@ -30,7 +30,7 @@ This example shows how to store and manage basic data types like numbers and str
 
 <TabsContent value="cli">
 ```bash
-npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-session-storage
+npx shadcn@latest add {baseUrl}/r/use-session-storage
 ```
 
 </TabsContent>
@@ -42,7 +42,7 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-session-storage
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-event-listener
+npx shadcn@latest add {baseUrl}/r/use-event-listener
 ```
 
 <Step>Copy and paste the following code into your project.</Step>

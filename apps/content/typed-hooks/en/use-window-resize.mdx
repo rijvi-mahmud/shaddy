@@ -5,7 +5,7 @@ description: A custom hook for managing window resize events in React.
 
 `useWindowResize` is a custom React hook that provides an easy way to track window dimensions in your functional components. It automatically updates when the browser window is resized, making it perfect for building responsive interfaces or implementing size-dependent features.
 
-The hook includes built-in debouncing using shaddy's built-in custom [useDebouncedCallback](https://shaddy-omega.vercel.app/typed-hooks/use-debounced-callback) hook to prevent excessive re-renders during resize events, and leverages the [useEventListener](https://shaddy-omega.vercel.app/typed-hooks/use-event-listener) hook for efficient and type-safe event handling. It also handles server-side rendering gracefully by checking if the window object is available.
+The hook includes built-in debouncing using shaddy's built-in custom [useDebouncedCallback]({baseUrl}/typed-hooks/use-debounced-callback) hook to prevent excessive re-renders during resize events, and leverages the [useEventListener]({baseUrl}/typed-hooks/use-event-listener) hook for efficient and type-safe event handling. It also handles server-side rendering gracefully by checking if the window object is available.
 
 <ComponentPreview name="use-window-resize-example" />
 
@@ -20,7 +20,7 @@ The hook includes built-in debouncing using shaddy's built-in custom [useDebounc
 
 <TabsContent value="cli">
 ```bash
-npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-window-resize
+npx shadcn@latest add {baseUrl}/r/use-window-resize
 ```
 
 </TabsContent>
@@ -32,7 +32,7 @@ npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-window-resize
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npx shadcn@latest add https://shaddy-docs.vercel.app/r/use-event-listener https://shaddy-docs.vercel.app/r/use-debounced-callback
+npx shadcn@latest add {baseUrl}/r/use-event-listener {baseUrl}/r/use-debounced-callback
 ```
 
 <Step>Copy and paste the following code into your project.</Step>

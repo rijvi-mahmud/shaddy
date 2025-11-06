@@ -15,6 +15,7 @@ import {
 } from 'contentlayer2/source-files'
 
 import { rehypeNpmCommand } from './src/lib/shaddy/utils/rehype-npm-command'
+import { rehypeReplaceUrls } from './src/lib/shaddy/utils/rehype-replace-urls'
 import { getContentLayerCodeTheme } from './src/lib/shaddy/utils/code-theme'
 import { blogConfig } from './src/config/blog'
 import { rehypeComponent } from '@/lib/shaddy/utils/rehype-component'
@@ -249,6 +250,7 @@ export default makeSource({
 
     rehypePlugins: [
       rehypeSlug,
+      rehypeReplaceUrls,
       rehypeComponent,
       () => (tree) => {
         visit(tree, (node) => {
