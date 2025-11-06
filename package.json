@@ -7,19 +7,21 @@
     "start": "turbo start",
     "lint": "turbo lint",
     "lint:fix": "turbo lint:fix",
+    "test": "turbo test",
+    "test:run": "turbo test:run",
     "prepare": "husky",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "clean": "turbo clean && rimraf node_modules .turbo apps/*/node_modules packages/*/node_modules",
     "clean:cache": "rimraf .turbo apps/*/.next apps/*/.turbo packages/*/.turbo"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.3.0",
-    "@commitlint/config-conventional": "^19.2.2",
-    "husky": "^9.1.4",
-    "lint-staged": "^16.1.5",
-    "prettier": "^3.3.3",
-    "turbo": "^2.4.2",
-    "typescript": "^5.4.5"
+    "@commitlint/cli": "catalog:",
+    "@commitlint/config-conventional": "catalog:",
+    "husky": "catalog:",
+    "lint-staged": "catalog:",
+    "prettier": "catalog:",
+    "turbo": "catalog:",
+    "typescript": "catalog:"
   },
   "packageManager": "pnpm@9.6.0",
   "engines": {

@@ -36,6 +36,12 @@
     "lint:fix": {
       "dependsOn": ["^lint"]
     },
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "test:run": {
+      "dependsOn": ["^build"]
+    },
     "dev": {
       "cache": false,
       "persistent": true

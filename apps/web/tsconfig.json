@@ -12,7 +12,7 @@
       "@/__registry__": ["./src/__registry__"],
       "contentlayer/generated": ["./.contentlayer/generated"]
     },
-    "ignoreDeprecations": "6.0"
+    "ignoreDeprecations": "5.0"
   },
   "include": [
     "**/*.ts",
