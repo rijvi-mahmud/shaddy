@@ -1,4 +1,3 @@
-import { Badge } from '@/components/ui/badge'
 import { LucideIcon } from '@/components/ui/lucide-icon'
 import { icons } from 'lucide-react'
 
@@ -35,11 +34,8 @@ const steps: StepProps[] = [
 
 export function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="container py-24 sm:py-32 bg-muted/30">
+    <section id="how-it-works" className="container py-24 sm:py-32">
       <div className="text-center mb-16">
-        <Badge variant="outline" className="mb-4">
-          How It Works
-        </Badge>
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
           Get Started in 3 Simple Steps
         </h2>
@@ -48,19 +44,19 @@ export function HowItWorksSection() {
         </p>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-8 lg:gap-12 max-w-5xl mx-auto">
-        {steps.map(({ number, icon, title, description }, index) => (
-          <div key={title} className="relative">
-            <div className="text-center relative">
-              <div className="mb-6 mx-auto w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center relative">
-                <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-primary text-primary-foreground text-sm font-bold flex items-center justify-center">
-                  {number}
-                </span>
-                <LucideIcon name={icon} size={32} className="text-primary" />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+        {steps.map(({ number, icon, title, description }) => (
+          <div key={title} className="flex flex-col items-center text-center">
+            <div className="relative mb-4">
+              <div className="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                <LucideIcon name={icon} size={28} className="text-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-3">{title}</h3>
-              <p className="text-muted-foreground">{description}</p>
+              <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center">
+                {number}
+              </div>
             </div>
+            <h3 className="font-semibold text-lg mb-2">{title}</h3>
+            <p className="text-sm text-muted-foreground">{description}</p>
           </div>
         ))}
       </div>

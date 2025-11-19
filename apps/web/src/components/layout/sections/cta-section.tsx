@@ -7,13 +7,7 @@ import { LucideIcon } from '@/components/ui/lucide-icon'
 export function CTASection() {
   return (
     <section id="cta" className="container py-24 sm:py-32">
-      <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-linear-to-br from-primary/5 via-background to-background p-12 md:p-16 lg:p-20">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02]" />
-          <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-transparent" />
-        </div>
-
+      <div className="p-12 md:p-16 lg:p-20">
         <div className="max-w-3xl mx-auto text-center space-y-8">
           {/* Header */}
           <div className="space-y-4">
@@ -29,10 +23,7 @@ export function CTASection() {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/typed-hooks">
-              <Button
-                size="lg"
-                className="text-base px-8 shadow-lg shadow-primary/20"
-              >
+              <Button size="lg" className="text-base px-8">
                 <LucideIcon name="Rocket" size={16} className="mr-2" />
                 Get Started
               </Button>

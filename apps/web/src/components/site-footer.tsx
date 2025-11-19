@@ -57,6 +57,12 @@ export async function SiteFooter() {
             >
               {t('links.contributors')}
             </Link>
+            <Link
+              href="/sponsor"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Sponsor Us
+            </Link>
             <BuyMeCoffee />
           </div>
 

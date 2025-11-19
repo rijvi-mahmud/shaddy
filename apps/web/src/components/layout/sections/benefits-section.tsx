@@ -1,44 +1,49 @@
-'use client'
+import { LucideIcon } from '@/components/ui/lucide-icon'
+import { Link } from '@/navigation'
+import { icons } from 'lucide-react'
 
-import { Badge } from '@/components/ui/badge'
-import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+interface BenefitProps {
+  name: string
+  title: string
+  icon: keyof typeof icons
+  description: string
+  href: string
+}
 
-// Featured resources to showcase
-const featuredComponents = [
+const benefits: BenefitProps[] = [
   {
     name: 'typed-hooks',
     title: 'Typed Hooks',
-    category: 'Hooks',
+    icon: 'Webhook',
     description: 'Reusable React hooks for common patterns',
     href: '/typed-hooks',
   },
   {
     name: 'forms',
     title: 'Form',
-    category: 'Framework',
+    icon: 'FileText',
     description: 'Built on RHF & shadcn/ui',
     href: '/form',
   },
   {
     name: 'components',
     title: 'Components',
-    category: 'Component',
+    icon: 'Blocks',
     description: 'Ready-to-use components',
     href: '/ui',
   },
   {
     name: 'utils',
     title: 'Utils',
-    category: 'Utils',
+    icon: 'Wrench',
     description: 'React/Next.js utility functions',
     href: '/utils',
   },
   {
     name: 'table',
     title: 'Table',
-    category: 'Framework',
-    description: 'Coming soon - Advanced data tables',
+    icon: 'Table',
+    description: 'Advanced data tables',
     href: '/table',
   },
 ]
@@ -46,48 +51,27 @@ const featuredComponents = [
 export const BenefitsSection = () => {
   return (
     <section id="benefits" className="container py-24 sm:py-32">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <Badge variant="outline" className="mb-4">
-            Development Resources
-          </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Frameworks, Components & Utilities
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Production ready, type safe, easy to use resources for your next
-            app.
-          </p>
-        </div>
+      <div className="text-center mb-16">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          Frameworks, Components & Utilities
+        </h2>
+        <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          Production ready, type safe, easy to use resources for your next app.
+        </p>
+      </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          {featuredComponents.map((component) => {
-            return (
-              <Link
-                key={component.name}
-                href={component.href}
-                className="group w-full text-left p-4 rounded-lg border border-border hover:border-primary/50 transition-colors"
-              >
-                <div className="mb-2 flex items-center gap-2">
-                  <Badge variant="secondary" className="text-xs px-1.5 py-0">
-                    {component.category}
-                  </Badge>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-sm mb-1 flex items-center gap-1.5">
-                      {component.title}
-                      <ArrowRight className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                    </h3>
-                    <p className="text-xs text-muted-foreground line-clamp-2">
-                      {component.description}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            )
-          })}
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        {benefits.map(({ name, title, icon, description, href }) => (
+          <Link key={name} href={href}>
+            <div className="flex flex-col items-center text-center p-6 rounded-lg border border-border/50 hover:border-border hover:bg-accent/50 transition-all group h-full">
+              <div className="mb-4 w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <LucideIcon name={icon} size={24} className="text-primary" />
+              </div>
+              <h3 className="font-semibold mb-2">{title}</h3>
+              <p className="text-sm text-muted-foreground">{description}</p>
+            </div>
+          </Link>
+        ))}
       </div>
     </section>
   )
