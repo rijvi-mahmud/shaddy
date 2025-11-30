@@ -99,8 +99,15 @@ function TierCard({ tier, onSelect }: TierCardProps) {
 
       <CardContent className="p-6 grid grid-rows-subgrid row-span-3 gap-0">
         <div className="space-y-4 pb-6">
-          <div className={cn('inline-flex p-3 rounded-xl transition-transform duration-300 ease-out group-hover:scale-110', tier.bgColor)}>
-            <Icon className={cn('h-6 w-6 transition-all duration-300', tier.color)} />
+          <div
+            className={cn(
+              'inline-flex p-3 rounded-xl transition-transform duration-300 ease-out group-hover:scale-110',
+              tier.bgColor
+            )}
+          >
+            <Icon
+              className={cn('h-6 w-6 transition-all duration-300', tier.color)}
+            />
           </div>
 
           <div>
@@ -189,8 +196,15 @@ function QuickLinkCard({ link }: QuickLinkCardProps) {
     <Card className="group transition-all duration-500 ease-out border-border/50">
       <CardContent className="p-6">
         <div className="flex flex-col items-center text-center space-y-4">
-          <div className={cn('p-4 rounded-full transition-all duration-300', link.color.replace('text-', 'bg-') + '/10')}>
-            <Icon className={cn('h-6 w-6 transition-all duration-300', link.color)} />
+          <div
+            className={cn(
+              'p-4 rounded-full transition-all duration-300',
+              link.color.replace('text-', 'bg-') + '/10'
+            )}
+          >
+            <Icon
+              className={cn('h-6 w-6 transition-all duration-300', link.color)}
+            />
           </div>
 
           <div className="space-y-2">
@@ -426,7 +440,10 @@ export function SponsorPageClient() {
   const [isSubmitted, setIsSubmitted] = useState(false)
 
   const handleTierSelect = (tierName: string) => {
-    contactFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    contactFormRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    })
     formRef.current?.form.setValue('tier', tierName)
   }
 
@@ -455,7 +472,8 @@ export function SponsorPageClient() {
         toast({
           variant: 'destructive',
           title: 'Submission Failed',
-          description: 'Failed to submit form. Please try again or contact us directly.',
+          description:
+            'Failed to submit form. Please try again or contact us directly.',
         })
       }
     } catch (error) {

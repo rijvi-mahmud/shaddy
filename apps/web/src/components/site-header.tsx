@@ -76,83 +76,85 @@ export async function SiteHeader() {
         variant="gradient"
         storageKey="hiring-banner-nov-2024"
       />
-      <div className="container flex h-14 max-w-(--breakpoint-2xl) items-center top-0 z-50 w-full backdrop-blur-sm sticky top-0">
-        <MainNav
-          messages={{
-            docs: t('words.docs'),
-            blog: t('words.blog'),
-            typed_hooks: t('words.typed_hooks'),
-            table: t('words.table'),
-            form: t('words.form'),
-            ui: t('words.ui'),
-            utils: t('words.utils'),
-            resources: t('words.resources'),
-            react_patterns: t('words.react_patterns'),
-          }}
-        />
+      <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-14 max-w-(--breakpoint-2xl) items-center">
+          <MainNav
+            messages={{
+              docs: t('words.docs'),
+              blog: t('words.blog'),
+              typed_hooks: t('words.typed_hooks'),
+              table: t('words.table'),
+              form: t('words.form'),
+              ui: t('words.ui'),
+              utils: t('words.utils'),
+              resources: t('words.resources'),
+              react_patterns: t('words.react_patterns'),
+            }}
+          />
 
-        <MobileNav
-          messages={{
-            menu: t('words.menu'),
-            toggleMenu: t('buttons.toggle_menu'),
-          }}
-          menuLinks={<SiteHeaderMenuLinks />}
-        />
+          <MobileNav
+            messages={{
+              menu: t('words.menu'),
+              toggleMenu: t('buttons.toggle_menu'),
+            }}
+            menuLinks={<SiteHeaderMenuLinks />}
+          />
 
-        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <div className="w-full flex-1 md:w-auto md:flex-none">
-            <CommandMenu
-              messages={{
-                form: t('words.form'),
-                docs: t('words.docs'),
-                blog: t('words.blog'),
-                hooks: t('words.typed_hooks'),
-                ui: t('words.ui'),
-                utils: t('words.utils'),
-                reactPatterns: t('words.react_patterns'),
-                search: t('search.search'),
-                noResultsFound: t('search.no_results_found'),
-                typeCommandOrSearch: t('search.type_command_or_search'),
-                searchDocumentation: t('search.search_documentation'),
+          <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+            <div className="w-full flex-1 md:w-auto md:flex-none">
+              <CommandMenu
+                messages={{
+                  form: t('words.form'),
+                  docs: t('words.docs'),
+                  blog: t('words.blog'),
+                  hooks: t('words.typed_hooks'),
+                  ui: t('words.ui'),
+                  utils: t('words.utils'),
+                  reactPatterns: t('words.react_patterns'),
+                  search: t('search.search'),
+                  noResultsFound: t('search.no_results_found'),
+                  typeCommandOrSearch: t('search.type_command_or_search'),
+                  searchDocumentation: t('search.search_documentation'),
 
-                themes: {
-                  dark: t('themes.dark'),
-                  theme: t('themes.theme'),
-                  light: t('themes.light'),
-                  system: t('themes.system'),
-                },
-              }}
-            />
-          </div>
+                  themes: {
+                    dark: t('themes.dark'),
+                    theme: t('themes.theme'),
+                    light: t('themes.light'),
+                    system: t('themes.system'),
+                  },
+                }}
+              />
+            </div>
 
-          <nav className="flex items-center">
-            {/* <VersionDropdown
+            <nav className="flex items-center">
+              {/* <VersionDropdown
               messages={{
                 changelog: t('changelog'),
               }}
             /> */}
 
-            {/* <I18nToggle
+              {/* <I18nToggle
               messages={{
                 toggleLanguage: t('buttons.toggle_language'),
               }}
             /> */}
 
-            <ThemeModeToggle
-              messages={{
-                dark: t('themes.dark'),
-                light: t('themes.light'),
-                system: t('themes.system'),
-              }}
-            />
+              <ThemeModeToggle
+                messages={{
+                  dark: t('themes.dark'),
+                  light: t('themes.light'),
+                  system: t('themes.system'),
+                }}
+              />
 
-            <div className="phone:flex hidden items-center">
-              <Separator orientation="vertical" className="mx-1 h-5" />
-              <SiteHeaderMenuLinks />
-            </div>
-          </nav>
+              <div className="phone:flex hidden items-center">
+                <Separator orientation="vertical" className="mx-1 h-5" />
+                <SiteHeaderMenuLinks />
+              </div>
+            </nav>
+          </div>
         </div>
-      </div>
+      </header>
     </>
   )
 }

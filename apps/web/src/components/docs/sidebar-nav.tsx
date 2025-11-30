@@ -160,10 +160,10 @@ export function DocsSidebarNavItems({
               href={item.href}
               {...props}
               className={cn(
-                'group my-1 ml-2 flex h-fit w-full items-center gap-2 rounded-md border border-transparent px-2 py-1 transition-colors hover:bg-accent/50 hover:text-foreground',
+                'group my-1 ml-2 flex h-8 items-center gap-2 rounded-md px-2 font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
                 item.disabled && 'cursor-not-allowed opacity-60',
                 pathname?.endsWith(item.href)
-                  ? 'text-foreground bg-accent/60 border-l-primary-active rounded-none border-l-2 font-medium'
+                  ? 'bg-accent text-accent-foreground'
                   : 'text-muted-foreground'
               )}
               target={item.external ? '_blank' : ''}
