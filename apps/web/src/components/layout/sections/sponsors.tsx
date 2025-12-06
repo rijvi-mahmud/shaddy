@@ -38,20 +38,20 @@ const sponsors: sponsorsProps[] = [
 
 const SponsorCard = ({ icon, name }: sponsorsProps) => {
   return (
-    <div className="flex items-center gap-3 px-4 py-3 rounded-md border bg-card hover:bg-accent transition-colors">
+    <div className="flex items-center gap-4 px-6 py-4 rounded-md bg-card hover:bg-accent transition-colors">
       <LucideIcon
         name={icon as keyof typeof icons}
-        size={24}
+        size={32}
         className="text-muted-foreground"
       />
-      <span className="text-sm font-medium">{name}</span>
+      <span className="text-base font-medium">{name}</span>
     </div>
   )
 }
 
 export const OurSponsors = () => {
   return (
-    <section id="sponsors" className="py-16 sm:py-20">
+    <section id="sponsors" className="py-14 sm:py-18 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold mb-3">Our Sponsors</h2>
@@ -61,11 +61,19 @@ export const OurSponsors = () => {
           </p>
         </div>
 
-        <Marquee pauseOnHover className="[--gap:1rem]">
-          {sponsors.map((sponsor) => (
-            <SponsorCard key={sponsor.name} {...sponsor} />
-          ))}
-        </Marquee>
+        <div className="relative">
+          {/* Left gradient overlay */}
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+
+          {/* Right gradient overlay */}
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+
+          <Marquee pauseOnHover className="[--gap:1rem]">
+            {sponsors.map((sponsor) => (
+              <SponsorCard key={sponsor.name} {...sponsor} />
+            ))}
+          </Marquee>
+        </div>
       </div>
     </section>
   )

@@ -11,7 +11,7 @@ export const HeroSection = async () => {
   const t = await getTranslations()
 
   return (
-    <section className="relative w-full overflow-hidden bg-background py-24 md:py-32 lg:py-40">
+    <section className="relative w-full overflow-hidden bg-background py-20 md:py-24 lg:py-32">
       <DotPattern
         width={24}
         height={24}

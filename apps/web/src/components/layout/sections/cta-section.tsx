@@ -6,8 +6,8 @@ import { LucideIcon } from '@/components/ui/lucide-icon'
 
 export function CTASection() {
   return (
-    <section id="cta" className="container py-24 sm:py-32">
-      <div className="p-12 md:p-16 lg:p-20">
+    <section id="cta" className="container py-20 sm:py-24">
+      <div className="p-10 md:p-14 lg:p-18">
         <div className="max-w-3xl mx-auto text-center space-y-8">
           {/* Header */}
           <div className="space-y-4">

@@ -50,8 +50,8 @@ const benefits: BenefitProps[] = [
 
 export const BenefitsSection = () => {
   return (
-    <section id="benefits" className="container py-24 sm:py-32">
-      <div className="text-center mb-16">
+    <section id="benefits" className="container py-20 sm:py-24">
+      <div className="text-center mb-14">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
           Frameworks, Components & Utilities
         </h2>

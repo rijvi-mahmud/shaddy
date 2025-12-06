@@ -34,8 +34,8 @@ const steps: StepProps[] = [
 
 export function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="container py-24 sm:py-32">
-      <div className="text-center mb-16">
+    <section id="how-it-works" className="container py-20 sm:py-24">
+      <div className="text-center mb-14">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
           Get Started in 3 Simple Steps
         </h2>
@@ -44,7 +44,7 @@ export function HowItWorksSection() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto mt-8">
         {steps.map(({ number, icon, title, description }) => (
           <div key={title} className="flex flex-col items-center text-center">
             <div className="relative mb-4">

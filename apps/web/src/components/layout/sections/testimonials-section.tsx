@@ -39,8 +39,8 @@ const testimonials: TestimonialProps[] = [
 
 export function TestimonialsSection() {
   return (
-    <section id="testimonials" className="container py-24 sm:py-32">
-      <div className="text-center mb-16">
+    <section id="testimonials" className="container py-20 sm:py-24">
+      <div className="text-center mb-14">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
           Loved by Developers
         </h2>
