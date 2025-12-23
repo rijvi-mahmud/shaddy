@@ -79,9 +79,11 @@ describe('GET /api/github/repo', () => {
     const data = await response.json()
 
     expect(data).toEqual({
-      error: 'Failed to fetch GitHub repository data',
+      stars: 0,
+      forks: 0,
+      watchers: 0,
     })
-    expect(response.status).toBe(500)
+    expect(response.status).toBe(200)
   })
 })
 

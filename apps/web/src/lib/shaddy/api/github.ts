@@ -12,46 +12,60 @@ export interface GitHubContributor {
   contributions: number
 }
 
-export async function fetchGitHubRepoStats(): Promise<GitHubRepoStats> {
-  const response = await fetch(
-    'https://api.github.com/repos/rijvi-mahmud/shaddy',
-    {
+async function githubFetch(url: string, options: RequestInit = {}) {
+  try {
+    const response = await fetch(url, {
+      ...options,
       headers: {
         Accept: 'application/vnd.github.v3+json',
+        ...options.headers,
       },
-      next: { revalidate: 3600 }, // Cache for 1 hour
+    })
+
+    if (response.status === 403) {
+      console.warn(
+        `GitHub API Rate Limit exceeded for ${url}. Returning fallback data.`
+      )
+      return null
+    }
+
+    if (!response.ok) {
+      throw new Error(`GitHub API error: ${response.status}`)
+    }
+
+    return await response.json()
+  } catch (error) {
+    console.error(`Error fetching from GitHub API (${url}):`, error)
+    return null
+  }
+}
+
+export async function fetchGitHubRepoStats(): Promise<GitHubRepoStats> {
+  const data = await githubFetch(
+    'https://api.github.com/repos/rijvi-mahmud/shaddy',
+    {
+      next: { revalidate: 3600 },
     }
   )
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch GitHub repository stats')
-  }
-
-  const data = await response.json()
-
   return {
-    stars: data.stargazers_count || 0,
-    forks: data.forks_count || 0,
-    watchers: data.subscribers_count || 0,
+    stars: data?.stargazers_count || 0,
+    forks: data?.forks_count || 0,
+    watchers: data?.subscribers_count || 0,
   }
 }
 
 export async function fetchGitHubContributors(): Promise<GitHubContributor[]> {
-  const response = await fetch(
+  const contributors = await githubFetch(
     'https://api.github.com/repos/rijvi-mahmud/shaddy/contributors',
     {
-      headers: {
-        Accept: 'application/vnd.github.v3+json',
-      },
-      next: { revalidate: 60 * 60 * 24 }, // Cache for 1 day
+      next: { revalidate: 60 * 60 * 24 },
     }
   )
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch GitHub contributors')
+  if (!contributors || !Array.isArray(contributors)) {
+    return []
   }
-
-  const contributors = await response.json()
 
   return contributors.map((contributor: any) => ({
     id: contributor.id,

@@ -71,10 +71,8 @@ describe('GET /api/github/contributors', () => {
     const response = await GET()
     const data = await response.json()
 
-    expect(data).toEqual({
-      error: 'Failed to fetch GitHub contributors',
-    })
-    expect(response.status).toBe(500)
+    expect(data).toEqual([])
+    expect(response.status).toBe(200)
   })
 })
 

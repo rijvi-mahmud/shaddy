@@ -1,28 +1,11 @@
 import { NextResponse } from 'next/server'
 
+import { fetchGitHubRepoStats } from '@/lib/shaddy/api/github'
+
 export async function GET() {
   try {
-    const response = await fetch(
-      'https://api.github.com/repos/rijvi-mahmud/shaddy',
-      {
-        headers: {
-          Accept: 'application/vnd.github.v3+json',
-        },
-        next: { revalidate: 3600 }, // Cache for 1 hour
-      }
-    )
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch GitHub repo data')
-    }
-
-    const data = await response.json()
-
-    return NextResponse.json({
-      stars: data.stargazers_count || 0,
-      forks: data.forks_count || 0,
-      watchers: data.subscribers_count || 0,
-    })
+    const data = await fetchGitHubRepoStats()
+    return NextResponse.json(data)
   } catch (error) {
     console.error('Error in GitHub repo API:', error)
     return NextResponse.json(

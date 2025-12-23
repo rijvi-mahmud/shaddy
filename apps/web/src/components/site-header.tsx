@@ -19,30 +19,11 @@ const CommandMenu = dynamic(() =>
   import('@/components/command-menu').then((mod) => mod.CommandMenu)
 )
 
+import { fetchGitHubRepoStats } from '@/lib/shaddy/api/github'
+
 const githubStars = async () => {
-  try {
-    const repoPath = siteConfig.links.github.url.replace(
-      'https://github.com/',
-      ''
-    )
-
-    const response = await fetch(`https://api.github.com/repos/${repoPath}`, {
-      headers: {
-        Accept: 'application/vnd.github.v3+json',
-      },
-      next: { revalidate: 60 * 60 * 24 * 2 }, // Cache for 2 days
-    })
-
-    if (!response.ok) {
-      throw new Error(`GitHub API error: ${response.status}`)
-    }
-
-    const data = await response.json()
-    return data.stargazers_count
-  } catch (error) {
-    console.error('Error fetching GitHub stars:', error)
-    return null
-  }
+  const stats = await fetchGitHubRepoStats()
+  return stats.stars
 }
 
 // GitHub Stars component with loading state
