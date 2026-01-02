@@ -13,7 +13,8 @@ export const FormSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   phone: z
     .string()
-    .min(10, 'Phone number must be at least 10 digits')
+    .min(5, 'Phone number must be at least 5 digits')
+    .max(15, 'Phone number caanot exceed 15 digits')
     .optional(),
   address: z
     .string()
@@ -97,6 +98,7 @@ export const StepFormExample = () => {
               />
               <TextField<FormValues>
                 name="phone"
+                type="number"
                 label="Phone Number"
                 placeholder="Enter your phone number"
                 className="w-full"
